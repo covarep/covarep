@@ -1,0 +1,36 @@
+
+                       Common Speech Processing Repository
+                               Coding Convention
+                             2013-05-30 version 0.1
+
+This document describe the common way of writing the code in CSPR.
+This convention has to be sharp enough to make the code accessible and readable to any user. However, it should be also light enough to not discourage contributions in the repository. For example, input and output variables have to absolutely follow the coding conventions while more flexibility is accepted for the inner part of the function.
+
+The repository is basically written in Matlab and compatible with the three platforms Windows, Mac and Linux.
+
+On the one hand, the effciency of the code has to be verified. Each method should be fast enough for processing a big corpus in a moderate time.
+On the other hand, the code has to be aslo pedagogic. Very complex implementation which speed up the code for 1% has to be avoided.
+
+Dependencies to other toolboxes and libraries are possible while they refere to official Matlab toolboxes or freely available code.
+
+
+For any output variable containing values estimated across time, a vector containing the analysis time instants has to be provided. A suggested solution is to return vectors with 2 columns [times, values].
+
+
+Variable and function names
+    * Like in Matlab: one name, small letters. Underscores can be used to split words if the all-attached-version is unreadable.
+    * The names have to be explicit. alpha, beta, X, Y should be avoided as much as possible and used only for very abstract functions.
+
+    * For input and output variables:
+        * If possible the arguments of the function should be in SI units (e.g. for frequency, prefere Hz to rad or bins).
+        * Time is a column vector, time values along the lines. Multiple values at a given time should be therefore a line vector (e.g. a spectrum).
+        * Time of the first sample is 0 (not 0.5/fs)
+
+The code should be formated using 80 char column and 4 spaces tabulations.
+    
+Standardized acronyms
+    fs            : Sampling frequency
+    f0min, f0max  : Minimum and maximum f0 values
+    winlen        : Window's length in samples
+    windur        : Window's duration in second
+    dftlen        : Length of a DFT (or FFT ...)
