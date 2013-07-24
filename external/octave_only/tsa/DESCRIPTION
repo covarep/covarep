@@ -1,0 +1,10 @@
+Name: TSA
+Version: 4.2.5
+Date: 2012-08-02
+Author: Alois Schloegl <alois.schloegl@ist.ac.at>
+Maintainer: Alois Schloegl
+Title: The TSA-toolbox
+Description: A toolbox for Time Series Analysis .
+Depends: octave (> 2.9.0)
+License: GPL version 3 or later
+Url: http://pub.ist.ac.at/~schloegl/matlab/tsa
