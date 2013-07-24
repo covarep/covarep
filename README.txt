@@ -1,4 +1,5 @@
-                                TODO
+                                Covarep
+      A Cooperative Voice Analysis Repository for Speech Processing Techniques
                              Version 0.0.1
 
 Aims
@@ -18,5 +19,5 @@ Naming scheme convention
 
 Contributors
     University of Crete - Computer Science Department (71110 Heraklion; Greece):
-        Gilles Degottex <gilles.degottex@gmail.com>
-        
+        Gilles Degottex <degottex@csd.uoc.gr>
+    TODO
