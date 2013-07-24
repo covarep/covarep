@@ -30,10 +30,10 @@
 %
 % License
 %  <A short mention of the license of this function.
-%  This is absolutely necessary since the licenses may vary between files.>
+%  This is absolutely necessary since the licenses may vary between files in
+%  the Covarep repository.>
 %
-% This function is part of the Common Speech Processing Repository (TODO)
-% TODO URL
+% This function is part of the Covarep project: http://covarep.github.io/covarep
 % 
 % Author <only the initial contributors of the code>
 %  Firstname Lastname <email@yourinstitution.com>

@@ -24,7 +24,7 @@ de facto version for the speech community to refer to.
 
 We envisage a range of benefits to the repository:
 
-1) Reproducible research: USpeech will allow fairer comparison of algorithms
+1) Reproducible research: Covarep will allow fairer comparison of algorithms
 in published articles.
 
 2) Encouraged usage: the free availability of these algorithms will encourage
@@ -40,10 +40,10 @@ Scope
     transformation, enhancement, glottal source/voice quality analysis, etc.
 
 Contribute!
-    We believe that the USpeech repository has a great potential benefit to the
+    We believe that the Covarep repository has a great potential benefit to the
     speech research community and we hope that you will consider contributing your
     published algorithms to it. If you have any questions, comments issues etc
-    regarding USpeech please contact us on one of the email addresses below.
+    regarding Covarep please contact us on one of the email addresses below.
     Please forward this email to others who may be interested.
 
 Please also have a look at the Covarep.pdf document in the documentation directory
