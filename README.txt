@@ -40,9 +40,13 @@ Scope
     transformation, enhancement, glottal source/voice quality analysis, etc.
 
 Contribute!
-    We believe that the USpeech repository has a great potential benefit to the speech research community and we hope that you will consider contributing your published algorithms to it. If you have any questions, comments issues etc regarding USpeech please contact us on one of the email addresses below. Please forward this email to others who may be interested.
+    We believe that the USpeech repository has a great potential benefit to the
+    speech research community and we hope that you will consider contributing your
+    published algorithms to it. If you have any questions, comments issues etc
+    regarding USpeech please contact us on one of the email addresses below.
+    Please forward this email to others who may be interested.
 
-    Please also have a look at the Covarep.pdf document in the documentation directory for more information.
+Please also have a look at the Covarep.pdf document in the documentation directory for more information.
 
 
 Contributors
