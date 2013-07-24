@@ -46,7 +46,8 @@ Contribute!
     regarding USpeech please contact us on one of the email addresses below.
     Please forward this email to others who may be interested.
 
-Please also have a look at the Covarep.pdf document in the documentation directory for more information.
+Please also have a look at the Covarep.pdf document in the documentation directory
+for more information.
 
 
 Contributors
