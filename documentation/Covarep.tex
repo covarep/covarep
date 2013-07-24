@@ -1,0 +1,164 @@
+\documentclass{article}
+\date{\today}
+\usepackage[latin1]{inputenc}
+% \usepackage{ucs}
+% \usepackage[utf8]{inputenc}
+
+\usepackage[french,english]{babel}
+\selectlanguage{english}
+
+% \pdfoutput=1 % output in pdf file
+
+\usepackage[nottoc]{tocbibind} % add the bibliography in the toc
+% \setcounter{tocdepth}{1}
+
+% \usepackage{bibspacing}
+% \usepackage{natbib,natbibspacing}
+% \setlength{\bibspacing}{0.5em}
+
+% \pagestyle{headings}
+% \usepackage{fancyhdr}
+% \pagestyle{fancy} 
+
+% \usepackage{picins}
+% [pdftex]
+\usepackage{epstopdf}
+\usepackage[pdftex]{graphicx} % pdftex create pdf directly instead of dvi
+% \usepackage{epsfig}
+\usepackage{wrapfig}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\usepackage{hyperref}
+\pdfinfo{
+        /Title      (Covarep)
+        /Author     (G. Degottex, J. Kane, T. Drugman, T. Raitio, S. Scherer)
+        /Keywords   (voice, speech, analysis, synthesis)
+}
+% \usepackage{latexsym}
+% \usepackage{multicol}
+% \usepackage{url}
+\usepackage{amsmath,mathrsfs}
+\usepackage{mathrsfs}
+% \usepackage{changebar}
+% \theoremstyle{margin}
+% \usepackage{pdfpages} % when the output is a pdf file, can use the macro of this pkg
+\usepackage{setspace}
+
+\usepackage{enumitem}
+
+% \renewcommand{\baselinestretch}{1.1}
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
+
+\setlength{\textwidth}{16cm}
+% \setlength{\textheight}{25cm}
+
+\setlength{\oddsidemargin}{0cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\marginparsep}{0cm}
+\setlength{\marginparwidth}{0cm}
+
+\setcounter{tocdepth}{2}
+
+\begin{document}
+
+\vspace{1cm}
+\centerline{\huge{Covarep}}
+\vspace{1em}
+\centerline{\large{A Cooperative Voice Analysis Repository for Speech Processing Techniques}}
+\vspace{1em}
+\centerline{Gilles Degottex\footnote{University of Crete, Heraklion, Greece.}, John Kane\footnote{Trinity College Dublin, Dublin, Ireland.}, Thomas Drugman\footnote{University of Mons, Mons, Belgium.}, Tuomo Raitio\footnote{Aalto University, Aalto, Finland.}, Stefan Scherer\footnote{University of Soutghern California, California, USA.}}
+\vspace{1em}
+\centerline{\today}
+
+\vspace{16em}
+
+% \tableofcontents
+
+
+
+\section{Aims of the project}
+    Over the past few decades a vast array of advanced speech processing algorithms have been developed, often offering significant improvements over the existing state-of-the-art. Such algorithms can have a reasonably high degree of complexity and, hence, can be difficult to accurately re-implement based on article descriptions. Another issue is the so-called 'bug magnet effect' with re-implementations frequently having significant differences from the original ones. The consequence of all this has been that many promising developments have been under-exploited or discarded, with researchers tending to stick to conventional analysis methods.
+
+    By developing Covarep we are hoping to address this by encouraging authors to include original implementations of their algorithms, thus resulting in a single de facto version for the speech community to refer to.
+    We envisage a range of benefits to the repository:
+    \begin{itemize}
+    \item[] 1) Reproducible research: Covarep will allow fairer comparison of algorithms in published articles.
+    \item[] 2) Encouraged usage: the free availability of these algorithms will encourage researchers from a wide range of speech-related disciplines to exploit them for their own applications.
+    \item[] 3) Feedback: as a GitHub project users will be able to offer comments on algorithms, report bugs, suggest improvements etc.
+    \end{itemize}
+
+\newpage
+
+\section{License}
+    Getting contributing institutions to agree to a homogenous Intellectual Property (IP) policy would be close to impossible. As a result Covarep is a repository and not a toolbox, and each algorithm will have its own licence associated with it. Though flexible to different licence types, contributions will need to have a licence which is compatible (or \textit{linkable}) with the General Public License Version 3 (GPLv3)
+    (see diagram at \url{http://en.wikipedia.org/wiki/GPL#Compatibility\_and_multi-licensing}) (e.g. LPGL, MIT, Apache or similar).
+    The LGPL licence is advised in order to be more industry friendly.
+
+% \newpage
+
+\section{Contribution}
+    \subsection{Scope}
+    Contributions are welcome from a wide range of speech processing areas, including (but not limited to): Speech analysis, synthesis, conversion, transformation, enhancement, glottal source/voice quality analysis, etc.
+
+    \subsection{Requirements}
+    In order to achieve a reasonable standard of consistency and homogeneity across algorithms, the following elements are required:
+    \begin{itemize}
+    \item Only published work can be added to the repository.
+    \item The code must be available as open source.
+    \item Algorithms should be coded in Matlab, however we strongly encourage authors to make the code compatible with Octave in order to maximize usability.
+
+    \item Contributions have to comply with a Coding Convention (see in the directory \\ documentation/CodingConvention.txt and \\ documentation/CodingConvention\_FunctionTemplate.txt). However, only for normalizing the inputs/outputs and the documentation. There is no restriction for the content of the functions (though, comments are obviously encouraged).
+
+    \item Each method exist only once in the whole repository. Thus, redundancy has to be minimized between the methods existing in the repository and the submission.
+    \end{itemize}
+
+    \subsection{Submission process}
+    The instructions for submitting contributions are given at:
+    \url{http://covarep.github.io/covarep}.
+
+\newpage
+
+\section{Coding}
+
+    The code as to be fast enough to be run on big corpora of speech utterances.
+    However, incomprehensible implementations that save only a negligible CPU time, compared to a clear and pedagogic code, should be avoided.
+
+    \subsection{Hosting}
+    The Covarep project is currently hosted on GitHub (\url{https://github.com/covarep/covarep}).
+    Please have a look at the help of the GitHub website in order to rise an issue or discuss any point.
+
+    \subsection{Dependencies}
+    \begin{itemize}
+    \item In order to minimize redundancy, one method exists only once in the whole repository. Issues can be discussed on the GitHub project if the implementation of an existing method is questionable.
+    \item There is no requirement for the Matlab or Octave version.
+    \item Covarep is dependent on the \textit{Voicebox} Matlab toolbox (see \url{http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html})
+    \item The code has to run on Windows, Mac and Linux platforms.
+    \end{itemize}
+
+    \subsection{Testing and bug tracking}
+    A HOWTO example file is necessary to exemplify each method.
+    Basic regression tests can be also submitted or developed by the maintainers.
+%     However, for the beginning of the project, no big evaluation module will be implemented in order to not discourage submissions.
+    A basic function should allow the user to run regression tests to verify that all the methods implemented in Covarep are working properly on his/her machine.
+
+    \subsection{Code maintenance}
+    \subsubsection{Versioning of the project}
+    If the revision number changes (0.0.X), it means that only bugs have been fixed.
+    If the minor number changes (0.X.0), it means that bugs have been fixed and new features have been added, without breaking compatibility with former versions of identical major number.
+    If the major number changes (X.0.0), it means that new features appeared and the compatibility with former version is not ensured.
+
+    \subsubsection{Project merge and Branching policy}
+    The Branch-When-Needed system: maintainers commit their day-to-day work on the master branch.
+    \begin{itemize}
+    \item[] \textbf{Rule 1} The master must compile and pass regression tests at all times. Committers who violate this rule are publically humiliated.
+    \item[] \textbf{Rule 2} A single commit (changeset) must not be so large so as to discourage peer-review.
+    \item[] \textbf{Rule 3} If rules 1 and 2 come into conflict (i.e. it's impossible to make a series of small commits without disrupting the trunk), then the user should create a branch and commit a series of smaller changesets there. This allows peer-review without disrupting the stability of the master branch.
+    \end{itemize}
+    
+% \newpage
+% \section{Bibliography}
+% % \renewcommand{\bibname}{}
+% \bibliographystyle{plain}
+% \bibliography{db}
+\end{document}
