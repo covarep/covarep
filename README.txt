@@ -1,12 +1,12 @@
                                 Covarep
     A Cooperative Voice Analysis Repository for Speech Processing Techniques
-                             Version 1.0
+                              Version 1.0
+                    http://covarep.github.io/covarep
 
 
 Covarep is an open-source repository of advanced speech processing algorithms and
-stored in a GitHub project (https://github.com/gillesdegottex/covarep) where
-researchers in speech processing can store original implementations of published
-algorithms.
+stored in a GitHub project (https://github.com/covarep/covarep) where researchers
+in speech processing can store original implementations of published algorithms.
 
 Over the past few decades a vast array of advanced speech processing algorithms
 have been developed, often offering significant improvements over the existing
