@@ -60,7 +60,7 @@ Contributors
         John Kane <kanejo@tcd.ie>
 
     University of Mons, Mons, Belgium
-        Circuit Theory and Signal Processing Division:
+        Polytechnic Faculty - TCTS Lab
         Thomas Drugman <thomas.drugman@umons.ac.be>
 
     Aalto University, Aalto, Finland
