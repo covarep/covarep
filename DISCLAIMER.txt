@@ -1,7 +1,8 @@
 DISCLAIMER
 
-All the content of this repository is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY.
+All the content of this repository is distributed in the hope
+that it will be useful, but WITHOUT ANY WARRANTY.
 
-For example, There is NO WARRANTY of of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. Also, there is NO WARRANTY that the code will NOT damage or harm in anyway the computer of the user.
+For example, There is NO WARRANTY of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. Also, there is NO WARRANTY that the
+code will NOT damage or harm in anyway the computer of the user.
