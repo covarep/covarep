@@ -57,7 +57,7 @@ Contributors
         Gilles Degottex <degottex@csd.uoc.gr>
 
     Trinity College Dublin, Dublin, Ireland
-        Centre for Language and Comm. Sciences - Phonetics and Speech Lab
+        Centre for Language and Communication Sciences - Phonetics & Speech Lab
         John Kane <kanejo@tcd.ie>
     
     University of Mons, Belgium
