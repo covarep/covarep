@@ -11,17 +11,17 @@ algorithms.
 
 Over the past few decades a vast array of advanced speech processing algorithms
 have been developed, often offering significant improvements over the existing
-state-of-the-art. Such algorithms can have a reasonably high degree of complexity
-and, hence, can be difficult to accurately re-implement based on article
-descriptions. Another issue is the so-called 'bug magnet effect' with re-
-implementations frequently having significant differences from the original ones.
-The consequence of all this has been that many promising developments have been
-under-exploited or discarded, with researchers tending to stick to conventional
-analysis methods.
+state-of-the-art. Such algorithms can have a reasonably high degree of
+complexity and, hence, can be difficult to accurately re-implement based on
+article descriptions. Another issue is the so-called 'bug magnet effect' with
+re-implementations frequently having significant differences from the original
+ones. The consequence of all this has been that many promising developments
+have been under-exploited or discarded, with researchers tending to stick to
+conventional analysis methods.
 
 By developing Covarep we are hoping to address this by encouraging authors to
-include original implementations of their algorithms, thus resulting in a single
-de facto version for the speech community to refer to.
+include original implementations of their algorithms, thus resulting in a
+single de facto version for the speech community to refer to.
 
 We envisage a range of benefits to the repository:
 
@@ -42,9 +42,9 @@ Scope
 
 Contribute!
     We believe that the Covarep repository has a great potential benefit to the
-    speech research community and we hope that you will consider contributing your
-    published algorithms to it. If you have any questions, comments issues etc
-    regarding Covarep please contact us on one of the email addresses below.
+    speech research community and we hope that you will consider contributing
+    your published algorithms to it. If you have any questions, comments issues
+    etc regarding Covarep please contact us on one of the email addresses below.
     Please forward this email to others who may be interested.
 
 Please also have a look at the webiste http://covarep.github.io/covarep and the
