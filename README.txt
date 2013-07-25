@@ -60,7 +60,7 @@ Contributors
         Centre for Language and Communication Sciences - Phonetics & Speech Lab
         John Kane <kanejo@tcd.ie>
     
-    University of Mons, Belgium
+    University of Mons, Mons, Belgium
         Polytechnic Faculty - TCTS Lab
         Thomas Drugman <thomas.drugman@umons.ac.be>
 
@@ -68,6 +68,6 @@ Contributors
         Department of Signal Processing and Acoustics
         Raitio Tuomo <tuomo.raitio@aalto.fi>
 
-    University of Soutghern California, California, USA
+    University of Southern California, Los Angeles, USA
         Institute for Creative Technologies
         Stefan Scherer <scherer@ict.usc.edu>
