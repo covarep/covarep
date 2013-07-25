@@ -1,6 +1,6 @@
                                 Covarep
         A Cooperative Voice Analysis Repository for Speech Technologies
-                              Version 1.0
+                             Version 1.0.0
                     http://covarep.github.io/covarep
 
 
@@ -51,22 +51,25 @@ Covarep.pdf document in the documentation directory for more information.
 
 
 Contributors
-    University of Crete, Heraklion, Greece
-        Computer Science Department:
+    University of Crete, Heraklion, Greece;
+        Computer Science Department;
+        Multimedia Informatics Lab (MMI):
         Gilles Degottex <degottex@csd.uoc.gr>
 
-    Trinity College Dublin, Dublin, Ireland
-        Centre for Language and Communication Studies:
+    Trinity College Dublin, Dublin, Ireland;
+        Centre for Language and Communication Sciences;
+        Phonetics and Speech Laboratory:
         John Kane <kanejo@tcd.ie>
-
-    University of Mons, Mons, Belgium
-        Circuit Theory and Signal Processing Division:
+    
+    University of Mons, Belgium;
+        Polytechnic Faculty;
+        TCTS Lab:
         Thomas Drugman <thomas.drugman@umons.ac.be>
 
-    Aalto University, Aalto, Finland
+    Aalto University, Aalto, Finland;
         Department of Signal Processing and Acoustics:
         Raitio Tuomo <tuomo.raitio@aalto.fi>
 
-    University of Soutghern California, California, USA
-        Institute for Creative Technologies
+    University of Soutghern California, California, USA;
+        Institute for Creative Technologies:
         Stefan Scherer <scherer@ict.usc.edu>
