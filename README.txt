@@ -1,5 +1,5 @@
                                 Covarep
-    A Cooperative Voice Analysis Repository for Speech Processing Techniques
+        A Cooperative Voice Analysis Repository for Speech Technologies
                               Version 1.0
                     http://covarep.github.io/covarep
 
