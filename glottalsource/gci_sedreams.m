@@ -27,7 +27,7 @@
 %                     Note that GCIs are estimated even during unvoiced segments.
 %                     Proper voicing boundaries should then be used as a mask
 %                     (you can use the "pitch_srh" function included in this 
-%                     toolbox for this.
+%                     toolbox for this).
 %  MeanBasedSignal  : [samples] [Nx1] mean-based signal as used by the
 %                     SEDREAMS algorithm
 %  res              : [samples] [Nx1] the residual excitation signal

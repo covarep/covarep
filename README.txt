@@ -1,26 +1,27 @@
                                 Covarep
-    A Cooperative Voice Analysis Repository for Speech Processing Techniques
-                              Version 1.0
+        A Cooperative Voice Analysis Repository for Speech Technologies
+                             Version 1.0.0
                     http://covarep.github.io/covarep
 
 
-Covarep is an open-source repository of advanced speech processing algorithms and is
-stored as a GitHub project (https://github.com/covarep/covarep) where researchers
-in speech processing can store original implementations of published algorithms.
+Covarep is an open-source repository of advanced speech processing algorithms
+and is stored as a GitHub project (https://github.com/covarep/covarep) where
+researchers in speech processing can store original implementations of published
+algorithms.
 
 Over the past few decades a vast array of advanced speech processing algorithms
 have been developed, often offering significant improvements over the existing
-state-of-the-art. Such algorithms can have a reasonably high degree of complexity
-and, hence, can be difficult to accurately re-implement based on article
-descriptions. Another issue is the so-called 'bug magnet effect' with re-
-implementations frequently having significant differences from the original ones.
-The consequence of all this has been that many promising developments have been
-under-exploited or discarded, with researchers tending to stick to conventional
-analysis methods.
+state-of-the-art. Such algorithms can have a reasonably high degree of
+complexity and, hence, can be difficult to accurately re-implement based on
+article descriptions. Another issue is the so-called 'bug magnet effect' with
+re-implementations frequently having significant differences from the original
+ones. The consequence of all this has been that many promising developments
+have been under-exploited or discarded, with researchers tending to stick to
+conventional analysis methods.
 
 By developing Covarep we are hoping to address this by encouraging authors to
-include original implementations of their algorithms, thus resulting in a single
-de facto version for the speech community to refer to.
+include original implementations of their algorithms, thus resulting in a
+single de facto version for the speech community to refer to.
 
 We envisage a range of benefits to the repository:
 
@@ -41,9 +42,9 @@ Scope
 
 Contribute!
     We believe that the Covarep repository has a great potential benefit to the
-    speech research community and we hope that you will consider contributing your
-    published algorithms to it. If you have any questions, comments issues etc
-    regarding Covarep please contact us on one of the email addresses below.
+    speech research community and we hope that you will consider contributing
+    your published algorithms to it. If you have any questions, comments issues
+    etc regarding Covarep please contact us on one of the email addresses below.
     Please forward this email to others who may be interested.
 
 Please also have a look at the webiste http://covarep.github.io/covarep and the
@@ -52,21 +53,21 @@ Covarep.pdf document in the documentation directory for more information.
 
 Contributors
     University of Crete, Heraklion, Greece
-        Computer Science Department:
+        Computer Science Department - Multimedia Informatics Lab (MMI)
         Gilles Degottex <degottex@csd.uoc.gr>
 
     Trinity College Dublin, Dublin, Ireland
-        Centre for Language and Communication Studies:
+        Centre for Language and Communication Sciences - Phonetics & Speech Lab
         John Kane <kanejo@tcd.ie>
-
+    
     University of Mons, Mons, Belgium
-        Circuit Theory and Signal Processing Division:
+        Polytechnic Faculty - TCTS Lab
         Thomas Drugman <thomas.drugman@umons.ac.be>
 
     Aalto University, Aalto, Finland
-        Department of Signal Processing and Acoustics:
+        Department of Signal Processing and Acoustics
         Raitio Tuomo <tuomo.raitio@aalto.fi>
 
-    University of Soutghern California, California, USA
-        Institute for Creative Technologies
+    University of Southern California, Los Angeles, USA
+        Institute for Creative Technologies - MultiComp Lab
         Stefan Scherer <scherer@ict.usc.edu>
