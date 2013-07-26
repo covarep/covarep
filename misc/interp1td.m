@@ -1,14 +1,16 @@
 % Get an interpolated value from a time-data vector
 %
-% Works only with sorted times !
+% Description
+%  Linear interpolation of a time-data vector (see below the corresponding
+%  input). Works only with sorted times.
 %
-% Input
+% Inputs
 %  values   : [time,data] vector where time and data are column vectors
 %  t        : instant(s) where the interpoaltion is obtained.
 %  value_fn : Instead of a linear interpolation, a specific function can be used
 %  value_ifn : The inversion function of the previous one.
 %
-% Output
+% Outputs
 %  value : interpolated value
 %  previ : The index of the previous element used for interpolation
 %  nexti : The index of the next element used for interpolation
@@ -17,20 +19,20 @@
 % Copyright (c) 2011 University of Crete - Computer Science Department
 % 
 % License
-%  This file is part of libphoni.
-%  libphoni is free software: you can redistribute it and/or modify
-%  it under the terms of the GNU Lesser General Public License as published by
-%  the Free Software Foundation, either version 3 of the License, or
-%  (at your option) any later version.
-%  libphoni is distributed in the hope that it will be useful,
-%  but WITHOUT ANY WARRANTY; without even the implied warranty of
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%  GNU Lesser General Public License for more details.
-%  You should have received a copy of the GNU Lesser General Public License
-%  along with libphoni.  If not, see <http://www.gnu.org/licenses/>.
-%  
+%  This file is under the LGPL license,  you can
+%  redistribute it and/or modify it under the terms of the GNU Lesser General 
+%  Public License as published by the Free Software Foundation, either version 3 
+%  of the License, or (at your option) any later version. This file is
+%  distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+%  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+%  PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+%  details.
+%
+% This function is part of the Covarep project: http://covarep.github.io/covarep
+%
 % Author
 %  Gilles Degottex <degottex@csd.uoc.gr>
+%
 
 function [value previ nexti g] = interp1td(values, t, value_fn, value_ifn)
 
