@@ -38,26 +38,24 @@
 % Copyright (c) 2011 University of Mons, FNRS
 %
 % License
-%  This code is a part of the Voice Analysis Toolkit with the following
-%  licence:
-%  The software product (and any modifications thereof) is distributed under 
-%  a dual licence: an open source license for individual, non-commercial 
-%  purposes, and a commercial license. The opensource licence under which 
-%  the product is distributed is GNU GPL v2. For individual users, this 
-%  licence suits their use as these are not distributing proprietary 
-%  modifications, additions to, or derivatives of the product and don't 
-%  require legal protection of a commercial licence. For commercial users, 
-%  where open source does not meet their requirements, we offer commercial 
-%  licensing of the product. A commercial license permits customers to 
-%  modify, add or produce derivative products without the obligation of 
-%  making the subsequent code open source. For more information regarding 
-%  our commercial licence, please contact john.whelan@tcd.ie
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
-% This function is part of the Common Speech Processing Repository (TODO)
-% TODO URL
+% This function is part of the Covarep project: http://covarep.github.io/covarep
 % 
 % Author 
-%  Thomas Drugman thomas.drugman@umons.ac.be
+%  Baris Bozkurt / Thomas Drugman thomas.drugman@umons.ac.be
+
 
 function [formantPeaks,t_analysis]=formant_CGDZP(wave,fs,frameSize,frameShift)
 
