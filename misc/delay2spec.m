@@ -1,31 +1,36 @@
 % Create a spectrum with a linear phase, a given delay in samples
 %
-% DESCRIPTION
-%
+% Description
 %  If the spectrum length is even, the Nyquist's phase is managed as follow:
 %   sign(real(exp((delay*1i*pi))))
 %
-% USAGE
-%  shift = delay2spec(delay, fftlen)
-%
-% INPUT
+% Inputs
 %  delay    : [samples]
 %  fftlen   : length of the fft
 %
-% OUPUT
+% Outputs
 %  shift    : the delay-spectrum
 %
-% REQUIRED
-%
-% EXAMPLE
+% Example
 %  S = fft(...);
 %  D = delay2spec(12, 1024);
 %  S = S.*D;  % shift the time signal by 12 samples to the left
 %
-% AUTHOR
-%  degottex@ircam.fr
+% License
+%  This file is under the LGPL license,  you can
+%  redistribute it and/or modify it under the terms of the GNU Lesser General 
+%  Public License as published by the Free Software Foundation, either version 3 
+%  of the License, or (at your option) any later version. This file is
+%  distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+%  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+%  PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+%  details.
 %
-% $Id$
+% This function is part of the Covarep project: http://covarep.github.io/covarep
+%
+% Author
+%  Gilles Degottex <degottex@ircam.fr>
+%
 
 function shift = delay2spec(delay, dftlen)
     if delay==0
