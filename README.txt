@@ -69,5 +69,5 @@ Contributors
         Raitio Tuomo <tuomo.raitio@aalto.fi>
 
     University of Southern California, Los Angeles, USA
-        Institute for Creative Technologies
+        Institute for Creative Technologies - MultiComp Lab
         Stefan Scherer <scherer@ict.usc.edu>
