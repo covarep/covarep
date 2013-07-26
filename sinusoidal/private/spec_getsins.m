@@ -1,34 +1,32 @@
 % Estimate all sinusoids of a spectrum by peak peaking
 %  
-% Input
-%
+% Inputs
 %  S         : Spectrum
-%
-%  fs        : Sampling frequency
+%  fs        : [Hz] Sampling frequency
 %  
-%  The remaining arguments are forwarded to spec_getonesin.m
+%  The remaining arguments are forwarded to spec_fit_freq_amp.m
 %
-% Output
+% Outputs
 %  sins      : vector of partials structures [Hz; linear; rad]
 %                 + the is always included !
 %
 % Copyright (c) 2011 University of Crete - Computer Science Department
-%
+% 
 % License
-%  This file is part of libphoni. libphoni is free software: you can
-%  redistribute it and/or modify it under the terms of the GNU Lesser General
-%  Public License as published by the Free Software Foundation, either version 3
-%  of the License, or (at your option) any later version. libphoni is
-%  distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-%  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-%  PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
-%  details. You should have received a copy of the GNU Lesser General Public
-%  License along with libphoni. If not, see <http://www.gnu.org/licenses/>.
+%  This file is under the LGPL license,  you can
+%  redistribute it and/or modify it under the terms of the GNU Lesser General 
+%  Public License as published by the Free Software Foundation, either version 3 
+%  of the License, or (at your option) any later version. This file is
+%  distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+%  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+%  PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+%  details.
+%
+% This function is part of the Covarep project: http://covarep.github.io/covarep
 %
 % Author
 %  Gilles Degottex <degottex@csd.uoc.gr>
-%  
-% $Id: spec_getsins.m 142 2012-07-31 15:53:02Z degottex $
+%
 
 function sins = spec_getsins(S, fs, varargin)
 
