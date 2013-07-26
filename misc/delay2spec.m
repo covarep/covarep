@@ -29,7 +29,7 @@
 % This function is part of the Covarep project: http://covarep.github.io/covarep
 %
 % Author
-%  Gilles Degottex <degottex@ircam.fr>
+%  Gilles Degottex <gilles.degottex@ircam.fr>
 %
 
 function shift = delay2spec(delay, dftlen)
