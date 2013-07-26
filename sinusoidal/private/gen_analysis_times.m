@@ -1,6 +1,6 @@
 % Generate analysis time instants, optionaly using a given f0 curve
 %
-% Input
+% Inputs
 %  wav            : Wavform vector
 %  fs             : Sampling frequency
 %  tmargin        : Margin at start and end
@@ -18,25 +18,26 @@
 %        varargin{2}: number of instants per period
 %        Skip nan, inf and zero values
 %
-% Output
+% Outputs
 %  f0sout : f0 feature with the generated times
 %
 % Copyright (c) 2012 University of Crete - Computer Science Department
 % 
 % License
-%  This file is part of libphoni. libphoni is free software: you can
-%  redistribute it and/or modify it under the terms of the GNU Lesser General
+%  This file is under the LGPL license,  you can
+%  redistribute it and/or modify it under the terms of the GNU Lesser General 
 %  Public License as published by the Free Software Foundation, either version 3 
-%  of the License, or (at your option) any later version. libphoni is
-%  distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-%  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+%  of the License, or (at your option) any later version. This file is
+%  distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+%  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
 %  PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-%  details (see the COPYING* files in the base directory).
+%  details.
+%
+% This function is part of the Covarep project: http://covarep.github.io/covarep
 %
 % Author
 %  Gilles Degottex <degottex@csd.uoc.gr>
 %
-% $Id$
 
 function at = gen_analysis_times(wav, fs, tmargin, usesampletimes, method, varargin)
 
