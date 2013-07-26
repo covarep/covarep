@@ -46,7 +46,6 @@
 %
 % This function is part of the Covarep project: http://covarep.github.io/covarep
 %
-%
 % Author
 %  Gilles Degottex <degottex@csd.uoc.gr>
 %
