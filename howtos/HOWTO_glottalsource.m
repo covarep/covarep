@@ -34,7 +34,6 @@ dgf_cc = complex_cepstrum(x,fs,sd_gci,srh_f0,srh_vuv); % Glottal flow derivative
 
 % Plots
 t=(0:length(x)-1)/fs;
-t2=(0:length(x)-2)/fs;
 
 fig(1) = subplot(511);
     plot(t,x, 'b');

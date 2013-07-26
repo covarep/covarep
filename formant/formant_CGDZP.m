@@ -9,9 +9,11 @@
 % chirp-z transform (termed as the differential phase spectrum) of a given
 % speech signal. No modeling is included in the procedure but only peak
 % picking on differential phase spectrum.
+% CGDZP = Chirp Group Delay Zero Phase
 %
 %
-%  %
+%  [formantPeaks,t_analysis]=formant_CGDZP(wave,fs,frameSize,frameShift)
+
 % Inputs
 %  wave             : [samples] [Nx1] input signal (speech signal)
 %  fs               : [Hz]      [1x1] sampling frequency
@@ -22,6 +24,7 @@
 % Outputs
 %  formantPeaks    : vector containing the estimated frequencies (in Hz) of
 %  the first 5 formants.
+%  t_analysis      : [s] vector containing the analysis time instants.
 %
 %
 % References
@@ -56,7 +59,7 @@
 % Author 
 %  Thomas Drugman thomas.drugman@umons.ac.be
 
-function [formantPeaks]=formant_CGDZP(wave,fs,frameSize,frameShift)
+function [formantPeaks,t_analysis]=formant_CGDZP(wave,fs,frameSize,frameShift)
 
 if nargin<4
     frameShift=10;
@@ -84,6 +87,8 @@ SelectTimeIndex=round(CepsSmoothSelectPercent*fsLR/2/100);
 
 SIZEwave=length(wave);
 numFrames=floor((SIZEwave-frameSize)/frameShift);
+
+t_analysis=zeros(1,numFrames);
 
 formantPeaks=[];
 for kk=0:numFrames-1
@@ -120,6 +125,8 @@ for kk=0:numFrames-1
         peakIndex=[peakIndex zeros(1,numFormants-numPeaks)];
     end
     formantPeaks=[formantPeaks ; peakIndex];
+    
+    t_analysis(kk+1)=round((kk*frameShift+1+kk*frameShift+frameSize)/2)/fs;
     
 end
 formantPeaks=round(formantPeaks*fs/fsLR);
