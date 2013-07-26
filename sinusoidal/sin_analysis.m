@@ -14,8 +14,8 @@
 %  (aQHM [4] to come)
 %
 %  ** This is a full-band HM, this is NOT the Harmonic+Noise Model (HNM)
-%  *  Note that [3] is NOT fully implemented. The QHM model is available, but NOT
-%     the iterative algorithm presented in [3].
+%  *  Note that [3] is NOT fully implemented. The QHM estimation is available,
+%     but NOT the iterative algorithm presented in [3].
 %
 %  The analysis instants need to be always provided through the f0s argument.
 %
@@ -65,18 +65,20 @@
 % Copyright (c) 2012 University of Crete - Computer Science Department
 %  
 % License
-%  This file is part of libphoni. libphoni is free software: you can
-%  redistribute it and/or modify it under the terms of the GNU Lesser General
-%  Public License as published by the Free Software Foundation, either version 3
-%  of the License, or (at your option) any later version. libphoni is
-%  distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-%  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-%  PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
-%  details. You should have received a copy of the GNU Lesser General Public
-%  License along with libphoni. If not, see <http://www.gnu.org/licenses/>.
+%  This file is under the LGPL license,  you can
+%  redistribute it and/or modify it under the terms of the GNU Lesser General 
+%  Public License as published by the Free Software Foundation, either version 3 
+%  of the License, or (at your option) any later version. This file is
+%  distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+%  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+%  PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+%  details.
+%
+% This function is part of the Covarep project: http://covarep.github.io/covarep
 %
 % Author
 %  Gilles Degottex <degottex@csd.uoc.gr>
+%
 
 function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
 
