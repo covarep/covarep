@@ -295,6 +295,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
             % Compute the spectrum and compansate the window delay
             S = fft(s, dftlen).';
             S = S.*W;
+
             % TODO add FChT
 
             if opt.fharmonic
@@ -339,7 +340,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
 
         if 0
             % Compute the spectrum and compansate the window delay
-            % TODO what's those &*^%^# sliding effects ?!?
+            % TODO Check the behavior of the harmonic structure with the aDFT.
             win = win./sum(win);
             S = fft(wav(ids).*win, dftlen);
             F = fs*(0:length(S)-1)/length(S);
