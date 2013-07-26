@@ -1,3 +1,36 @@
+% Get the freq. and amp. parameters of a spectral peak by quandratic fitting
+%
+% Inputs
+%  S        : The spectrum containing the peak to fit
+%  fs       : [Hz] The sampling frequency
+%  index    : The peak position where the parabola has to be fit
+%  [zp]     : the zero padding factor used for the DFT computation
+5             (used for the Abe & Smith corrections)
+%  [wintype]: The window type used for the DFT computation
+5             wintype=2 => Hann
+%
+% Outputs
+%  freq     : [Hz] The frequency parameter
+%  amp      : The amplitude parameter (linear scale)
+%
+% Copyright (c) 2012 University of Crete - Computer Science Department
+% 
+% License
+%  This file is under the LGPL license,  you can
+%  redistribute it and/or modify it under the terms of the GNU Lesser General 
+%  Public License as published by the Free Software Foundation, either version 3 
+%  of the License, or (at your option) any later version. This file is
+%  distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+%  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+%  PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+%  details.
+%
+% This function is part of the Covarep project: http://covarep.github.io/covarep
+%
+% Author
+%  Gilles Degottex <degottex@csd.uoc.gr>
+%
+
 function [freq amp p] = quadratic_fit_freq_amp(S, fs, index, zp, wintype)
 
     if index<=1
