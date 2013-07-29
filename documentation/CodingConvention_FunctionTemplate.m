@@ -38,7 +38,6 @@
 % Author <only the initial contributors of the code>
 %  Firstname Lastname <email@yourinstitution.com>
 %
-% $Id <info set by the versioning system> $
 
 function ...
 
