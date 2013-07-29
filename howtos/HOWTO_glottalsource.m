@@ -20,17 +20,6 @@
 
 clear all;
 
-% Do check for version/toolbox
-try
-    file_str=['glottalsource' filesep 'creaky_voice_detection' ...
-        filesep 'private' filesep 'system_net_creak.mat'];
-    load(file_str)
-    do_creak=1;
-catch disp('Version or toolboxes do not support neural network object used in creaky voice detection. Creaky detection skipped.')
-    do_creak=0;
-end
-
-
 % Settings
 F0min = 80; % Minimum F0 set to 80 Hz
 F0max = 500; % Maximum F0 set to 80 Hz
@@ -47,15 +36,20 @@ x=polarity*x;
 [srh_f0,srh_vuv,srh_vuvc,srh_time] = pitch_srh(x,fs,F0min,F0max,frame_shift);
 
 % Creaky probability estimation
-if do_creak==1
+warning off
+try
     [creak_pp,creak_bin] = detect_creaky_voice(x,fs); % Detect creaky voice
     creak=interp1(creak_bin(:,2),creak_bin(:,1),1:length(x));
     creak(creak<0.5)=0; creak(creak>=0.5)=1;
-else
+    do_creak=1;
+catch
+    disp('Version or toolboxes do not support neural network object used in creaky voice detection. Creaky detection skipped.')
     creak=zeros(length(x),1);
     creak_pp=zeros(length(x),2);
     creak_pp(:,2)=1:length(x);
+    do_creak=0;
 end
+warning on
 
 % GCI estimation
 sd_gci = gci_sedreams(x,fs,median(srh_f0),1);        % SEDREAMS
