@@ -19,11 +19,11 @@ clear all;
 % Do check for version/toolbox
 try
     load system_net_creak.mat
-    ver_flag=1;
-catch disp('Version or toolboxes do not support neural network object used in creaky voice detection')
-    ver_flag=0;
+    do_creak=1;
+catch disp('Version or toolboxes do not support neural network object used in creaky voice detection. Creaky detection skipped.')
+    do_creak=0;
 end
-    
+
 
 % Settings
 F0min = 80; % Minimum F0 set to 80 Hz
@@ -41,11 +41,12 @@ x=polarity*x;
 [srh_f0,srh_vuv,srh_vuvc,srh_time] = pitch_srh(x,fs,F0min,F0max,frame_shift);
 
 % Creaky probability estimation
-if ver_flag==1
+if do_creak==1
     [creak_pp,creak_bin] = detect_creaky_voice(x,fs); % Detect creaky voice
     creak=interp1(creak_bin(:,2),creak_bin(:,1),1:length(x));
     creak(creak<0.5)=0; creak(creak>=0.5)=1;
-else creak=zeros(length(x),1);
+else
+    creak=zeros(length(x),1);
     creak_pp=zeros(length(x),2);
     creak_pp(:,2)=1:length(x);
 end
