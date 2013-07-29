@@ -51,7 +51,7 @@ Please also have a look at the webiste http://covarep.github.io/covarep and the
 Covarep.pdf document in the documentation directory for more information.
 
 
-Contributors
+Maintainers
     University of Crete, Heraklion, Greece
         Computer Science Department - Multimedia Informatics Lab (MMI)
         Gilles Degottex <degottex@csd.uoc.gr>
