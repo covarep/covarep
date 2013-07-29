@@ -10,9 +10,6 @@
 % Example
 %  radius = bandwidth2rootradius(50, 44100)
 %
-% See also
-%  rootradius2bandwidth, decayrate2rootradius
-%
 % Copyright (c) 2007 Ircam-CNRS UMR9912-STMS
 %  
 % License
@@ -28,7 +25,6 @@
 % Author
 %  Gilles Degottex <degottex@ircam.fr>
 %
-% $Id: bandwidth2rootradius.m 214 2012-12-14 12:22:05Z degottex $
 
 function radius = bandwidth2rootradius(bw, fs)
 

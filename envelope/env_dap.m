@@ -34,6 +34,7 @@
 %
 % Author
 %  Gilles Degottex <degottex@csd.uoc.gr>
+%
 
 function [g a E opt] = env_dap(sins, fs, order, dftlen, opt)
 

@@ -1,31 +1,33 @@
 % Create a spectrum from ARMA coefficients (g,b,a)
 %
-% USAGE
-%  S = Fgba2spec(g, b, a, dftlen)
-%
-% INPUT
+% Inputs
 %  g          : gain
 %  b          : MA coefficients
 %  a          : AR coefficients
 %  dftlen     : length of the spectrum
 %
-% OUTPUT
+% Outputs
 %  S          : a spectrum made from transfer function coefficients
 %
-% EXAMPLE
+% Example
 %
-% REFERENCE
+% Copyright (c) 2007 Ircam-CNRS UMR9912-STMS
 %
-% SEE AlSO
-%  Fcc2spec
+% License
+%  This file is under the LGPL license,  you can
+%  redistribute it and/or modify it under the terms of the GNU Lesser General 
+%  Public License as published by the Free Software Foundation, either version 3 
+%  of the License, or (at your option) any later version. This file is
+%  distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+%  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+%  PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+%  details.
 %
-% AUTHOR
-%  degottex@ircam.fr
+% This function is part of the Covarep project: http://covarep.github.io/covarep
 %
-% COPYRIGHT
-%  Copyright (c) 2008 IRCAM/CNRS - Degottex
+% Author
+%  Gilles Degottex <degottex@ircam.fr>
 %
-% $Id: gba2spec.m 214 2012-12-14 12:22:05Z degottex $
 
 function S = gba2spec(g, b, a, dftlen)
 
