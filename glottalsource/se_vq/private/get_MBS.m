@@ -25,9 +25,25 @@
 %       55(2), pp. 295-314.
 %
 %
+% Copyright (c) 2013 Trinity College Dublin
 %
-% This function is part of the Common Speech Processing Repository (TODO)
-% TODO URL
+% License
+%  This code is a part of the Voice Analysis Toolkit with the following
+%  licence:
+%  The software product (and any modifications thereof) is distributed under 
+%  a dual licence: an open source license for individual, non-commercial 
+%  purposes, and a commercial license. The opensource licence under which 
+%  the product is distributed is GNU GPL v2. For individual users, this 
+%  licence suits their use as these are not distributing proprietary 
+%  modifications, additions to, or derivatives of the product and don't 
+%  require legal protection of a commercial licence. For commercial users, 
+%  where open source does not meet their requirements, we offer commercial 
+%  licensing of the product. A commercial license permits customers to 
+%  modify, add or produce derivative products without the obligation of 
+%  making the subsequent code open source. For more information regarding 
+%  our commercial licence, please contact john.whelan@tcd.ie
+%
+% This function is part of the Covarep project: http://covarep.github.io/covarep
 % 
 %
 % $Id <info set by the versioning system> $

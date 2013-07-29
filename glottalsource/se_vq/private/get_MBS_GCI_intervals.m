@@ -45,8 +45,7 @@
 %  making the subsequent code open source. For more information regarding 
 %  our commercial licence, please contact john.whelan@tcd.ie
 %
-% This function is part of the Common Speech Processing Repository (TODO)
-% TODO URL
+% This function is part of the Covarep project: http://covarep.github.io/covarep
 % 
 % Author 
 %  John Kane kanejo@tcd.ie

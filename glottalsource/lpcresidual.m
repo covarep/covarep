@@ -18,13 +18,21 @@
 % Example
 %  [res,LPCcoeff] = lpcresidual(x,L,shift,order);
 %
-% Copyright (c) TODO
+% Copyright (c) 2011 University of Mons, FNRS
 %
 % License
-%  TODO
+%  This code is a part of the GLOAT toolbox with the following
+%  licence:
+%  This program is free software: you can redistribute it and/or modify
+%  it under the terms of the GNU General Public License as published by
+%  the Free Software Foundation, either version 3 of the License, or
+%  (at your option) any later version.
+%  This program is distributed in the hope that it will be useful,
+%  but WITHOUT ANY WARRANTY; without even the implied warranty of
+%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%  GNU General Public License for more details.
 %
-% This function is part of the Common Speech Processing Repository (TODO)
-% TODO URL
+% This function is part of the Covarep project: http://covarep.github.io/covarep
 % 
 % Author 
 %  Thomas Drugman, TCTS Lab.

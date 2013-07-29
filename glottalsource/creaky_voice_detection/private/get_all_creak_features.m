@@ -26,7 +26,26 @@
 %       voice detection', Interspeech 2012, Portland, Oregon, USA.
 %  [4] Ishi, C., Sakakibara, K-I, Ishiguro, H., (2008) `A method for 
 %       automatic detection of vocal fry', IEEE TASLP, 16(1), 47-56.
-
+%
+% Copyright (c) 2013 University of Mons, FNRS & 2013 Trinity College Dublin
+%
+% License
+%  This code is a part of the GLOAT toolbox with the following
+%  licence:
+%  This program is free software: you can redistribute it and/or modify
+%  it under the terms of the GNU General Public License as published by
+%  the Free Software Foundation, either version 3 of the License, or
+%  (at your option) any later version.
+%  This program is distributed in the hope that it will be useful,
+%  but WITHOUT ANY WARRANTY; without even the implied warranty of
+%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%  GNU General Public License for more details.
+%
+% This function is part of the Covarep project: http://covarep.github.io/covarep
+% 
+% Authors
+%  Thomas Drugman <thomas.drugman@umons.ac.be> & John Kane <kanejo@tcd.ie>
+%
 
 function features = get_all_creak_features(x,fs)
 

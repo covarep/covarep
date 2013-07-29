@@ -10,7 +10,14 @@
 %  out zero-phase wavelet based filtering on the LP-residual of the input signal. 
 %  The dispersion of peaks across the different frequency bands are measured
 %  in relation to the glottal closure instant, are averaged and then
-%  normalised to the local glottal period
+%  normalised to the local glottal period.
+%
+%  Performance appears to be optimal for F0 in the range [50, 200],
+%  between [200, 300] it is satisfactory but after 300 Hz the
+%  performance deteriorates significantly. One idea would be to
+%  measure the strength of periodicity in the higher scales (lower
+%  frequencies) to determine whether higher ones should be omitted
+%  from the dispersion measurement.
 %
 % Inputs
 %  res      : [samples] [Nx1] Linear Prediction residual of speech signal
@@ -45,16 +52,8 @@
 %  modify, add or produce derivative products without the obligation of 
 %  making the subsequent code open source. For more information regarding 
 %  our commercial licence, please contact john.whelan@tcd.ie
-% NOTES:
-%  Performance appears to be optimal for F0 in the range [50, 200],
-%  between [200, 300] it is satisfactory but after 300 Hz the
-%  performance deteriorates significantly. One idea would be to
-%  measure the strength of periodicity in the higher scales (lower
-%  frequencies) to determine whether higher ones should be omitted
-%  from the dispersion measurement
 %
-% This function is part of the Common Speech Processing Repository (TODO)
-% TODO URL
+% This function is part of the Covarep project: http://covarep.github.io/covarep
 % 
 % Author 
 %  John Kane kanejo@tcd.ie

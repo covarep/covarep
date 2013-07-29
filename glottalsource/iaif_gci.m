@@ -42,17 +42,15 @@
 % Copyright (c) 2013 Aalto University
 %
 % License
-%  TODO <A short mention of the license of this function.
-%  This is absolutely necessary since the licenses may vary between files.>
+%  Please contact the author or the Copyright owner for any IP related question.
 %
-% This function is part of the Common Speech Processing Repository (TODO)
-% TODO URL
+% This function is part of the Covarep project: http://covarep.github.io/covarep
 %
 % TODO Octave compatibility?
 % 
 % Author
-%  Tuomo Raitio <tuomo.raitio@aalto.fi>, overlap and add part by John Kane
-%  <kanejo@tcd.ie>
+%  Tuomo Raitio <tuomo.raitio@aalto.fi>
+%  Overlap and add part by John Kane <kanejo@tcd.ie>
 
 function [g,gd,a,ag] = iaif_gci(x,fs,GCI,p_vt,p_gl,d,hpfilt)
 
