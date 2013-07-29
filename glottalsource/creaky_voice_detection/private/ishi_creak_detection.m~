@@ -1,17 +1,23 @@
-% Function to do creaky voice detection using the algorithm described in
-% Ishi et al 2008
+% Function to derive parameters used for creaky voice detection in Ishi et
+% al (2008) The glottal synchronous parameters (i.e. PwP and IPS) are resampled to a
+% fixed update rate.
 %
 % Description
-% Function to do creaky voice detection using the algorithm described in
-% Ishi et al 2008
+%  Function to derive parameters used for creaky voice detection in Ishi et
+% al (2008) The glottal synchronous parameters (i.e. PwP and IPS) are resampled to a
+% fixed update rate.
 %
 %
 % Inputs
 %  x        : [samples] [Nx1]  Speech signal
 %  fs       : [Hz]      [1x1]  Sampling frequency
-%  plots    : [integer] [1x1]  Option for plots (1==do plot)
 %
 % Outputs
+%  PwP      : [struct]  [Nx1] Struct containing .rise and .fall power peak
+%                            parameters
+%  IFP      : [samples] [Nx1] Intra-frame periodicity contour
+%  IPS      : [samples] [Nx1] Inter-pulse similarity contour
+%  bin_dec  : [binary]  [Nx1] Binary creaky voice decision
 %
 % Example
 %  Please see the HOWTO_glottalsource.m example file.
@@ -49,6 +55,26 @@
 
 function [creak,t_IFP,IFP,PwP,IPS,t_pow,veryShort_powCont_dB,peak_idx,peak_pow,peak_idx_samp] = ...
     ishi_creak_detection(x,fs,plots)
+
+% Function to detect regions in speech signals containing creak/vocal fry.
+% The method is as described in Ishi et al. (2008). 
+
+% USAGE: INPUT       
+%        x          - speech signal
+%        fs         - sampling frequency
+%        plots      - 1 for plots (optional)
+%
+%        OUTPUT
+%        creak      - creak decision as binary vector
+%
+% REFERENCE:
+%       Ishi, C., Sakakibara, K-I, Ishiguro, H., (2008) `A method for 
+%       automatic detection of vocal fry', IEEE TASLP, 16(1), 47-56.
+%
+% =========================================================================
+% === FUNCTION CODED BY JOHN KANE AT THE PHONETICS LAB TRINITY COLLEGE ====
+% === DUBLIN. 7TH November 2011 ===========================================
+% =========================================================================
 
 
 %% Thresholds from Ishi et al (2008)

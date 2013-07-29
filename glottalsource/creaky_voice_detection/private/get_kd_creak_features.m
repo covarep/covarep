@@ -87,6 +87,7 @@ Es_inter=interp1(linspace(1,length(x),length(ener_norm)),ener_norm,1:length(x));
 peak_inter = res_peak(x,fs,F0mean,res,Es);
 
 %% Do resampling
+peak_inter=peak_inter(:,1);
 Es_re=Es_inter(time);
 pow_re=pow_std_inter(time);
 H2H1_re=H2H1(time);
@@ -95,6 +96,7 @@ peak_re(isnan(peak_re))=0;
 ZC_re=ZC_inter(time);
 ZC_re(isnan(ZC_re))=0;
 F0_creak=F0_creak(time);
+
 
 %% Save to structs
 ZCR=ZC_re(:);

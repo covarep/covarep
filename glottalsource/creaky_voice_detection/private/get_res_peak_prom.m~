@@ -5,28 +5,29 @@
 %
 %
 % Inputs
-%  rep      : [samples] [Nx1]  Resonator output of LP-residual of speech
-%                              signal
-%  fs       : [Hz]      [1x1]  Sampling frequency
-%  winLen   : [samples] [1x1]  Window length
 %  x        : [samples] [Nx1]  Speech signal
-%  Es       : [dB]      [Mx1]  Energy contour
+%  fs       : [Hz]      [1x1]  Sampling frequency
 %
 % Outputs
-%  peak_prom: [samples] [Px1]  Peak prominence contour
-%  peak_t   : [samples] [Px1]  Time locations of Peak prominence contour
+%  PwP      : [struct]  [Nx1] Struct containing .rise and .fall power peak
+%                            parameters
+%  IFP      : [samples] [Nx1] Intra-frame periodicity contour
+%  IPS      : [samples] [Nx1] Inter-pulse similarity contour
+%  bin_dec  : [binary]  [Nx1] Binary creaky voice decision
 %
 % Example
 %  Please see the HOWTO_glottalsource.m example file.
 %
 % References
-%  [1] Drugman, T., Kane, J., Gobl, C., `Automatic Analysis of Creaky
+%  [1] Ishi, C., Sakakibara, K-I, Ishiguro, H., (2008) `A method for 
+%       automatic detection of vocal fry', IEEE TASLP, 16(1), 47-56.
+%  [2] Drugman, T., Kane, J., Gobl, C., `Automatic Analysis of Creaky
 %       Excitation Patterns', Submitted to Computer Speech and
 %       Language.
-%  [2] Kane, J., Drugman, T., Gobl, C., (2013) `Improved automatic 
+%  [3] Kane, J., Drugman, T., Gobl, C., (2013) `Improved automatic 
 %       detection of creak', Computer Speech and Language 27(4), pp.
 %       1028-1047.
-%  [3] Drugman, T., Kane, J., Gobl, C., (2012) `Resonator-based creaky 
+%  [4] Drugman, T., Kane, J., Gobl, C., (2012) `Resonator-based creaky 
 %       voice detection', Interspeech 2012, Portland, Oregon, USA.
 %
 % Copyright (c) 2013 University of Mons, FNRS & 2013 Trinity College Dublin
@@ -49,6 +50,18 @@
 %  Thomas Drugman <thomas.drugman@umons.ac.be> & John Kane <kanejo@tcd.ie>
 
 function [peak_prom,peak_t,peak_idx] = get_res_peak_prom(rep,fs,winLen,x,Es)
+
+% Function to find peak prominence values on a frame-by-frame basis.
+% However, non-overlapping frames are used, and some shifting in position
+% is done according to the maximum value
+%
+% REFERENCE:
+%       Drugman, T., Kane, J., Gobl, C., `Automatic Analysis of Creaky
+%       Excitation Patterns', Submitted to Computer Speech and
+%       Language.
+%
+%       Kane, J., Drugman, T., Gobl, C., (2013) `Improved automatic 
+%       detection of creak', 27(4), pp. 1028-1047, Computer Speech and Language
 
 %% Initial settings
 Es=interp1(linspace(1,length(x),length(Es)),Es,1:length(x)); % Interpolated energy contour

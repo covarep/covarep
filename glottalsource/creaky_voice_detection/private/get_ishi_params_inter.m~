@@ -1,23 +1,25 @@
 % Function to derive parameters used for creaky voice detection in Ishi et
-% al (2008) The glottal synchronous parameters (i.e. PwP and IPS) are resampled to a
-% fixed update rate.
+% al (2008)
 %
 % Description
-%  Function to derive parameters used for creaky voice detection in Ishi et
-% al (2008) The glottal synchronous parameters (i.e. PwP and IPS) are resampled to a
-% fixed update rate.
+%  Function to automatically detect creaky voice 
 %
+%  This version is a slightly later one than that described in the
+%  above published 2013 CSL paper [2]. The algorithm here rather than using binary
+%  decision trees using artificial neural networks and combines the
+%  features used in the CSL paper with those proposed in Ishi et al.
+%  (2008). This updated version has been submitted to CSL for a special
+%  issue on glottal source processing on April 14th 2013. It will have
+%  reference [1].
 %
 % Inputs
-%  x        : [samples] [Nx1]  Speech signal
-%  fs       : [Hz]      [1x1]  Sampling frequency
+%  FeatTot  : [samples] [Nx36] Feature matrix
+%  ANN      : [struct]  [1x1]  Trained ANN
 %
 % Outputs
-%  PwP      : [struct]  [Nx1] Struct containing .rise and .fall power peak
-%                            parameters
-%  IFP      : [samples] [Nx1] Intra-frame periodicity contour
-%  IPS      : [samples] [Nx1] Inter-pulse similarity contour
-%  bin_dec  : [binary]  [Nx1] Binary creaky voice decision
+%  creak_pp : [samples] [Nx1] Estimated posterior probability of creaky
+%                             voice
+%  creak_bin: [samples] [Nx1] Binary creaky voice decision
 %
 % Example
 %  Please see the HOWTO_glottalsource.m example file.
@@ -53,7 +55,7 @@
 % Authors
 %  Thomas Drugman <thomas.drugman@umons.ac.be> & John Kane <kanejo@tcd.ie>
 
-function [PwP,IFP,IPS,bin_dec,dec_orig,IPS_cur,time] = get_ishi_params_inter(x,fs)
+function [PwP,IFP,IPS,dec_cur,dec_orig,IPS_cur,time] = get_ishi_params_inter(x,fs)
 
 % Function to derive acoustics features used in Ishi et al. (2008). The
 % glottal synchronous parameters (i.e. PwP and IPS) are resampled to a
@@ -107,7 +109,7 @@ if isempty(PwP_cur.rise)==0 && length(PwP_cur.rise) > 2
 end
 
 %% Generate binary decision
-bin_dec=zeros(1,length(x));
-bin_dec(PwP.rise>PwP_thresh&IFP<=IFP_thresh&IPS>=IPS_thresh)=1;
+dec_cur=zeros(1,length(x));
+dec_cur(PwP.rise>PwP_thresh&IFP<=IFP_thresh&IPS>=IPS_thresh)=1;
         
         

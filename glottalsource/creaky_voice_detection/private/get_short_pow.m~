@@ -5,12 +5,16 @@
 %
 %
 % Inputs
-%  x        : [samples] [Nx1]  Speech signal
+%  rep      : [samples] [Nx1]  Resonator output of LP-residual of speech
+%                              signal
 %  fs       : [Hz]      [1x1]  Sampling frequency
+%  winLen   : [samples] [1x1]  Window length
+%  x        : [samples] [Nx1]  Speech signal
+%  Es       : [dB]      [Mx1]  Energy contour
 %
 % Outputs
-%  pow      : [dB]      [Mx1]  Power contour
-%  pow_std  : [samples] [Px1]  Standard deviation of power contour
+%  peak_prom: [samples] [Px1]  Peak prominence contour
+%  peak_t   : [samples] [Px1]  Time locations of Peak prominence contour
 %
 % Example
 %  Please see the HOWTO_glottalsource.m example file.
@@ -47,6 +51,9 @@
 %  Thomas Drugman <thomas.drugman@umons.ac.be> & John Kane <kanejo@tcd.ie>
 
 function [pow,pow_std,pow_std_inter] = get_short_pow(x,fs)
+
+% Function to calculate the very short term power contour as is done in
+% Ishi et al. (2008)
 
 % Get very short term power contour
 veryShort_len = 4*(fs/1000); % 4ms frame length for "very short-term" analysis

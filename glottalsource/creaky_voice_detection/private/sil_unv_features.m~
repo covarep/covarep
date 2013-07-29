@@ -1,21 +1,17 @@
-% Function to difference each column in a matrix
+% Function to derive audio features for silence and unvoiced regions
 %
 % Description
-%  Function to difference each column in a matrix
+% Function to derive audio features for silence and unvoiced regions
 %
-%  This version is a slightly later one than that described in the
-%  above published 2013 CSL paper [2]. The algorithm here rather than using binary
-%  decision trees using artificial neural networks and combines the
-%  features used in the CSL paper with those proposed in Ishi et al.
-%  (2008). This updated version has been submitted to CSL for a special
-%  issue on glottal source processing on April 14th 2013. It will have
-%  reference [1].
 %
 % Inputs
-%  mat  : [samples] [NxM] Feature matrix
+%  x        : [samples] [Nx1]  Speech signal
+%  fs       : [Hz]      [1x1]  Sampling frequency
+%  frame_len_ms: [ms] [1x1]  Window length
 %
 % Outputs
-%  delta_mat : [samples] [NxM] Differenced feature matrix
+%  Ts       : [samples] [Px1]  Locations of parameter values
+%  peak_t   : [samples] [Px1]  Time locations of Peak prominence contour
 %
 % Example
 %  Please see the HOWTO_glottalsource.m example file.
@@ -49,11 +45,46 @@
 % Authors
 %  Thomas Drugman <thomas.drugman@umons.ac.be> & John Kane <kanejo@tcd.ie>
 
-function delta_mat = get_delta_mat(mat)
+function [Ts,Es,ZCs_ms,Xpos,pos] = sil_unv_features(x,fs,frame_len_ms)
 
-delta_mat=zeros(size(mat));
-N=size(mat,2);
+x=x.*(2^15);
 
-for n=1:N
-    delta_mat(2:end,n)=diff(mat(:,n));
+if nargin < 3
+    frame_len_ms=10;
 end
+frame_len=frame_len_ms/1000*fs;
+frame_shift_ms=5;
+Shift=frame_shift_ms/1000*fs;
+ 
+Start=1; % intialise
+%Stop=10/1000*fs; 
+Stop=Start+frame_len-1;
+%Shift=5/1000*fs;
+pos=mean([Start Stop]);
+
+[ZCs,Xpos] = get_zero_x_rate(x,frame_len,Shift);
+ZCs_ms=ZCs/1000*fs;
+
+Ind=1;
+ 
+Es=[];
+Ts=[];
+ 
+while Stop<length(x)
+   
+    Mid=round((Start+Stop)/2);
+    Ts(Ind)=Mid;
+   
+    Sig=x(Start:Stop); % Select frame segment
+    Sig=Sig(:).*hanning(length(Sig)); % Window segment
+
+   
+    Es(Ind)=mean(Sig.^2); % Get energy value
+   
+    Start=Start+Shift;
+    Stop=Stop+Shift;
+    pos(Ind)=mean([Start Stop]);
+    Ind=Ind+1;
+end 
+ 
+Es=log(Es);

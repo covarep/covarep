@@ -1,12 +1,55 @@
-function [IFP,t_IFP,IFP_peaks] = get_ifp(x_filt,fs,IFPthresh,t_pow,peak_idx)
-
-% Function to measure periodicity using the IFP parameter described in Ishi
-% et al (2008). Input signal should be bandpass filtered from 100-1500 Hz
+% Function to calculate the Intra-Frame Periodicity (IFP) contour) used as
+% part of the creaky voice detection algorithm in Ishi et al (2008)
 %
-% REFERENCE:
-%       Ishi, C., Sakakibara, K-I, Ishiguro, H., (2008) `A method for 
+% Description
+%  Function to calculate the Intra-Frame Periodicity (IFP) contour) used as
+% part of the creaky voice detection algorithm in Ishi et al (2008)
+%
+%
+% Inputs
+%  x_filt   : [samples] [Nx1]  Bandlimited speech signal
+%  fs       : [Hz]      [1x1]  Sampling frequency
+%  IFPthresh: [samples] [1x1]  IFP threshold (default to 0.5 as per Ishi et al 2008)
+%
+% Outputs
+%  IFP      : [samples] [Mx1] IFP contour
+%  t_IFP    : [samples] [Mx1] Time locations of IFP contour
+%
+% Example
+%  Please see the HOWTO_glottalsource.m example file.
+%
+% References
+%  [1] Ishi, C., Sakakibara, K-I, Ishiguro, H., (2008) `A method for 
 %       automatic detection of vocal fry', IEEE TASLP, 16(1), 47-56.
+%  [2] Drugman, T., Kane, J., Gobl, C., `Automatic Analysis of Creaky
+%       Excitation Patterns', Submitted to Computer Speech and
+%       Language.
+%  [3] Kane, J., Drugman, T., Gobl, C., (2013) `Improved automatic 
+%       detection of creak', Computer Speech and Language 27(4), pp.
+%       1028-1047.
+%  [4] Drugman, T., Kane, J., Gobl, C., (2012) `Resonator-based creaky 
+%       voice detection', Interspeech 2012, Portland, Oregon, USA.
 %
+% Copyright (c) 2013 University of Mons, FNRS & 2013 Trinity College Dublin
+%
+% License
+%  This code is a part of the GLOAT toolbox with the following
+%  licence:
+%  This program is free software: you can redistribute it and/or modify
+%  it under the terms of the GNU General Public License as published by
+%  the Free Software Foundation, either version 3 of the License, or
+%  (at your option) any later version.
+%  This program is distributed in the hope that it will be useful,
+%  but WITHOUT ANY WARRANTY; without even the implied warranty of
+%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%  GNU General Public License for more details.
+%
+% This function is part of the Covarep project: http://covarep.github.io/covarep
+% 
+% Authors
+%  Thomas Drugman <thomas.drugman@umons.ac.be> & John Kane <kanejo@tcd.ie>
+
+function [IFP,t_IFP,IFP_peaks] = get_ifp(x_filt,fs,IFPthresh,t_pow,peak_idx)
 
 if nargin < 3
     IFPthresh=0.5;
