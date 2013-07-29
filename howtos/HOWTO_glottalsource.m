@@ -1,5 +1,10 @@
 % Short test script for running algorithms related to the glottal source
 %
+% Please find the path management in the startup.m script in the root directory
+% of this repository. Note that by starting matlab in the root directory, this
+% script should automatically run. If it is not the case, you can also move to the
+% root directory and run this script manually. 
+%
 % License
 %  This file is under the LGPL license,  you can
 %  redistribute it and/or modify it under the terms of the GNU Lesser General 

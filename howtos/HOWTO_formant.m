@@ -1,5 +1,10 @@
 % Some example for running formant tracking algorithms
 %
+% Please find the path management in the startup.m script in the root directory
+% of this repository. Note that by starting matlab in the root directory, this
+% script should automatically run. If it is not the case, you can also move to the
+% root directory and run this script manually. 
+%
 % Copyright (c) 2013 University of Mons, FNRS
 %
 % License
