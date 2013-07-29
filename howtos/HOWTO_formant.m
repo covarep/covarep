@@ -1,5 +1,7 @@
 % Some example for running formant tracking algorithms
 %
+% Copyright (c) 2013 University of Mons, FNRS
+%
 % License
 %  This file is under the LGPL license,  you can
 %  redistribute it and/or modify it under the terms of the GNU Lesser General 
@@ -11,6 +13,9 @@
 %  details.
 %
 % This function is part of the Covarep project: http://covarep.github.io/covarep
+%
+% Author 
+%  Thomas Drugman thomas.drugman@umons.ac.be
 %
 
 clear all;
