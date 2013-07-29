@@ -3,7 +3,6 @@
 % Octave compatible
 %
 % Description
-%
 % This formant tracking technique is fully described in [1]. The algorithm
 % is based on processing the negative derivative of the argument of the
 % chirp-z transform (termed as the differential phase spectrum) of a given
@@ -12,8 +11,8 @@
 % CGDZP = Chirp Group Delay Zero Phase
 %
 %
-%  [formantPeaks,t_analysis]=formant_CGDZP(wave,fs,frameSize,frameShift)
-
+% [formantPeaks,t_analysis]=formant_CGDZP(wave,fs,frameSize,frameShift)
+%
 % Inputs
 %  wave             : [samples] [Nx1] input signal (speech signal)
 %  fs               : [Hz]      [1x1] sampling frequency
@@ -25,7 +24,6 @@
 %  formantPeaks    : vector containing the estimated frequencies (in Hz) of
 %  the first 5 formants.
 %  t_analysis      : [s] vector containing the analysis time instants.
-%
 %
 % References
 % [1] B. BOZKURT, B. DOVAL, C. D'ALESSANDRO, T. DUTOIT, 2004, "Improved
@@ -47,15 +45,12 @@
 % but WITHOUT ANY WARRANTY; without even the implied warranty of
 % MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 % GNU General Public License for more details.
-% 
-% You should have received a copy of the GNU General Public License
-% along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
 % This function is part of the Covarep project: http://covarep.github.io/covarep
 % 
 % Author 
 %  Baris Bozkurt / Thomas Drugman thomas.drugman@umons.ac.be
-
+%
 
 function [formantPeaks,t_analysis]=formant_CGDZP(wave,fs,frameSize,frameShift)
 
