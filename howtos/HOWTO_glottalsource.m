@@ -18,7 +18,6 @@
 % This function is part of the Covarep project: http://covarep.github.io/covarep
 %
 
-
 clear all;
 
 % Do check for version/toolbox
@@ -109,7 +108,6 @@ fig(4) = subplot(514);
     ylabel('Amplitude');
     legend('Speech signal','Glottal flow (IAIF)','Creaky voice probability','Location','NorthWest');
     
-    
 fig(5) = subplot(515);
     plot(t,x, 'b');
     hold on
@@ -117,7 +115,6 @@ fig(5) = subplot(515);
     xlabel('Time [s]');
     ylabel('Amplitude');
     legend('Speech signal','Glottal flow derivative (CC)');
-    
 
 linkaxes(fig, 'x');
 xlim([0 srh_time(end)]);
