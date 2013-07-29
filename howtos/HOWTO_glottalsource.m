@@ -1,4 +1,4 @@
-% Short test script for running algorithms related to the glottal source
+% Short test script for running algorithms related to the glottal source%
 %
 % Please find the path management in the startup.m script in the root directory
 % of this repository. Note that by starting matlab in the root directory, this
