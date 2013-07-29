@@ -23,7 +23,9 @@ clear all;
 
 % Do check for version/toolbox
 try
-    load system_net_creak.mat
+    file_str=['glottalsource' filesep 'creaky_voice_detection' ...
+        filesep 'private' filesep 'system_net_creak.mat'];
+    load(file_str)
     do_creak=1;
 catch disp('Version or toolboxes do not support neural network object used in creaky voice detection. Creaky detection skipped.')
     do_creak=0;
