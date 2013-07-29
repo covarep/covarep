@@ -69,6 +69,7 @@
 %
 % Author
 %  Gilles Degottex <degottex@csd.uoc.gr>
+%
 
 function [E, cc, n] = env_te(S, order, winlen, mode, maxit, prec, presmooth_factor, gamma)
 
