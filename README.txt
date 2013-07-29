@@ -52,22 +52,18 @@ Covarep.pdf document in the documentation directory for more information.
 
 
 Maintainers
-    University of Crete, Heraklion, Greece
-        Computer Science Department - Multimedia Informatics Lab (MMI)
-        Gilles Degottex <degottex@csd.uoc.gr>
+    Gilles Degottex <degottex@csd.uoc.gr>
+        University of Crete, Heraklion, Greece
 
-    Trinity College Dublin, Dublin, Ireland
-        Centre for Language and Communication Sciences - Phonetics & Speech Lab
-        John Kane <kanejo@tcd.ie>
-    
-    University of Mons, Mons, Belgium
-        Polytechnic Faculty - TCTS Lab
-        Thomas Drugman <thomas.drugman@umons.ac.be>
+    John Kane <kanejo@tcd.ie>
+        Trinity College Dublin, Dublin, Ireland
+        
+    Thomas Drugman <thomas.drugman@umons.ac.be>
+        University of Mons, Mons, Belgium
+        
+    Raitio Tuomo <tuomo.raitio@aalto.fi>
+        Aalto University, Aalto, Finland
 
-    Aalto University, Aalto, Finland
-        Department of Signal Processing and Acoustics
-        Raitio Tuomo <tuomo.raitio@aalto.fi>
-
-    University of Southern California, Los Angeles, USA
-        Institute for Creative Technologies - MultiComp Lab
-        Stefan Scherer <scherer@ict.usc.edu>
+    Stefan Scherer <scherer@ict.usc.edu>
+        University of Southern California, Los Angeles, USA
+        
