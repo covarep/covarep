@@ -64,6 +64,7 @@
 % 
 % Author 
 %  Thomas Drugman thomas.drugman@umons.ac.be
+%
 
 function [GlottalSource] = complex_cepstrum(wave,fs,gci,f0,VUVDecisions)
 

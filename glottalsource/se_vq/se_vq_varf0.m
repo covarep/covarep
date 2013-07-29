@@ -61,7 +61,6 @@
 % Author 
 %  John Kane kanejo@tcd.ie
 %
-% $Id <info set by the versioning system> $
 
 function GCI = se_vq_varf0(x,fs,f0,VUV,creak)
 

@@ -61,6 +61,7 @@
 %
 % Authors
 %  Thomas Drugman <thomas.drugman@umons.ac.be> & John Kane <kanejo@tcd.ie>
+%
 
 function [creak_pp,creak_bin] = detect_creaky_voice(x,fs)
 

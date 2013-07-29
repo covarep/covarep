@@ -48,7 +48,6 @@
 % Author 
 %  John Kane kanejo@tcd.ie
 %
-% $Id <info set by the versioning system> $
 
 function h_i = daless_MW(i,n,fs)
 

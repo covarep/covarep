@@ -1,5 +1,4 @@
 % IAIF Glottal Inverse Filtering
-%  [g,dg,a,ag] = iaif(x,fs,p_vt,p_gl,d,hpfilt)
 %
 % Description
 %  This function estimates vocal tract linear prediction coefficients and

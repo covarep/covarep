@@ -46,7 +46,6 @@
 % Author 
 %  John Kane kanejo@tcd.ie
 %
-% $Id <info set by the versioning system> $
 
 function [y,y_norm] = do_daless_decomp(s,fs,i)
 

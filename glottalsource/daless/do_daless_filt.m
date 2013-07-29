@@ -43,7 +43,6 @@
 % Author 
 %  John Kane kanejo@tcd.ie
 %
-% $Id <info set by the versioning system> $
 
 function y_i = do_daless_filt(s,h_i)
 

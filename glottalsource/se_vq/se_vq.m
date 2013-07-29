@@ -52,6 +52,7 @@
 % 
 % Author 
 %  John Kane kanejo@tcd.ie
+%
 
 function GCI = se_vq(x,fs,F0mean,creak)
 
