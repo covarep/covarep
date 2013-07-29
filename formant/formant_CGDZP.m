@@ -194,3 +194,45 @@ if(1)%replace possible continuation values instead of zero values
         end
     end
 end
+
+
+
+
+
+
+%[peakIndex]=formantPeakPick(diffPhase,minPeakDist)
+%
+%a simple peak picking algorithm
+%checks if the value of an entry is bigger than all neighbour values
+%6 values on each side is controlled
+
+function [peakIndex]=formantPeakPick(diffPhase,minPeakDist)
+
+lendiffPhase=length(diffPhase);
+
+peakIndex=[];
+for kk=6:lendiffPhase-6
+    if(diffPhase(kk)>=diffPhase(kk-1) & diffPhase(kk)>=diffPhase(kk+1))%first neighbours
+        if(diffPhase(kk)>=diffPhase(kk-2) & diffPhase(kk)>=diffPhase(kk+2))%second neighbours
+            if(diffPhase(kk)>diffPhase(kk-3) & diffPhase(kk)>diffPhase(kk+3))%third neighbours
+                if(diffPhase(kk)>diffPhase(kk-4) & diffPhase(kk)>diffPhase(kk+4))%fourth neighbours
+                    if(diffPhase(kk)>diffPhase(kk-5) & diffPhase(kk)>diffPhase(kk+5))%fifth neighbours
+                        peakIndex=[peakIndex kk];
+                    end
+                end
+            end
+        end
+    end
+end
+
+lenPeakInd=length(peakIndex);
+kk=2;
+while(kk<=lenPeakInd)
+    if(peakIndex(kk)-peakIndex(kk-1)<minPeakDist)
+        
+        peakIndex(kk)=round((peakIndex(kk)*diffPhase(kk)+peakIndex(kk-1)*diffPhase(kk-1))/(diffPhase(kk)+diffPhase(kk-1)));
+        peakIndex=[peakIndex(1:kk-2) peakIndex(kk:lenPeakInd)];
+        kk=kk-1;lenPeakInd=lenPeakInd-1;
+    end
+    kk=kk+1;
+end
