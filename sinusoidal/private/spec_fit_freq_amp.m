@@ -5,9 +5,9 @@
 %  fs       : [Hz] The sampling frequency
 %  index    : The peak position where the parabola has to be fit
 %  [zp]     : the zero padding factor used for the DFT computation
-5             (used for the Abe & Smith corrections)
+%             (used for the Abe & Smith corrections)
 %  [wintype]: The window type used for the DFT computation
-5             wintype=2 => Hann
+%             wintype=2 => Hann
 %
 % Outputs
 %  freq     : [Hz] The frequency parameter
