@@ -1,2 +1,2 @@
-The Covarep project is a repository and do not have a single license.
+The Covarep project is a repository and does not have a single license.
 Please have a look at documentation/Covarep.pdf for more information.
