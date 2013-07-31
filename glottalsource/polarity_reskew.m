@@ -60,8 +60,8 @@ Rp = 3; Rs = 60;
 s_h=filtfilt(b_h,a_h,s);
 
 
-[res] = GetLPCresidual_WithTwoSignals(s,s_h,round(25/1000*fs),round(5/1000*fs),round(fs/1000+2));
-[res2] = GetLPCresidual_WithTwoSignals(s,s,round(25/1000*fs),round(5/1000*fs),round(fs/1000+2));
+[res] = GetLPCresidual_WithTwoSignals(s,s_h,round(25/1000*fs),round(5/1000*fs),round(fs/1000)+2);
+[res2] = GetLPCresidual_WithTwoSignals(s,s,round(25/1000*fs),round(5/1000*fs),round(fs/1000)+2);
 
 Val1=skewness(res);
 Val2=skewness(res2);
