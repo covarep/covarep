@@ -47,8 +47,6 @@
 
 function [Ts,Es,ZCs_ms,Xpos,pos] = sil_unv_features(x,fs,frame_len_ms)
 
-x=x.*(2^15);
-
 if nargin < 3
     frame_len_ms=10;
 end
@@ -57,9 +55,7 @@ frame_shift_ms=5;
 Shift=frame_shift_ms/1000*fs;
  
 Start=1; % intialise
-%Stop=10/1000*fs; 
 Stop=Start+frame_len-1;
-%Shift=5/1000*fs;
 pos=mean([Start Stop]);
 
 [ZCs,Xpos] = get_zero_x_rate(x,frame_len,Shift);
