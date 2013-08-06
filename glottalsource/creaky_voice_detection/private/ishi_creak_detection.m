@@ -58,9 +58,7 @@ IFPthresh = 0.5; % Infraframe perdiocity below 0.5 for creak
 IPSthresh = 0.5; % Interpulse similarity above 0.5 for creak
 Tmax = 100*(fs/1000); % Maximum interpulse interval 100 ms (i.e. F0 = 10 Hz)
 
-%% Convert signal to higher integer values and Bandpass filter signal 100 ~ 1500 Hz
-x=x.*(2^15);
-
+%% Bandpass filter signal 100 ~ 1500 Hz
 Rp = 3; Rs = 40;
 Wp = [100 1500]/(fs/2);
 Ws = [50 3000]/(fs/2);
