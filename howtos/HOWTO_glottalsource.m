@@ -61,10 +61,11 @@ m = mdq(res,fs,se_gci); % Maxima dispersion quotient measurement
 
 ps = peakslope(x,fs);   % peakSlope extraction
 
-gf_iaif = iaif_ola(x,fs);    % Glottal flow by the IAIF method
+[gf_iaif,gfd_iaif] = iaif_ola(x,fs);    % Glottal flow (and derivative) by the IAIF method
 
 dgf_cc = complex_cepstrum(x,fs,sd_gci,srh_f0,srh_vuv); % Glottal flow derivative by the complex cesptrum-based method
 
+[NAQ,QOQ,H1H2,HRF,PSP] = get_vq_params(gf_iaif,gfd_iaif,fs,se_gci); % Estimate conventional glottal parameters
 
 % Plots
 t=(0:length(x)-1)/fs;
