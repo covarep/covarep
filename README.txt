@@ -62,7 +62,7 @@ Maintainers
         University of Mons, Mons, Belgium
         
     Raitio Tuomo <tuomo.raitio@aalto.fi>
-        Aalto University, Aalto, Finland
+        Aalto University, Espoo, Finland
 
     Stefan Scherer <scherer@ict.usc.edu>
         University of Southern California, Los Angeles, USA
