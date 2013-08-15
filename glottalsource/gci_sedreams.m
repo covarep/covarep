@@ -94,7 +94,7 @@ Ws = 30/(fs/2);
 Wp = 50/(fs/2);
 Rp = 3; Rs = 60;
 [n,Wp] = ellipord(Wp,Ws,Rp,Rs);
-[b,a] = ellip(n,Rp,Rs,Wp,'high');
+[b,a] = ellip(real(n),Rp,Rs,Wp,'high');
 
 MeanBasedSignal=filtfilt(b,a,MeanBasedSignal);
 MeanBasedSignal=MeanBasedSignal/max(abs(MeanBasedSignal));
