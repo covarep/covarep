@@ -136,7 +136,7 @@ for n=1:length(GCI)
         f_frame=gfd(f_start:f_stop);
         f_frame=f_frame.*(2^15);
         f_win=f_frame(:).*hamming(length(f_frame));
-        f_spec = 20*log10(abs(fft(f_win,fs)));
+        f_spec = mag2db(abs(fft(f_win,fs)));
         
          % Get H1-H2/HRF measurements
         [h_idx,h_amp]=findpeaks(f_spec,[],F0/2);
@@ -158,14 +158,14 @@ for n=1:length(GCI)
            gf_seg=gf_seg-min(gf_seg); % Adjust minimum to zero
            gf_seg=gf_seg/max(gf_seg); % Scale to unity
            gf_seg(PSP_fft_size)=0; % Zero-pad
-           X = 20*log10(abs(fft(gf_seg))); % Spectrum
+           X = mag2db(abs(fft(gf_seg))); % Spectrum
            X = X(linspace(1,fs,length(X))<=fs/2); % Use up to the nyquist
            a = psp_get_a(X);
            
            % Estimate measure of maximal spectral decay
            a_max_sig=1/round(fs/F0)*ones(1,round(fs/F0));
            a_max_sig(PSP_fft_size)=0; % Zero-pad
-           X_a_max = 20*log10(abs(fft(a_max_sig))); % Spectrum
+           X_a_max = mag2db(abs(fft(a_max_sig))); % Spectrum
            X_a_max = X_a_max(linspace(1,fs,length(X_a_max))<=fs/2); % Use up to the nyquist
            a_max = psp_get_a(X_a_max);
            
