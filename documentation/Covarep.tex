@@ -67,7 +67,7 @@
 \vspace{1em}
 \centerline{\large{A Cooperative Voice Analysis Repository for Speech Technologies}}
 \vspace{1em}
-\centerline{Gilles Degottex\footnote{University of Crete, Heraklion, Greece.}, John Kane\footnote{Trinity College Dublin, Dublin, Ireland.}, Thomas Drugman\footnote{University of Mons, Mons, Belgium.}, Tuomo Raitio\footnote{Aalto University, Aalto, Finland.}, Stefan Scherer\footnote{University of Southern California, Los Angeles, USA.}}
+\centerline{Gilles Degottex\footnote{University of Crete, Heraklion, Greece.}, John Kane\footnote{Trinity College Dublin, Dublin, Ireland.}, Thomas Drugman\footnote{University of Mons, Mons, Belgium.}, Tuomo Raitio\footnote{Aalto University, Espoo, Finland.}, Stefan Scherer\footnote{University of Southern California, Los Angeles, USA.}}
 \vspace{1em}
 \centerline{\today}
 
@@ -116,6 +116,7 @@
     \subsection{Submission process}
     The instructions for submitting contributions are given at:
     \url{http://covarep.github.io/covarep}.
+	There is no other source of information about the submission process.
 
 \newpage
 
@@ -125,7 +126,7 @@
     However, incomprehensible implementations that save only a negligible CPU time, compared to a clear and pedagogic code, should be avoided.
 
     \subsection{Hosting}
-    The Covarep project is currently hosted on GitHub (\url{https://github.com/covarep/covarep}).
+    To pouete Covarep project is currently hosted on GitHub (\url{https://github.com/covarep/covarep}).
     Please have a look at the help of the GitHub website in order to rise an issue or discuss any point.
 
     \subsection{Dependencies}
@@ -142,6 +143,14 @@
 %     However, for the beginning of the project, no big evaluation module will be implemented in order to not discourage submissions.
     A basic function should allow the user to run regression tests to verify that all the methods implemented in Covarep are working properly on his/her machine.
 
+%     \subsection{Lanugages}
+%     I just want to add that actually Matlab do not dominate the speech community (e.g. HTS has nothing implemented in Matlab). I saw also perl, and python is, indeed, attracting more and more the researchers. I think it is necessary to distinguish two things:
+%     1) The languages which are convenient for research, Matlab, Python, Perl, etc.
+%     2) The langugaes which are clearly oriented for running efficiently for companies, C, C++, etc.
+%  
+%     As John suggested, we should think about parallel libraries dedicated for (1).
+%     For (2), I'm not sure the public research community will find here a big advantage. And personnaly, I don't see why I should code something in C/C++ without being paid :P. I think, a C/C++ version would be thus only with financial support.
+    
     \subsection{Code maintenance}
     \subsubsection{Versioning of the project}
     If the revision number changes (x.x.X), it means that only bugs have been fixed.
@@ -155,6 +164,10 @@
     \item[] \textbf{Rule 2} A single commit (changeset) must not be so large so as to discourage peer-review.
     \item[] \textbf{Rule 3} If rules 1 and 2 come into conflict (i.e. it's impossible to make a series of small commits without disrupting the trunk), then the user should create a branch and commit a series of smaller changesets there. This allows peer-review without disrupting the stability of the master branch.
     \end{itemize}
+    
+%     Release instructions
+%     git tag 1.0beta
+%     git push --tags
     
 % \newpage
 % \section{Bibliography}
