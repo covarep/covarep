@@ -29,7 +29,7 @@
 %  Gilles Degottex <degottex@ircam.fr>
 %
 
-function S = gba2spec(g, b, a, dftlen)
+function S = gba2hspec(g, b, a, dftlen)
 
     a = a(:)';
     b = b(:)';
