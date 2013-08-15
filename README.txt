@@ -50,6 +50,10 @@ Contribute!
 Please also have a look at the webiste http://covarep.github.io/covarep and the
 Covarep.pdf document in the documentation directory for more information.
 
+Octave
+    Most of the functions in Covarep are Octave compatible.
+    However, it is necessary to install the following packages:
+        tsa, optimization, signal.
 
 Maintainers
     Gilles Degottex <degottex@csd.uoc.gr>
