@@ -41,7 +41,7 @@
 %
 % This function is part of the Covarep project: http://covarep.github.io/covarep
 %
-% TODO Octave compatibility?
+% TODO Octave compatibility? dfilt doesn't seem available in Octave
 % 
 % Author
 %  Tuomo Raitio <tuomo.raitio@aalto.fi>
