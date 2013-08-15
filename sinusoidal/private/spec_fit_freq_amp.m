@@ -31,7 +31,7 @@
 %  Gilles Degottex <degottex@csd.uoc.gr>
 %
 
-function [freq amp p] = quadratic_fit_freq_amp(S, fs, index, zp, wintype)
+function [freq amp p] = spec_fit_freq_amp(S, fs, index, zp, wintype)
 
     if index<=1
         freq = index;
