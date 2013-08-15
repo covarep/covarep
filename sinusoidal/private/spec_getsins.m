@@ -1,5 +1,7 @@
 % Estimate all sinusoids of a spectrum by peak peaking
 %  
+% Octave compatible
+% 
 % Inputs
 %  S         : Spectrum
 %  fs        : [Hz] Sampling frequency

@@ -77,4 +77,4 @@ plot(f0sair(:,1), log2 (f0sair(:,2)), 'r');
 plot(times, syn_ahm, 'r');
 xlabel('Time [s]');
 
-legend({'Waveform', 'Input f_0', 'Sinusoidal Model (SM)', 'Harmonic Model', 'AIR refined f_0', 'Adaptive Harmonic Model'});
+legend({'Waveform', 'Input f_0 [log_2 Hz]', 'Sinusoidal Model (SM)', 'Harmonic Model', 'AIR refined f_0 [log_2 Hz]', 'Adaptive Harmonic Model'});

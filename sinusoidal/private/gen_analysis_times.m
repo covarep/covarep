@@ -1,5 +1,7 @@
 % Generate analysis time instants, optionaly using a given f0 curve
 %
+% Octave compatible
+% 
 % Inputs
 %  wav            : Wavform vector
 %  fs             : Sampling frequency

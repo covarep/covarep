@@ -1,5 +1,7 @@
 % Estimate numerically the bandwidth of a given window
 %
+% Octave compatible
+% 
 % Description
 %  The half bandwidth is defined as the crossing of the frequency amplitude response
 %  by the x axis, thus on a linear scale and using the real part only.

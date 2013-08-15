@@ -1,4 +1,6 @@
 % Estimate sinusoid parameters using peak picking or LS solutions
+%
+% Octave compatible
 % 
 % Description
 %  Model a given waveform using sinusoids whose parameters are estimated

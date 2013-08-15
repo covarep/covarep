@@ -1,5 +1,7 @@
 % aHM-AIR iterative estimation method
 %  
+% Octave compatible
+% 
 % Description
 %  Refine a fundamental frequency curve using the Adaptive Iterative Refinement
 %  method and the Adaptive Harmonic Model (aHM) [1][2].

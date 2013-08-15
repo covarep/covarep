@@ -1,5 +1,7 @@
 % Synthesize a harmonic signal
 %
+% Octave compatible
+%
 % Description
 %  Synthesize a harmonic signal given sinusoidal parameters [1].
 %  It assumes that the sinusoids are ordered and can be linked from one time

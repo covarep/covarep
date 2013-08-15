@@ -1,5 +1,7 @@
 % Synthesis of stationary sinusoids using OverLap-Add (OLA)
 % 
+% Octave compatible
+% 
 % Description
 %  This is a simple OverLap-Add (OLA) synthesis method. Thus, no frequency
 %  matching (connections between sinusoids between neighbor frames) is done.

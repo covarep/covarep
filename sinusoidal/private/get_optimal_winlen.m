@@ -1,5 +1,7 @@
 % Get the winlen while adjusting it to the minimum f0 within the window
 % 
+% Octave compatible
+% 
 % Copyright (c) 2012 University of Crete - Computer Science Department
 % 
 % License

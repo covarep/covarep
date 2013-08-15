@@ -1,5 +1,7 @@
 % Synthesis of a time signal given sinusoids parameters
 %
+% Octave compatible
+% 
 % Inputs
 %  sins   : matrix of size(3,N) [freq;amp;phase]
 %  fs     : [Hz] Sampling frequency

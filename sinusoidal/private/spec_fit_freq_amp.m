@@ -1,5 +1,7 @@
 % Get the freq. and amp. parameters of a spectral peak by quandratic fitting
 %
+% Octave compatible
+% 
 % Inputs
 %  S        : The spectrum containing the peak to fit
 %  fs       : [Hz] The sampling frequency

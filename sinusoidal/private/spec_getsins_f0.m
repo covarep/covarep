@@ -1,5 +1,7 @@
 % Estimate of partials frequency, amplitude and phase given a gross fundamental frequency
 %
+% Octave compatible
+% 
 % Description
 %  Estimate of partials frequency, amplitude and phase
 %  All returned partials frequencies are relative to spectrum size !

@@ -1,5 +1,7 @@
 % Replace NaN values at boundaries of a vector by constant extrapolation
 % 
+% Octave compatible
+% 
 % Copyright (c) 2012 University of Crete - Computer Science Department
 % 
 % License
