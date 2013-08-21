@@ -46,7 +46,7 @@
 %
 % This function is part of the Covarep project: http://covarep.github.io/covarep
 %
-% TODO Octave compatibility?
+% Octave compatible
 % 
 % Author
 %  Tuomo Raitio <tuomo.raitio@aalto.fi>
