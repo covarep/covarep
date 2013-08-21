@@ -1,33 +1,33 @@
 % IAIF Glottal Inverse Filtering
+%   [g,dg,a,ag] = iaif(x,fs,p_vt,p_gl,d,hpfilt)
 %
 % Description
-%  This function estimates vocal tract linear prediction coefficients and
-%  the glottal volume velocity waveform from a speech signal frame using
-%  Iterative Adaptive Inverse Filtering (IAIF) method.
+%   This function estimates vocal tract linear prediction coefficients and
+%   the glottal volume velocity waveform from a speech signal frame using
+%   Iterative Adaptive Inverse Filtering (IAIF) method.
 %
 % Inputs
-%  x       : Speech signal frame [samples]
-%  fs      : Sampling frequency [Hz]
-%  p_vt    : Order of LPC analysis for vocal tract
-%  p_gl    : Order of LPC analysis for glottal source
-%  d       : Leaky integration coefficient (e.g. 0.99)
-%  hpfilt  : High-pass filter flag (0: do not apply, 1...N: apply N times)
+%   x      : Speech signal frame [samples]
+%   fs     : Sampling frequency [Hz]
+%   p_vt   : Order of LPC analysis for vocal tract
+%   p_gl   : Order of LPC analysis for glottal source
+%   d      : Leaky integration coefficient (e.g. 0.99)
+%   hpfilt : High-pass filter flag (0: do not apply, 1...N: apply N times)
 %
 % Outputs
-%  g       : Glottal volume velocity waveform
-%  dg      : Glottal volume velocity derivative waveform
-%  a       : LPC coefficients of vocal tract
-%  ag      : LPC coefficients of source spectrum
+%   g      : Glottal volume velocity waveform
+%   dg     : Glottal volume velocity derivative waveform
+%   a      : LPC coefficients of vocal tract
+%   ag     : LPC coefficients of source spectrum
 %
 % Notes
-%  This function does not perform pitch synchronous analysis. This ensures
-%  the robustness of the method regardless of the GCI estimation
-%  performance.
+%   This function does not perform pitch synchronous analysis. This ensures
+%   the robustness of the method regardless of the GCI estimation
+%   performance.
 %
 % Example
-%  Simplest, type g = iaif(x,fs) to estimate the glottal flow of a speech
-%  frame.
-%  And see the HOWTO_glottalsource.m example file.
+%   Simplest, type g = iaif(x,fs) to estimate the glottal flow of a speech
+%   frame.
 %
 % References
 %  [1] P. Alku, "Glottal wave analysis with pitch synchronous iterative
@@ -37,14 +37,18 @@
 % Copyright (c) 2013 Aalto University
 %
 % License
-%  Please contact the author or the Copyright owner for any IP related question.
+%  <A short mention of the license of this function.
+%  This is absolutely necessary since the licenses may vary between files.>
 %
-% This function is part of the Covarep project: http://covarep.github.io/covarep
+% This function is part of the Common Speech Processing Repository 
+% http://covarep.github.io/covarep/
 %
-% TODO Octave compatibility? dfilt doesn't seem available in Octave
+% Octave Compatible
 % 
 % Author
-%  Tuomo Raitio <tuomo.raitio@aalto.fi>
+%  Tuomo Raitio tuomo.raitio@aalto.fi
+%
+% $Id <info set by the versioning system> $
 
 function [g,dg,a,ag] = iaif(x,fs,p_vt,p_gl,d,hpfilt)
 
@@ -123,20 +127,20 @@ dg = dg(preflt+1:end);
 a = Hvt2;
 ag = Hg2;
 
-return
+
+
+
 
 
 function B = hpfilter_fir(Fstop,Fpass,fs,N)
 % FIR least-squares Highpass filter design using the FIRLS function
 %
 % Tuomo Raitio
-% 10.7.2012
+% 20.8.2013
 
 % Calculate the coefficients using the FIRLS function.
-b  = firls(N, [0 Fstop Fpass fs/2]/(fs/2), [0 0 1 1], [1 1]);
-Hd = dfilt.dffir(b);
+B  = firls(N, [0 Fstop Fpass fs/2]/(fs/2), [0 0 1 1], [1 1]);
 
-% Save to B
-B = Hd.Numerator;
 
-return
+
+
