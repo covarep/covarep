@@ -10,8 +10,7 @@
 % Inputs
 %  x       : Speech signal frame [samples]
 %  fs      : Sampling frequency [Hz]
-%  winLen  : Window Length [samples] 
-%  winShift: Window Shift [samples]
+%  GCI     : Glottal closure instants [seconds] 
 %  p_vt    : Order of LPC analysis for vocal tract
 %  p_gl    : Order of LPC analysis for glottal source
 %  d       : Leaky integration coefficient (e.g. 0.99)
@@ -23,14 +22,10 @@
 %  a       : LPC coefficients of vocal tract
 %  ag      : LPC coefficients of source spectrum
 %
-% Notes
-%  This function does not perform pitch synchronous analysis. This ensures
-%  the robustness of the method regardless of the GCI estimation
-%  performance.
 %
 % Example
-%  Simplest, type g = iaif(x,fs) to estimate the glottal flow of a speech
-%  frame.
+%  Simplest, type g = iaif_gci(x,fs,GCI) to estimate the glottal flow of a speech
+%  signal.
 %  And see the HOWTO_glottalsource.m example file.
 %
 % References
@@ -45,17 +40,13 @@
 %
 % This function is part of the Covarep project: http://covarep.github.io/covarep
 %
-% TODO Octave compatibility?
+% Octave compatible
 % 
 % Author
 %  Tuomo Raitio <tuomo.raitio@aalto.fi>
 %  Overlap and add part by John Kane <kanejo@tcd.ie>
 
 function [g,gd,a,ag] = iaif_gci(x,fs,GCI,p_vt,p_gl,d,hpfilt)
-
-% Function to derive an estimate of the glottal source waveform on a fixed
-% frame basis using Tuomo Raitios iaif.m implementation and with overlap
-% and add to create the waveform
 
 %% Initial settings
 % Use default settings from Tuomo Raitios iaif.m implementation
@@ -65,6 +56,7 @@ if nargin < 4
     p_gl = 2*round(fs/4000);
     p_vt = 2*round(fs/2000)+4;
 end
+GCI=round(GCI*fs);
 
 % Allocate space
 N=length(GCI);
