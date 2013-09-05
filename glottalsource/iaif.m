@@ -37,8 +37,16 @@
 % Copyright (c) 2013 Aalto University
 %
 % License
-%  <A short mention of the license of this function.
-%  This is absolutely necessary since the licenses may vary between files.>
+%  This code is a part of the GLOAT toolbox with the following
+%  licence:
+%  This program is free software: you can redistribute it and/or modify
+%  it under the terms of the GNU General Public License as published by
+%  the Free Software Foundation, either version 3 of the License, or
+%  (at your option) any later version.
+%  This program is distributed in the hope that it will be useful,
+%  but WITHOUT ANY WARRANTY; without even the implied warranty of
+%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%  GNU General Public License for more details.
 %
 % This function is part of the Common Speech Processing Repository 
 % http://covarep.github.io/covarep/
