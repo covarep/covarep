@@ -51,18 +51,18 @@
 % References
 %  [1] McAulay, R., Quatieri, T.: Speech analysis/Synthesis based on a sinusoidal
 %      representation, IEEE Transactions on Acoustics, Speech and Signal
-%      Processing 34(4), 744–754, 1986.
+%      Processing 34(4):744-754, 1986.
 %  [2] Stylianou, Y.: Harmonic plus Noise Models for Speech combined with
 %      Statistical Methods, for Speech and Speaker Modification, TelecomParis,
 %      PhD Thesis, 1996.
 %  [3] Pantazis, Y., Rosec, O., Stylianou, Y.: Iterative Estimation of Sinusoidal
-%      Signal Parameters, Signal Processing Letters, IEEE 17(5), 461-464, 2010.
+%      Signal Parameters, Signal Processing Letters, IEEE 17(5):461-464, 2010.
 %  [4] Pantazis, Y., Rosec, O., Stylianou, Y.: Adaptive AM-FM Signal Decomposition
 %      With Application to Speech Analysis, IEEE Transactions on Audio, Speech,
-%      and Language Processing 19(2), 290–300, 2010.
+%      and Language Processing 19(2):290-300, 2010.
 %  [5] Degottex, G., Stylianou, Y.: Analysis and Synthesis of Speech using an
 %      Adaptive Full-band Harmonic Model, IEEE Transactions on Acoustics, Speech
-%      and Language Processing, 2013.
+%      and Language Processing, 21(10):2085-2095, 2013.
 %  
 % Copyright (c) 2012 University of Crete - Computer Science Department
 %  
