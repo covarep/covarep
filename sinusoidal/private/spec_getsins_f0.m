@@ -72,8 +72,8 @@ function sins = spec_getsins_f0(S, fs, f0, max_h, varargin)
         if ok
             [sins(1,h) sins(2,h)] = spec_fit_freq_amp(S, fs, ind, varargin{:});
         else
-            freq = fs*(ind-1)/dftlen;
-            amp = abs(S(ind));
+            sins(1,h) = fs*(ind-1)/dftlen;
+            sins(2,h) = abs(S(ind));
         end
     end
 
