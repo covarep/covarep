@@ -165,9 +165,14 @@
     \item[] \textbf{Rule 3} If rules 1 and 2 come into conflict (i.e. it's impossible to make a series of small commits without disrupting the trunk), then the user should create a branch and commit a series of smaller changesets there. This allows peer-review without disrupting the stability of the master branch.
     \end{itemize}
     
-%     Release instructions
-%     git tag 1.0beta
-%     git push --tags
+    \subsubsection{Release instructions}
+    \begin{itemize}
+    \item Import the novel functionalities, bug fixes, etc.
+    \item Compile the Covarep.pdf document if Covarep.tex changed. And commit the new Covarep.pdf.
+    \item Change the version in the README.txt file to the final version number (e.g. 1.0.2). This commit has to be the very last modification of the repository before tagging.
+    \item Create an annotated tag (Can use the GitHub interface for this purpose). Follow descriptions of previous releases.
+    \item Change the version in the README.txt file to the next version number adding "alpha" (e.g. 1.0.3alpha)
+    \end{itemize}
     
 % \newpage
 % \section{Bibliography}
