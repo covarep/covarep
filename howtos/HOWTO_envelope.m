@@ -35,10 +35,10 @@ f0s = load([fname '.f0.txt']);
 
 disp('Estimate spectral peaks and spectra at regular intervals');
 opt = sin_analysis();
-opt.fharmonic  = false;
-opt.use_ls     = false;
+opt.fharmonic  = false; % Use sinusoidal model (no constrains on the frequencies)
+opt.use_ls     = false; % Use Peak Picking
 opt.dftlen     = 4096;  % Force the DFT length
-opt.frames_keepspec = true;
+opt.frames_keepspec = true; % Keep the computed spectra in the frames structure
 frames = sin_analysis(wav, fs, f0s, opt);
 
 disp('Compute Discrete All-Pole (DAP) envelope');
@@ -54,6 +54,7 @@ end
 
 disp('Compute the so-called "True-Envelope"');
 Ete = zeros(numel(frames),opt.dftlen/2+1);
+Etec = zeros(numel(frames),opt.dftlen/2+1);
 pb = progressbar(numel(frames));
 for n=1:numel(frames)
 
@@ -61,29 +62,38 @@ for n=1:numel(frames)
 
     Ete(n,:) = env_te(hspec2spec(frames(n).S), order);
 
+    mfcc = spec2mfcc(hspec2spec(Ete(n,:)), fs, 24);
+    Etec(n,:) = mfcc2hspec(mfcc, fs, opt.dftlen);
+
     pb = progressbar(pb, n);
 end
 
 % Plot the waveforms and the envelopes
 figure
 F = fs*(0:opt.dftlen/2)/opt.dftlen;
-fig(1) = subplot(311);
+fig(1) = subplot(411);
     plot(times, wav, 'k');
     ylim(0.6*[-1 1]);
     xlabel('Time [s]');
     ylabel('Amplitude');
     title('Waveform');
-fig(2) = subplot(312);
+fig(2) = subplot(412);
     imagesc([frames.t], F, mag2db(abs(Edap)).', [-100 -20]);
     axis xy;
     xlabel('Time [s]');
     ylabel('Frequency [Hz]');
     title('Discrete All-Pole (DAP) envelope');
-fig(3) = subplot(313);
+fig(3) = subplot(413);
     imagesc([frames.t], F, mag2db(abs(Ete)).', [-100 -20]);
     axis xy;
     xlabel('Time [s]');
     ylabel('Frequency [Hz]');
     title('"True-Envelope" (TE)');
+fig(4) = subplot(414);
+    imagesc([frames.t], F, mag2db(abs(Etec)).', [-100 -20]);
+    axis xy;
+    xlabel('Time [s]');
+    ylabel('Frequency [Hz]');
+    title('Compressed/Decompressed TE envelope through MFCC');
 linkaxes(fig, 'x');
 xlim([0 times(end)]);
