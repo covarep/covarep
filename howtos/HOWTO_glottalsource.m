@@ -67,6 +67,16 @@ dgf_cc = complex_cepstrum(x,fs,sd_gci,srh_f0,srh_vuv); % Glottal flow derivative
 
 [NAQ,QOQ,H1H2,HRF,PSP] = get_vq_params(gf_iaif,gfd_iaif,fs,se_gci); % Estimate conventional glottal parameters
 
+% Estimate the Rd parameter of the Liljencrants-Fant (LF) model
+srh_f0(find(srh_f0==0)) = 100;
+opt = sin_analysis();
+opt.fharmonic  = true;
+opt.use_ls     = false;
+opt.debug = 0;
+frames = sin_analysis(x, fs, [srh_time(:),srh_f0(:)], opt);
+rds = rd_msp(frames, fs);
+
+
 % Plots
 t=(0:length(x)-1)/fs;
 
@@ -91,7 +101,8 @@ fig(3) = subplot(513);
     hold on
     plot(ps(:,1), ps(:,2),'--b');
     plot(m(:,1),m(:,2),'m');
-    legend('Speech signal','PeakSlope','MDQ');
+    plot(rds(:,1), rds(:,2), 'r');
+    legend('Speech signal','PeakSlope','MDQ','Rd');
     xlabel('Time [s]');
 
 fig(4) = subplot(514);
