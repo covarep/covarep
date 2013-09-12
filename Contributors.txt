@@ -1,20 +1,21 @@
 Contributors
     University of Crete, Heraklion, Greece
         Computer Science Department - Multimedia Informatics Lab (MMI)
-        Gilles Degottex <degottex@csd.uoc.gr>
+        Gilles Degottex
+        Georgos Kafentzis
 
     Trinity College Dublin, Dublin, Ireland
         Centre for Language and Communication Sciences - Phonetics & Speech Lab
-        John Kane <kanejo@tcd.ie>
+        John Kane
     
     University of Mons, Mons, Belgium
         Polytechnic Faculty - TCTS Lab
-        Thomas Drugman <thomas.drugman@umons.ac.be>
+        Thomas Drugman
 
     Aalto University, Aalto, Finland
         Department of Signal Processing and Acoustics
-        Raitio Tuomo <tuomo.raitio@aalto.fi>
+        Raitio Tuomo
 
     University of Southern California, Los Angeles, USA
         Institute for Creative Technologies - MultiComp Lab
-        Stefan Scherer <scherer@ict.usc.edu>
+        Stefan Scherer
