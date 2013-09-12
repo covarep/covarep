@@ -1,4 +1,4 @@
-% Synthesis of a time signal given sinusoids parameters
+% Synthesis of a stationary time signal given sinusoids parameters
 %
 % Octave compatible
 % 
