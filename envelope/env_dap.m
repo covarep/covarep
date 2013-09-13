@@ -3,7 +3,8 @@
 % Estimate an AR model based on given spectral peaks following the method in [1].
 %
 % Input
-%  sins    : [Hz;amp] [2xN] Specral peaks with frequency and linear amplitudes.
+%  sins    : [Hz;amp] [2xN] Spectral peaks with frequency and linear amplitudes.
+%            (as provided by sin_analysis.m)
 %  fs      : [Hz] Sampling frequency
 %  order   : Order of the AR model
 % [dftlen] : DFT length of the envelope (if requested by the output)
