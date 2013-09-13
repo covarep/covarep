@@ -5,8 +5,6 @@
 % script should automatically run. If it is not the case, you can also move to the
 % root directory and run this script manually. 
 %
-% Copyright (c) 2013 University of Crete - Computer Science Department
-%
 % License
 %  This file is under the LGPL license,  you can
 %  redistribute it and/or modify it under the terms of the GNU Lesser General 
@@ -68,32 +66,66 @@ for n=1:numel(frames)
     pb = progressbar(pb, n);
 end
 
+opt = phase_rpspd();
+opt.harm2freq = true;
+opt.pd_method = 1;
+PD = phase_rpspd(frames, fs, opt);
+opt.pd_method = 2;
+opt.pd_vtf_rm = false;
+opt.polarity_inv = true;
+RPS = phase_rpspd(frames, fs, opt);
+
 % Plot the waveforms and the envelopes
 figure
+
 F = fs*(0:opt.dftlen/2)/opt.dftlen;
-fig(1) = subplot(411);
+fig(1) = subplot(421);
     plot(times, wav, 'k');
+    grid on;
     ylim(0.6*[-1 1]);
-    xlabel('Time [s]');
     ylabel('Amplitude');
     title('Waveform');
-fig(2) = subplot(412);
+fig(2) = subplot(423);
     imagesc([frames.t], F, mag2db(abs(Edap)).', [-100 -20]);
+    colormap(jet); freezeColors;
     axis xy;
-    xlabel('Time [s]');
     ylabel('Frequency [Hz]');
     title('Discrete All-Pole (DAP) envelope');
-fig(3) = subplot(413);
+fig(3) = subplot(425);
     imagesc([frames.t], F, mag2db(abs(Ete)).', [-100 -20]);
+    colormap(jet); freezeColors;
     axis xy;
-    xlabel('Time [s]');
     ylabel('Frequency [Hz]');
     title('"True-Envelope" (TE)');
-fig(4) = subplot(414);
+fig(4) = subplot(427);
     imagesc([frames.t], F, mag2db(abs(Etec)).', [-100 -20]);
+    colormap(jet); freezeColors;
     axis xy;
     xlabel('Time [s]');
     ylabel('Frequency [Hz]');
     title('Compressed/Decompressed TE envelope through MFCC');
+
+fig(5) = subplot(422);
+    plot(times, wav, 'k');
+    grid on;
+    ylim(0.6*[-1 1]);
+    ylabel('Amplitude');
+    title('Waveform');
+fig(6) = subplot(424);
+    F = fs*(0:opt.dftlen/2)/opt.dftlen;
+    imagesc([frames.t], F, RPS', [-pi pi]);
+    colormap(circmap); freezeColors;
+    axis xy;
+    ylabel('Frequency [Hz]');
+    title('Relative Phase Shift');
+fig(7) = subplot(426);
+    F = fs*(0:opt.dftlen/2)/opt.dftlen;
+    imagesc([frames.t], F, PD', [-pi pi]);
+    colormap(circmap); freezeColors;
+    axis xy;
+    xlabel('Time [s]');
+    ylabel('Frequency [Hz]');
+    title('Phase Distortion');
+
 linkaxes(fig, 'x');
 xlim([0 times(end)]);
