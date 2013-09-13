@@ -37,14 +37,16 @@
 
 function [M lM] = spec2minphasespec(X)
 
+    X = X(:).';
+
     rcc = ifft(log(abs(X))); % Compute the real cepstrum
 
     if mod(length(X),2)==0
         % For even DFT length
-        lM = fft([rcc(1);2*rcc(2:end/2);rcc(end/2+1)], length(X));% [1]
+        lM = fft([rcc(1),2*rcc(2:end/2),rcc(end/2+1)], length(X));% [1]
     else
         % For odd DFT length
-        lM = fft([rcc(1);2*rcc(2:(end-1)/2+1)], length(X));       % [1]
+        lM = fft([rcc(1),2*rcc(2:(end-1)/2+1)], length(X));       % [1]
     end
 
     M = exp(lM);
