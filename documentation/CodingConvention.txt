@@ -1,9 +1,10 @@
 
-                       Common Speech Processing Repository
+                                   Covarep
+         A Cooperative Voice Analysis Repository for Speech Technologies
                                Coding Convention
-                             2013-05-30 version 0.1
+                             2013-09-13 version 0.2
 
-This document describe the common way of writing the code in CSPR.
+This document describe the common way of writing the code in Covarep.
 This convention has to be sharp enough to make the code accessible and readable to
 any user. However, it should be also light enough to not discourage contributions
 in the repository. For example, input and output variables have to absolutely
