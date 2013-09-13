@@ -58,10 +58,10 @@ function G = gfm_spec_lf(f, fs, T0, Ee, te, tp, ta);
     Tp = tp*T0;
     Ta = ta*T0;
 
-    wg = pi/Tp;                                     % [1] (2)
+    wg = pi/Tp;                                     % [1](2)
 
     % e is expressed by an implicit equation
-    fb = @(e) 1 - exp(-e.*(T0-Te)) - e.*Ta;         % [1](12) (or [3]p.18)
+    fb = @(e) 1 - exp(-e.*(T0-Te)) - e.*Ta;         % [1](12) (or [3](p.18) )
     e = fzero(fb, 1/Ta+eps);
 
     % a is expressed by another implicit equation   % based on [3]p.18

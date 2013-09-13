@@ -1,9 +1,10 @@
 % Gives estimate of T0-normalized LF parameters given an Rd value
 %
 % Description
-%  The Rd shape parameter [1] of the LF model [2] expresses a regression of the
-%  original shape parameters {te,tp,ta}. This function gives the shape parameters
-%  {te,tp,ta} which correspond to a given Rd value.
+%  The Rd shape parameter [1] of the Liljencrants-Fant (LF) glottal model [2]
+%  expresses a regression of the original shape parameters {te,tp,ta}. This
+%  function gives the shape parameters {te,tp,ta} which correspond to a given Rd
+%  value.
 %
 % Input
 %  Rd  : The Rd shape parameter to convert.
@@ -13,6 +14,9 @@
 %  tp  : Glottal shape parameter, see [1]p.6 (assuming T0=1 ! (T0-normalized))
 %  ta  : Glottal shape parameter, see [1]p.6 (assuming T0=1 ! (T0-normalized))
 %
+% See Also
+%  gfm_spec_lf.m
+%  
 % References
 %  [1] G. Fant, "The LF-model revisited. Transformations and frequency domain
 %      analysis", STL-QPSR 36(2-3):119-156, 1995.

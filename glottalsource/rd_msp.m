@@ -84,9 +84,9 @@ function [rds] = rd_msp(frames, fs)
             for Rdi=1:length(Rdrg)
                 E(Rdi) = optimfnRd(Rdrg(Rdi), fs, f0, M, opt);
             end
-            [minv, mini] = min(E);
+            [err, mini] = min(E);
             rds(n,2) = Rdrg(mini);
-            rds(n,3) = 1 - sqrt(minv)/pi; % [5](5.9)
+            rds(n,3) = 1 - sqrt(err)/pi; % [5](5.9)
 
             if opt.debug
                 subplot(2,1,1);
@@ -124,14 +124,14 @@ function err = optimfnRd(Rd, fs, f0, M, opt)
     N = M./G.';
     N(end) = abs(N(end-1));
     N(1) = abs(N(2));
-    N = hspec2spec(N.');
-    R = N(:)./spec2minphasespec(N(:));
+    N = hspec2spec(N);
+    R = N./spec2minphasespec(N(:));
 
     % Extract the phase
     P = angle(R(1:8+1));
 
-    % Compute the MSPD2 error according to [3-4]
-    PD2I = wrap(diff(P) - P(2));  % Equal to, and a lot simpler, [3] last eq. p.5
+    % Compute the MSPD2 error according to [3](last eq. p.5)  or [4](5)
+    PD2I = wrap(diff(P) - P(2));  % Equal to [3](last eq. p.5) (and a lot simpler)
     err = mean(PD2I(2:8).^2);
 
 return
