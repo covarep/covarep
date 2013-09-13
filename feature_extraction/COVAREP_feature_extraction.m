@@ -3,7 +3,7 @@
 % Description
 %  This script extracts features to do with glottal source and spectral
 %  envelope available with the COVAREP repository. For each .wav file in
-%  the inputted directory path, .mat files are produced containing the feature matrix and column names
+%  the inputted directory path, .mat files are produced containing 
 % 
 % Input
 %  in_dir [directory path] : Path to directory containing wav files to be analysed
@@ -78,7 +78,7 @@ MFCC_ord=24;
 fileList=dir([in_dir filesep '*.wav']);
 N=length(fileList);
 names={'F0','VUV','NAQ','QOQ','H1H2','PSP','MDQ','peakSlope','Rd', ...
-    'Rd_conf','MFCC_0','MFCC_1','MFCC_2','MFCC_3','MFCC_4','MFCC_5', ...
+    'Rd_conf','creak_prob','MFCC_0','MFCC_1','MFCC_2','MFCC_3','MFCC_4','MFCC_5', ...
     'MFCC_6','MFCC_7','MFCC_8','MFCC_9','MFCC_10','MFCC_11','MFCC_12', ...
     'MFCC_13','MFCC_14','MFCC_15','MFCC_16','MFCC_17','MFCC_18', ...
     'MFCC_19','MFCC_20','MFCC_21','MFCC_22','MFCC_23','MFCC_24'};
@@ -139,6 +139,16 @@ for n=1:N
     frames = sin_analysis(x, fs, [srh_time(:),srh_f0(:)], opt);
     rds = rd_msp(frames, fs);
     
+    % Creaky voice detection
+    warning off
+    try
+        creak_pp = detect_creaky_voice(x,fs); % Detect creaky voice
+        creak_pp=interp1(creak_pp(:,2),creak_pp(:,1),feature_sampling);
+    catch
+        creak_pp=zeros(length(feature_sampling),1);
+    end
+    warning on
+
     % Spectral envelope parameterisation
     M=numel(frames);
     MFCC=zeros(M,MFCC_ord+1);
@@ -163,7 +173,7 @@ for n=1:N
     
     % Create feature matrix and save
     features=[F0(:) VUV(:) NAQ(:) QOQ(:) H1H2(:) PSP(:) MDQ(:) PS(:) ...
-        Rd(:) Rd_conf(:) MFCC_int];
+        Rd(:) Rd_conf(:) creak_pp(:) MFCC_int];
     features(isnan(features))=0;
     save([in_dir filesep basename '.mat'],'features','names')
     clear features
