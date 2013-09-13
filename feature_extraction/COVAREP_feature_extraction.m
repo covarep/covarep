@@ -90,7 +90,7 @@ end
 %% Do processing
 for n=1:N
    
-    basename=regexp(fileList(n).name,'.wav','split');
+    basename=regexp(fileList(n).name,'\.wav','split');
     basename=char(basename(1));
     str=sprintf('Analysing file: %s',basename);
     disp(str)
