@@ -100,7 +100,7 @@ end
 % filtering, a mean-normalized pre-frame ramp is appended in order to
 % diminish ripple in the beginning of the frame. The ramp is removed after
 % filtering.
-if length(x)>0
+if length(x)>p_vt
     Hg1 = lpc(x.*hanning(length(x)),1);
     y = filter(Hg1,1,[linspace(-x(1),x(1),preflt)' ; x]);
     y = y(preflt+1:end);
