@@ -95,11 +95,13 @@ for n=1:N
     
     % Do IAIF
     [g_frame,gd_frame,a_frame,ag_frame]=iaif(x_win,fs,p_vt,p_gl,d,hpfilt);
-    a(:,n)=a_frame(:);
-    ag(:,n)=ag_frame(:);
-    
-    % Overlap and add
-    g(start:stop)=g(start:stop)+g_frame(:)';
-    gd(start:stop)=gd(start:stop)+gd_frame(:)';
+    if isempty(g_frame)==0
+        a(:,n)=a_frame(:);
+        ag(:,n)=ag_frame(:);
+
+        % Overlap and add
+        g(start:stop)=g(start:stop)+g_frame(:)';
+        gd(start:stop)=gd(start:stop)+gd_frame(:)';
+    end
     
 end
