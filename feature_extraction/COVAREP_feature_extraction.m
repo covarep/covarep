@@ -3,7 +3,7 @@
 % Description
 %  This script extracts features to do with glottal source and spectral
 %  envelope available with the COVAREP repository. For each .wav file in
-%  the inputted directory path, .mat files are produced containing 
+%  the inputted directory path, .mat files are produced containing the feature matrix and column names
 % 
 % Input
 %  in_dir [directory path] : Path to directory containing wav files to be analysed
