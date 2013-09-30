@@ -93,7 +93,7 @@ function [PE, AE, opt] = phase_rpspd(frames, fs, opt)
         % Phase
         opt.pd_vtf_rm    = true; % Remove the VTF phase from the inst. phase
 
-        opt.pd_method    = 2;    % 1:Phase Distortion (PD) [1-3]
+        opt.pd_method    = 1;    % 1:Phase Distortion (PD) [1-3]
                                  % 2:Relative Phase Shift (RPS) [4-5]
         opt.harm2freq    = false;% Convert the harmonic values on a hertz scale
         opt.polarity_inv = false;% For vizualisation purpose, the phase of the
@@ -125,7 +125,8 @@ function [PE, AE, opt] = phase_rpspd(frames, fs, opt)
 
             % If asked, remove the min-phase response of the envelope
             if opt.pd_vtf_rm
-                E = spec2minphasespec(E);
+                E = spec2minphasespec(hspec2spec(E));
+                E = E(1:end/2+1);
                 fks = f0s(n,2)*(0:size(frames(n).sins,2)-1);
                 vtfp = interp1(F, unwrap(angle(E)), fks, 'linear', 0);
                 frames(n).sins(3,:) = wrap(frames(n).sins(3,:) - vtfp);
