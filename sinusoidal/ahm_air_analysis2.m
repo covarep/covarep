@@ -113,7 +113,7 @@ function [f0sout, frames, opt] = ahm_air_analysis2(wav, fs, f0sin, opt)
     end
 
     % Generate analysis time instants
-    tmargin = 0.5*opt.win_durnbper*1/max(opt.f0min,0.66*min(f0sin(1,2),f0sin(end,2)));
+    tmargin = 0.51*opt.win_durnbper*1/opt.f0min;
     if opt.use_f0time; atmethod = 1;
     else               atmethod = 2; end
     T = gen_analysis_times(wav, fs, tmargin, true, atmethod, f0sin, opt.nbat);
