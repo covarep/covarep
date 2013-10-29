@@ -12,9 +12,9 @@ Contributors
         Polytechnic Faculty - TCTS Lab
         Thomas Drugman
 
-    Aalto University, Aalto, Finland
+    Aalto University, Espoo, Finland
         Department of Signal Processing and Acoustics
-        Raitio Tuomo
+        Tuomo Raitio
 
     University of Southern California, Los Angeles, USA
         Institute for Creative Technologies - MultiComp Lab
