@@ -136,33 +136,32 @@ function [syn, fs, opt] = hm_synthesis4(frames, wavlen, fs, opt)
             % Get instantaneous phase values in a vector
             % Put zero phase where there is no values. whatever the phase, the
             % amplitude is -300dB there, so it doesn't matter.
-            rps = 0*ones(nt,1);
+            phi = 0*ones(nt,1);
             for n=1:nt
                 if h<=length(aks{n})-1
-                    rps(n) = angle(aks{n}(1+h));
+                    phi(n) = angle(aks{n}(1+h));
                 end
             end
-            % Get the Relative Phase Shift w.r.t. the harmonic phase
-            rps = rps - h*p1at;
-            % Interpolate the Relative Phase Shifts
+            % Get the Relative Phase using first harmonic phase
+            rp = phi - h*p1at;
+            % Interpolate the Relative Phases
             % This interpolation should be twice differentiable such as the first
             % derivative (the frequency) is continous.
             if opt.usemex
                 % Because this interpolation is linear, step exist on the
                 % frequency curve ! (see plot(diff(ph)))
-                % But it doesn't seem to deteriorate the signal.
-                rpsr = interp1ordered(T, cos(rps), times, 1)';
-                rpsi = interp1ordered(T, sin(rps), times, 0)';
-                rps = atan2(rpsi, rpsr);
+                % But it doesn't seem to deteriorate the signal percetively.
+                rpr = interp1ordered(T, cos(rp), times, 1)';
+                rpi = interp1ordered(T, sin(rp), times, 0)';
+                rp = atan2(rpi, rpr);
             else
-                % interpolate relative phase shifts
                 % Using linear, the derivative (the frequency) has steps, very bad
                 % Using spline, the curve can degenerate, mainly at the bounds
                 % Using pchip, the derivative (the frequency) can have strong peaks
-                rps = angle(interp1(T, exp(1j*rps), times, 'spline'));
+                rp = angle(interp1(T, exp(1j*rp), times, 'spline'));
             end
-            % Get the final phase from the harmonic phase and the RPS
-            ph = rps + h*p1;
+            % Get the final phase from the RP and the harmonic phase
+            ph = rp + h*p1;
             
 %              plot(fs/(2*pi)*diff(unwrap(ph)), 'k');
 %              keyboard
