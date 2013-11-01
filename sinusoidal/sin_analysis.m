@@ -8,6 +8,7 @@
 %  fharmonic, fquasiharm, fadapted and use_ls, the methods below are available:
 %                    | fharmonic | fquasiharm | fadapted  | use_ls
 %  Peak Peaking [1]     false       false        false      false
+%  Peak Peaking [1]     true        false        false      false
 %  Peak Peaking [1]     true        true         false      false
 %  HM [2] **            true        false        false      true    (default)
 %  QHM (partly [3]*)    true        true         false      true
