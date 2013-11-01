@@ -31,11 +31,14 @@ times = (0:length(wav)-1)'/fs;
 % Load an f0 curve
 f0s = load([fname '.f0.txt']);
 
+dftlen = 4096;
+hopdur = median(diff(f0s(:,1))); % Should be 5ms
+
 disp('Estimate spectral peaks and spectra at regular intervals');
 opt = sin_analysis();
 opt.fharmonic  = false; % Use sinusoidal model (no constrains on the frequencies)
 opt.use_ls     = false; % Use Peak Picking
-opt.dftlen     = 4096;  % Force the DFT length
+opt.dftlen     = dftlen;  % Force the DFT length
 opt.frames_keepspec = true; % Keep the computed spectra in the frames structure
 frames = sin_analysis(wav, fs, f0s, opt);
 
@@ -67,17 +70,16 @@ for n=1:numel(frames)
 end
 
 disp('Compute WLP, SWLP, and XLP (LP variants)');
-fftlen = 4096;
 order = 2*round(ceil(fs/1000+4)/2);
 N = round(0.025*fs);
-Nshift = round(0.005*fs);
+Nshift = round(hopdur*fs);
 Nframes = ceil(length(wav)/Nshift - N/Nshift - 1);
-E_wlp = zeros(Nframes,fftlen);
-E_swlp = zeros(Nframes,fftlen);
-E_xlp = zeros(Nframes,fftlen);
+E_wlp = zeros(Nframes,dftlen);
+E_swlp = zeros(Nframes,dftlen);
+E_xlp = zeros(Nframes,dftlen);
 time_lp = zeros(Nframes,1);
 i = 1;
-Flp = fs*(0:fftlen/2)/fftlen;
+Flp = fs*(0:dftlen/2)/dftlen;
 pb = progressbar(Nframes);
 while i*Nshift+N < length(wav)
     
@@ -93,9 +95,9 @@ while i*Nshift+N < length(wav)
     a3 = env_xlp_avs(frame,order);
     
     % Estimate envelopes
-    E_wlp(i,:) = db(abs(freqz(1,a1,fftlen,fs)));
-    E_swlp(i,:) = db(abs(freqz(1,a2,fftlen,fs)));
-    E_xlp(i,:) = db(abs(freqz(1,a3,fftlen,fs)));
+    E_wlp(i,:) = mag2db(abs(freqz(1,a1,dftlen,fs)));
+    E_swlp(i,:) = mag2db(abs(freqz(1,a2,dftlen,fs)));
+    E_xlp(i,:) = mag2db(abs(freqz(1,a3,dftlen,fs)));
 
     % Progress
     i = i + 1;
@@ -142,21 +144,48 @@ fig(4) = subplot(4,3,10);
     ylabel('Frequency [Hz]');
     title('Compressed/Decompressed TE envelope through MFCC');
 
-    
 fig(5) = subplot(4,3,2);
     plot(times, wav, 'k');
     grid on;
     ylim(0.6*[-1 1]);
     ylabel('Amplitude');
     title('Waveform');
+
 fig(6) = subplot(4,3,5);
+    imagesc(time_lp, Flp, E_wlp.', [-10 50]);
+    colormap(jet); freezeColors;
+    axis xy;
+    ylabel('Frequency [Hz]');
+    title('WLP envelope');
+
+fig(7) = subplot(4,3,8);
+    imagesc(time_lp, Flp, E_swlp.', [-10 50]);
+    colormap(jet); freezeColors;
+    axis xy;
+    ylabel('Frequency [Hz]');
+    title('SWLP envelope');
+
+fig(8) = subplot(4,3,11);
+    imagesc(time_lp, Flp, E_xlp.', [-10 50]);
+    colormap(jet); freezeColors;
+    axis xy;
+    ylabel('Frequency [Hz]');
+    title('XLP envelope');  
+    
+fig(9) = subplot(4,3,3);
+    plot(times, wav, 'k');
+    grid on;
+    ylim(0.6*[-1 1]);
+    ylabel('Amplitude');
+    title('Waveform');
+fig(10) = subplot(4,3,6);
     F = fs*(0:opt.dftlen/2)/opt.dftlen;
     imagesc([frames.t], F, RPS', [-pi pi]);
     colormap(circmap); freezeColors;
     axis xy;
     ylabel('Frequency [Hz]');
     title('Relative Phase Shift');
-fig(7) = subplot(4,3,8);
+fig(11) = subplot(4,3,9);
     F = fs*(0:opt.dftlen/2)/opt.dftlen;
     imagesc([frames.t], F, PD', [-pi pi]);
     colormap(circmap); freezeColors;
@@ -164,37 +193,6 @@ fig(7) = subplot(4,3,8);
     xlabel('Time [s]');
     ylabel('Frequency [Hz]');
     title('Phase Distortion');
-    
-    
-fig(8) = subplot(4,3,3);
-    plot(times, wav, 'k');
-    grid on;
-    ylim(0.6*[-1 1]);
-    ylabel('Amplitude');
-    title('Waveform');
-    
-fig(9) = subplot(4,3,6);
-    imagesc(time_lp, Flp, E_wlp.', [-25 65]);
-    colormap(jet); freezeColors;
-    axis xy;
-    ylabel('Frequency [Hz]');
-    title('WLP envelope');
-    
-fig(10) = subplot(4,3,9);
-    imagesc(time_lp, Flp, E_swlp.', [-25 65]);
-    colormap(jet); freezeColors;
-    axis xy;
-    ylabel('Frequency [Hz]');
-    title('SWLP envelope');
-    
-fig(11) = subplot(4,3,12);
-    imagesc(time_lp, Flp, E_xlp.', [-25 65]);
-    colormap(jet); freezeColors;
-    axis xy;
-    ylabel('Frequency [Hz]');
-    title('XLP envelope');  
-    
-    
-    
+
 linkaxes(fig, 'x');
 xlim([0 times(end)]);
