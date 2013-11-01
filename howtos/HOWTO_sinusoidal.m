@@ -68,13 +68,18 @@ wavwrite(syn_ahm, fs, [fname '.ahm-air.wav']);
 %  save([fname '.ahm_frames.mat'], 'frames');
 
 figure
-plot(times, wav, 'k');
-hold on;
-plot(f0s(:,1), log2(f0s(:,2)), '--k');
-plot(times, syn_sm, 'g');
-plot(times, syn_hm, 'b');
-plot(f0sair(:,1), log2 (f0sair(:,2)), 'r');
-plot(times, syn_ahm, 'r');
-xlabel('Time [s]');
-
-legend({'Waveform', 'Input f_0 [log_2 Hz]', 'Sinusoidal Model (SM)', 'Harmonic Model', 'AIR refined f_0 [log_2 Hz]', 'Adaptive Harmonic Model'});
+fig(1) = subplot(211);
+    plot(times, wav, 'k');
+    hold on;
+    plot(times, syn_sm, 'c');
+    plot(times, syn_hm, 'b');
+    plot(times, syn_ahm, 'r');
+    xlabel('Time [s]');
+    legend({'Waveform', 'Sinusoidal Model (SM)', 'Harmonic Model (HM)', 'Adaptive Harmonic Model (aHM)'});
+fig(2) = subplot(212);
+    plot(f0s(:,1), log2(f0s(:,2)), '--k');
+    hold on;
+    plot(f0sair(:,1), log2 (f0sair(:,2)), 'r');
+    xlabel('Time [s]');
+    legend({'Input f_0 [log_2 Hz]', 'AIR refined f_0 [log_2 Hz]'});
+linkaxes(fig, 'x');
