@@ -15,6 +15,7 @@ Contributors
     Aalto University, Espoo, Finland
         Department of Signal Processing and Acoustics
         Tuomo Raitio
+        Jouni Pohjalainen
 
     University of Southern California, Los Angeles, USA
         Institute for Creative Technologies - MultiComp Lab
