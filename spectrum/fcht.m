@@ -1,5 +1,7 @@
 % The Fan-Chirp Transform (FChT)
 % 
+% This function is Octave compat., but dreadfully slow, because of the exp.
+%
 % Description
 %  This is an implementation of the Fan-Chirp Transform [1][2].
 %
@@ -61,7 +63,7 @@ function X = fcht(x, ahat, N, ks)
 		if mod(N,2)==0    % if even
 			ks = (-N/2+1:N/2)';
 			ks = [ks(N/2:end); ks(1:N/2-1)];           % same as in FFT
-		else                % else odd
+		else              % else odd
 			ks = (-(N-1)/2:(N-1)/2)';
 			ks = [ks((N-1)/2+1:end); ks(1:(N-1)/2)];   % same as in FFT
 		end
@@ -69,6 +71,8 @@ function X = fcht(x, ahat, N, ks)
 
     n = -(M-1)/2:(M-1)/2;
 
-    X = sum(ones(N,1)*(x'.*sqrt(abs((1+ahat*n)))).*exp((-j*2*pi/N).*ks*((1+0.5*ahat*n).*n)),2);
+    E = (-2*pi/N).*ks*((1+0.5*ahat*n).*n);
+    E = exp(j*E); % This kills Octave
+    X = sum(ones(N,1)*(x'.*sqrt(abs((1+ahat*n)))).*E,2);
 
 end

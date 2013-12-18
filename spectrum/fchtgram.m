@@ -1,5 +1,8 @@
 % The Short Time Fan-Chirp Transform (spectrogram-like FChT)
 % 
+% This function is Octave compatible, but dreadfully slow, because of
+%  the complex exponential function in fcht.m.
+%
 % Description
 %  Compute the FChT (see fcht.m) along frames
 %  Have a look at fcht.m
@@ -79,7 +82,6 @@ function [X F T as] = fchtgram(x, win, noverlap, dftlen, fs, f0s)
     X = zeros(dftlen/2+1,length(T));
     pb = progressbar(length(T));
     for ind=1:length(T)
-
         ids = (ind-1)*(winlen-noverlap) + (1:winlen);
 
         if ind==1 || ind==length(T)
