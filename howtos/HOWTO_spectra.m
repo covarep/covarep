@@ -35,16 +35,16 @@ f0s = load([fname '.f0.txt']);
 
 dftlen = 4096;
 winlen = round(fs*0.05/2)*2+1;
-win=blackman(winlen); win=win./sum(win);
+win = blackman(winlen); win=win./sum(win);
 %  F = fs*(0:dftlen/2)/dftlen;
 hopsize = round(fs*5/1000);
 
 disp('Short Time Fourier Transform (DFT based)')
-[S,freqs,ts] = spectrogram(wav, win, winlen-hopsize,dftlen,fs);
+[S, freqs, ts] = spectrogram(wav, win, winlen-hopsize,dftlen,fs);
 ts = ts - 0.5/fs;
 
 disp('Short Time Fan-Chirp Transform (FChT based)')
-[FC freqs ts as] = fchtgram(wav, win, winlen-hopsize, dftlen, fs, f0s);
+[FC, freqs, ts, as] = fchtgram(wav, win, winlen-hopsize, dftlen, fs, f0s);
 
 % Plot the waveforms and the envelopes
 figure
