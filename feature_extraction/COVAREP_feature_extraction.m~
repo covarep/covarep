@@ -88,7 +88,7 @@ if N==0
 end
 
 %% Do processing
-for n=1:N
+for n=33:N
    
     basename=regexp(fileList(n).name,'\.wav','split');
     basename=char(basename(1));
@@ -114,7 +114,7 @@ for n=1:N
         VUV(VUV>=.5)=1; VUV(VUV<.5)=0;
 
         GCI = gci_sedreams(x,fs,F0med,1); % SEDREAMS GCI detection
-        GCI=round(GCI*fs); GCI(GCI<1|isnan(GCI)==1|isinf(GCI)==1)=[];
+        GCI=round(GCI*fs);
         GCI(VUV_int(GCI)<.5)=[]; % Remove GCIs in detected unvoiced regions
         GCI=unique(GCI); % Remove possible duplications
 
