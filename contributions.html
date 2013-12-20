@@ -19,8 +19,8 @@
         <p>A Cooperative Voice Analysis Repository for Speech Technologies</p>
 
         <ul>
-          <li><a href="https://github.com/covarep/covarep/zipball/v1.0.0">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/covarep/covarep/tarball/v1.0.0">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/covarep/covarep/zipball/v1.1.0">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/covarep/covarep/tarball/v1.1.0">Download <strong>TAR Ball</strong></a></li>
           <li><a href="https://github.com/covarep/covarep">View On <strong>GitHub</strong></a></li>
         </ul>
 
@@ -43,83 +43,82 @@
 <h3>
 <a name="contributions" class="anchor" href="#contributions"><span class="octicon octicon-link"></span></a>Contributions</h3>
 
-<ul>
+
 <li>Spectral envelope estimation</li>
 <ul>
 <li>Amplitude</li>
 <ul>
-<li>Discrete All-Pole (DAP)</li>
-<li>"True-Envelope" (TE)</li>
-<li>Stabilized weighted linear prediction using short-time-energy (SWLP)</li>
-<li>Short-time-energy-weighted linear prediction (WLP)</li>
-<li>Extended weighted linear prediction using absolute-value-sum weighting (AVS-XLP)</li>
-<li>Conversion from envelope to Mel-Frequency Cepstral Coefficients (MFCC)</li>
+<li>Discrete All-Pole (DAP) (<a href="https://github.com/covarep/covarep/blob/master/envelope/env_dap.m">env_dap</a>)</li>
+<li>"True-Envelope" (TE) (<a href="https://github.com/covarep/covarep/blob/master/envelope/env_te.m">env_te</a>)</li>
+<li>Stabilized weighted linear prediction using short-time-energy (SWLP) (<a href="https://github.com/covarep/covarep/blob/master/envelope/env_swlp_ste.m">env_swlp_ste</a>)</li>
+<li>Short-time-energy-weighted linear prediction (WLP) (<a href="https://github.com/covarep/covarep/blob/master/envelope/env_wlp_ste.m">env_wlp_ste</a>)</li>
+<li>Extended weighted linear prediction using absolute-value-sum weighting (AVS-XLP) (<a href="https://github.com/covarep/covarep/blob/master/envelope/env_xlp_avs.m">env_xlp_avs</a>)</li>
+<li>Conversion from envelope to Mel-Frequency Cepstral Coefficients (MFCC) (<a href="https://github.com/covarep/covarep/blob/master/envelope/spec2mfcc.m">spec2mfcc</a>, <a href="https://github.com/covarep/covarep/blob/master/envelope/mfcc2hspec.m">mfcc2hspec</a>)</li>
 </ul>
 <li>Phase</li>
 <ul>
-<li>Relative Phase Shift (RPS)</li>
-<li>Phase Distortion (PD)</li>
-</ul>
+<li>Relative Phase Shift (RPS) (<a href="https://github.com/covarep/covarep/blob/master/envelope/phase_rpspd.m">phase_rpspd</a>)</li>
+<li>Phase Distortion (PD) (<a href="https://github.com/covarep/covarep/blob/master/envelope/phase_rpspd.m">phase_rpspd</a>)</li>
 </ul>
 </ul>
 
+
 <li>Formant tracking</li>
 <ul>
-<li>Chirp Group Delay formant tracking (CGD)</li>
+<li>Chirp Group Delay formant tracking (CGD) (<a href="https://github.com/covarep/covarep/blob/master/formant/formant_CGDZP.m">formant_CGDZP</a>)</li>
 </ul>
 
 <li>Sinusoidal modeling</li>
 <ul>
 <li>Peak Picking</li>
-<li>Harmonic Model (HM)</li>
-<li>Quasi-Harmonic Model (QHM) (partly)</li>
-<li>Adaptive Harmonic Model (aHM)</li>
-<li>Harmonic synthesis</li>
-<li>Sinusoidal synthesis using OverLap-Add (OLA)</li>
+<li>Harmonic Model (HM) (<a href="https://github.com/covarep/covarep/blob/master/sinusoidal/sin_analysis.m">sin_analysis</a>)</li>
+<li>Quasi-Harmonic Model (QHM) (partly) (<a href="https://github.com/covarep/covarep/blob/master/sinusoidal/sin_analysis.m">sin_analysis</a>)</li>
+<li>Adaptive Harmonic Model and Adaptive Iterative Refinement (aHM) (<a href="https://github.com/covarep/covarep/blob/master/sinusoidal/sin_analysis.m">sin_analysis</a>, <a href="https://github.com/covarep/covarep/blob/master/sinusoidal/ahm_air_analysis2.m">ahm_air_analysis2</a>)</li>
+<li>Harmonic synthesis (<a href="https://github.com/covarep/covarep/blob/master/sinusoidal/hm_synthesis4.m">hm_synthesis4</a>)</li>
+<li>Sinusoidal synthesis using OverLap-Add (OLA) (<a href="https://github.com/covarep/covarep/blob/master/sinusoidal/sin_synthesis_ola.m">sin_synthesis_ola</a>)</li>
 </ul>
 
 <li>Spectral analysis</li>
 <ul>
-<li>Fan-Chirp Transform (FChT) (and fcht-gram)</li>
+<li>Fan-Chirp Transform (FChT) (<a href="https://github.com/covarep/covarep/blob/master/spectrum/fcht.m">fcht</a>, <a href="https://github.com/covarep/covarep/blob/master/spectrum/fchtgram.m">fchtgram</a>)</li>
 </ul>
 
 <li>Glottal source analysis</li>
 <ul>
-<li>Poolarity detection (RESKEW)</li>
-<li>Pitch tracker using Summation of the Residual Harmonics (SRH)</li>
-<li>Speech Event Detection based on the Residual Excitation And Mean-based Signal (SEDREAMS) for Glottal Closure Instant (GCI) determination</li>
-<li>SEDREAMS-based GCI method optimised for non-modal voice qualities (SE-VQ)</li>
-<li>Detection of creaky voice (vocal/glottal fry)</li>
+<li>Poolarity detection (RESKEW) (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/polarity_reskew.m">polarity_reskew</a>)</li>
+<li>Pitch tracker using Summation of the Residual Harmonics (SRH) (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/pitch_srh.m">pitch_srh</a>)</li>
+<li>Speech Event Detection based on the Residual Excitation And Mean-based Signal (SEDREAMS) for Glottal Closure Instant (GCI) determination (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/gci_sedreams.m">gci_sedreams</a>)</li>
+<li>SEDREAMS-based GCI method optimised for non-modal voice qualities (SE-VQ) (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/se_vq/se_vq.m">se_vq</a>, <a href="https://github.com/covarep/covarep/blob/master/glottalsource/se_vq/se_vq_varf0.m">se_vq_varf0</a>)</li>
+<li>Detection of creaky voice (vocal/glottal fry) (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/creaky_voice_detection/detect_creaky_voice.m">detect_creaky_voice</a>)</li>
 
 <li>Parameters</li>
 <ul>
-<li>Spectral tilt correlate (PEAKSLOPE)</li>
-<li>Maxima Dispersion Quotient (MDQ)</li>
-<li>Normalised amplitude quotient (NAQ)</li>
-<li>Quasi-open quotient (QOQ)</li>
-<li>Difference in amplitude of the first two harmonics of the differentiated glottal source spectrum (H1-H2)</li>
-<li>Harmonic Richness Factor (HRF)</li>
-<li>Parabolic Spectral Parameter (PSP)</li>
+<li>Spectral tilt correlate (PEAKSLOPE) (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/peakslope.m">peakslope</a>)</li>
+<li>Maxima Dispersion Quotient (MDQ) (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/mdq.m">mdq</a>)</li>
+<li>Normalised amplitude quotient (NAQ) (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/get_vq_params.m">get_vq_params</a>)</li>
+<li>Quasi-open quotient (QOQ) (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/get_vq_params.m">get_vq_params</a>)</li>
+<li>Difference in amplitude of the first two harmonics of the differentiated glottal source spectrum (H1-H2) (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/get_vq_params.m">get_vq_params</a>)</li>
+<li>Harmonic Richness Factor (HRF) (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/get_vq_params.m">get_vq_params</a>)</li>
+<li>Parabolic Spectral Parameter (PSP) (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/get_vq_params.m">get_vq_params</a>)</li>
 </ul>
 
 <li>Glottal flow estimation</li>
 <ul>
-<li>Iterative Adaptive Inverse Filtering (IAIF) Glottal Inverse Filtering (GCI syncronous or not)</li>
-<li>Glottal flow derivative estimation based on the complex cesptrum</li>
+<li>Iterative Adaptive Inverse Filtering (IAIF) Glottal Inverse Filtering (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/iaif.m">iaif</a>, <a href="https://github.com/covarep/covarep/blob/master/glottalsource/iaif_gci.m">iaif_gci</a>, <a href="https://github.com/covarep/covarep/blob/master/glottalsource/iaif_ola.m">iaif_ola</a>)</li>
+<li>Glottal flow derivative estimation based on the complex cesptrum (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/complex_cepstrum.m">complex_cepstrum</a>)</li>
 </ul>
 
 <li>Glottal model based</li>
 <ul>
-<li>Spectrum of the Liljencrants-Fant (LF) glottal flow derivative model</li>
-<li>Rd parameter estimation of the LF glottal model based on Mean Squared Phase and 2nd order Difference (MSPD2)</li>
+<li>Spectrum of the Liljencrants-Fant (LF) glottal flow derivative model (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/glottal_models/gfm_spec_lf.m">gfm_spec_lf</a>)</li>
+<li>Rd parameter estimation of the LF glottal model based on Mean Squared Phase and 2nd order Difference (MSPD2) (<a href="https://github.com/covarep/covarep/blob/master/glottalsource/rd_msp.m">rd_msp</a>)</li>
 </li>
 </ul>
 
 </ul>
 <li>Miscellaneous</li>
 <ul>
-<li>Automatic extraction of features available in Covarep</li>
-</ul>
+<li>Automatic extraction of features available in Covarep (<a href="https://github.com/covarep/covarep/blob/master/feature_extraction/COVAREP_feature_extraction.m">COVAREP_feature_extraction</a>)</li>
 </ul>
 
       </section>
