@@ -65,7 +65,7 @@ Maintainers
     Thomas Drugman <thomas.drugman@umons.ac.be>
         University of Mons, Mons, Belgium
         
-    Raitio Tuomo <tuomo.raitio@aalto.fi>
+    Tuomo Raitio <tuomo.raitio@aalto.fi>
         Aalto University, Espoo, Finland
 
     Stefan Scherer <scherer@ict.usc.edu>
