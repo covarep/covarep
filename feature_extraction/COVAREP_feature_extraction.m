@@ -94,91 +94,95 @@ for n=1:N
     basename=char(basename(1));
     str=sprintf('Analysing file: %s',basename);
     disp(str)
-    
-    % Load file and set sample locations
-    [x,fs]=wavread([in_dir filesep basename '.wav']);
-    feature_sampling=round((sample_rate/2)*fs):round(sample_rate*fs):length(x);
-    
-    % Polarity detection
-    polarity = polarity_reskew(x,fs);
-    x=polarity*x; % Correct polarity if necessary
-    
-    % F0/GCI detection 
-    [srh_f0,srh_vuv,~,srh_time] = pitch_srh(x,fs,F0min,F0max, ...
-        sample_rate*1000);
-    F0med=median(srh_f0(srh_f0>F0min&srh_f0<F0max&srh_vuv==1));
-    F0 = interp1(round(srh_time*fs),srh_f0,feature_sampling);
-    VUV = interp1(round(srh_time*fs),srh_vuv,feature_sampling);
-    VUV_int = interp1(round(srh_time*fs),srh_vuv,1:length(x));
-    VUV(VUV>=.5)=1; VUV(VUV<.5)=0;
-    
-    GCI = gci_sedreams(x,fs,F0med,1); % SEDREAMS GCI detection
-    GCI=round(GCI*fs);
-    GCI(VUV_int(GCI)<.5)=[]; % Remove GCIs in detected unvoiced regions
-    GCI=unique(GCI); % Remove possible duplications
-    
-    % Iterative and adaptive inverse filtering (IAIF) & LP inverse
-    % filtering
-    p_gl = 2*round(fs/4000);
-    p_vt = 2*round(fs/2000)+4;
-    [g_iaif,gd_iaif] = iaif_gci(x,fs,GCI/fs,p_vt,p_gl,d,hpfilt);
-    res = lpcresidual(x,LP_winLen*fs,LP_winShift*fs,fs/1000+2); % LP residual
-    
-    % Glottal source parameterisation
-    [NAQ,QOQ,H1H2,HRF,PSP] = get_vq_params(g_iaif,gd_iaif,fs,GCI/fs); % Estimate conventional glottal parameters
-    
-    % Wavelet-based parameters
-    MDQ = mdq(res,fs,GCI/fs); % Maxima dispersion quotient measurement
-    PS = peakslope(x,fs);   % peakSlope extraction
-    MDQ=interp1(MDQ(:,1)*fs,MDQ(:,2),feature_sampling);
-    PS=interp1(PS(:,1)*fs,PS(:,2),feature_sampling);
-    
-    % Rd parameter estimation of the LF glottal model using Mean Squared
-    % Phase (MSP)
-    srh_f0(srh_f0==0) = 100;
-    frames = sin_analysis(x, fs, [srh_time(:),srh_f0(:)], opt);
-    rds = rd_msp(frames, fs);
-    
-    % Creaky voice detection
-    warning off
     try
-        creak_pp = detect_creaky_voice(x,fs); % Detect creaky voice
-        creak_pp=interp1(creak_pp(:,2),creak_pp(:,1),feature_sampling);
-    catch
-        creak_pp=zeros(length(feature_sampling),1);
-    end
-    warning on
+        % Load file and set sample locations
+        [x,fs]=wavread([in_dir filesep basename '.wav']);
+        feature_sampling=round((sample_rate/2)*fs):round(sample_rate*fs):length(x);
 
-    % Spectral envelope parameterisation
-    M=numel(frames);
-    MFCC=zeros(M,MFCC_ord+1);
-    for m=1:M
-        TE_order = round(0.5*fs/frames(m).f0); % optimal cepstral order
-        Ete = env_te(hspec2spec(frames(m).S), TE_order);
-        MFCC(m,:) = spec2mfcc(hspec2spec(Ete), fs, MFCC_ord)';
+        % Polarity detection
+        polarity = polarity_reskew(x,fs);
+        x=polarity*x; % Correct polarity if necessary
+
+        % F0/GCI detection 
+        [srh_f0,srh_vuv,~,srh_time] = pitch_srh(x,fs,F0min,F0max, ...
+            sample_rate*1000);
+        F0med=median(srh_f0(srh_f0>F0min&srh_f0<F0max&srh_vuv==1));
+        F0 = interp1(round(srh_time*fs),srh_f0,feature_sampling);
+        VUV = interp1(round(srh_time*fs),srh_vuv,feature_sampling);
+        VUV_int = interp1(round(srh_time*fs),srh_vuv,1:length(x));
+        VUV(isnan(VUV)==1)=0; VUV_int(isnan(VUV_int)==1)=0; 
+        VUV(VUV>=.5)=1; VUV(VUV<.5)=0;
+
+        GCI = gci_sedreams(x,fs,F0med,1); % SEDREAMS GCI detection
+        GCI=round(GCI*fs); GCI(GCI<1|isnan(GCI)==1|isinf(GCI)==1)=[];
+        GCI(VUV_int(GCI)<.5)=[]; % Remove GCIs in detected unvoiced regions
+        GCI=unique(GCI); % Remove possible duplications
+
+        % Iterative and adaptive inverse filtering (IAIF) & LP inverse
+        % filtering
+        p_gl = 2*round(fs/4000);
+        p_vt = 2*round(fs/2000)+4;
+        [g_iaif,gd_iaif] = iaif_gci(x,fs,GCI/fs,p_vt,p_gl,d,hpfilt);
+        res = lpcresidual(x,LP_winLen*fs,LP_winShift*fs,fs/1000+2); % LP residual
+
+        % Glottal source parameterisation
+        [NAQ,QOQ,H1H2,HRF,PSP] = get_vq_params(g_iaif,gd_iaif,fs,GCI/fs); % Estimate conventional glottal parameters
+
+        % Wavelet-based parameters
+        MDQ = mdq(res,fs,GCI/fs); % Maxima dispersion quotient measurement
+        PS = peakslope(x,fs);   % peakSlope extraction
+        MDQ=interp1(MDQ(:,1)*fs,MDQ(:,2),feature_sampling);
+        PS=interp1(PS(:,1)*fs,PS(:,2),feature_sampling);
+
+        % Rd parameter estimation of the LF glottal model using Mean Squared
+        % Phase (MSP)
+        srh_f0(srh_f0==0) = 100;
+        frames = sin_analysis(x, fs, [srh_time(:),srh_f0(:)], opt);
+        rds = rd_msp(frames, fs);
+
+        % Creaky voice detection
+        warning off
+        try
+            creak_pp = detect_creaky_voice(x,fs); % Detect creaky voice
+            creak_pp=interp1(creak_pp(:,2),creak_pp(:,1),feature_sampling);
+        catch
+            creak_pp=zeros(length(feature_sampling),1);
+        end
+        warning on
+
+        % Spectral envelope parameterisation
+        M=numel(frames);
+        MFCC=zeros(M,MFCC_ord+1);
+        for m=1:M
+            TE_order = round(0.5*fs/frames(m).f0); % optimal cepstral order
+            Ete = env_te(hspec2spec(frames(m).S), TE_order);
+            MFCC(m,:) = spec2mfcc(hspec2spec(Ete), fs, MFCC_ord)';
+        end
+
+        % Interpolate features to feature sampling rate
+        NAQ=interp1(NAQ(:,1)*fs,NAQ(:,2),feature_sampling);
+        QOQ=interp1(QOQ(:,1)*fs,QOQ(:,2),feature_sampling);
+        H1H2=interp1(H1H2(:,1)*fs,H1H2(:,2),feature_sampling);
+        PSP=interp1(PSP(:,1)*fs,PSP(:,2),feature_sampling);
+        Rd=interp1(rds(:,1)*fs,rds(:,2),feature_sampling);
+        Rd_conf=interp1(rds(:,1)*fs,rds(:,3),feature_sampling);
+
+        MFCC_int=zeros(length(feature_sampling),MFCC_ord+1);
+        for m=1:MFCC_ord+1
+            MFCC_int(:,m) = interp1(round(linspace(1,length(x),size(MFCC,1))),MFCC(:,m),feature_sampling);
+        end
+
+        % Create feature matrix and save
+        features=[F0(:) VUV(:) NAQ(:) QOQ(:) H1H2(:) PSP(:) MDQ(:) PS(:) ...
+            Rd(:) Rd_conf(:) creak_pp(:) MFCC_int];
+        features(isnan(features))=0;
+        save([in_dir filesep basename '.mat'],'features','names')
+        clear features
+
+        str=sprintf('.............DONE!!!');
+        disp(str)
+    catch str=sprintf('.............ERROR NOT ANALYSED!!!');
+        disp(str)
     end
-    
-    % Interpolate features to feature sampling rate
-    NAQ=interp1(NAQ(:,1)*fs,NAQ(:,2),feature_sampling);
-    QOQ=interp1(QOQ(:,1)*fs,QOQ(:,2),feature_sampling);
-    H1H2=interp1(H1H2(:,1)*fs,H1H2(:,2),feature_sampling);
-    PSP=interp1(PSP(:,1)*fs,PSP(:,2),feature_sampling);
-    Rd=interp1(rds(:,1)*fs,rds(:,2),feature_sampling);
-    Rd_conf=interp1(rds(:,1)*fs,rds(:,3),feature_sampling);
-    
-    MFCC_int=zeros(length(feature_sampling),MFCC_ord+1);
-    for m=1:MFCC_ord+1
-        MFCC_int(:,m) = interp1(round(linspace(1,length(x),size(MFCC,1))),MFCC(:,m),feature_sampling);
-    end
-    
-    % Create feature matrix and save
-    features=[F0(:) VUV(:) NAQ(:) QOQ(:) H1H2(:) PSP(:) MDQ(:) PS(:) ...
-        Rd(:) Rd_conf(:) creak_pp(:) MFCC_int];
-    features(isnan(features))=0;
-    save([in_dir filesep basename '.mat'],'features','names')
-    clear features
-    
-    str=sprintf('.............DONE!!!');
-    disp(str)
     
 end

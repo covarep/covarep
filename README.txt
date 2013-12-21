@@ -1,6 +1,6 @@
                                 Covarep
         A Cooperative Voice Analysis Repository for Speech Technologies
-                             Version 1.1.0
+                      Version master (after 1.1.0)
                     http://covarep.github.io/covarep
 
 
@@ -65,7 +65,7 @@ Maintainers
     Thomas Drugman <thomas.drugman@umons.ac.be>
         University of Mons, Mons, Belgium
         
-    Raitio Tuomo <tuomo.raitio@aalto.fi>
+    Tuomo Raitio <tuomo.raitio@aalto.fi>
         Aalto University, Espoo, Finland
 
     Stefan Scherer <scherer@ict.usc.edu>
