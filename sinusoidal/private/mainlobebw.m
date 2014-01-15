@@ -48,7 +48,7 @@ function bw = mainlobebw(win, fs)
         D = delay2spec((winlen-1)/2, dftlen);
         W = W.*D;
         B1 = min(find(real(W) ~= abs(real(W))))-2;
-        B2 = findpeaks(-abs(W(1:end/2)));
+        B2 = v_findpeaks(-abs(W(1:end/2)));
         B2 = B2(1)-1;
         B = min(B1,B2);
 
