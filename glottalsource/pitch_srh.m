@@ -59,16 +59,15 @@
 
 function [F0s,VUVDecisions,SRHVal,time] = pitch_srh(wave,fs,f0min,f0max,hopsize)
 
-if length(wave)/Fs<0.1
-                display(‘SRH error: the duration of your file should be at least 100ms long’);
-                pause(0.001)
-                F0s=0;,VUVDecisions=0;SRHVal=0;time=0;
+if length(wave)/fs<0.1
+    display('SRH error: the duration of your file should be at least 100ms long');
+    pause(0.001)
+    F0s=0;VUVDecisions=0;SRHVal=0;time=0;
 end
-
 
 if f0max<=f0min
     display('You look funny! Your f0min should be lower than f0max!!')
-    pause(0.00001)
+    pause(0.001)
 end
     
 
