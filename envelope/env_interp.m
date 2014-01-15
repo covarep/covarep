@@ -42,6 +42,7 @@ function E = env_interp(sins, fs, dftlen, extrap_dcny, varargin)
         % Add freq up to Nyquist if necessary
         if fks(end)~=fs/2
             mfd = median(diff(fks));
+            if mfd<1; warning('The median frequency difference between sinusoidal components is smaller than 1Hz. Something is surely wrong in the sinusoidal parameters.'); end
             while fks(end)<fs/2-mfd
                 fks = [fks, fks(end)+mfd];
                 aks = [aks, aks(end)];
