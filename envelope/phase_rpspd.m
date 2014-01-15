@@ -119,7 +119,6 @@ function [PE, AE, opt] = phase_rpspd(frames, fs, opt)
 
             % Compute a very simple amplitude envelope
             % using linear interpolation
-
             E = env_interp(frames(n).sins(:,2:end), fs, opt.dftlen, true, 'linear');
 
             AE(n,:) = E(1:opt.dftlen/2+1);
