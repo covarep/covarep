@@ -1,6 +1,17 @@
 function [x,zo]=overlapadd(f,win,inc)
 %OVERLAPADD join overlapping frames together X=(F,WIN,INC)
 %
+% Usage for frequency-domain processing:
+%       S=...;                              % input signal
+%       OV=2;                               % overlap factor of 2 (4 is also often used)
+%       INC=20;                             % set frame increment in samples
+%       NW=INC*OV;                          % DFT window length
+%       W=sqrt(hamming(NW,'periodic'));     % omit sqrt if OV=4
+%       W=W/sqrt(sum(W(1:INC:NW).^2));      % normalize window
+%       F=rfft(enframe(S,W,INC),NW,2);      % do STFT: one row per time frame, +ve frequencies only
+%       ... process frames ...
+%       X=overlapadd(irfft(F,NW,2),W,INC);  % reconstitute the time waveform (omit "X=" to plot waveform)
+%
 % Inputs:  F(NR,NW) contains the frames to be added together, one
 %                   frame per row.
 %          WIN(NW)  contains a window function to multiply each frame.
@@ -16,17 +27,9 @@ function [x,zo]=overlapadd(f,win,inc)
 %                 to be processed in chunks. In this case X will contain only N=NR*INC
 %                 output samples. 
 %
-% Example of frame-based processing:
-%          INC=20       													% set frame increment
-%          NW=INC*2     													% oversample by a factor of 2 (4 is also often used)
-%          S=cos((0:NW*7)*6*pi/NW);								% example input signal
-%          W=sqrt(hamming(NW+1)); W(end)=[];      % sqrt hamming window of period NW
-%          F=enframe(S,W,INC);               			% split into frames
-%          ... process frames ...
-%          X=overlapadd(F,W,INC);           			% reconstitute the time waveform (omit "X=" to plot waveform)
 
 %	   Copyright (C) Mike Brookes 2009
-%      Version: $Id: overlapadd.m,v 1.2 2009/06/08 16:21:49 dmb Exp $
+%      Version: $Id: overlapadd.m 2470 2012-11-02 15:27:24Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

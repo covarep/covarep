@@ -37,7 +37,7 @@ function [d,fp,dt,tc,t]=readhtk(file)
 %   Thanks to Stuart Anderson (whispersys.com) for making it work on 64 bit machines.
 
 %      Copyright (C) Mike Brookes 2005
-%      Version: $Id: readhtk.m,v 1.10 2011/04/20 07:36:34 dmb Exp $
+%      Version: $Id: readhtk.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

@@ -13,17 +13,17 @@ function [gci,goi] = dypsa(s,fs)
 %         an assumed constant closed-phase fraction
 %
 %   References:
-%   [1]  P. A. Naylor, A. Kounoudes, J. Gudnason, and M. Brookes, “Estimation of Glottal Closure
-%        Instants in Voiced Speech using the DYPSA Algorithm,” IEEE Trans on Speech and Audio
-%        Processing, vol. 15, pp. 34–43, Jan. 2007.
-%   [2]  M. Brookes, P. A. Naylor, and J. Gudnason, “A Quantitative Assessment of Group Delay Methods
-%        for Identifying Glottal Closures in Voiced Speech,” IEEE Trans on Speech & Audio Processing,
-%        vol. 14, no. 2, pp. 456–466, Mar. 2006.
-%   [3]  A. Kounoudes, P. A. Naylor, and M. Brookes, “The DYPSA algorithm for estimation of glottal
-%        closure instants in voiced speech,” in Proc ICASSP 2002, vol. 1, Orlando, 2002, pp. 349–352.
-%   [4]  C. Ma, Y. Kamp, and L. F. Willems, “A Frobenius norm approach to glottal closure detection
-%        from the speech signal,” IEEE Trans. Speech Audio Processing, vol. 2, pp. 258–265, Apr. 1994.
-%   [5]  A. Kounoudes, “Epoch Estimation for Closed-Phase Analysis of Speech,” PhD Thesis,
+%   [1]  P. A. Naylor, A. Kounoudes, J. Gudnason, and M. Brookes, Â“Estimation of Glottal Closure
+%        Instants in Voiced Speech using the DYPSA Algorithm,Â” IEEE Trans on Speech and Audio
+%        Processing, vol. 15, pp. 34Â–43, Jan. 2007.
+%   [2]  M. Brookes, P. A. Naylor, and J. Gudnason, Â“A Quantitative Assessment of Group Delay Methods
+%        for Identifying Glottal Closures in Voiced Speech,Â” IEEE Trans on Speech & Audio Processing,
+%        vol. 14, no. 2, pp. 456Â–466, Mar. 2006.
+%   [3]  A. Kounoudes, P. A. Naylor, and M. Brookes, Â“The DYPSA algorithm for estimation of glottal
+%        closure instants in voiced speech,Â” in Proc ICASSP 2002, vol. 1, Orlando, 2002, pp. 349Â–352.
+%   [4]  C. Ma, Y. Kamp, and L. F. Willems, Â“A Frobenius norm approach to glottal closure detection
+%        from the speech signal,Â” IEEE Trans. Speech Audio Processing, vol. 2, pp. 258Â–265, Apr. 1994.
+%   [5]  A. Kounoudes, Â“Epoch Estimation for Closed-Phase Analysis of Speech,Â” PhD Thesis,
 %        Imperial College, 2001.
 
 % Algorithm Parameters
@@ -69,7 +69,7 @@ function [gci,goi] = dypsa(s,fs)
 %   Bugs:
 %         1. Allow the projections only to extend to the end of the larynx cycle
 %         2. Compensate for false pitch period cost at the start of a voicespurt
-%         3. Should include energy and pahse-slope costs for the first closeure of a voicespurt
+%         3. Should include energy and phase-slope costs for the first closure of a voicespurt
 %         4. should delete candidates that are too close to the beginning or end of speech for the cost measures
 %            currently this is 200 samples fixed in the main routine but it should adapt to window lengths of
 %            cross-correlation, lpc and energy measures.
@@ -90,7 +90,7 @@ function [gci,goi] = dypsa(s,fs)
 %        19. Remove constraint that first voicespurt cannot begin until qrmax after the first candidate
 
 %      Copyright (C) Tasos Kounoudes, Jon Gudnason, Patrick Naylor and Mike Brookes 2006
-%      Version: $Id: dypsa.m,v 3.6 2007/05/04 07:01:38 dmb Exp $
+%      Version: $Id: dypsa.m 3102 2013-06-13 21:16:11Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -124,6 +124,8 @@ dy_ewdly=voicebox('dy_ewdly');        % shift for assymetric speech shape at sta
 dy_cpfrac=voicebox('dy_cpfrac');        % presumed ratio of larynx cycle that is closed
 dy_lpcnf=voicebox('dy_lpcnf');          % lpc poles per Hz (1/Hz)
 dy_lpcn=voicebox('dy_lpcn');            % lpc additional poles
+dy_xwlen=voicebox('dy_xwlen');            % cross-correlation length for waveform similarity (sec)
+dy_fxminf=voicebox('dy_fxminf');            % minimum pitch for Frobenius norm calculation
 
 lpcord=ceil(fs*dy_lpcnf+dy_lpcn);       % lpc poles
 
@@ -157,10 +159,13 @@ if dy_dopsp ~= 0
 end;
 
 %Sort the zero crossing and projected candidates together and remove any candidates that
-%are within 200 samples from the speech boundary
+%are to close to the start or end of the speech signal because the cost functions
+%need room either side. 
+
 [gcic,sin] = sortrows([zcr_cand; pro_cand],1);  
 sew=sew(sin);
-sin=find(and(200<gcic,gcic<length(gdwav)-200));
+saf=max([200,dy_xwlen*fs/2+1,fs/dy_fxminf]);
+sin=find(and(saf<gcic,gcic<length(gdwav)-saf));
 gcic=gcic(sin,:);
 sew=sew(sin);
 
@@ -277,8 +282,8 @@ function [frob]=frobfun(sp,p,m,offset)
 % It equals the square of the Frobenius norm of the m by p+1 data matrix divided by p+1
 %
 % Reference:
-%   [4]  C. Ma, Y. Kamp, and L. F. Willems, “A Frobenius norm approach to glottal closure detection
-%        from the speech signal,” IEEE Trans. Speech Audio Processing, vol. 2, pp. 258–265, Apr. 1994.
+%   [4]  C. Ma, Y. Kamp, and L. F. Willems, Â“A Frobenius norm approach to glottal closure detection
+%        from the speech signal,Â” IEEE Trans. Speech Audio Processing, vol. 2, pp. 258Â–265, Apr. 1994.
 
 
 %   Revision History: 
@@ -406,7 +411,10 @@ dy_wxcorr=voicebox('dy_wxcorr');           % DP cross correlation weighting
 
 %Constants
 Ncand=length(gcic);
-sv2i=-(2*dy_spitch^2)^(-1);              % scale factor for pitch deviation cost
+sv2i=-(2*dy_spitch^2)^(-1);                 % scale factor for pitch deviation cost
+nxc=ceil(dy_xwlen*fs);                      % cross correlation window length in samples
+% === should delete any gci's that are within this of the end.
+% === and for energy window
 
 %Limit the search:
 qrmin=ceil(fs/dy_fxmax);
@@ -432,9 +440,7 @@ Ch = [0 Ch 0];
 
 % first do parallelized version
 
-nxc=ceil(dy_xwlen*fs);       % cross correlation window length in samples
-% === should delete any gci's that are within this of the end.
-% === and for energy window
+
 % rather complicated window specification is for compatibility with DYPSA 2
 % === +1 below is for compatibility - probably a bug
 wavix=(-floor(nxc/2):floor(nxc/2)+1)';                 % indexes for segments [nx2,1]

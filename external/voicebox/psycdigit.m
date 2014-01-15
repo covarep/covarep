@@ -1,45 +1,53 @@
 function [m,v]=psycdigit(proc,r,mode,p,q,xp,noise,fn,dfile,ofile)
-% y=proc(x,fs,i,r)  % process noisy waveform x through model i with parameters r
-% y=proc(x,fs,snr,i,r) % process clean speech degraded to snr through model i with parameters r
-% y=proc()   % return comment text string describing algorithm ('c' option only)
+%PSYCDIGIT measures psychometric function using TIDIGITS stimuli
+%
+% Usage:
+%         (1)[m,v]=psycdigit([],[],'GMPWrn10',[],[],[],[],[],dfile);
+%                       % measure SRT using addditive white noise, repetitions allowed, data in .WAV format
+%         (2)[m,v]=psycdigit(@specsub,[],'GMPn10',[],[],[],[],[],dfile);
+%                       % compare spectral subtraction with unprocessed noisy speech
+%
 % Inputs:
-%         proc    processing function handle (e.g. @specsub)
+%         proc    processing function handle (e.g. @specsub) called as follows:
+%                    y=proc(x,fs,i,r)  % process noisy waveform x through model i with parameters r
+%                    y=proc(x,fs,snr,i,r) % process clean speech degraded to snr through model i with parameters r
+%                    y=proc()   % return comment text string describing algorithm (if 'c' option specified)
 %         r       parameters for proc (omitted from call if r=[])
-%         mode    see below
+%         mode    string containing options (see below for list)
 %         p,q,xp  parameters passed on to psycest or psycestu
 %         noise   noise waveform or wav file containing noise
 %         fn      noise waveform sample frequency [16000]
 %         dfile   path to TIdigits folder
-%         ofile   output text file
+%         ofile   output text file (see below for output file format)
 %
-% mode options:
+% Outputs:
+%          m(2,n,3) estimated srt and slope of all models
+%                   m(i,n,k): i={1=srt, 2=slope}, n=model number, k={1=mean, 2=mode (MAP), 3=marginal mode}
+%          v(3,n)   estimated covariance matrix entries:
+%                   [var(srt) cov(srt,slope) var(slope)]' of n'th model
+%
+% List of options for "mode" input:
 %         a       proc adds its own noise
-%         b*      base figure number [100]
+%         b*      base figure number for plotting results [100]
 %         c       y=proc() returns comment string
-%        [ d       score as single digits ]
-%        e/E*       plot evolving psychometric functions *=1,2,3 for mean, mode, marginal mode (F=after each trial)
-%         f/F*       plot psychometric functions *=1,2,3 for mean, mode, marginal mode (F=after each trial)
-%        g       prompt with number of digits
+%         e/E*    plot evolving psychometric functions *=1,2,3 for mean, mode, marginal mode (F=after each trial)
+%         f/F*    plot psychometric functions *=1,2,3 for mean, mode, marginal mode (F=after each trial)
+%         g       prompt with number of digits
 %         G       prompt with SNR
-%        [ i/I    plot SRT improvement (I=after each trial) ]
-%        [ j*      scaling: 0=autoscale each token, 1=constant speech, 2=const noise, 3=const noisy ]
 %         l*      min token length (in digits)
 %         L*      max token length (if different from min)
 %         m*      use * external models [default 1]
 %         M       include an extra model with no processing
 %         n*      *=average number of trials per model
-%        [N*       ignore the first * trials ]
-%         [o/O    write to output file, O write result of each probe]
-%         p/P       plot pdf (P=after each trial)
+%         p/P     plot pdf (P=after each trial)
 %         r       allow repetitions
-%         s      respond s to save the noisy stimulus as a .wav file
-%        [ S     save all stimuli as wav files ]
+%         s       respond s to save the noisy stimulus as a .wav file
 %         t/T*    taper noise */10 seconds at start and end
-%        [ u      do not normalize the noise level ]
-%         v/V*       plot srt/slope convergence (C= after each trial) *=1,2,3 for mean, mode, marginal mode
-%        [ w       white noise instead of speech-shaped ]
+%         v/V*    plot srt/slope convergence (V= after each trial)
+%                 *=1,2,3 for mean, mode, marginal mode
 %         x*      add */10 seconds of noise to the front of the speech before processing
 %         X*      truncate */10 seconds from the start of the processed speech
+%         W       data is in microsoft WAV format
 %         z       omit tokens containing "oh"
 %         Z       omit tokens containing "zero"
 %
@@ -52,15 +60,26 @@ function [m,v]=psycdigit(proc,r,mode,p,q,xp,noise,fn,dfile,ofile)
 %       C  Comment returned by proc
 %       M  measurement
 
+% Future mode options:
+%        [ d     score as single digits ]
+%        [ i/I   plot SRT improvement (I=after each trial) ]
+%        [ j*    scaling: 0=autoscale each token, 1=constant speech,2=const noise, 3=const noisy ]
+%        [N*     ignore the first * trials ]
+%        [o/O    write to output file, O write result of each probe]
+%        [ S     save all stimuli as wav files ]
+%        [ u     do not normalize the noise level ]
+%        [ y*    type of noise ]
+%
 % Bugs/Suggestions
 % (1) Add sounds to indicate error and end of test
 % (2) Routine could return a label to replace "SNR" in necessary
 % (3) Add an input option to "discard" this sample
 % (4) output file should include mode argument + date + IP address + computer name + r arguments + p/q values
 % (5) Quote filenames in output file or else never have anything else on the line
+% (6) silence detection doesn't work
 
 %      Copyright (C) Mike Brookes 2010
-%      Version: $Id: psycdigit.m,v 1.11 2011/06/28 15:59:40 dmb Exp $
+%      Version: $Id: psycdigit.m 1947 2012-06-10 19:48:11Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -160,7 +179,9 @@ while i<=lmode
     end
     i=i+ni;
 end
-
+if isempty(proc)
+    pv(4)=0; % not allowed any processed models if not process is specified
+end
 % derived input parameters
 
 varthr=20;   % variance threshold for "silence"
@@ -235,8 +256,12 @@ if isempty(tok) || any(tigflg~=tigflgp) || ~strcmp(dfile,digitsp)
     end
 end
 ntok=size(tok,1);
+if pf(46)
+    [s,fs]=readwav([dfile tok{1,1}]); % get the first speech token to set fs
+else
     [s,fs]=readsph([dfile tok{1,1}]); % get the first speech token to set fs
-    
+end
+
 % calculate guess probability assuming you get the correct number of digits
 
 if any(mode=='d')
@@ -258,7 +283,7 @@ if pv(4) && pf(5)
     x=[];  % set x=[] to force a description output
     ii=1;   % for now, only do model 1
     if pf(1)   % if process adds its own noise
-        if isempty(r)
+        if isempty(r)  % proc does not require any auxilliary parameters
             if mval
                 procdesc=proc(x,fs,xx,ii);  % process the noisy speech
             else
@@ -271,8 +296,8 @@ if pv(4) && pf(5)
                 procdesc=proc(x,fs,xx,r);  % process the noisy speech
             end
         end
-    else
-        if isempty(r)
+    else   % if process does not add its own noise
+        if isempty(r)  % proc does not require any auxilliary parameters
             if mval
                 procdesc=proc(x,fs,ii);  % process the noisy speech
             else
@@ -280,9 +305,9 @@ if pv(4) && pf(5)
             end
         else
             if mval
-                y=proc(x,fs,ii,r);  % process the noisy speech
+                procdesc=proc(x,fs,ii,r);  % process the noisy speech
             else
-                y=proc(x,fs,r);  % process the noisy speech
+                procdesc=proc(x,fs,r);  % process the noisy speech
             end
         end
     end
@@ -327,7 +352,11 @@ quitit=0;
 while ~quitit
     i=i+1;
     isp=min(1+floor(rand(1)*ntok),ntok); % select a token
-    [s,fs]=readsph([dfile tok{isp,1}]); % get the speech token
+    if pf(46)
+        [s,fs]=readwav([dfile tok{isp,1}]); % get the speech token
+    else
+        [s,fs]=readsph([dfile tok{isp,1}]); % get the speech token
+    end
     s=[zeros(pv(6)*round(fs/10),1); activlev(s(:),fs,'n')]; % preappend zeros and normalize speech level
     if pf(1) && ii<=pv(4)  % if process adds its own noise
         if isempty(r)
@@ -381,7 +410,8 @@ while ~quitit
         prr='';
     end
     prompt=[prG 'enter' prg ' digits (''q'' to quit' prr '): '];
-    ansr=-(var(y)>varthr);
+    %     ansr=-(var(y)>varthr);  % meant to detect silences but doesn't work
+    ansr=-1;
     say=1;
     while ansr<0
         if say
@@ -401,7 +431,7 @@ while ~quitit
             elseif lower(rv(1))=='s' && pf(37)   % save the token
                 ofn=input('File name: ','s');
                 if numel(ofn)
-                writewav(y,fs,ofn);
+                    writewav(y,fs,ofn);
                 end
             elseif all(rv>='0') && all(rv<='9') && ( ~pf(13) || length(rv)==length(tok{isp,2}))
                 ansr=strcmp(rv,tok{isp,2});

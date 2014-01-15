@@ -6,7 +6,7 @@ function q=rotro2qr(r)
 %
 % Outputs: 
 %
-%     Q(4,1)   real-valued quaternion (with magnitude = 1)
+%     Q(4,1)   normalized real-valued quaternion
 %
 % In the quaternion representation of a rotation, and q(1) = cos(t/2) 
 % where t is the angle of rotation in the range 0 to 2pi
@@ -14,7 +14,7 @@ function q=rotro2qr(r)
 % a positive rotation about [0 0 1] takes the X axis towards the Y axis.
 
 %      Copyright (C) Mike Brookes 2007
-%      Version: $Id: rotro2qr.m,v 1.2 2007/11/21 12:42:36 dmb Exp $
+%      Version: $Id: rotro2qr.m 2186 2012-07-20 13:45:03Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -65,4 +65,7 @@ else                                             % row 3
 end
 f=find(q~=0);
 if (q(f(1))<0), q=-q; end           % force positive
+if abs(q'*q-1)>1e-8
+    error('Input to rotro2qr must be a rotation matrix with det(r)=+1');
+end
      

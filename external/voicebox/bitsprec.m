@@ -35,7 +35,7 @@ function y=bitsprec(x,n,mode)
 %    -1.5   -1   -2   -1   -2   -1   -1   -2   -2
 
 %      Copyright (C) Mike Brookes 1997
-%      Version: $Id: bitsprec.m,v 1.4 2007/05/04 07:01:38 dmb Exp $
+%      Version: $Id: bitsprec.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

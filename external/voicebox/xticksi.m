@@ -18,7 +18,7 @@ function s=xticksi(ah)
 % marks; this global multiplier can be incorporated into the axis label as shown.
 
 %	   Copyright (C) Mike Brookes 2009
-%      Version: $Id: xticksi.m,v 1.2 2010/01/02 20:02:58 dmb Exp $
+%      Version: $Id: xticksi.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

@@ -23,7 +23,7 @@ function [ss,po]=specsubm(s,fs,p)
 
 
 %      Copyright (C) Mike Brookes 2004
-%      Version: $Id: specsubm.m,v 1.5 2008/05/27 20:58:50 dmb Exp $
+%      Version: $Id: specsubm.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

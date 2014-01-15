@@ -1,26 +1,31 @@
 function q=roteu2qr(m,t)
-%ROTEU2QR converts a sequence of euler angles to a real unit quaternion
+%ROTEU2QR converts a sequence of Euler angles to a real unit quaternion
 % Inputs:
 %
 %     M(1,n)   a string of n characters from the set {'x','y','z'}
 %              or, equivalently, a vector whose elements are 1, 2, or 3
-%     T(1,n)   n rotation angles
+%     T(n,1)   n rotation angles. A positive rotation is clockwise if
+%              looking along the axis away from the origin.
 %
 % Outputs:
 %
-%     Q(1,4)   output quaternion
+%     Q(4,1)   output quaternion. Q is normalized to have magnitude 1 with
+%              its first non-zero coefficient positive.
 %
 % The string M specifies the axes about which the rotations are performed.
 % You cannot have the same axis in adjacent positions and so there are 12
 % possibilities. Common ones are "ZXZ" and "ZYX". A positive rotation is clockwise
-% if looking along the axis away from the origin.
-
-% Suggestions:
-%   (1) Should allow 1,2,3 as well as x,y,z to specify the axes
+% if looking along the axis away from the origin; thus a rotation of +pi/2
+% around Z rotates [1 0 0]' to [0 1 0]'.
+% 
+% Inverse conversion: If m has length 3 with adjacent characters distinct,
+%                     then rotqr2eu(m,roteu2qr(m,t))=t.
+%
+% Inverse rotation:   qrmult(roteu2qr(m,t),roteu2qr(fliplr(m),-fliplr(t)))=+-[ 1 0 0 0]'
 
 %
-%      Copyright (C) Mike Brookes 2007
-%      Version: $Id: roteu2qr.m,v 1.2 2007/11/21 12:42:36 dmb Exp $
+%      Copyright (C) Mike Brookes 2007-2012
+%      Version: $Id: roteu2qr.m 2171 2012-07-12 07:33:03Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -58,5 +63,4 @@ for i=1:length(m)
     r(x(5:6))=-q(x(7:8));
     q=c*q+s*r;
 end
-f=find(q~=0);
-if (q(f(1))<0), q=-q; end
+q=q*(2*(q(find(q~=0,1))>0)-1); % force leading coefficient to be positive

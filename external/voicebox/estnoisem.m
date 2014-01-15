@@ -1,5 +1,12 @@
 function [x,zo,xs]=estnoisem(yf,tz,pp)
 %ESTNOISEM - estimate noise spectrum using minimum statistics
+%
+% Usage:    ninc=round(0.016*fs);   % frame increment [fs=sample frequency]
+%           ovf=2;                  % overlap factor
+%           f=rfft(enframe(s,hanning(ovf*ninc,'periodic'),ninc),ovf*ninc,2);
+%           f=f.*conj(f);           % convert to power spectrum
+%           x=estnoisem(f,ninc/fs); % estimate the noise power spectrum
+%
 % Inputs:
 %   yf      input power spectra (one row per frame)
 %   tz      frame increment in seconds
@@ -61,7 +68,7 @@ function [x,zo,xs]=estnoisem(yf,tz,pp)
 %        Proc IWAENC, 2006
 
 %	   Copyright (C) Mike Brookes 2008
-%      Version: $Id: estnoisem.m,v 1.1 2008/05/22 17:17:02 dmb Exp $
+%      Version: $Id: estnoisem.m 1718 2012-03-31 16:40:41Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -268,10 +275,19 @@ else
         zo.qq=qq;
     end
     if ~nargout
-        plot((1:nr),10*log10([sum(x,2)/nrf sum(yf,2)/nrf]))
-        legend('noise','input');
+        clf;
+        subplot(212);
+        plot((1:nr)*tinc,10*log10([sum(yf,2) sum(x,2)]))
+        ylabel('Frame Energy (dB)');
+        xlabel(sprintf('Time (s)   [%d ms frame incr]',round(tinc*1000)));
+        axisenlarge([-1 -1.05]);
+        legend('input','noise','Location','Best');
+        subplot(211);
+        plot(1:nrf,10*log10([sum(yf,1)'/nr sum(x,1)'/nr]))
         ylabel('Power (dB)');
-        xlabel(sprintf('Time (%d ms frames)',round(tinc*1000)));
+        xlabel('Frequency bin');
+        axisenlarge([-1 -1.05]);
+        legend('input','noise','Location','Best');
     end
 end
 

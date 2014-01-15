@@ -1,18 +1,20 @@
-function x=srfft(y,n)
-%SRFFT    fft of a real symmetric spectrum X=(Y,N)
+function x=rsfft(y,n)
+%RSFFT    fft of a real symmetric spectrum X=(Y,N)
 % Y is the "first half" of a symmetric real input signal and X is the
 % "first half" of the symmetric real fourier transform.
 % If the length, N, of the full signal is even, then the "first half"
 % contains 1+N/2 elements (the first and last are excluded from the reflection).
-% If N is odd, the "first half" conatins 0.5+N/2 elemnts and only the first
+% If N is odd, the "first half" conatins 0.5+N/2 elements and only the first
 % is excluded from the reflection.
 % If N is specified explicitly, then Y will be truncated of zero-padded accordingly.
 % If N is omitted it will be taken to be 2*(length(Y)-1) and is always even.
 %
-% The inverse function is y=srfft(x,n)/n
+% If Y is a matrix, the transform is performed along each column
+%
+% The inverse function is y=rsfft(x,n)/n
 
 %      Copyright (C) Mike Brookes 1998
-%      Version: $Id: rsfft.m,v 1.5 2011/09/02 16:25:48 dmb Exp $
+%      Version: $Id: rsfft.m 2717 2013-02-23 09:34:30Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -33,19 +35,18 @@ function x=srfft(y,n)
 %   Free Software Foundation, Inc.,675 Mass Ave, Cambridge, MA 02139, USA.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-if ~isreal(y) error('SRFFT: Input must be real'); end
+if ~isreal(y) error('RSFFT: Input must be real'); end
 fl=size(y,1)==1;
 if fl y=y(:); end
 [m,k]=size(y);
 if nargin<2 n=2*m-2;
 else
-  mm=1+fix(n/2);
-  if mm>m y=[y; zeros(mm-m,k)];
-  elseif mm<m y(mm+1:m,:)=[];
-  end
-  m=mm;
+    mm=1+fix(n/2);
+    if mm>m y=[y; zeros(mm-m,k)];
+    elseif mm<m y(mm+1:m,:)=[];
+    end
+    m=mm;
 end
-   x=real(fft([y;y(n-m+1:-1:2,:)]));
-   x(m+1:end,:)=[];
-
+x=real(fft([y;y(n-m+1:-1:2,:)]));
+x(m+1:end,:)=[];
 if fl x=x.'; end

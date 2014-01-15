@@ -18,7 +18,7 @@ function d=disteusq(x,y,mode,w)
 %
 
 %      Copyright (C) Mike Brookes 1998
-%      Version: $Id: disteusq.m,v 1.6 2010/04/19 16:56:22 dmb Exp $
+%      Version: $Id: disteusq.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

@@ -14,7 +14,7 @@ function qr=rotmr2qr(mr)
 
 % 
 %      Copyright (C) Mike Brookes 2000-2006
-%      Version: $Id: rotmr2qr.m,v 1.1 2007/11/21 22:08:51 dmb Exp $
+%      Version: $Id: rotmr2qr.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

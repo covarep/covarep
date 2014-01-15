@@ -1,9 +1,19 @@
 function [t,f,b]=spgrambw(s,fs,varargin)
 %SPGRAMBW Draw spectrogram [T,F,B]=(s,fs,mode,bw,fmax,db,tinc,ann)
 %
-%  Usage: spgrambw(s,fs,'pJcw')  % Plot spectrogram with my favourite set of options
-%         
-%         For examples of the many options available see: 
+%  Usage: (1) spgrambw(s,fs,'pJcw')     % Plot spectrogram with my favourite set of options
+%
+%         (2) spgrambw(s,fs,'PJcwm',50,[100 2000])    % Plot narrow-band spectrogram on mel scale
+%                                                       from 100 to 2000 mel in power/mel units
+%
+%         (3) ninc=0.0045*fs;           % Frame increment for BW=200 Hz (in samples)
+%             nwin=2*ninc;              % Frame length (in samples)
+%             win=hamming(nwin);        % Analysis window
+%             k=0.5*fs*sum(win.^2);     % Scale factor to convert to power/Hz
+%             sf=abs(rfft(enframe(s,win,ninc),nwin,2)).^2/k;           % Calculate spectrum array                
+%             spgrambw(sf,[fs/ninc 0.5*(nwin+1)/fs fs/nwin],'Jc',bw);  % Plot spectrum array
+%
+%         For examples of the many options available see:
 %         http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/tutorial/spgrambw/spgram_tut.pdf
 %
 %  Inputs:  S         speech signal, or single-sided power spectrum array, S(NT,NF), in power per Hz
@@ -43,7 +53,7 @@ function [t,f,b]=spgrambw(s,fs,varargin)
 %        'b' = bark scale
 %        'e' = erb scale
 %        'l' = log10 Hz frequency scale
-%        'f' = label frequency axis in Hz rather than mel/bark/... 
+%        'f' = label frequency axis in Hz rather than mel/bark/...
 %
 %        'h' = units of the FMAX input are in Hz instead of mel/bark
 %              [in this case, the Fstep parameter is used only to determine
@@ -66,9 +76,8 @@ function [t,f,b]=spgrambw(s,fs,varargin)
 % 1.81/BW and the low-pass filter applied to amplitude modulations has a 6-dB bandwidth of
 % BW/2 Hz.
 %
-% The units are power per Hz unless the u
-% option is given in which case power per displayed unit is used
-% or power per decade for the l option.
+% The units are power per Hz unless the 'P' option is given in which case power
+% per displayed unit is used or power per decade for the 'l' option.
 
 %%%% BUGS %%%%%%
 % * allow ANN rows to be a mixture of intervals and instants
@@ -82,7 +91,7 @@ function [t,f,b]=spgrambw(s,fs,varargin)
 %       ['z' = use a bipolar colourmap for a matrix input with negative values]
 
 %      Copyright (C) Mike Brookes 1997-2011
-%      Version: $Id: spgrambw.m,v 1.22 2011/06/07 21:00:55 dmb Exp $
+%      Version: $Id: spgrambw.m 3099 2013-06-12 14:16:47Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -273,7 +282,7 @@ switch mdsw(1)          % convert the frequency range to Hz
         f=bark2frq(fx);
         frlab='Bark';
         frlabf='Bark';
-                frq2y=@frq2bark;
+        frq2y=@frq2bark;
         y2frq=@bark2frq;
     case 'e'
         f=erb2frq(fx);
@@ -284,7 +293,7 @@ switch mdsw(1)          % convert the frequency range to Hz
     otherwise
         f=fx;
         frlab='Hz';
-                frq2y=@(x) x;
+        frq2y=@(x) x;
         y2frq=@(x) x;
 end
 if ~any(mode=='H')
@@ -311,7 +320,6 @@ if ns2==1   % input is a speech signal vector
     fb=(0:fftlen/2)*fs(1)/fftlen; % fft bin frequencies
     fftfs=fs(1);
 else
-
     b=s;
     t=fs(2)+(0:ns1-1)/fs(1);  % frame times
     fb=fs(4)+(0:ns2-1)*fs(3);
@@ -327,7 +335,7 @@ switch mdsw(2)
         b=b.*repmat(fb*log(10),nfr,1);       % convert to power per decade
         dblab='Power/Decade';
     case 'm'
-        b=b.*repmat((1+fb/700)*log(1+1000/700)/1000,nfr,1);       % convert to power per mel
+        b=b.*repmat((700+fb)*log(1+1000/700)/1000,nfr,1);       % convert to power per mel
         dblab='Power/Mel';
     case 'b'
         b=b.*repmat((1960+fb).^2/52547.6,nfr,1);       % convert to power per bark
@@ -354,7 +362,7 @@ if ~nargout || any(mode=='g') ||  any(mode=='d')
         plim(1)=0.1*plim(2);
     end
     if ~nargout || any(mode=='g')
-        bd=10*log10(b);  % save an unclipped log version for plotting
+        bd=10*log10(max(b,max(b(:)*1e-30)));  % save an unclipped log version for plotting
     end
     if any(mode=='D')
         b=min(max(b,plim(1)),plim(2)); % clip the output
@@ -389,7 +397,7 @@ if ~nargout || any(mode=='g')
     % Now check if annotations or a waveform are required
     %
     dotaw=[((any(mode=='t') && size(ann,2)>1) || size(ann,2)==1) size(ann,2)>1 (any(mode=='w') && ns2==1)];
-        ylim=get(gca,'ylim');
+    ylim=get(gca,'ylim');
     if  any(dotaw)
         yrange = ylim(2)-ylim(1);
         zlim=ylim;
@@ -397,11 +405,16 @@ if ~nargout || any(mode=='g')
         zlim(2)=toptaw(4);
         set(gca,'ylim',zlim,'color',map(1,:));
         if dotaw(3)        % Plot the waveform
-            smax=max(s(:));
-            smin=min(s(:));
+            six=min(max(floor((get(gca,'xlim')-fs(2))*fs(1))+[1 2],1),ns1);
+            smax=max(s(six(1):six(2)));
+            smin=min(s(six(1):six(2)));
+            if smax==smin
+                smax=smax+1;
+                smin=smin-1;
+            end
             srange=smax-smin;
             hold on
-            plot(fs(2)+(0:length(s)-1)/fs(1),(s-smin)/srange*0.9*(toptaw(4)-toptaw(3))+toptaw(3),'color',map(48,:))
+            plot(fs(2)+(six(1)-1:six(2)-1)/fs(1),(s(six(1):six(2))-smin)/srange*0.9*(toptaw(4)-toptaw(3))+toptaw(3),'color',map(48,:))
             hold off
         end
         if dotaw(1) || dotaw(2)
@@ -458,7 +471,7 @@ if ~nargout || any(mode=='g')
         ylabel([frlabf '-scaled frequency (Hz)']);
         ytickhz(frq2y,y2frq);
     else
-    ylabel(['Frequency (' yticksi frlab ')']);
+        ylabel(['Frequency (' yticksi frlab ')']);
     end
     ytick=get(gca,'YTick');
     ytickl=get(gca,'YTickLabel');
@@ -483,7 +496,7 @@ seps=[0.4 1 3 6]; % spacings: (a) min subtick, (b) min tick, (c) min good tick, 
 ww=[0.5 0.6 0.8 0.1 0.3 0.3 0.2];  % weight for (a) last digit=5, (b) power of 10, (c) power of 1000, (d) equal spacing, (e) 1:2:5 labels (f) <seps(3) (g) >seps(4)
 nbest=10; % number of possibilities to track
 
-prefix={'y','z','a','f','p','n','µ','m','','k','M','G','T','P','E','Z','Y'};
+prefix={'y','z','a','f','p','n','Âµ','m','','k','M','G','T','P','E','Z','Y'};
 
 ah=gca;
 getgca=get(ah);  % Get original axis properties
@@ -549,7 +562,7 @@ cand([1 maxl+2],10)=ylim + seps(4)*chsz*[-1 1]; % put imaginary labels at the op
 % Now do n-best DP to find the best sequence
 
 ratint=[8/5 25/10 0 0 4/3];
-costs=repmat(Inf,nbest,maxl+2); % cumulative path costs
+costs=Inf(nbest,maxl+2); % cumulative path costs
 costs(1,1)=0; % starting node only has one option
 prev=ones(nbest,maxl+2); % previous label in path
 labcnt=zeros(nbest,maxl+2); % number of labels in path
@@ -591,9 +604,9 @@ for i=1:nbest
             lablist(j)=1+floor((k-1)/nbest);
             k=prev(k);
         end
-%         fprintf('Cost=%8.2f :',costs(i,maxl+2));
-%         fprintf(' %g',cand(lablist,5))
-%         fprintf('\n');
+        %         fprintf('Cost=%8.2f :',costs(i,maxl+2));
+        %         fprintf(' %g',cand(lablist,5))
+        %         fprintf('\n');
         if ~ichoose || labcnt(ichoose,maxl+2)==1
             ichoose=i;
             labchoose=lablist;

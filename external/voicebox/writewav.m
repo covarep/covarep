@@ -76,7 +76,7 @@ function fidx=writewav(d,fs,filename,mode,nskip,mask)
 %   Any of these scalings can be selected via the mode input: (a) 'o', (b) default, (c) 'on', (d) 'n'
 
 %	   Copyright (C) Mike Brookes 1998-2011
-%      Version: $Id: writewav.m,v 1.5 2011/05/02 16:51:34 dmb Exp $
+%      Version: $Id: writewav.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

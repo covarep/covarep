@@ -1,5 +1,5 @@
 function e=rotro2eu(m,ro)
-%ROTQR2EQ converts a 3x3 rotation matrix into the corresponding euler angles
+%ROTRO2EQ converts a 3x3 rotation matrix into the corresponding euler angles
 % Inputs: 
 %
 %     M(1,3)   a string of 3 characters from the set {'x','y','z'} e.g. "zxz" or "zyx"
@@ -8,7 +8,8 @@ function e=rotro2eu(m,ro)
 %
 % Outputs:
 %
-%     E(3,1)   3 euler angles in the range +-pi
+%     E(3,1)   3 euler angles in the range +-pi. A positive rotation is clockwise
+%               if looking along the axis away from the origin.
 %
 % The string M specifies the axes (fixed in space) about which the rotations of
 % an object are performed. You cannot have the same axis in adjacent positions
@@ -24,7 +25,7 @@ function e=rotro2eu(m,ro)
 
 % 
 %      Copyright (C) Mike Brookes 2007
-%      Version: $Id: rotro2eu.m,v 1.2 2007/11/23 18:47:46 dmb Exp $
+%      Version: $Id: rotro2eu.m 2187 2012-07-20 13:45:35Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -49,7 +50,7 @@ e=zeros(3,1);
 if ischar(m)
     m=lower(m)-'w';
 end
-if any(abs(m-2)>1), error('Euler axis must be x,y or z'); end
+if numel(m)~=3 | any(abs(m-2)>1), error('Euler axis must be an x,y or z triplet'); end
 u=m(1);
 v=m(2);
 w=m(3);

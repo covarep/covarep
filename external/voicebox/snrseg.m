@@ -3,7 +3,7 @@ function [seg,glo]=snrseg(s,r,fs,m,tf)
 %
 %Usage: (1) seg=snrseg(s,r,fs);                  % s & r are noisy and clean signal
 %       (2) seg=snrseg(s,r,fs,'wz');             % no VAD or inerpolation used ['Vq' is default]
-%       (3) [seg,snr]=snrseg(s,r,fs,'Vq',0.03);  % 30 ms frames
+%       (3) [seg,glo]=snrseg(s,r,fs,'Vq',0.03);  % 30 ms frames
 %
 % Inputs:    s  test signal
 %            r  reference signal
@@ -51,7 +51,7 @@ function [seg,glo]=snrseg(s,r,fs,m,tf)
 %     bandwidths either with an extra parameter or automatically determined
 
 %      Copyright (C) Mike Brookes 2011
-%      Version: $Id: snrseg.m,v 1.4 2011/07/08 08:12:34 dmb Exp $
+%      Version: $Id: snrseg.m 2953 2013-05-02 12:51:26Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -121,7 +121,7 @@ snf(em)=snmax;
 % select the frames to include
 
 if any(m=='w')
-    vf=ones(1,nf); % include all frames
+    vf=true(1,nf); % include all frames
 elseif any(m=='v');
     vs=vadsohn(r,fs,'na');
     nvs=length(vs);

@@ -5,7 +5,7 @@ function [frq,mr] = mel2frq(mel)
 %   mr gives the corresponding gradients in Hz/mel.
 %	The Mel scale corresponds to the perceived pitch of a tone
 
-%	The relationship between mel and frq is given by:
+%	The relationship between mel and frq is given by [1]:
 %
 %	m = ln(1 + f/700) * 1000 / ln(1+1000/700)
 %
@@ -13,25 +13,25 @@ function [frq,mr] = mel2frq(mel)
 %
 %	References:
 %
-%	  [1] S. S. Stevens & J. Volkman "The relation of pitch to
-%		frequency", American J of Psychology, V 53, p329 1940
-%	  [2] C. G. M. Fant, "Acoustic description & classification
-%		of phonetic units", Ericsson Tchnics, No 1 1959
-%		(reprinted in "Speech Sounds & Features", MIT Press 1973)
-%	  [3] S. B. Davis & P. Mermelstein, "Comparison of parametric
-%		representations for monosyllabic word recognition in
-%		continuously spoken sentences", IEEE ASSP, V 28,
-%		pp 357-366 Aug 1980
-%	  [4] J. R. Deller Jr, J. G. Proakis, J. H. L. Hansen,
-%		"Discrete-Time Processing of Speech Signals", p380,
-%		Macmillan 1993
-%	  [5] HTK Reference Manual p73
-%	
-
-
+%     [1] J. Makhoul and L. Cosell. "Lpcw: An lpc vocoder with
+%         linear predictive spectral warping", In Proc IEEE Intl
+%         Conf Acoustics, Speech and Signal Processing, volume 1,
+%         pages 466469, 1976. doi: 10.1109/ICASSP.1976.1170013.
+%	  [2] S. S. Stevens & J. Volkman "The relation of pitch to
+%		  frequency", American J of Psychology, V 53, p329 1940
+%	  [3] C. G. M. Fant, "Acoustic description & classification
+%		  of phonetic units", Ericsson Tchnics, No 1 1959
+%		  (reprinted in "Speech Sounds & Features", MIT Press 1973)
+%	  [4] S. B. Davis & P. Mermelstein, "Comparison of parametric
+%		  representations for monosyllabic word recognition in
+%		  continuously spoken sentences", IEEE ASSP, V 28,
+%		  pp 357-366 Aug 1980
+%	  [5] J. R. Deller Jr, J. G. Proakis, J. H. L. Hansen,
+%		  "Discrete-Time Processing of Speech Signals", p380,
+%		  Macmillan 1993
 
 %      Copyright (C) Mike Brookes 1998
-%      Version: $Id: mel2frq.m,v 1.7 2010/08/01 08:41:57 dmb Exp $
+%      Version: $Id: mel2frq.m 1874 2012-05-25 15:41:53Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -53,7 +53,7 @@ function [frq,mr] = mel2frq(mel)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 persistent k
 if isempty(k)
-    k=1127.01048;
+    k=1000/log(1+1000/700); % 1127.01048
 end
 frq=700*sign(mel).*(exp(abs(mel)/k)-1);
 mr=(700+abs(frq))/k;

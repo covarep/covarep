@@ -18,7 +18,7 @@ function [y,fs,h]=readau(filename,mode)
 %                h(5) = number of channels
 
 %	   Copyright (C) Mike Brookes 2008
-%      Version: $Id: readau.m,v 1.1 2008/03/27 18:52:41 dmb Exp $
+%      Version: $Id: readau.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

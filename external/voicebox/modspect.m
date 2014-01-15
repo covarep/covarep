@@ -90,17 +90,17 @@ function [c,qq,ff,tt,po]=modspect(s,fs,m,nf,nq,p)
 
 %
 % [1] S. D. Ewert and T. Dau. Characterizing frequency slectivity for envelope fluctuations.
-%     J. Acoust Soc Amer, 108 (3): 1181–1196, Sept. 2000.
+%     J. Acoust Soc Amer, 108 (3): 1181Â–1196, Sept. 2000.
 % [2] M. L. Jepsen, S. D. Ewert, and T. Dau. A computational model of human auditory signal processing and perception.
-%     J. Acoust Soc Amer, 124 (1): 422–438, July 2008.
+%     J. Acoust Soc Amer, 124 (1): 422Â–438, July 2008.
 % [3] G. Kim, Y. Lu, Y. Hu, and P. C. Loizou. An algorithm that improves speech intelligibility
 %     in noise for normal-hearing listeners.
-%     J. Acoust Soc Amer, 126 (3): 1486–1494, Sept. 2009. doi: 10.1121/1.3184603.
+%     J. Acoust Soc Amer, 126 (3): 1486Â–1494, Sept. 2009. doi: 10.1121/1.3184603.
 % [4] J. Tchorz and B. Kollmeier. Estimation of the signal-to-noise ratio with amplitude
-%     modulation spectrograms. Speech Commun., 38: 1–17, 2002.
+%     modulation spectrograms. Speech Commun., 38: 1Â–17, 2002.
 % [5] J. Tchorz and B. Kollmeier. SNR estimation based on amplitude modulation analysis with
 %     applications to noise suppression.
-%     IEEE Trans Speech Audio Processing, 11 (3): 184–192, May 2003. doi: 10.1109/TSA.2003.811542.
+%     IEEE Trans Speech Audio Processing, 11 (3): 184Â–192, May 2003. doi: 10.1109/TSA.2003.811542.
 
 % bugs:
 %  (3) should scale the derivatives so they get the correct units (e.g. power per second or per mel)
@@ -110,7 +110,7 @@ function [c,qq,ff,tt,po]=modspect(s,fs,m,nf,nq,p)
 %  (5) could add an option to draw an algorithm flow diagram
 
 %      Copyright (C) Mike Brookes 1997
-%      Version: $Id: modspect.m,v 1.11 2009/11/01 21:09:29 dmb Exp $
+%      Version: $Id: modspect.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

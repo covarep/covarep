@@ -8,15 +8,14 @@ function [mz,vz,wz]=gaussmixd(y,m,v,w,a,b,f,g)
 %   Y(n,q) = conditioning input data: x*a'+ b'= y
 %   M(k,p) = mixture means for x(p)
 %   V(k,p) or V(p,p,k) variances (diagonal or full)
-%   W(k,1)
-%   A(q,p) = conditioning transformation: y=x*a'+ b' (where y and x are row vectors)
-%            if A is omitted, it is assumed to be the first q rows of the
-%            identity matrix.
-%   B(q,1) = part of condition transform [default B=zeros(q,1)]
-%   F(r,p) = output transformation z = x*f'+g'  (where z and x are row vectors)
-%            if F is omitted, it is assumed to be the last r=p-q rows of the
-%            identity matrix.
-%   G(r,1) = part of output transformation
+%   W(k,1) = mixture weights
+%   A(q,p) = conditioning transformation: y=x*A'+ B' (where y and x are row vectors).
+%   B(q,1)   If A is omitted or null, y=x*I(B,:)' where I is the identity matrix.
+%            If B is also omitted or null, y=x*I(1:q,:)'.
+%   F(r,p) = output transformation z = x*F'+G'  (where z and x are row vectors).
+%   G(r,1)   If F is omitted or null, z = x*f' where I is the identity matrix.
+%            If G is also omitted or null, z=x*I(q+1:p,:)' or, if A was also null,
+%            the complement of y.
 %
 % Outputs (if 1 or 2 outputs specified):
 %
@@ -26,7 +25,7 @@ function [mz,vz,wz]=gaussmixd(y,m,v,w,a,b,f,g)
 % Outputs (if 3 outputs specified):
 %
 %   MZ(k,r,n) = mixture means of z for each y
-%   VZ(k,r) or VZ(r,r,k) variances of z (diagonal or full) independent of y
+%   VZ(k,r) or VZ(r,r,k) variances of z (diagonal or full); surprisingly it is independent of y
 %   WZ(n,k)
 %
 % The output mixture covariances will be diagonal if either r=1 or else the following three
@@ -40,9 +39,11 @@ function [mz,vz,wz]=gaussmixd(y,m,v,w,a,b,f,g)
 % This routine can be used for inference: if you train a GMM on p-dimensional data
 % then, if y(n,q) contains observations of the first q components, then z=gaussmixd(y,m,v,w)
 % will return the estimated values of the remaining p-q components.
+%
+% See also: gaussmix, gaussmixg, gaussmixp, randvec
 
-%      Copyright (C) Mike Brookes 2000-2009
-%      Version: $Id: gaussmixd.m,v 1.2 2009/04/06 08:20:21 dmb Exp $
+%      Copyright (C) Mike Brookes 2000-2012
+%      Version: $Id: gaussmixd.m 3227 2013-07-04 15:42:04Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -68,28 +69,43 @@ function [mz,vz,wz]=gaussmixd(y,m,v,w,a,b,f,g)
 % We set fv=1 if input V contains full covariance matrices with dimensions V(r,r,k).
 % This is true either if V has >2 dimensions or V=V(r,r) and r>k
 fv=ndims(v)>2 || size(v,1)>k; % full covariance matrix is supplied
-if nargin<7 || isempty(f)
-    f=eye(p);
-    f=f(p+1:end,:);
-end
-if nargin<5 || isempty(a)
+anull=nargin<5 || isempty(a); % no A matrix specified
+if anull
     a=eye(p);
-    a=a(1:p,:);
-end
-r=size(f,1);
-if nargin<8 || isempty(g)
-    g=zeros(r,1);
-end
-if nargin<6 || isempty(b)
+    if nargin<6 || isempty(b)
+        b=1:q;
+    end
+    a=a(b,:);
+    b0=b;  % save row selection
+    b=zeros(q,1);
+elseif nargin<6 || isempty(b)
     b=zeros(q,1);
 end
-yb=y-repmat(b,n,1);                 % remove the b term
+if nargin<7 || isempty(f)
+    f=eye(p);
+    if nargin<8 || isempty(g)
+        if anull
+            f(b0,:)=[];
+        else
+            f=f(q+1:end,:);
+        end
+    else
+        f=f(g,:);  % G selects the output variables
+    end
+    r=size(f,1);
+    g=zeros(r,1);
+elseif nargin<8 || isempty(g)
+    r=size(f,1);
+    g=zeros(r,1);
+end
+
+yb=y-repmat(b',n,1);                 % remove the b term
 [lp,wz]=gaussmixp(yb,m,v,w,a);     % find mixture weights
 mz=zeros(n,r,k);
 ma=a~=0;                            % check for sparse a and f matrices (common case)
 mf=f~=0;
 % We set dvo=1 if the output mixture covariances are structurally
-% diagonal. This is the case if eith
+% diagonal. This is the case if either:
 % (1) r=1 since in this case they are scalar values, or else
 % (2) the following three conditions are all true:
 %     (a) the input mixture covariances are diagonal and
@@ -127,7 +143,7 @@ else
 end
 if nargout<3
     mt=reshape(sum(reshape(mz,n*r,k).*repmat(wz,r,1),2),n,r);       % global mean
-    if nargout>1        % need to calculate global varaince as well
+    if nargout>1        % need to calculate global variance as well
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % We calculate the global covariance by adding up the weighted mixture
         % covariances corrected for the fact that the mixture mean does not equal
@@ -157,9 +173,9 @@ if nargout<3
             mzt=mz(:,:,i)-mt;
             vt=vt+repmat(wz(:,i),1,r^2).*(repmat(vi(lix),n,1)+mzt(:,rlix).*mzt(:,clix));
         end
-        mz=mt;
         vz=permute(reshape(vt(:,lixi),[n,r,r]),[2 3 1]);
     end
+    mz=mt;
 else
     mz=permute(mz,3:-1:1);
 end

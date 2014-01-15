@@ -18,7 +18,7 @@ function f=unixwhich(c,e)
 %            user and UNIXWHICH, unlike the operating system, will not search for them.
 
 %   Copyright (c) 2005 Mike Brookes,  mike.brookes@ic.ac.uk
-%      Version: $Id: unixwhich.m,v 1.3 2007/05/04 07:01:39 dmb Exp $
+%      Version: $Id: unixwhich.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

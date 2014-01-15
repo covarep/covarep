@@ -63,8 +63,8 @@ function [lev,af,fso,vad]=activlev(sp,fs,mode)
 %    bw : weighting filter numerator
 %    zw : weighting filter state
 
-%      Copyright (C) Mike Brookes 2008-2011
-%      Version: $Id: activlev.m,v 1.14 2011/07/04 16:20:37 dmb Exp $
+%      Copyright (C) Mike Brookes 2008-2012
+%      Version: $Id: activlev.m 2516 2012-11-19 08:19:45Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -160,10 +160,10 @@ if ~isstruct(fs)                        % no state vector given
     end
     if any(mode=='a')
         [fso.bw fso.aw]=stdspectrum(2,'z',fs);
-            fso.zw=zeros(length(fso.aw)-1,1);
+        fso.zw=zeros(length(fso.aw)-1,1);
     elseif any(mode=='i')
         [fso.bw fso.aw]=stdspectrum(8,'z',fs);
-            fso.zw=zeros(length(fso.aw)-1,1);
+        fso.zw=zeros(length(fso.aw)-1,1);
     end
 else
     fso=fs;             % use existing structure
@@ -181,13 +181,13 @@ if ns                       % process this speech chunk
         [sq,fso.zh]=filter(fso.bh,fso.ah,sq(:),fso.zh);     % lowpass filter
     end
     if any(md=='a') || any(md=='i')
-         [sq,fso.zw]=filter(fso.bw,fso.aw,sq(:),fso.zw);     % weighting filter
+        [sq,fso.zw]=filter(fso.bw,fso.aw,sq(:),fso.zw);     % weighting filter
     end
     fso.ns=fso.ns+ns;      % count the number of speech samples
     fso.ss=fso.ss+sum(sq);  % sum of speech samples
     fso.ssq=fso.ssq+sum(sq.*sq);    % sum of squared speech samples
     [s,fso.ze]=filter(1,fso.ae,abs(sq(:)),fso.ze);     % envelope filter
-    [qf,qe]=log2(s.*s);         % take efficient log2 function, 2^qe is upper limit of bin
+    [qf,qe]=log2(s.^2);         % take efficient log2 function, 2^qe is upper limit of bin
     qe(qf==0)=-Inf;           % fix zero values
     [qe,qk,fso.zx]=maxfilt(qe,1,fso.nh,1,fso.zx);       % apply the 0.2 second hangover
     oemax=fso.emax;
@@ -195,16 +195,16 @@ if ns                       % process this speech chunk
     if fso.emax==-Inf
         fso.kc(1)=fso.kc(1)+ns;
     else
-        qe=min(fso.emax-qe,nbin);   % force in the range 1:nbin
+        qe=min(fso.emax-qe,nbin);   % force in the range 1:nbin. Bin k has 2^(emax-k-1)<=s^2<=2^(emax-k)
         wqe=ones(length(qe),1);
         % below: could use kc=cumsum(accumarray(qe,wqe,nbin)) but unsure about backwards compatibility
         kc=cumsum(full(sparse(qe,wqe,wqe,nbin,1)));    % cumulative occupancy counts
         esh=fso.emax-oemax;         % amount to shift down previous bin counts
-        if esh<nbin-1
+        if esh<nbin-1               % if any of the previous bins are worth keeping
             kc(esh+1:nbin-1)=kc(esh+1:nbin-1)+fso.kc(1:nbin-esh-1);
             kc(nbin)=kc(nbin)+sum(fso.kc(nbin-esh:nbin));
         else
-            kc(nbin)=kc(nbin)+sum(fso.kc);
+            kc(nbin)=kc(nbin)+sum(fso.kc); % otherwise just add all old counts into the last (lowest) bin
         end
         fso.kc=kc;
     end
@@ -215,12 +215,17 @@ if fso.ns                       % now calculate the output values
         % equivalent to cj=20*log10(sqrt(2).^(fso.emax-(1:nbin)-1));
         cj=10*log10(2)*(fso.emax-(1:nbin)-1);   % lower limit of bin j in dB
         mj=aj'-cj-thresh;
-        jj=find(mj*sign(mj(1))<=0); % Find threshold
-        if isempty(jj)
-            jj=length(mj)-1;
-            jf=1;
+        %  jj=find(mj*sign(mj(1))<=0); % Find threshold
+        jj=find(mj(1:end-1)<0 &  mj(2:end)>=0,1); % find +ve transition through threshold
+        if isempty(jj)  % if we never cross the threshold
+            if mj(end)<=0 % if we end up below if
+                jj=length(mj)-1; % take the threshold to be the bottom of the last (lowest) bin
+                jf=1;
+            else          % if we are always above it
+                jj=1;     % take the threshold to be the bottom of the first (highest) bin
+                jf=0;
+            end
         else
-            jj=max(jj(1)-1,1);                   % integer part of j (>=1 in case mj(1)=0)
             jf=1/(1-mj(jj+1)/mj(jj));   % fractional part of j using linear interpolation
         end
         lev=aj(jj)+jf*(aj(jj+1)-aj(jj)); % active level in decibels

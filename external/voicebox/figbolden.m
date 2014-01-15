@@ -12,7 +12,7 @@ function figbolden(pos,pv,m)
 %                'x' suppresses changes
 
 %      Copyright (C) Mike Brookes 2003
-%      Version: $Id: figbolden.m,v 1.10 2011/02/28 12:52:10 dmb Exp $
+%      Version: $Id: figbolden.m 3497 2013-09-26 16:10:51Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -70,7 +70,7 @@ while length(hlist)
     %fprintf('list length = %d, handle = %f\n',length(hlist),hlist(1));
     for i=1:size(pv,1)
         if isfield(pl,pv{i,1})
-            if i>1 || all(~strcmp(get(hlist(1),pv{i,1}),pp))
+            if i>1 || all(~strcmpi(get(hlist(1),pv{i,1}),pp))
                 pval=get(hlist(1),pv{i,1});
                 if ~all(size(pval)==size(pv{i,2})) || ~all(pval(:) == pv{i,2}(:))
                     if mnotx

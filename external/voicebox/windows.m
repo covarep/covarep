@@ -11,7 +11,7 @@ function w = windows(wtype,n,mode,p)
 %                  of the window and its frequency response will be drawn.
 %
 %  [1]  F. J. Harris. On the use of windows for harmonic analysis with the
-%       discrete fourier transform. Proc IEEE, 66 (1): 51–83, Jan. 1978.
+%       discrete fourier transform. Proc IEEE, 66 (1): 51Â–83, Jan. 1978.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % The WTYPE input specifies one of the following window types (see [1]):
@@ -88,7 +88,7 @@ function w = windows(wtype,n,mode,p)
 % (i.e. it should be replaced by 4 for 75% overlap).
 
 %      Copyright (C) Mike Brookes 2002-2005
-%      Version: $Id: windows.m,v 1.8 2009/07/08 15:23:12 dmb Exp $
+%      Version: $Id: windows.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

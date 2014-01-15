@@ -2,40 +2,41 @@ function c=melcepst(s,fs,w,nc,p,n,inc,fl,fh)
 %MELCEPST Calculate the mel cepstrum of a signal C=(S,FS,W,NC,P,N,INC,FL,FH)
 %
 %
-% Simple use: c=melcepst(s,fs)	% calculate mel cepstrum with 12 coefs, 256 sample frames
-%				  c=melcepst(s,fs,'e0dD') % include log energy, 0th cepstral coef, delta and delta-delta coefs
+% Simple use: (1) c=melcepst(s,fs)          % calculate mel cepstrum with 12 coefs, 256 sample frames
+%			  (2) c=melcepst(s,fs,'e0dD')   % include log energy, 0th cepstral coef, delta and delta-delta coefs
 %
 % Inputs:
-%     s	 speech signal
+%     s	  speech signal
 %     fs  sample rate in Hz (default 11025)
-%     nc  number of cepstral coefficients excluding 0'th coefficient (default 12)
-%     n   length of frame in samples (default power of 2 < (0.03*fs))
-%     p   number of filters in filterbank (default: floor(3*log(fs)) = approx 2.1 per ocatave)
-%     inc frame increment (default n/2)
-%     fl  low end of the lowest filter as a fraction of fs (default = 0)
-%     fh  high end of highest filter as a fraction of fs (default = 0.5)
+%     w   mode string (see below)
+%     nc  number of cepstral coefficients excluding 0'th coefficient [default 12]
+%     p   number of filters in filterbank [default: floor(3*log(fs)) =  approx 2.1 per ocatave]
+%     n   length of frame in samples [default power of 2 < (0.03*fs)]
+%     inc frame increment [default n/2]
+%     fl  low end of the lowest filter as a fraction of fs [default = 0]
+%     fh  high end of highest filter as a fraction of fs [default = 0.5]
 %
 %		w   any sensible combination of the following:
 %
-%				'R'  rectangular window in time domain
-%				'N'	Hanning window in time domain
-%				'M'	Hamming window in time domain (default)
+%               'R'  rectangular window in time domain
+%				'N'	 Hanning window in time domain
+%				'M'	 Hamming window in time domain (default)
 %
-%		      't'  triangular shaped filters in mel domain (default)
-%		      'n'  hanning shaped filters in mel domain
-%		      'm'  hamming shaped filters in mel domain
+%               't'  triangular shaped filters in mel domain (default)
+%               'n'  hanning shaped filters in mel domain
+%               'm'  hamming shaped filters in mel domain
 %
-%				'p'	filters act in the power domain
-%				'a'	filters act in the absolute magnitude domain (default)
+%				'p'	 filters act in the power domain
+%				'a'	 filters act in the absolute magnitude domain (default)
 %
-%			   '0'  include 0'th order cepstral coefficient
+%               '0'  include 0'th order cepstral coefficient
 %				'E'  include log energy
-%				'd'	include delta coefficients (dc/dt)
-%				'D'	include delta-delta coefficients (d^2c/dt^2)
+%				'd'	 include delta coefficients (dc/dt)
+%				'D'	 include delta-delta coefficients (d^2c/dt^2)
 %
-%		      'z'  highest and lowest filters taper down to zero (default)
-%		      'y'  lowest filter remains at 1 down to 0 frequency and
-%			   	  highest filter remains at 1 up to nyquist freqency
+%               'z'  highest and lowest filters taper down to zero (default)
+%               'y'  lowest filter remains at 1 down to 0 frequency and
+%			   	     highest filter remains at 1 up to nyquist freqency
 %
 %		       If 'ty' or 'ny' is specified, the total power in the fft is preserved.
 %
@@ -49,7 +50,7 @@ function c=melcepst(s,fs,w,nc,p,n,inc,fl,fh)
 %       (2) get rdct to change the data length (properly) instead of doing it explicitly (wrongly)
 
 %      Copyright (C) Mike Brookes 1997
-%      Version: $Id: melcepst.m,v 1.8 2011/09/02 16:24:14 dmb Exp $
+%      Version: $Id: melcepst.m 3497 2013-09-26 16:10:51Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -85,7 +86,7 @@ if nargin<9
   end
 end
 
-if length(w)==0
+if isempty(w)
    w='M';
 end
 if any(w=='R')
@@ -118,7 +119,7 @@ if ~any(w=='0')
    nc=nc-1;
 end
 if any(w=='E')
-   c=[log(sum(pw)).' c];
+   c=[log(max(sum(pw),pth)).' c];
    nc=nc+1;
 end
 

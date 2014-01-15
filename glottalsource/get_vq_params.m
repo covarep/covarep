@@ -139,7 +139,7 @@ for n=1:length(GCI)
         f_spec = mag2db(abs(fft(f_win,fs)));
         
          % Get H1-H2/HRF measurements
-        [h_idx,h_amp]=findpeaks_VB(f_spec,[],F0/2);
+        [h_idx,h_amp]=v_findpeaks(f_spec,[],F0/2);
         HRF_harm_num=floor(HRF_freq_max/F0);
         if length(h_idx) >= min_harm_num
             f0_idx=zeros(HRF_harm_num,1);

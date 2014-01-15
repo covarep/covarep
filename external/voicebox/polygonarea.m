@@ -11,7 +11,7 @@ function a=polygonarea(p)
 %
 
 %      Copyright (C) Mike Brookes 2009
-%      Version: $Id: polygonarea.m,v 1.1 2009/04/08 07:39:11 dmb Exp $
+%      Version: $Id: polygonarea.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

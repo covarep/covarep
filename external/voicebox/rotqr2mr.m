@@ -14,7 +14,7 @@ function mr=rotqr2mr(qr)
 
 % 
 %      Copyright (C) Mike Brookes 2000-2006
-%      Version: $Id: rotqr2mr.m,v 1.2 2007/11/18 19:38:40 dmb Exp $
+%      Version: $Id: rotqr2mr.m 1615 2012-03-15 09:10:51Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -46,6 +46,7 @@ mn=m*n;
 j=repmat(4*m*(0:n-1),m/4,1);
 i=repmat((1:4:m)',n,1)+j(:);
 ni=length(i);
-mr(repmat(i,1,6)+repmat(a+m*b,ni,1))=mr(repmat(i,1,6)+repmat(c,ni,1));
-mr(repmat(i,1,6)+repmat(c+m*b,ni,1))=-mr(repmat(i,1,6)+repmat(a,ni,1));
+i6=repmat(i,1,6);
+mr(i6+repmat(a+m*b,ni,1))=mr(i6+repmat(c,ni,1));
+mr(i6+repmat(c+m*b,ni,1))=-mr(i6+repmat(a,ni,1));
 mr=reshape(mr,m,4*n);

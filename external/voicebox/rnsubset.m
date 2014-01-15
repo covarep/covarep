@@ -11,7 +11,7 @@ function m = rnsubset(k,n)
 %    M(1,K) contains the output numbers
 
 %      Copyright (C) Mike Brookes 2006
-%      Version: $Id: rnsubset.m,v 1.2 2007/05/04 07:01:39 dmb Exp $
+%      Version: $Id: rnsubset.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

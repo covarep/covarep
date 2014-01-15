@@ -4,7 +4,7 @@ function y=rhartley(x,n)
 % The inverse transformation is x=hartley(y,n)/n
 
 %      Copyright (C) Mike Brookes 1998
-%      Version: $Id: rhartley.m,v 1.5 2008/05/22 20:00:28 dmb Exp $
+%      Version: $Id: rhartley.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

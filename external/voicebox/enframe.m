@@ -1,33 +1,60 @@
-function [f,t]=enframe(x,win,inc)
+function [f,t,w]=enframe(x,win,inc,m)
 %ENFRAME split signal up into (overlapping) frames: one per row. [F,T]=(X,WIN,INC)
 %
-%	F = ENFRAME(X,LEN) splits the vector X(:) up into
-%	frames. Each frame is of length LEN and occupies
-%	one row of the output matrix. The last few frames of X
-%	will be ignored if its length is not divisible by LEN.
-%	It is an error if X is shorter than LEN.
+% Usage:  (1) f=enframe(x,n)     % split into frames of length n
 %
-%	F = ENFRAME(X,LEN,INC) has frames beginning at increments of INC
-%	The centre of frame I is X((I-1)*INC+(LEN+1)/2) for I=1,2,...
-%	The number of frames is fix((length(X)-LEN+INC)/INC)
+%         (2) f=enframe(x,hamming(n,'periodic'),n/4)     % use a 75% overlapped Hamming window of length n
 %
-%	F = ENFRAME(X,WINDOW) or ENFRAME(X,WINDOW,INC) multiplies
-%	each frame by WINDOW(:)
+%         (3) frequency domain frame-based processing:
+% 
+%             S=...;                              % input signal
+%             OV=2;                               % overlap factor of 2 (4 is also often used)
+%             INC=20;                             % set frame increment in samples
+%             NW=INC*OV;                          % DFT window length
+%             W=sqrt(hamming(NW,'periodic'));     % omit sqrt if OV=4
+%             W=W/sqrt(sum(W(1:INC:NW).^2));      % normalize window
+%             F=rfft(enframe(S,W,INC),NW,2);      % do STFT: one row per time frame, +ve frequencies only
+%             ... process frames ...
+%             X=overlapadd(irfft(F,NW,2),W,INC);  % reconstitute the time waveform (omit "X=" to plot waveform)
 %
-%   The second output argument, T, gives the time in samples at the centre
-%   of each frame. T=i corresponds to the time of sample X(i). 
+%  Inputs:   x    input signal
+%          win    window or window length in samples
+%          inc    frame increment in samples
+%            m    mode input:
+%                  'z'  zero pad to fill up final frame
+%                  'r'  reflect last few samples for final frame
+%                  'A'  calculate window times as the centre of mass
+%                  'E'  calculate window times as the centre of energy
+%
+% Outputs:   f    enframed data - one frame per row
+%            t    fractional time in samples at the centre of each frame
+%            w    window function used
+%
+% By default, the number of frames will be rounded down to the nearest
+% integer and the last few samples of x() will be ignored unless its length
+% is lw more than a multiple of inc. If the 'z' or 'r' options are given,
+% the number of frame will instead be rounded up and no samples will be ignored.
 %
 % Example of frame-based processing:
-%          INC=20       													% set frame increment
-%          NW=INC*2     													% oversample by a factor of 2 (4 is also often used)
-%          S=cos((0:NW*7)*6*pi/NW);								% example input signal
-%          W=sqrt(hamming(NW+1)); W(end)=[];      % sqrt hamming window of period NW
-%          F=enframe(S,W,INC);               			% split into frames
+%          INC=20       						% set frame increment in samples
+%          NW=INC*2     						% oversample by a factor of 2 (4 is also often used)
+%          S=cos((0:NW*7)*6*pi/NW);				% example input signal
+%          W=sqrt(hamming(NW),'periodic'));  	% sqrt hamming window of period NW
+%          F=enframe(S,W,INC);               	% split into frames
 %          ... process frames ...
-%          X=overlapadd(F,W,INC);           			% reconstitute the time waveform (omit "X=" to plot waveform)
+%          X=overlapadd(F,W,INC);               % reconstitute the time waveform (omit "X=" to plot waveform)
 
-%	   Copyright (C) Mike Brookes 1997
-%      Version: $Id: enframe.m,v 1.7 2009/11/01 21:08:21 dmb Exp $
+% Bugs/Suggestions:
+%  (1) Possible additional mode options:
+%        'u'  modify window for first and last few frames to ensure WOLA
+%        'a'  normalize window to give a mean of unity after overlaps
+%        'e'  normalize window to give an energy of unity after overlaps
+%        'wm' use Hamming window
+%        'wn' use Hanning window
+%        'x'  include all frames that include any of the x samples
+
+%	   Copyright (C) Mike Brookes 1997-2012
+%      Version: $Id: enframe.m 3274 2013-07-23 10:07:38Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -49,26 +76,51 @@ function [f,t]=enframe(x,win,inc)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 nx=length(x(:));
+if nargin<2 || isempty(win)
+    win=nx;
+end
+if nargin<4 || isempty(m)
+    m='';
+end
 nwin=length(win);
-if (nwin == 1)
-   len = win;
+if nwin == 1
+    lw = win;
+    w = ones(1,lw);
 else
-   len = nwin;
-end
-if (nargin < 3)
-   inc = len;
-end
-nf = fix((nx-len+inc)/inc);
-f=zeros(nf,len);
-indf= inc*(0:(nf-1)).';
-inds = (1:len);
-f(:) = x(indf(:,ones(1,len))+inds(ones(nf,1),:));
-if (nwin > 1)
+    lw = nwin;
     w = win(:)';
+end
+if (nargin < 3) || isempty(inc)
+    inc = lw;
+end
+nli=nx-lw+inc;
+nf = fix((nli)/inc);
+na=nli-inc*nf;
+f=zeros(nf,lw);
+indf= inc*(0:(nf-1)).';
+inds = (1:lw);
+f(:) = x(indf(:,ones(1,lw))+inds(ones(nf,1),:));
+if nargin>3 && (any(m=='z') || any(m=='r')) && na>0
+    if any(m=='r')
+        ix=1+mod(nx-na:nx-na+lw-1,2*nx);
+        f(nf+1,:)=x(ix+(ix>nx).*(2*nx+1-2*ix));
+    else
+        f(nf+1,1:na)=x(1+nx-na:nx);
+    end
+    nf=size(f,1);
+end
+if (nwin > 1)   % if we have a non-unity window
     f = f .* w(ones(nf,1),:);
 end
 if nargout>1
-    t=(1+len)/2+indf;
+    if any(m=='E')
+        t0=sum((1:lw).*w.^2)/sum(w.^2);
+    elseif any(m=='A')
+        t0=sum((1:lw).*w)/sum(w);
+    else
+        t0=(1+lw)/2;
+    end
+    t=t0+inc*(0:(nf-1)).';
 end
 
 

@@ -47,7 +47,7 @@ function d=distisar(ar1,ar2,mode)
 %                            Electronics & Communications in Japan, 53A: 36-43, 1970.
 
 %      Copyright (C) Mike Brookes 1997
-%      Version: $Id: distisar.m,v 1.4 2007/05/04 07:01:38 dmb Exp $
+%      Version: $Id: distisar.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

@@ -22,7 +22,7 @@ function u=glotlf(d,t,p)
 
 
 %      Copyright (C) Mike Brookes 1998
-%      Version: $Id: glotlf.m,v 1.4 2007/05/04 07:01:38 dmb Exp $
+%      Version: $Id: glotlf.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

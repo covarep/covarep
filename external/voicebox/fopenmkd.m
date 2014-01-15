@@ -5,7 +5,7 @@ function [fid,mes]=fopenmkd(fn,pe,mf,en)
 % it will create the requested folder if it doesn't exist
 
 %	   Copyright (C) Mike Brookes 2011
-%      Version: $Id: fopenmkd.m,v 1.2 2011/07/31 09:52:26 dmb Exp $
+%      Version: $Id: fopenmkd.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

@@ -71,7 +71,7 @@ function [y,fs,wrd,phn,ffx]=readsph(filename,mode,nmax,nskip)
 %           spgrambw(s,fs,'Jwcpta',[],[],[],[],wrd);
 
 %	   Copyright (C) Mike Brookes 1998
-%      Version: $Id: readsph.m,v 1.16 2011/09/02 16:25:19 dmb Exp $
+%      Version: $Id: readsph.m 2803 2013-03-16 18:31:13Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -158,7 +158,7 @@ if nargout
         i=find(strcmp(hdr(:,1),'sample_byte_format'));
         if ~isempty(i)
             bord=char('b'+('l'-'b')*(hdr{i,2}(1)=='0'));
-            if bord ~= BYTEORDER && mode~='b' && mode ~='l'
+            if bord ~= BYTEORDER && all(mode~='b') && all(mode ~='l')
                 BYTEORDER=bord;
                 fclose(fid);
                 fid=fopen(filename,'rb',BYTEORDER);
@@ -217,11 +217,10 @@ if nargout
 
     if ksamples>0
         fid=info(1);
-        if icode>=10 && isempty(ffx{5}) %#ok<AND2>
+        if icode>=10 && isempty(ffx{5})
             fclose(fid);
             dirt=voicebox('dir_temp');
-            [fnp,fnn,fne,fnv]=fileparts(filename);
-            filetemp=fullfile(dirt,[fnn fne fnv]);
+            filetemp=fullfile(dirt,'shorten.wav');
             cmdtemp=fullfile(dirt,'shorten.bat');               % batch file needed to convert to short filenames
             % if ~exist(cmdtemp,'file')                   % write out the batch file if it doesn't exist
                 cmdfid=fopen(cmdtemp,'wt');
@@ -255,7 +254,7 @@ if nargout
         if info(7)<3
             if info(7)<2
                 y=fread(fid,nsamples,'uchar');
-                if info(12)==1
+                if mod(info(12),10)==1
                     y=pcmu2lin(y);
                     pk=2.005649;
                 else

@@ -1,8 +1,8 @@
 function p=psychofunc(m,q,x,r)
 % Calculate psychometric functions: trial success probability versus SNR
 %
-% Usage: p=psychofunc(m,q,x)       % calculate probabilities
-%        b=psychofunc(m,q,x)       % generate boolean variables with success prob p
+% Usage: p=psychofunc('',q,x)       % calculate probabilities
+%        b=psychofunc('r',q,x)       % generate boolean variables with success prob p
 %        p=psychofunc(m,q,x,r)     % Calculate likelihoods for observations r
 %        x=psychofunc([m 'i'],q,p) % Calculate inverse
 %
@@ -43,7 +43,7 @@ function p=psychofunc(m,q,x,r)
 %          b        array of boolean variables
 
 %      Copyright (C) Mike Brookes 2009-2010
-%      Version: $Id: psychofunc.m,v 1.5 2010/11/04 18:25:18 dmb Exp $
+%      Version: $Id: psychofunc.m 3498 2013-09-26 16:12:47Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

@@ -16,10 +16,10 @@ function y=zoomfft(x,n,m,s,d)
 % Thus zoomfft(x,n,n,0,d) is equivalent to fft(x,n,d) for n>=length(x).
 
 % [1] L.R.Rabiner,  R.W.Schafer and C.M.Rader, "The chirp z-transform algorithm"
-%     IEEE Trans. Audio Electroacoustics 17 (2), 86–92 (1969). 
+%     IEEE Trans. Audio Electroacoustics 17 (2), 86Â–92 (1969). 
 
 %      Copyright (C) Mike Brookes 2007
-%      Version: $Id: zoomfft.m,v 1.3 2007/11/21 12:42:36 dmb Exp $
+%      Version: $Id: zoomfft.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

@@ -11,7 +11,7 @@ function q=qrdivide(q1,q2)
 %              Note that q*q2 ~= q2*q since quaternion multiplication does not commute.
 
 %      Copyright (C) Mike Brookes 2000-2008
-%      Version: $Id: qrdivide.m,v 1.1 2008/12/03 10:07:53 dmb Exp $
+%      Version: $Id: qrdivide.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

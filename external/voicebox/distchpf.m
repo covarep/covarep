@@ -29,7 +29,7 @@ function d=distchpf(pf1,pf2,mode)
 %      L. Rabiner abd B-H Juang, "Fundamentals of Speech Recognition", Section 4.5, Prentice-Hall 1993, ISBN 0-13-015157-2
 
 %      Copyright (C) Mike Brookes 1997
-%      Version: $Id: distchpf.m,v 1.4 2007/05/04 07:01:38 dmb Exp $
+%      Version: $Id: distchpf.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

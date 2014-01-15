@@ -4,7 +4,7 @@
 % available from http://www.mathworks.com/matlabcentral/fileexchange/loadFile.do?objectId=4039&objectType=FILE
 
 %      Copyright (C) Mike Brookes 1998
-%      Version: $Id: m2htmlpwd.m,v 1.1 2008/05/08 20:56:53 dmb Exp $
+%      Version: $Id: m2htmlpwd.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

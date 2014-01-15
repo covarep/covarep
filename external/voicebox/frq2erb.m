@@ -40,7 +40,7 @@ function [erb,bnd] = frq2erb(frq)
 
 
 %      Copyright (C) Mike Brookes 1998
-%      Version: $Id: frq2erb.m,v 1.6 2010/07/18 18:39:04 dmb Exp $
+%      Version: $Id: frq2erb.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

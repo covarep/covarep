@@ -2,7 +2,7 @@ function r=rotqr2ro(q)
 %ROTQR2RO converts a real quaternion to a 3x3 rotation matrix
 % Inputs:
 %
-%     Q(4,1)   real-valued quaternion (with magnitude = 1)
+%     Q(4,1)   real-valued quaternion (possibly unnormalized)
 %
 % Outputs:
 %
@@ -15,7 +15,7 @@ function r=rotqr2ro(q)
 % a positive rotation about [0 0 1] takes the X axis towards the Y axis.
 %
 %      Copyright (C) Mike Brookes 2007
-%      Version: $Id: rotqr2ro.m,v 1.5 2008/12/03 09:53:15 dmb Exp $
+%      Version: $Id: rotqr2ro.m 2171 2012-07-12 07:33:03Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -59,8 +59,10 @@ if ~nargout
 %     cc=[0 1 0; 0 0 1; 1 0 0; 1 1 0];
     vv=[0,0,0;1,0,0;0,1,0;0,0,1;0 1 1; 1 0 1; 1 1 0; 1 1 1]*r';    % cube
     ff=[1 2 6 4; 2 7 8 6; 7 3 5 8; 4 5 3 1; 3 7 2 1; 6 8 5 4];
-    cc=[0 1 0; 1 0 0; 0 1 0; 1 0 0; 0 0 1; 0 0 1];
+%     cc=[0 1 0; 1 0 0; 0 1 0; 1 0 0; 0 0 1; 0 0 1];
+cc=[1 0 1 0 2 2]';
     pa=patch('Vertices',vv,'Faces',ff,'FaceVertexCData',cc,'FaceColor','Flat');
+    colormap([1 0 0; 0 1 0; 0 0 1]);
     xlabel('x axis');
     ylabel('y axis');
     zlabel('z axis');

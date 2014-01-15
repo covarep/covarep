@@ -4,7 +4,7 @@ function rr=lpcpf2rr(pf,p)
 
 
 %      Copyright (C) Mike Brookes 1997
-%      Version: $Id: lpcpf2rr.m,v 1.4 2007/05/04 07:01:38 dmb Exp $
+%      Version: $Id: lpcpf2rr.m 2460 2012-10-29 22:20:45Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -27,7 +27,7 @@ function rr=lpcpf2rr(pf,p)
 
 [nf,p2]=size(pf);
 if nargin<2 p=p2-2; end;
-ir=irfft(pf.').';
+ir=irfft(pf,[],2);
 if p>p2-2
   rr=[ir(:,1:p2-1) zeros(nf,p+2-p2)];
 else

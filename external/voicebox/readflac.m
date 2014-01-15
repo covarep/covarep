@@ -20,7 +20,7 @@ function [y,fs]=readflac(filename,mode)
 % http://flac.sourceforge.net/
 
 %      Copyright (C) Mike Brookes 2008
-%      Version: $Id: readflac.m,v 1.1 2009/09/13 15:52:23 dmb Exp $
+%      Version: $Id: readflac.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

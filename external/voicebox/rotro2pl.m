@@ -12,7 +12,7 @@ function [u,v,t]=rotro2pl(r)
 
 %
 %      Copyright (C) Mike Brookes 2007
-%      Version: $Id: rotro2pl.m,v 1.1 2007/11/24 14:38:29 dmb Exp $
+%      Version: $Id: rotro2pl.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

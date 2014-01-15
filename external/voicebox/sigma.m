@@ -31,10 +31,29 @@ function [gci goi] = sigma(lx,fs,fmax)
 %       exceeded length of signal. Similar problem in line 179 fixed.
 %
 %**************************************************************************
-% Author:           M. R. P. Thomas 
-% Date:             29 May 2007
-% Version: $Id: sigma.m,v 1.3 2010/09/13 15:39:27 dmb Exp $
+% Author:           M. R. P. Thomas, 29 May 2007
 %**************************************************************************
+%      Copyright (C) M. R. P. Thomas, Mike Brookes 2007-2013
+%      Version: $Id: sigma.m 3759 2013-11-12 15:14:14Z dmb $
+%
+%   VOICEBOX is a MATLAB toolbox for speech processing.
+%   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   This program is free software; you can redistribute it and/or modify
+%   it under the terms of the GNU General Public License as published by
+%   the Free Software Foundation; either version 2 of the License, or
+%   (at your option) any later version.
+%
+%   This program is distributed in the hope that it will be useful,
+%   but WITHOUT ANY WARRANTY; without even the implied warranty of
+%   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%   GNU General Public License for more details.
+%
+%   You can obtain a copy of the GNU General Public License from
+%   http://www.gnu.org/copyleft/gpl.html or by writing to
+%   Free Software Foundation, Inc.,675 Mass Ave, Cambridge, MA 02139, USA.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if(nargin<3)
     fmax = 400;
@@ -124,7 +143,7 @@ for i=1:nclust
 end
 [m,in]=max(ll); % Find which cluster each feature vector belongs to
 
-close all;
+% close all; % commented out by dmb, 12/11/2013
 naccept = [];
 nreject = [];
 for i=1:snfv(1)

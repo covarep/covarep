@@ -1,5 +1,5 @@
 function [x,fs,txt] = sapisynth(t,m)
-%SAPISYNTH  synthesize text string or matrix [X,FS,TXT]=(T,M)
+%SAPISYNTH  text-to-speech synthesize of text string or matrix [X,FS,TXT]=(T,M)
 %
 %  Usage:         sapisynth('Hello world');          % Speak text
 %                 sapisynth([1 2+3i; -1i 4],'j');    % speak a matrix using 'j' for sqrt(-1)
@@ -21,6 +21,7 @@ function [x,fs,txt] = sapisynth(t,m)
 %             'v'   autoscale volumne to a peak value of +-1
 %             'v#'  set volume (0 to 100) [100]
 %             'p#'  set pitch -10 to +10 [0]
+%             'n#'  number of digits precision for numeric values [3]
 %
 % Outputs: x    is the output waveform unless the 'l' option is chosen in
 %               which case x is a cell array with one row per available
@@ -57,7 +58,7 @@ function [x,fs,txt] = sapisynth(t,m)
 %  (4) extract true frequency from output stream
 
 %      Copyright (C) Mike Brookes 2011
-%      Version: $Id: sapisynth.m,v 1.8 2011/02/02 08:13:00 dmb Exp $
+%      Version: $Id: sapisynth.m 2721 2013-02-23 19:15:10Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -185,6 +186,14 @@ else
 end
 fs=ff(jf);
 
+% deal with the 'n' option
+
+if opts(14)>1  % 'r' option is specified with a number
+    prec=opts(14,2);
+else
+    prec=3;
+end
+
 M=actxserver('SAPI.SpMemoryStream');
 M.Format.Type = sprintf('SAFT%dkHz16BitMono',fix(fs/1000));
 S.AudioOutputStream = M;
@@ -205,11 +214,11 @@ else
             wi=imag(w(i));
             switch((wr~=0)+2*(wi~=0))+4*(abs(wi)==1)
                 case {0,1}
-                    txt=[txt sprintf('%s%g',vsep,wr)];
+                    txt=[txt sprintf('%s%.*g',vsep,prec,wr)];
                 case 2
-                    txt=[txt sprintf('%s%g%c,',vsep,wi,imch)];
+                    txt=[txt sprintf('%s%.*g%c,',vsep,prec,wi,imch)];
                 case 3
-                    txt=[txt sprintf('%s%g%s%g%c,',vsep,wr,sgns{2+sign(wi)},abs(wi),imch)];
+                    txt=[txt sprintf('%s%.*g%s%.*g%c,',vsep,prec,wr,sgns{2+sign(wi)},prec,abs(wi),imch)];
                 case 6
                     if wi>0
                         txt=[txt vsep imch ','];
@@ -217,7 +226,7 @@ else
                         txt=[txt vsep 'minus ' imch ','];
                     end
                 case 7
-                    txt=[txt sprintf('%s%g%s%c,',vsep,wr,sgns{2+sign(wi)},imch)];
+                    txt=[txt sprintf('%s%.*g%s%c,',vsep,prec,wr,sgns{2+sign(wi)},imch)];
             end
             % could use a <silence msec="???"/> command here
             vsep=[repmat('; ',1,find([0 mod(i,szp)]==0,1,'last')-1) ' '];

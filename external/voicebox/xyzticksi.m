@@ -4,7 +4,7 @@ function s=xyzticksi(ax,ah)
 % This routine is not intended to be called directly. See XTICKSI and YTICKSI.
 
 %	   Copyright (C) Mike Brookes 2009
-%      Version: $Id: xyzticksi.m,v 1.2 2011/04/23 15:55:12 dmb Exp $
+%      Version: $Id: xyzticksi.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -42,7 +42,7 @@ tryglobal=nargout>0;
 digith=1;    % height of a digit in font units
 digitw=0.5;    % width of a digit in font units
 
-prefix={'y','z','a','f','p','n','µ','m','','k','M','G','T','P','E','Z','Y'};
+prefix={'y','z','a','f','p','n','Âµ','m','','k','M','G','T','P','E','Z','Y'};
 marg=[2 0.5 0.25 0.25];     % gap between labels in font units
 ntreq=[3 2 2 1];        % minimum number of labelled ticks required as a function of IPAN
 % grid template: each pair is [#steps final-value]. Start=10, end=100

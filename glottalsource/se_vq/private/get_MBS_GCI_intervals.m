@@ -64,7 +64,7 @@ if nargin < 4
 end
 F0max=F0max*2;
 T0max=round(fs/F0max);
-[idx,TMP]=findpeaks_VB(MBS*-1,'minpeakdistance',T0max); % Find locations of negative peaks
+[idx,TMP]=v_findpeaks(MBS*-1,'minpeakdistance',T0max); % Find locations of negative peaks
 N=length(idx);
 search_rate=0.28;
 search_left_rate=0.01;

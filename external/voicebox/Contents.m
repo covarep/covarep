@@ -13,13 +13,15 @@
 %   readflac      - Read FLAC files
 %
 % Frequency Scales
-%   frq2mel       - Convert Hertz to mel scale
-%   mel2frq       - Convert mel scale to Hertz
-%   frq2erb       - Convert Hertz to erb rate scale
-%   erb2frq       - Convert erb rate scale to Hertz
 %   frq2bark      - Convert Hz to the Bark frequency scale
-%   bark2frq      - Convert the Bark frequency scale to Hz
+%   frq2cent      - Convert Hertz to cents scale
+%   frq2erb       - Convert Hertz to erb rate scale
+%   frq2mel       - Convert Hertz to mel scale
 %   frq2midi      - Convert Hertz to midi scale of semitones
+%   bark2frq      - Convert the Bark frequency scale to Hz
+%   cent2frq      - Convert cents scale to Hertz
+%   erb2frq       - Convert erb rate scale to Hertz
+%   mel2frq       - Convert mel scale to Hertz
 %   midi2frq      - Convert midi scale of semitones to Hertz
 %
 % Fourier/DCT/Hartley Transforms
@@ -41,8 +43,10 @@
 %   gausprod      - Calculate the product of multiple gaussians
 %   maxgauss      - Calculate the mean and variance of max(x) where x is a gaussian vector
 %   gaussmix      - Fit a gaussian mixture model to data values
-%   gaussmixp     - Calculates full and marginal probability density from a Gaussian mixture
 %   gaussmixd     - Calculate marginal and conditional density distributions and perform inference
+%   gaussmixk     - Estimate Kuleck-Leibler divergence between two GMMs
+%   gaussmixg     - Calculate global mean, covariance and mode of a Gaussian mixture
+%   gaussmixp     - Calculates and plots full and marginal probability density from a GMM
 %   gmmlpdf       - Prob density function of a multivariate Gaussian mixture
 %   lognmpdf      - Prob density function of a lognormal distribution
 %   histndim      - N-dimensional histogram (+ plot 2-D histogram)
@@ -64,23 +68,28 @@
 %   correlogram   - calculate a 3-D correlogram
 %   ewgrpdel      - Energy-weighted group delay waveform
 %   fram2wav      - Interpolate frame-based values to a waveform
-%   filtbankm     - Determine matrix for a linear/mel/erb/bark-spaced filterbank 
+%   filtbankm     - Transformation matrix for a linear/mel/erb/bark-spaced filterbank from dft output 
 %   fxpefac       - PEFAC pitch tracker
 %   fxrapt        - RAPT pitch tracker
 %   gammabank     - Calculate a bank of IIR gammatone filters
 %   importsii     - Calculate the SII importance function (ANSI S3.5-1997)
 %   modspect      - Caluclate the modulation specrogram
+%   mos2pesq      - Convert MOS values to equivalent PESQ scores
 %   overlapadd    - Reconstitute an output waveform after frame-based processing
+%   pesq2mos      - Convert PESQ scores to equivalent MOS values
+%   phon2sone     - Convert signal levels from phons to sones
 %   psycdigit     - Experimental estimation of monotonic/unimodal psychometric function using TIDIGITS
 %   psycest       - Experimental estimation of monotonic psychometric function
 %   psycestu      - Experimental estimation of unimodal psychometric function 
 %   psychofunc    - Psychometric functions
 %   sigma         - Identify glottal closure and opening intstants from Lx or EGG waveform
 %   snrseg        - Segmental SNR and Global SNR calculation
+%   sone2phon     - Convert signal levels from sones to phons
 %   soundspeed    - Returns the speed of sound in air as a function of temperature
 %   spgrambw      - Spectrogram with many options
 %   txalign       - Align two sets of time markers
 %   vadsohn       - Voice activity detector
+%   v_ppmvu       - Calculate the PPM, VU or EBU levels of a signal
 %
 % LPC Analysis of Speech
 %   lpcauto       - LPC analysis: autocorrelation method
@@ -99,6 +108,7 @@
 %   glotlf        - Liljencrants-Fant model of glottal waveform
 %
 % Speech Enhancement
+%   estnoiseg     - Estimate the noise spectrum from noisy speech using MMSE method
 %   estnoisem     - Estimate the noise spectrum from noisy speech using minimum statistics
 %   specsub       - Speech enhancement using spectral subtraction
 %   ssubmmse      - Speech enhancement using MMSE estimate of spectral amplitude or log amplitude
@@ -123,7 +133,7 @@
 %
 % Signal Processing
 %   ditherq       - Add dither and quantize a signal
-%   findpeaks     - Find peaks in a signal or spectrum
+%   v_findpeaks   - Find peaks in a signal or spectrum (name changed to avoid conflict)
 %   filterbank    - Apply a bank of IIR filters to a signal
 %   maxfilt       - Running maximum filter
 %   meansqtf      - Output power of a filter with white noise input
@@ -141,25 +151,34 @@
 %
 % Computer Vision
 %   imagehomog    - Apply a homography transformation to an image with bilinear interpolation
-%   rot--2--      - Convert between different representations of rotations
-%   qrabs         - Absolute value of a real quaternion
-%   qrmult        - multiply two real quaternions
-%   qrdivide      - divide two real quaternions (or invert one)
 %   polygonarea   - Calculate the area of a polygon
 %   polygonwind   - Test if points are inside or outside a polygon
 %   polygonxline  - Find where a line crosses a polygon
+%   qrabs         - Absolute value of a real quaternion
+%   qrdivide      - divide two real quaternions (or invert one)
+%   qrdotdiv      - elmentwise division of two real quaternion arrays
+%   qrdotmult     - elmentwise multiplication of two real quaternion arrays
+%   qrmult        - multiply two real quaternion arrays
+%   qrpermute     - permute the indices of a quaternion array
+%   rectifyhomog  - Apply rectifing homographies to a set of cameras to make their optical axes parallel
+%   rot--2--      - Convert between different representations of rotations
+%   rotqrmean     - Find the average of several rotation quaternions
+%   rotqrvec      - Apply a quaternion rotation to an array of 3D vectors
 %   sphrharm      - forward and inverse spherical harmonic transform using uniform, Gaussian
 %                   or arbitrary inclination (elevation) grids and a uniform azimuth grid.
 %   upolyhedron   - Calculate the vertex coordinates and other characteristics of a uniform polyhedron
 %
 % Printing and Display functions
+%   axisenlarge   - Selectively enlarge figure axis for clarity
 %   xticksi       - Label x-axis tick marks using SI multipliers
 %   yticksi       - Label y-axis tick marks using SI multipliers
 %   xyzticksi     - Helper function for xticksi and yticksi
 %   figbolden     - Make a figure bold for printing clearly
+%   fig2emf       - Make a figure bold and save as a windows metafile
 %   cblabel       - Add a label onto the colorbar
 %   sprintsi      - Print a value with an SI multiplier
 %   frac2bin      - Convert numbers to fixed   -point binary strings
+%   v_colormap    - Set and plot colormap information
 %
 % Voicebox Parameters and System Interface
 %   voicebox      - Global installation-dependent parameters
@@ -175,7 +194,10 @@
 %   dualdiag      - Simultaneously diagonalise two hermitian matrices
 %   finishat      - Estimate the finishing time of a long loop
 %   fopenmkd      - like FOPEN() but creates any missing directories/folders
+%   hostipinfo    - Get information about the computer name and internet connections
 %   logsum        - Calculates log(sum(exp(x))) without overflow/underflow
+%   minspane      - calculate the minimum (or shortest) spanning tree
+%   mintrace      - find a row permutation to minimize the trace of a matrix
 %   m2htmlpwd     - Create HTML documentation of matlab routines in the current directory
 %   nearnonz      - Replace each zero element with the nearest non-zero element
 %   permutes      - All n! permutations of 1:n
@@ -187,8 +209,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Copyright (c) 1998-2011 Mike Brookes
-%   Version: $Id: Contents.m,v 1.37 2011/07/31 11:55:47 dmb Exp $
+%   Copyright (c) 1998-2013 Mike Brookes
+%   Version: $Id: Contents.m 3758 2013-11-12 15:08:36Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

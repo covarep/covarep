@@ -1,17 +1,15 @@
 function [m,q]=qrabs(q1)
-%QRABS absoloute value and normalization of a real quaternions [m,q]=[q1]
+%QRABS absolute value and normalization of a real quaternions [m,q]=[q1]
 %
-% Inputs:
+% Inputs:   q1(4n,...)  A real quaternion array. Each quaternion is a column
+%                          vector of the form [r, i, j, k]'
 %
-%     q1(4,1)  A real quaternion in the form [r, i, j, k]' where i^2=j^2=k^2=ijk=-1
-%
-% Outputs: 
-%
-%     m   Magnitude of the quaternion, q1.
-%     q   Normalized version of q1 with unit magnitude.
+% Outputs:  m(n,...)    Array of quaternion magnitudes: m=sqrt(q'*q)
+%           q(4n,...)   Normalized version of q1 with unit magnitude
+%                          a zero quaternion is normalized to [1 0 0 0]'
 
-%      Copyright (C) Mike Brookes 2000-2008
-%      Version: $Id: qrabs.m,v 1.1 2008/12/03 10:07:53 dmb Exp $
+%      Copyright (C) Mike Brookes 2000-2012
+%      Version: $Id: qrabs.m 1645 2012-03-16 17:00:15Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -31,9 +29,13 @@ function [m,q]=qrabs(q1)
 %   http://www.gnu.org/copyleft/gpl.html or by writing to
 %   Free Software Foundation, Inc.,675 Mass Ave, Cambridge, MA 02139, USA.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-m=sqrt(q1'*q1);
-if m>0
-    q=q1/m;
-else
-    q=[1 0 0 0]';
-end
+q1=randn(8,3);
+q1(9:12)=0;
+s=size(q1);
+q=reshape(q1,4,[]);
+m=sqrt(sum(q.^2,1));
+q(:,m>0)=q(:,m>0)./m(ones(4,1),m>0);
+q(1,m<=0)=1;
+q=reshape(q,s);
+s(1)=s(1)/4;
+m=reshape(m,s);

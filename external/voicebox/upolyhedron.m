@@ -65,12 +65,12 @@ function [vlist,edgeq,flist,info]=upolyhedron(w,md)
 %    1:5 can occur, and 4 and 5 cannot occur together. If all are integers then the poyhedron is convex.
 %
 % References:
-%   [1] R. E. Maeder. Uniform polyhedra. The Mathematica Journal, 3 (4): 48–57, 1993.
-%   [2] Z. Har’El. Uniform solution for uniform polyhedra. Geometriae Dedicata, 47: 57–110, 1993.
+%   [1] R. E. Maeder. Uniform polyhedra. The Mathematica Journal, 3 (4): 48Â–57, 1993.
+%   [2] Z. HarÂ’El. Uniform solution for uniform polyhedra. Geometriae Dedicata, 47: 57Â–110, 1993.
 %   [3] H. S. M. Coxeter, M. S. Longuet-Higgins, and J. C. P. Miller. Uniform polyhedra.
-%       Philosophical Transactions of the Royal Society A, 246 (916): 401–450, May 1954.
+%       Philosophical Transactions of the Royal Society A, 246 (916): 401Â–450, May 1954.
 %   [4] P. W. Messer. Closed-form expressions for uniform polyhedra and their duals.
-%       Discrete and Computational Geometry, 27 (3): 353–375, Jan. 2002.
+%       Discrete and Computational Geometry, 27 (3): 353Â–375, Jan. 2002.
 
 %%%% BUGS and SUGGESTIONS %%%%%%
 % (1) we should ensure the "first" edges of the vertices and faces are consistent
@@ -94,7 +94,7 @@ function [vlist,edgeq,flist,info]=upolyhedron(w,md)
 % for i=5:10, disp(num2str(i)); for j=1:5, upolyhedron(i+j/10); pause(2); end, end
 
 %      Copyright (C) Mike Brookes 1997
-%      Version: $Id: upolyhedron.m,v 1.4 2010/04/16 07:44:01 dmb Exp $
+%      Version: $Id: upolyhedron.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

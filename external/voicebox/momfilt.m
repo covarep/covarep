@@ -16,7 +16,7 @@ function [y,mm]=momfilt(x,r,w,m)
 %             y=momfilt(x,[2 4],30); k=y(:,2)./y(:,1).^2
 
 %	   Copyright (C) Mike Brookes 2007
-%      Version: $Id: momfilt.m,v 1.1 2007/07/18 17:42:13 dmb Exp $
+%      Version: $Id: momfilt.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

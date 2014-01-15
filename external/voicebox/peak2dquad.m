@@ -11,7 +11,7 @@ function [v,xy,t,m]=peak2dquad(z)
 %           M        defines the fitted quadratic: z = [x y 1]*M*[x y 1]'
 
 %	   Copyright (C) Mike Brookes 2008
-%      Version: $Id: peak2dquad.m,v 1.2 2010/10/28 10:40:57 dmb Exp $
+%      Version: $Id: peak2dquad.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

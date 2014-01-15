@@ -15,7 +15,7 @@ function [a,t]=rotqr2ax(q)
 % a positive rotation about [0 0 1] takes the X axis towards the Y axis.
 % 
 %      Copyright (C) Mike Brookes 2007
-%      Version: $Id: rotqr2ax.m,v 1.2 2007/11/21 12:42:36 dmb Exp $
+%      Version: $Id: rotqr2ax.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

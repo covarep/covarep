@@ -1,5 +1,7 @@
-function [ss,zo]=specsub(si,fsz,pp)
+function [ss,gg,tt,ff,zo]=specsub(si,fsz,pp)
 %SPECSUB performs speech enhancement using spectral subtraction [SS,ZO]=(S,FSZ,P)
+%
+% Usage: (1) y=specsub(x,fs);   % enhance the speech using default parameters
 %
 % Inputs:
 %   si      input speech signal
@@ -8,8 +10,11 @@ function [ss,zo]=specsub(si,fsz,pp)
 %   pp      algorithm parameters [optional]
 %
 % Outputs:
-%   ss      output enhanced speech (length is rounded down to the nearest frame boundary)
-%   zo      output state
+%   ss        output enhanced speech
+%   gg(t,f,i) selected time-frequency values (see pp.tf below)
+%   tt        centre of frames (in seconds)
+%   ff        centre of frequency bins (in Hz)
+%   zo        output state (or the 2nd argument if gg,tt,ff are omitted)
 %
 % The algorithm operation is controlled by a small number of parameters:
 %
@@ -22,9 +27,18 @@ function [ss,zo]=specsub(si,fsz,pp)
 %        pp.b           % max noise attenutaion in power domain [0.01]
 %        pp.al          % SNR for oversubtraction=am (set this to Inf for fixed a) [-5 dB]
 %        pp.ah          % SNR for oversubtraction=1 [20 dB]
+%        pp.ne          % noise estimation: 0=min statistics, 1=MMSE [0]
 %        pp.bt          % threshold for binary gain or -1 for continuous gain [-1]
 %        pp.mx          % input mixture gain [0]
 %        pp.gh          % maximum gain for noise floor [1]
+%        pp.rf          % round output signal to an exact number of frames [0]
+%        pp.tf          % selects time-frequency planes to output in the gg() variable ['g']
+%                           'i' = input power spectrum
+%                           'I' = input complex spectrum
+%                           'n' = noise power spectrum
+%                           'g' = gain
+%                           'o' = output power spectrum
+%                           'O' = output complex spectrum
 %
 % Following [1], the magnitude-domain gain in each time-frequency bin is given by
 %                          gain=mx+(1-mx)*max((1-(a*N/X)^(g/2))^(e/g),min(gh,(b*N/X)^(e/2)))
@@ -40,9 +54,9 @@ function [ss,zo]=specsub(si,fsz,pp)
 % If bt>=0 then the max(...) expression above is thresholded to become 0 or 1.
 %
 % In addition it is possible to specify parameters for the noise estimation algorithm
-% which implements reference [2] from which equation numbers are given in parentheses.
-% They are as follows:
+% which implements reference [2] or [3] according to the setting of pp.ne
 %
+% Minimum statistics noise estimate [2]: pp.ne=0 
 %        pp.taca      % (11): smoothing time constant for alpha_c [0.0449 seconds]
 %        pp.tamax     % (3): max smoothing time constant [0.392 seconds]
 %        pp.taminh    % (3): min smoothing time constant (upper limit) [0.0133 seconds]
@@ -56,6 +70,15 @@ function [ss,zo]=specsub(si,fsz,pp)
 %        pp.qith      % Q-inverse thresholds to select maximum noise slope [0.03 0.05 0.06 Inf ]
 %        pp.nsmdb     % corresponding noise slope thresholds in dB/second   [47 31.4 15.7 4.1]
 %
+% MMSE noise estimate [3]: pp.ne=1 
+%        pp.tax      % smoothing time constant for noise power estimate [0.0717 seconds](8)
+%        pp.tap      % smoothing time constant for smoothed speech prob [0.152 seconds](23)
+%        pp.psthr    % threshold for smoothed speech probability [0.99] (24)
+%        pp.pnsaf    % noise probability safety value [0.01] (24)
+%        pp.pspri    % prior speech probability [0.5] (18)
+%        pp.asnr     % active SNR in dB [15] (18)
+%        pp.psini    % initial speech probability [0.5] (23)
+%        pp.tavini   % assumed speech absent time at start [0.064 seconds]
 %
 % If convenient, you can call specsub in chunks of arbitrary size. Thus the following are equivalent:
 %
@@ -66,10 +89,8 @@ function [ss,zo]=specsub(si,fsz,pp)
 %                       y3=specsub(s(2001:end),z);
 %                       y=[y1; y2; y3];
 %
-% Note that the number of output samples will be less than the number of input samples if
-% the input length is not an exact number of frames. In addition, if two output arguments
-% are specified, the last partial frame samples will be retained for overlap adding
-% with the output from the next call to specsub().
+% If the number of output arguments is either 2 or 5, the last partial frame of samples will
+% be retained for overlap adding with the output from the next call to specsub().
 %
 % See also ssubmmse() for an alternative gain function
 %
@@ -80,9 +101,12 @@ function [ss,zo]=specsub(si,fsz,pp)
 %    [2] Rainer Martin.
 %        Noise power spectral density estimation based on optimal smoothing and minimum statistics.
 %        IEEE Trans. Speech and Audio Processing, 9(5):504-512, July 2001.
+%    [3] Gerkmann, T. & Hendriks, R. C.
+%        Unbiased MMSE-Based Noise Power Estimation With Low Complexity and Low Tracking Delay
+%        IEEE Trans Audio, Speech, Language Processing, 2012, 20, 1383-1393
 
 %      Copyright (C) Mike Brookes 2004
-%      Version: $Id: specsub.m,v 1.4 2010/11/12 14:30:44 dmb Exp $
+%      Version: $Id: specsub.m 1720 2012-03-31 17:17:31Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -102,6 +126,9 @@ function [ss,zo]=specsub(si,fsz,pp)
 %   http://www.gnu.org/copyleft/gpl.html or by writing to
 %   Free Software Foundation, Inc.,675 Mass Ave, Cambridge, MA 02139, USA.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if numel(si)>length(si)
+    error('Input speech signal must be a vector not a matrix');
+end
 if isstruct(fsz)
     fs=fsz.fs;
     qq=fsz.qq;
@@ -125,8 +152,11 @@ else
     qq.al=-5;       % SNR for maximum a (set to Inf for fixed a)
     qq.ah=20;       % SNR for minimum a
     qq.bt=-1;       % suppress binary masking
+    qq.ne=0;        % noise estimation: 0=min statistics, 1=MMSE [0]
     qq.mx=0;        % no input mixing
     qq.gh=1;        % maximum gain
+    qq.tf='g';      % output the gain time-frequency plane by default
+    qq.rf=0;
     if nargin>=3 && ~isempty(pp)
         qp=pp;      % save for estnoisem call
         qqn=fieldnames(qq);
@@ -146,6 +176,9 @@ else
     ni=round(qq.ti*fs);    % frame increment in samples
 end
 tinc=ni/fs;          % true frame increment time
+tf=qq.tf;
+rf=qq.rf || nargout==2 || nargout==5;            % round down to an exact number of frames
+ne=qq.ne;           % noise estimation: 0=min statistics, 1=MMSE [0]
 
 % calculate power spectrum in frames
 
@@ -153,21 +186,36 @@ no=round(qq.of);                                   % integer overlap factor
 nf=ni*no;           % fft length
 w=sqrt(hamming(nf+1))'; w(end)=[]; % for now always use sqrt hamming window
 w=w/sqrt(sum(w(1:ni:nf).^2));       % normalize to give overall gain of 1
-y=enframe(s,w,ni);
+if rf>0
+    rfm='';                         % truncated input to an exact number of frames
+else
+    rfm='r';
+end
+[y,tt]=enframe(s,w,ni,rfm);
+tt=tt/fs;                           % frame times
 yf=rfft(y,nf,2);
 yp=yf.*conj(yf);        % power spectrum of input speech
 [nr,nf2]=size(yp);              % number of frames
+ff=(0:nf2-1)*fs/nf;
 if isstruct(fsz)
-    [dp,ze]=estnoisem(yp,ze);   % estimate the noise using minimum statistics
+    if ne>0
+        [dp,ze]=estnoiseg(yp,ze);       % estimate the noise using MMSE
+    else
+        [dp,ze]=estnoisem(yp,ze);       % estimate the noise using minimum statistics
+    end
     ssv=fsz.ssv;
 else
-    [dp,ze]=estnoisem(yp,tinc,qp);   % estimate the noise using minimum statistics
+    if ne>0
+        [dp,ze]=estnoiseg(yp,tinc,qp);	% estimate the noise using MMSE
+    else
+        [dp,ze]=estnoisem(yp,tinc,qp);	% estimate the noise using minimum statistics
+    end
     ssv=zeros(ni*(no-1),1);             % dummy saved overlap
 end
 if ~nr                                  % no data frames
     ss=[];
+    gg=[];
 else
-
     mz=yp==0;   %  mask for zero power time-frequency bins (unlikely)
     if qq.al<Inf
         ypf=sum(yp,2);
@@ -200,7 +248,7 @@ else
         case 1                          % Normal case
             g(mf)=min(bf*v(mf),gh);      % never give a gain > 1
             g(~mf)=1-af(~mf).*v(~mf);
-        case 0.5                        
+        case 0.5
             g(mf)=min(sqrt(bf*v(mf)),gh);
             g(~mf)=sqrt(1-af(~mf).*v(~mf));
         otherwise
@@ -219,9 +267,27 @@ else
         ss(1+(i-1)*ni:nm+(i-1)*ni,i)=reshape(se(i:no:nr,:)',nm,1);
     end
     ss=sum(ss,2);
-
+    if nargout>2 && ~isempty(tf)
+        gg=zeros(nr,nf2,length(tf));  % make space
+        for i=1:length(tf)
+            switch tf(i)
+                case 'i'            % 'i' = input power spectrum
+                    gg(:,:,i)=yp;
+                case 'I'            % 'i' = input power spectrum
+                    gg(:,:,i)=yf;
+                case 'n'            % 'n' = noise power spectrum
+                    gg(:,:,i)=dp;
+                case 'g'            % 'g' = gain
+                    gg(:,:,i)=g;
+                case 'o'            % 'o' = output power spectrum
+                    gg(:,:,i)=yp.*g.^2;
+                case 'O'            % 'o' = output power spectrum
+                    gg(:,:,i)=yf.*g;
+            end
+        end
+    end
 end
-if nargout>1
+if nargout==2 || nargout==5
     if nr
         zo.ssv=ss(end-ni*(no-1)+1:end);    % save the output tail for next time
         ss(end-ni*(no-1)+1:end)=[];
@@ -230,15 +296,19 @@ if nargout>1
     end
     zo.si=s(length(ss)+1:end);      % save the tail end of the input speech signal
     zo.fs=fs;                       % save sample frequency
-    zo.qq=qq;                       % save loval parameters
+    zo.qq=qq;                       % save local parameters
     zo.qp=qp;                       % save estnoisem parameters
     zo.ze=ze;                       % save state of noise estimation
+    if nargout==2
+        gg=zo;                      % 2nd of two arguments is zo
+    end
+elseif rf==0
+    ss=ss(1:length(s));             % trim to the correct length if not an exact number of frames
 end
 if ~nargout && nr>0
-    ttax=(1:nr)*tinc;
-    ffax=(0:size(g,2)-1)*fs/nf/1000;    ax=zeros(4,1);
+    ffax=ff/1000;    ax=zeros(4,1);
     ax(1)=subplot(223);
-    imagesc(ttax,ffax,20*log10(g)');
+    imagesc(tt,ffax,20*log10(g)');
     colorbar;
     axis('xy');
     if qq.al==Inf
@@ -250,7 +320,7 @@ if ~nargout && nr>0
     ylabel('Frequency (kHz)');
 
     ax(2)=subplot(222);
-    imagesc(ttax,ffax,10*log10(yp)');
+    imagesc(tt,ffax,10*log10(yp)');
     colorbar;
     axis('xy');
     title('Noisy Speech (dB)');
@@ -258,7 +328,7 @@ if ~nargout && nr>0
     ylabel('Frequency (kHz)');
 
     ax(3)=subplot(224);
-    imagesc(ttax,ffax,10*log10(yp.*g.^2)');
+    imagesc(tt,ffax,10*log10(yp.*g.^2)');
     colorbar;
     axis('xy');
     title(sprintf('Enhanced Speech (dB): g=%.2g, e=%.3g',qq.g,qq.e));
@@ -266,7 +336,7 @@ if ~nargout && nr>0
     ylabel('Frequency (kHz)');
 
     ax(4)=subplot(221);
-    imagesc(ttax,ffax,10*log10(dp)');
+    imagesc(tt,ffax,10*log10(dp)');
     colorbar;
     axis('xy');
     title('Noise Estimate (dB)');

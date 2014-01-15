@@ -19,7 +19,7 @@ function [eta,etaf]=finishat(frac,tol,fmt)
 %                end
 
 %      Copyright (C) Mike Brookes 1998
-%      Version: $Id: finishat.m,v 1.3 2011/07/29 18:29:26 dmb Exp $
+%      Version: $Id: finishat.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

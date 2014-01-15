@@ -33,7 +33,7 @@ function writehtk(file,d,fp,tc)
 %   Thanks to Scott Otterson for fixing a bug in writing ultra-long frames.
 
 %      Copyright (C) Mike Brookes 2005
-%      Version: $Id: writehtk.m,v 1.9 2011/02/21 17:34:44 dmb Exp $
+%      Version: $Id: writehtk.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

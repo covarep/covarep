@@ -30,16 +30,16 @@ function [f,c] = bark2frq(b,m)
 %   widely used in the lterature.
 %
 %   [1] H. Traunmuller, Analytical Expressions for the
-%       Tonotopic Sensory Scale”, J. Acoust. Soc. Am. 88,
+%       Tonotopic Sensory ScaleÂ”, J. Acoust. Soc. Am. 88,
 %       1990, pp. 97-100.
 %   [2] E. Zwicker, Subdivision of the audible frequency range into
 %       critical bands, J Accoust Soc Am 33, 1961, p248.
 %   [3] M. R. Schroeder, B. S. Atal, and J. L. Hall. Optimizing digital
 %       speech coders by exploiting masking properties of the human ear.
-%       J. Acoust Soc Amer, 66 (6): 1647–1652, 1979. doi: 10.1121/1.383662.
+%       J. Acoust Soc Amer, 66 (6): 1647Â–1652, 1979. doi: 10.1121/1.383662.
 
 %      Copyright (C) Mike Brookes 2006-2010
-%      Version: $Id: bark2frq.m,v 1.6 2010/01/06 10:12:04 dmb Exp $
+%      Version: $Id: bark2frq.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

@@ -21,14 +21,14 @@ function [u,v,p,r] = maxgauss(m,c,d)
 %
 %
 % Refs: [1] C. E. Clark. The greatest of a finite set of random variables.
-%           Operations Research, 9(2):145–162, March 1961.
+%           Operations Research, 9(2):145Â–162, March 1961.
 %       [2] D. Sinha, H. Zhou, and N. V. Shenoy.
 %           Advances in Computation of the Maximum of a Set of Gaussian Random Variables.
 %           IEEE Trans Computer-Aided Design of Integrated Circuits and Systems,
-%           26(8):1522–1533, Aug. 2007. doi: 10.1109/TCAD.2007.893544.
+%           26(8):1522Â–1533, Aug. 2007. doi: 10.1109/TCAD.2007.893544.
 
 %      Copyright (C) Mike Brookes 1997
-%      Version: $Id: maxgauss.m,v 1.5 2008/07/07 11:42:53 dmb Exp $
+%      Version: $Id: maxgauss.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

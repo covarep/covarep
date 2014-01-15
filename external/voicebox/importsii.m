@@ -23,10 +23,10 @@ function q=importsii(f,m)
 %  [1]  Methods for the calculation of the speech intelligibility index.
 %       ANSI Standard S3.5-1997 (R2007), American National Standards Institute, 1997.
 %  [2]  C. V. Pavlovic. Derivation of primary parameters and procedures for use in
-%       speech intelligibility predictions. J. Acoust Soc Amer, 82: 413–422, 1987.
+%       speech intelligibility predictions. J. Acoust Soc Amer, 82: 413Â–422, 1987.
 
 %	   Copyright (C) Mike Brookes 2006
-%      Version: $Id: importsii.m,v 1.2 2009/07/26 18:16:28 dmb Exp $
+%      Version: $Id: importsii.m 4048 2014-01-10 08:24:32Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -78,9 +78,9 @@ if any(m=='c') || any(m=='d')
 else
     q=mi+ai*(b<4).*(b-4)-bi*(b>18).*(b-18);
     q(b<xi0)=0;
-    q(b>xi1)=1;
+    q(b>xi1)=0;
     if ~any(m=='b')
-        q=q.*d;
+        q=q./d;
     end
 end
 if ~nargout

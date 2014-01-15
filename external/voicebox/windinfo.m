@@ -31,10 +31,10 @@ function x=windinfo(w,fs)
 % listed in the table is 10^(x.dcgain/20)/(max(w)*length(w)).
 %
 %  [1]  F. J. Harris. On the use of windows for harmonic analysis with the
-%       discrete fourier transform. Proc IEEE, 66 (1): 51–83, Jan. 1978.
+%       discrete fourier transform. Proc IEEE, 66 (1): 51Â–83, Jan. 1978.
 
 %	   Copyright (C) Mike Brookes 2009
-%      Version: $Id: windinfo.m,v 1.3 2009/07/08 15:21:22 dmb Exp $
+%      Version: $Id: windinfo.m 3601 2013-10-11 15:27:30Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -71,8 +71,8 @@ nwo=of*nw;
 f=rfft(w,nwo);
 p=f.*conj(f);
 % sidelobe attenuation is maximum peak (note DC peak at p(1) is not found)
-[kp,vp]=findpeaks(p,'q');
-[kt,vt]=findpeaks(-p,'q');
+[kp,vp]=v_findpeaks(p,'q');
+[kt,vt]=v_findpeaks(-p,'q');
 if ~numel(kp)
     x.sidelobe=10*log10(min(p)/p(1));
 else

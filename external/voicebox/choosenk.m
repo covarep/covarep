@@ -11,7 +11,7 @@ function x=choosenk(n,k)
 % much faster for large N and most values of K.
 
 %   Copyright (c) 1998 Mike Brookes,  mike.brookes@ic.ac.uk
-%      Version: $Id: choosenk.m,v 1.4 2007/05/04 07:01:38 dmb Exp $
+%      Version: $Id: choosenk.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

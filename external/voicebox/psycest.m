@@ -6,7 +6,7 @@ function [xx,ii,m,v]=psycest(iq,x,r,xp)
 %                    psycest(i)         % plot pdf of model i
 %              [p,q]=psychest(0)        % output model parameters (or print them if no outputs)
 %
-% Inputs:
+% Inputs (see usage examples for argument positions):
 %         -n        minus the number of models
 %          p(:,n)   parameters for each model
 %                      1  thresh [0.75]
@@ -92,7 +92,7 @@ function [xx,ii,m,v]=psycest(iq,x,r,xp)
 %          distributions.
 
 %      Copyright (C) Mike Brookes 2009-2010
-%      Version: $Id: psycest.m,v 1.13 2010/12/15 08:01:06 dmb Exp $
+%      Version: $Id: psycest.m 1933 2012-06-07 09:41:30Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

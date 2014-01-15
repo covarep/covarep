@@ -1,5 +1,5 @@
 function x=randvec(n,m,c,w,mode)
-%RANDVEC  Generate real or complex random vectors X=(N,M,C,W,MODE)
+%RANDVEC  Generate real or complex GMM/lognormal random vectors X=(N,M,C,W,MODE)
 % generates a random matrix of size (|n|,p) where p is the maximum
 % dimension of M or C
 %  Inputs:  N        is the number of points to generate
@@ -14,14 +14,14 @@ function x=randvec(n,m,c,w,mode)
 %
 % Outputs:  X(N,P) is the output data
 %
-% Note that cov(x) = E(x'*x) - m'*m where x and m are row vectos (this may
-% be the conjugate of what you expect but agrees with MATLAB's COV() function)
+% Note that cov(x) = E(x'*x) - m'*m where x and m are row vectors (for complex data this
+% may be the conjugate of what you expect but agrees with MATLAB's COV() function.
 
 % Bugs/suggestions
 %    (1)  New mode 'x' to approximate chi squared
 
 %      Copyright (C) Mike Brookes 1998
-%      Version: $Id: randvec.m,v 1.9 2008/05/08 20:55:02 dmb Exp $
+%      Version: $Id: randvec.m 3227 2013-07-04 15:42:04Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

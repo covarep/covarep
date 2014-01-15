@@ -18,7 +18,7 @@ function x=irfft(y,n,d)
 % See also the forward transform: RFFT
 
 %      Copyright (C) Mike Brookes 2009
-%      Version: $Id: irfft.m,v 1.5 2009/06/03 11:58:37 dmb Exp $
+%      Version: $Id: irfft.m 2460 2012-10-29 22:20:45Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -43,11 +43,10 @@ s=size(y);
 ps=prod(s);
 ns=length(s);
 if ps==1
-    x=y
+    x=y;
 else
     if nargin <3 || isempty(d)
-        d=find(s>1);
-        d=d(1);
+        d=find(s>1,1);
     end
     m=s(d);
     k=ps/m;     % number of fft's to do

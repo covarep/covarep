@@ -68,7 +68,7 @@ function [y,fs,wmode,fidx]=readwav(filename,mode,nmax,nskip)
 %   Any of these scalings can be selected via the mode input: (a) 'o', (b) default, (c) 'on', (d) 'n'
 
 %	   Copyright (C) Mike Brookes 1998-2011
-%      Version: $Id: readwav.m,v 1.8 2011/05/02 16:51:08 dmb Exp $
+%      Version: $Id: readwav.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -185,7 +185,7 @@ if ~info(3)
                 fseek(fid,len-16,0);				    % skip to end of header
             end
             if mh
-                fmttypes={'?' 'PCM' 'ADPCM' 'IEEE-float' '?' '?' 'A-law' 'µ-law' '?'};
+                fmttypes={'?' 'PCM' 'ADPCM' 'IEEE-float' '?' '?' 'A-law' 'Âµ-law' '?'};
                 fprintf('        Format: %d = %s',info(8),fmttypes{1+max(min(info(8),8),0)});
                 if wavfmt==-2
                     fprintf(' (%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x)\n',wfxguida,wfxguidb,wfxguidc);

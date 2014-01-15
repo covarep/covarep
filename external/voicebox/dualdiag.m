@@ -1,7 +1,22 @@
-function [a,d]=dualdiag(w,b)
-%DUALDIAG Simultaneous diagonalisation of two hermitian matrices [A,D]=(W,B)
-% Given two hermitian matrices W and B with W positive definite, this routine
-% calculates A such that A'*W*A=I and A'*B*A=diag(D). The D will be in descending order.
+function [a,d,e]=dualdiag(w,b)
+%DUALDIAG Simultaneous diagonalisation of two hermitian matrices [A,D,E]=(W,B)
+% Inputs:   W,B     Two square hermitian matrices
+%
+% Outputs:  A       Diagonalizing matrix (not normally unitary or hermitian)
+%           D       Real diagonal matrix elements: A'*B*A=diag(D) (see note below)
+%           E       Real diagonal matrix elements: A'*W*A=diag(E)
+%
+% Note: At least one of W and B must be either positive definite or negative
+% definite. If this is not the case, then D=A'*B*A and E=A'*W*A will be
+% complex hermitian matrices rather than being vectors of real diagonal elements.
+%
+% The columns of A will be ordered so that abs(D./E) is in descending order.
+% If two output arguments are given then A will be scaled to make diag(E)=I
+% but, if W is singular, this will cause some elements of A to be infinite.
+%
+% If A'*B*A=diag(D) and A'*W*A=diag(E) then A'*W*A*diag(1./E)=I so A'*B*A=A'*W*A*diag(D./E)
+% and hence B*A=W*A*diag(D./E) so the columns of A are the eigenvectors of W\A or
+% equivalently the generalized eigenvectors of (B,W).
 %
 % Suppose we have several N-dimensional data row-vectors arising from each of C different classes of data.
 % for each class, c, we can form the mean data vector m(c) and the within-class covariance matrix W(c)
@@ -11,18 +26,8 @@ function [a,d]=dualdiag(w,b)
 % data vectors for which the average within-class covariance matrix is the identity and for which
 % the first few components contain most of the information that is useful in discriminating between classes.
 
-% An alternative algorithm that is 20% faster but slightly less accurate is:
-% n=size(w,1);
-% [v,l]=eig(w\b);
-% [s,i]=sort(-diag(l));
-% s=-s;
-% d=l(i*(n+1)-n);
-% q=sqrt(diag(v'*w*v))'.^(-1);
-% a=v(:,i).*q(ones(n,1),i);
-
-
-%      Copyright (C) Mike Brookes 1997
-%      Version: $Id: dualdiag.m,v 1.4 2007/05/04 07:01:38 dmb Exp $
+%      Copyright (C) Mike Brookes 1997-2013
+%      Version: $Id: dualdiag.m 2867 2013-04-02 11:27:18Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -42,9 +47,18 @@ function [a,d]=dualdiag(w,b)
 %   http://www.gnu.org/copyleft/gpl.html or by writing to
 %   Free Software Foundation, Inc.,675 Mass Ave, Cambridge, MA 02139, USA.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-[y,l]=eig(w+w');
-z=y*diag(sqrt(diag(l*0.5)).^(-1));
-[u,s,v]=svd(z'*(b+b')*z);
-d=diag(s)*0.5;
-a=z*u;
+[a,l]=eig(b+b',w+w');               % generalized eigendecomposition
+if isreal(l)
+    [d,i]=sort(abs(diag(l)),'descend'); % sort by absolute value
+    if nargout==2
+        q=sqrt(diag(a'*w*a))'.^(-1);    % scale to make e=1
+        a=a(:,i).*q(ones(size(w,1),1),i); % reorder and scale columns of a
+    else
+        a=a(:,i);                       % reorder columns of a to match eigenvalues
+        e=real(diag(a'*w*a));
+    end
+    d=real(diag(a'*b*a));
+else
+    d=a'*b*a;
+    e=a'*w*a;
+end

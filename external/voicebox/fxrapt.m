@@ -38,7 +38,7 @@ function [fx,tt]=fxrapt(s,fs,mode)
 %            Elsevier ISBN 0444821694, 1995
 
 %      Copyright (C) Mike Brookes 2006
-%      Version: $Id: fxrapt.m,v 1.4 2011/02/07 20:34:44 dmb Exp $
+%      Version: $Id: fxrapt.m 3601 2013-10-11 15:27:30Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -164,10 +164,10 @@ for iframe=1:nframe       % loop for each frame (~10 ms)
     sffdc=mean(sff(sfi));       % mean of initial correlation window length
     sff=sff-sffdc;              % subtract off the mean
     nccfd=normxcor(sff(1:kcorwd),sff(minlag+1:end));
-    [ipkd,vpkd]=findpeaks(nccfd,'q');
+    [ipkd,vpkd]=v_findpeaks(nccfd,'q');
 
     % Debugging: execute the line below to plot the autocorrelation peaks.
-    % findpeaks(nccfd,'q'); xlabel(sprintf('Lag = (x+%d)*%g ms',minlag-1,1000*kdsmp/fs)); ylabel('Normalized Cross Correlation'); title (sprintf('Frame %d/%d',iframe,nframe));
+    % v_findpeaks(nccfd,'q'); xlabel(sprintf('Lag = (x+%d)*%g ms',minlag-1,1000*kdsmp/fs)); ylabel('Normalized Cross Correlation'); title (sprintf('Frame %d/%d',iframe,nframe));
 
     vipkd=[vpkd ipkd];
     vipkd(vpkd<max(vpkd)*candtr,:)=[];          % eliminate peaks that are small

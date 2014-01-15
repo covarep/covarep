@@ -13,7 +13,7 @@ function x=usasi(n,fs)
 %      NRSC-1-A Standard, Sept 2007, Online: http://www.nrscstandards.org/SG/NRSC-1-A.pdf 
 
 %      Copyright (C) Mike Brookes 1997
-%      Version: $Id: usasi.m,v 1.6 2008/05/27 08:38:05 dmb Exp $
+%      Version: $Id: usasi.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

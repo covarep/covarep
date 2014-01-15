@@ -9,15 +9,18 @@ function u=lpcifilt(s,ar,t,dc,fade)
 %                         either side of frame boundaries
 %
 
-% Example: estimate the 2nd derivative of glotttal flow from a speech signal sp with sample freq fs
+% Example usage: generate an inverse filtered waveform
 %
-%      spp=filter([1 -exp(-2*pi*50/fs)],1,sp);      % preemphasis zero is at 50 Hz
-%      [lpar,lpe,lpk]=lpcauto(spp,lpcord,floor([0.01 0.02]*fs)); % 20ms frame with 10ms frame increment
-%      overlap=k(1,2)-k(2,1)+1;                     % overlap between adjacent frames
-%      u=lpcifilt(sp,ar,k(:,1)+floor(overlap/2),0,overlap/4);  % do inverse filtering
+%      [sp,fs]=readwav('infile.wav');
+%      lpcord=2+floor(fs/1000);
+%      spp=filter([1 -exp(-2*pi*50/fs)],1,sp);                    % preemphasis zero is at 50 Hz
+%      [lpar,lpe,lpk]=lpcauto(spp,lpcord,floor([0.01 0.02]*fs));  % 20ms frame with 10ms frame increment
+%      overlap=lpk(1,2)-lpk(2,1)+1;                               % overlap between adjacent frames
+%      u=lpcifilt(sp,lpar,lpk(:,1)+floor(overlap/2),0,overlap/4); % do inverse filtering
+%      writewav(u,fs,'outfile.wav');
 
 %      Copyright (C) Mike Brookes 1997
-%      Version: $Id: lpcifilt.m,v 1.5 2007/07/18 17:41:49 dmb Exp $
+%      Version: $Id: lpcifilt.m 2647 2013-01-23 11:05:41Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

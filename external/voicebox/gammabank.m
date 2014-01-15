@@ -56,14 +56,14 @@ function [b,a,fx,bx,gd]=gammabank(n,fs,w,fc,bw,ph,k)
 % References
 %  [1]	R. F. Lyon, A. G. Katsiamis, and E. M. Drakakis.
 %       History and future of auditory filter models.
-%       In Proc Intl Symp Circuits and Systems, pages 3809–3812, 2010.
+%       In Proc Intl Symp Circuits and Systems, pages 3809Â–3812, 2010.
 %       doi: 10.1109/ISCAS.2010.5537724.
 %  [2]	M. Slaney.
 %       An efficient implementation of the patterson-holdsworth auditory filter bank.
 %       Technical report, Apple Computer, Perception Group, Tech. Rep, 1993.
 
 %      Copyright (C) Mike Brookes 2009-2010
-%      Version: $Id: gammabank.m,v 1.4 2010/08/06 12:45:03 dmb Exp $
+%      Version: $Id: gammabank.m 2190 2012-07-20 13:47:42Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -164,7 +164,7 @@ if n>0                      % n>0: filter end points specified
             case 'b'
                 fx=frq2bark(fx);
             case 'm'
-                fx=frq2mrl(fx);
+                fx=frq2mel(fx);
             case 'l'
                 fx=log10(fx);
             case 'e'

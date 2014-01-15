@@ -37,7 +37,7 @@ function [x,g,xn,gg] = kmeanhar(d,k,l,e,x0)
 %      (2) Could then allow incremental calling with partial data arrays (but messy)
 
 %      Copyright (C) Mike Brookes 1998
-%      Version: $Id: kmeanhar.m,v 1.6 2008/06/02 07:20:52 dmb Exp $
+%      Version: $Id: kmeanhar.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

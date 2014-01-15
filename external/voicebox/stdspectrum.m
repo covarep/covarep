@@ -46,7 +46,7 @@ function [b,a]=stdspectrum(s,m,f,n,zi,bs,as)
 %   5  LTASS-P50  : the long-term average speech spectrum that is defined by a
 %                   formula on page 3 of [4] which, strangely, does not precisely
 %                   match the graph shown on the same page.
-%   6  LTASS-1994 : the long-term average speech spectrum that is taken from a graph in [2]
+%   6  LTASS-1994 : the long-term average speech spectrum that is taken from Table 2 in [2]
 %   7  SII-intinv : The inverse spectrum of the ear's internal masking noise; this is taken
 %                   from table 1 of [1]. It is inverted so that it is a bandpass rather than
 %                   bandstop characteristic.
@@ -63,7 +63,7 @@ function [b,a]=stdspectrum(s,m,f,n,zi,bs,as)
 %       W. A. H. E. Kholy, Y. Nakanishi, H. Oyer, R. Powell, D. Stephens, R. Meredith,
 %       T. Sirimanna, G. Tavartkiladze, G. I. Frolenkov, S. Westerman, and C. Ludvigsen.
 %       An international comparison of long-term average speech spectra.
-%       JASA, 96 (4): 2108–2120, Oct. 1994.
+%       JASA, 96 (4): 2108Â–2120, Oct. 1994.
 % [3]	CENELEC. Electroacoustics - sound level meters. Technical Report EN EN 61672-1:2003, 2003.
 %       (also ANSI S1.42-2001)
 % [4]	ITU-T. Artificial voices. Standard P.50, Sept. 1999.
@@ -76,7 +76,7 @@ function [b,a]=stdspectrum(s,m,f,n,zi,bs,as)
 % [8]   NRSC AM Reemphasis, Deemphasize, and Broadcast Audio Transmission Bandwidth Specifications,
 %       NRSC-1-A Standard, Sept 2007, Online: http://www.nrscstandards.org/SG/NRSC-1-A.pdf
 % [9]   H. Fletcher and W. A. Munson. Loudness, its definition, measurement and calculation.
-%       J. Acoust Soc Amer, 5: 82–108, Oct. 1933.
+%       J. Acoust Soc Amer, 5: 82Â–108, Oct. 1933.
 % [10]  American National Standard Specification for Sound Level Meters.
 %       ANSI S1.4-1983 (R2006)/ANSI S1.4a-1985 (R2006), American National Standards Institute
 % [11]	IEEE standard equipment requirements and measurement techniques for analog transmission
@@ -88,13 +88,16 @@ function [b,a]=stdspectrum(s,m,f,n,zi,bs,as)
 %    IEEE743 has several weighting filters defined
 %    ITU-T 0.41 Psophometer for use on telephone-type circuits
 %    Bell System Technical Reference 41009 (C-message)
-%    ISO 8041:2005 (E): Human Response to Vibration – Measuring
+%    ISO 8041:2005 (E): Human Response to Vibration Â– Measuring
 %    Instrumentation
 %    IEC 1260:1995, class 1 (also IEC 61260/ANSI S1.11-2004) Octave band and fractional octave band filters
 %    IEC 651: Specification for Sound Level Meters
+%    IRS P.48: sending and receiving characteristics defined by isolated points
+%    mIRS P.830 modified IRS also defined by isolated points (see Annex D) available in G.191
+%    G.191 software tools library contains IRS and mIRS implementations in FIR and IIR
 
 %      Copyright (C) Mike Brookes 2008
-%      Version: $Id: stdspectrum.m,v 1.7 2011/06/03 21:27:47 dmb Exp $
+%      Version: $Id: stdspectrum.m 3287 2013-07-31 17:03:35Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -150,10 +153,13 @@ if nargin<2 || ~numel(m)
     end
 end
 m1=m(1);        % output format
+if nargin<3
+    f=8192;  % default frequency
+end
 
 % determine the spectrum type
 
-if ~numel(s) || s==0
+if ~numel(s) || s(1)==0
     ixs=0;
     sb=1;
     sz=[];  % list of s-domain zeros

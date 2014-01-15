@@ -9,9 +9,13 @@ function y=voicebox(f,v)
 %               input f is specified, then y is set to the value of the
 %               corresponding field or null if it doesn't exist.
 %
+% You can override the defaults set here by setting the environment variable "VOICEBOX"
+% to the path of an m-file that contains lines like "% PP.dir_temp='F:\TEMP';"
+%
 % This routine contains default values for constants that are used by
 % other functions in the VOICEBOX toolbox. Values in the first section below,
 % entitled "System-dependent directory paths" should be set as follows:
+%
 %    PP.dir_temp     directory for storing temporary files
 %    PP.dir_data     default directory to preappend to speech data file names
 %                    when the "d" option is specified in READWAV etc.
@@ -32,7 +36,7 @@ function y=voicebox(f,v)
 %    (1)  Could allow a * at the end of F to act as a wildcard and return/print a part structure
 
 %      Copyright (C) Mike Brookes 2003
-%      Version: $Id: voicebox.m,v 1.17 2011/07/28 06:48:45 dmb Exp $
+%      Version: $Id: voicebox.m 2803 2013-03-16 18:31:13Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -116,10 +120,17 @@ if isempty(PP)
     PP.rapt_dtrms=0.02;                     % window spacing for rms measurement
     PP.rapt_preemph=-7000;                  % s-plane position of preemphasis zero
     PP.rapt_nfullag=7;                      % number of full lags to try (must be odd)
+    
+    % now see if an environment variable has been set
+    
+    vbenv=winenvar('VOICEBOX');
+    if exist(vbenv,'file');     % update with locally defined values if defined
+        run(vbenv)
+    end
 
     % now check some of the key values for validity
 
-    if exist(PP.dir_temp)~=7        % check that temp directory exists
+    if exist(PP.dir_temp,'dir')~=7        % check that temp directory exists
         PP.dir_temp = winenvar('temp');     % else use windows temp directory
     end
 
@@ -134,7 +145,7 @@ if isempty(PP)
     if exist(PP.flac)~=2        % check that flac executable exists
         PP.flac=fullfile(fnp,'flac.exe'); % next try local directory
         if exist(PP.flac)~=2        % check if it exists in local directory
-            PP.shorten='flac.exe'; % finally assume it is on the search path
+            PP.flac='flac.exe'; % finally assume it is on the search path
         end
     end
 

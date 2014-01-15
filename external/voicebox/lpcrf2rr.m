@@ -7,7 +7,7 @@ function [rr,ar]=lpcrf2rr(rf,p);
 %          ar(:,n+1)  AR filter coefficients
 
 %      Copyright (C) Mike Brookes 1997
-%      Version: $Id: lpcrf2rr.m,v 1.5 2007/05/04 07:01:39 dmb Exp $
+%      Version: $Id: lpcrf2rr.m 2460 2012-10-29 22:20:45Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -43,7 +43,7 @@ if p0
    ar = [ones(nf,1) a];
    r0=sum(rr.*ar,2).^(-1);
    rr=rr.*r0(:,ones(1,p1));
-   if nargin>1
+   if nargin>1 && ~isempty(p)
       if p<p0
          rr(:,p+2:p1)=[];
       else

@@ -13,7 +13,7 @@ function s=frac2bin(d,n,m)
 % Bug: doesn't yet cope with negative numbers
 
 %      Copyright (C) Mike Brookes 2005
-%      Version: $Id: frac2bin.m,v 1.2 2007/05/04 07:01:38 dmb Exp $
+%      Version: $Id: frac2bin.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

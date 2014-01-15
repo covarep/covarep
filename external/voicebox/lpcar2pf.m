@@ -4,7 +4,7 @@ function pf=lpcar2pf(ar,np)
 % The routine is faster if NP+1 is a power of 2.
 
 %      Copyright (C) Mike Brookes 1998
-%      Version: $Id: lpcar2pf.m,v 1.4 2007/05/04 07:01:38 dmb Exp $
+%      Version: $Id: lpcar2pf.m 2460 2012-10-29 22:20:45Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -28,4 +28,11 @@ function pf=lpcar2pf(ar,np)
 [nf,p1]=size(ar);
 if nargin<2 np=p1-1; end
 pf=abs(rfft(ar.',2*np+2).').^(-2);
+if ~nargout
+    if nf==1
+        plot((0:np+1)/(2*np+2),10*log10(pf));
+        xlabel('Normalized frequency f/f_s');
+        ylabel('LPC Power Spectrum (dB)');
+    end
+end
 

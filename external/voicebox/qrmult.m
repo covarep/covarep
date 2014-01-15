@@ -1,16 +1,13 @@
 function q=qrmult(q1,q2)
-%QRMULT multiplies together two real quaternions q=[q1,q2]
+%QRMULT multiplies together two real quaternions matrices q=[q1,q2]
 %
-% Inputs:
+% Inputs:   q1(4m,n)  Two real quaternions arrays. Either array can
+%           q2(4n,r)  also be a scalar quaternion.
 %
-%     q1(4,1), q2(4,1)  Two real quaternions in the form [r, i, j, k]' where i^2=j^2=k^2=ijk=-1
-%
-% Outputs: 
-%
-%     q(4,1)   Product of q1 and q2
+% Outputs:   q(4m,r)  Matrix product of q1 and q2
 
-%      Copyright (C) Mike Brookes 2000-2008
-%      Version: $Id: qrmult.m,v 1.1 2008/12/03 10:07:53 dmb Exp $
+%      Copyright (C) Mike Brookes 2000-2012
+%      Version: $Id: qrmult.m 1617 2012-03-15 09:14:01Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -30,15 +27,12 @@ function q=qrmult(q1,q2)
 %   http://www.gnu.org/copyleft/gpl.html or by writing to
 %   Free Software Foundation, Inc.,675 Mass Ave, Cambridge, MA 02139, USA.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-persistent a b c d
-if isempty(a)
-    a=[5 8 9 10 15 13];
-    b=[6 7 11 12 14 16];
-    c=[1 2 3 4 6 7 11 12 16 14];
-    d=[1 2 3 4 5 8 9 10 13 15];
+s1=size(q1);
+s2=size(q2);
+if isequal(s1,[4 1])
+    q=qrdotmult(repmat(q1,s2(1)/4,s2(2)),q2);
+elseif isequal(s2,[4 1])
+    q=qrdotmult(q1,repmat(q2,s1(1)/4,s1(2)));
+else
+    q=rotqr2mr(q1)*q2;
 end
-t=q1*q2.';
-s=zeros(4,4);
-s(a)=-t(b);
-s(c)=t(d);
-q=sum(s,2);

@@ -8,7 +8,7 @@ function [s,c,r,t]=atan2sc(y,x)
 %    t    arctan of y/x
 
 %      Copyright (C) Mike Brookes 2007
-%      Version: $Id: atan2sc.m,v 1.1 2007/11/23 18:47:46 dmb Exp $
+%      Version: $Id: atan2sc.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

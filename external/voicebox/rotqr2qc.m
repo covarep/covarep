@@ -3,17 +3,17 @@ function qc=rotqr2qc(qr)
 %
 % Inputs: 
 %
-%     QR(4m,n)   mxn matrix of real-valued quaternions
+%     QR(4m,...)   array of real-valued quaternions
 %
 % Outputs: 
 %
-%     QC(2m,n)   mxn matrix of complex-valued quaternions
+%     QC(2m,...)   array of complex-valued quaternions
 %
 % The real-valued quaternion [r a b c]' becomes [r+j*b  a+j*c]'
 
 % 
-%      Copyright (C) Mike Brookes 2000-2006
-%      Version: $Id: rotqr2qc.m,v 1.3 2007/11/23 18:47:46 dmb Exp $
+%      Copyright (C) Mike Brookes 2000-2012
+%      Version: $Id: rotqr2qc.m 1616 2012-03-15 09:13:31Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -33,6 +33,12 @@ function qc=rotqr2qc(qr)
 %   http://www.gnu.org/copyleft/gpl.html or by writing to
 %   Free Software Foundation, Inc.,675 Mass Ave, Cambridge, MA 02139, USA.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-n=size(qr,1);
-i=(1:2:n)-mod(0:n/2-1,2);
-qc=qr(i,:)+1i*qr(i+2,:);
+persistent a b
+if isempty(a)
+    a=[1 3 2 4];
+    b=[1 1i];
+end
+s=size(qr);
+qq=reshape(qr,4,[]);
+s(1)=s(1)/2;
+qc=reshape(b*reshape(qq(a,:),2,[]),s);

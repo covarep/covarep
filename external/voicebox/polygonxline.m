@@ -11,7 +11,7 @@ function [xc,ec,tc,xy0]=polygonxline(p,l)
 % xy0(1,2) gives the starting point, (x0,y0) of the parametric line
 
 %      Copyright (C) Mike Brookes 2009
-%      Version: $Id: polygonxline.m,v 1.1 2009/04/07 19:23:53 dmb Exp $
+%      Version: $Id: polygonxline.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

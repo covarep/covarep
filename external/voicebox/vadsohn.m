@@ -8,8 +8,9 @@ function [vs,zo]=vadsohn(si,fsz,m,pp)
 %   m       mode [default = 'a']:
 %               'n'   output frame start/end in samples
 %               't'   output frame start/end in seconds
-%               'a'   output activity decision
+%               'a'   output activity decision [default]
 %               'b'   output activity likelihood ratio
+%               'p'   plot graph [default if no outputs]
 %   pp      algorithm parameters [optional]
 %
 % Outputs:
@@ -22,14 +23,17 @@ function [vs,zo]=vadsohn(si,fsz,m,pp)
 % The algorithm operation is controlled by a small number of parameters:
 %
 %        pp.of          % overlap factor = (fft length)/(frame increment) [2]
-%        pp.ti          % desired frame increment [0.010 seconds]
-%        pp.ri          % set to 1 to round ti to the nearest power of 2 samples [0]
+%        pp.ti          % desired output frame increment (10 ms)
+%        pp.tj          % internal frame increment (10 ms)
+%        pp.ri          % set to 1 to round tj to the nearest power of 2 samples [0]
 %        pp.ta          % Time const for smoothing SNR estimate [0.396 seconds]
-%        pp.gx          % maximum posterior SNR as a power ratio [1000]
+%        pp.gx          % maximum posterior SNR as a power ratio [1000 = 30dB]
+%        pp.gz          % minimum posterior SNR as a power ratio [0.0001 = -40dB]
 %        pp.xn          % minimum prior SNR [0]
 %        pp.pr          % Speech probability threshold [0.7]
 %        pp.ts          % mean talkspurt length (100 ms)
 %        pp.tn          % mean silence length (50 ms)
+%        pp.ne          % noise estimation: 0=min statistics, 1=MMSE [0]
 %
 % In addition it is possible to specify parameters for the noise estimation algorithm
 % which implements reference [3] from which equation numbers are given in parentheses.
@@ -66,7 +70,7 @@ function [vs,zo]=vadsohn(si,fsz,m,pp)
 % Refs:
 %    [1] J. Sohn, N. S. Kim, and W. Sung.
 %        A statistical model-based voice activity detection.
-%        IEEE Signal Processing Lett., 6 (1): 1–3, 1999. doi: 10.1109/97.736233.
+%        IEEE Signal Processing Lett., 6 (1): 1Â–3, 1999. doi: 10.1109/97.736233.
 %    [2] Ephraim, Y. & Malah, D.
 %        Speech enhancement using a minimum-mean square error short-time spectral amplitude estimator
 %        IEEE Trans Acoustics Speech and Signal Processing, 32(6):1109-1121, Dec 1984
@@ -75,7 +79,7 @@ function [vs,zo]=vadsohn(si,fsz,m,pp)
 %        IEEE Trans. Speech and Audio Processing, 9(5):504-512, July 2001.
 
 %      Copyright (C) Mike Brookes 2004
-%      Version: $Id: vadsohn.m,v 1.2 2011/04/13 06:30:12 dmb Exp $
+%      Version: $Id: vadsohn.m 3100 2013-06-13 16:05:56Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -95,7 +99,7 @@ function [vs,zo]=vadsohn(si,fsz,m,pp)
 %   http://www.gnu.org/copyleft/gpl.html or by writing to
 %   Free Software Foundation, Inc.,675 Mass Ave, Cambridge, MA 02139, USA.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-if nargin<3
+if nargin<3 || isempty(m)
     m='';
 end
 if isstruct(fsz)
@@ -111,15 +115,18 @@ else
     s=si(:);
     % default algorithm constants
 
-    qq.of=2;   % overlap factor = (fft length)/(frame increment)
-    qq.pr=0.7;    % Speech probability threshold
-    qq.ts=0.1;  % mean talkspurt length (100 ms)
-    qq.tn=0.05; % mean silence length (50 ms)
-    qq.ti=10e-3;   % desired frame increment (10 ms)
-    qq.ri=0;       % round ni to the nearest power of 2
+    qq.of=2;        % overlap factor = (fft length)/(frame increment)
+    qq.pr=0.7;      % Speech probability threshold
+    qq.ts=0.1;      % mean talkspurt length (100 ms)
+    qq.tn=0.05;     % mean silence length (50 ms)
+    qq.ti=10e-3;    % desired output frame increment (10 ms)
+    qq.tj=10e-3;    % internal frame increment (10 ms)
+    qq.ri=0;        % round ni to the nearest power of 2
     qq.ta=0.396;    % Time const for smoothing SNR estimate = -tinc/log(0.98) from [2]
     qq.gx=1000;     % maximum posterior SNR = 30dB
+    qq.gz=1e-4;     % minimum posterior SNR = -40dB
     qq.xn=0;        % minimum prior SNR = -Inf dB
+    qq.ne=0;          % noise estimation: 0=min statistics, 1=MMSE [0]
     if nargin>=4 && ~isempty(pp)
         qp=pp;      % save for estnoisem call
         qqn=fieldnames(qq);
@@ -133,20 +140,23 @@ else
     end
 end
 % derived algorithm constants
+qq.tj=min([qq.tj 0.5*qq.ts 0.5*qq.tn]);     % at least two frames per talk/silence spurt
+nj=max(round(qq.ti/qq.tj),1);               % number of internal frames per output frame
 if qq.ri
-    ni=pow2(nextpow2(ti*fs*sqrt(0.5)));
+    ni=pow2(nextpow2(qq.ti*fs*sqrt(0.5)/nj)); % internal frame increment in samples
 else
-    ni=round(qq.ti*fs);    % frame increment in samples
+    ni=round(qq.ti*fs/nj);    % internal frame increment in samples
 end
-tinc=ni/fs;          % true frame increment time
-a=exp(-tinc/qq.ta); % SNR smoothing coefficient
-gmax=qq.gx;           % max posterior SNR = 30 dB
-kk=sqrt(2*pi);   % sqrt(8)*Gamma(1.5) - required constant
-xn=qq.xn;           % floor for prior SNR, xi
-a01=tinc/qq.tn;     % a01=P(silence->speech)
-a00=1-a01;          % a00=P(silence->silence)
-a10=tinc/qq.ts;     % a10=P(speech->silence)
-a11=1-a10;          % a11=P(speech->speech)
+tinc=ni/fs;             % true frame increment time
+a=exp(-tinc/qq.ta);     % SNR smoothing coefficient
+gmax=qq.gx;             % max posterior SNR = 30 dB
+kk=sqrt(2*pi);          % sqrt(8)*Gamma(1.5) - required constant
+xn=qq.xn;            	% floor for prior SNR, xi
+gz=qq.gz;               % floor for posterior SNR
+a01=tinc/qq.tn;         % a01=P(silence->speech)
+a00=1-a01;              % a00=P(silence->silence)
+a10=tinc/qq.ts;         % a10=P(speech->silence)
+a11=1-a10;              % a11=P(speech->speech)
 b11=a11/a10;
 b01=a01/a00;
 b00=a01-a00*a11/a10;
@@ -173,26 +183,34 @@ else
     nb=ni*nr;
     isz=isstruct(fsz);
     if isz
-        [dp,ze]=estnoisem(yp,ze);   % estimate the noise using minimum statistics
+        if qq.ne>0
+            [dp,ze]=estnoiseg(yp,ze);	% estimate the noise using MMSE
+        else
+            [dp,ze]=estnoisem(yp,ze);	% estimate the noise using minimum statistics
+        end
         xu=fsz.xu;                  % previously saved unsmoothed SNR
         lggami=fsz.gg;
         nv=fsz.nv;
     else
-        [dp,ze]=estnoisem(yp,tinc,qp);      % estimate the noise using minimum statistics
+        if qq.ne>0
+            [dp,ze]=estnoiseg(yp,tinc,qp);	% estimate the noise using MMSE
+        else
+            [dp,ze]=estnoisem(yp,tinc,qp);	% estimate the noise using minimum statistics
+        end
         xu=1;                               % dummy unsmoothed SNR from previous frame [2](53)++
         lggami=0;                            % initial prob ratio
         nv=0;                               % number of previous speech samples
     end
-    gam=min(yp./dp,gmax);               % gamma = posterior SNR [2](10)
-    prsp=zeros(nr,1);                    % create space for prob ratio vector
+    gam=max(min(yp./dp,gmax),gz);       % gamma = posterior SNR [2](10)
+    prsp=zeros(nr,1);                   % create space for prob ratio vector
     for i=1:nr                          % loop for each frame
         gami=gam(i,:);                  % gamma(i) = a posteriori SNR [2](10)
         xi=a*xu+(1-a)*max(gami-1,xn);   % xi = smoothed a priori SNR [2](53)
         xi1=1+xi;
         v=0.5*xi.*gami./xi1;            % note that this is 0.5*vk in [2]
-        lamk=2*v-log(xi1);              % log likelihood ratio [1](3)
-        lami=sum(lamk(2:nf2))/(nf2-1);  % mean log LR omitting DC term [1](4)
-        if lggami<0                     % avoid overflow
+        lamk=2*v-log(xi1);              % log likelihood ratio for each frequency bin [1](3)
+        lami=sum(lamk(2:nf2))/(nf2-1);  % mean log LR over frequency omitting DC term [1](4)
+        if lggami<0                     % avoid overflow in calculating [1](11)
             lggami=lprat+lami+log(b11+b00/(a00+a10*exp(lggami)));
         else
             lggami=lprat+lami+log(b01+b10/(a10+a00*exp(-lggami)));
@@ -205,29 +223,30 @@ else
         end
         gi=(0.277+2*v)./gami;           % accurate to 0.02 dB for v>0.5
         mv=v<0.5;
-        if any(mv)
+        if any(mv)                      % only calculate Bessel functions for v<0.5
             vmv=v(mv);
-            gi(mv)=kk*sqrt(vmv).*((0.5+vmv).*besseli(0,vmv)+vmv.*besseli(1,vmv))./(gami(mv).*exp(vmv));
+            gi(mv)=kk*sqrt(vmv).*((0.5+vmv).*besseli(0,vmv)+vmv.*besseli(1,vmv))./(gami(mv).*exp(vmv)); % [2](7)
         end
-        xu=gami.*gi.^2;                 % unsmoothed prior SNR
+        xu=gami.*gi.^2;                 % unsmoothed prior SNR % [2](53)
     end
     ncol=any(m=='a')+any(m=='b');       % number of output data columns
     if ~ncol
         m(end+1)='a';   % force at least one output
         ncol=1;
     end
+    nw=floor(nr/nj);                % number of output or plotted frames
     if any(m=='n') || any(m=='t')       % frame-based outputs
-        vs=zeros(nr,2+ncol);
-        vs(:,1)=nd+1+nv+(0:nr-1)'*ni;   % starting sample of each frame
-        vs(:,2)=ni-1+vs(:,1);           % ending sample of each frame
+        vs=zeros(nw,2+ncol);            % space for outputs
+        vs(:,1)=nd+1+nv+(0:nw-1)'*ni*nj;   % starting sample of each frame
+        vs(:,2)=ni*nj-1+vs(:,1);           % ending sample of each frame
         if any(m=='t')
             vs(:,1:2)=vs(:,1:2)/fs;     % convert to seconds
         end
         if any(m=='a')
-            vs(:,3)=prsp>qq.pr;
+            vs(:,3)=any(reshape(prsp(1:nw*nj)>qq.pr,nj,[]),1).';
         end
         if any(m=='b')
-            vs(:,end)=prsp;
+            vs(:,end)=max(reshape(prsp(1:nw*nj),nj,[]),[],1).';
         end
     else
         na=nd*(1-isz);                  % include preamble if no input state supplied
@@ -251,9 +270,9 @@ if nargout>1
     zo.gg=lggami;                    % posterior prob ratio: P(speech|s)/P(silence|s) [1](11)
     zo.nv=nv+nd+nb;                      % number of previous speech samples
 end
-if ~nargout && nr>0
+if (~nargout || any(m=='p')) && nr>0
     ax=subplot(212);
-    plot((nv+nd+[0 nr*ni])/fs,[qq.pr qq.pr],'r:',(nv+nd+ni/2+(0:nr-1)*ni)/fs,prsp,'b-' );
+    plot((nv+nd+[0 nr*ni])/fs,[qq.pr qq.pr],'r:',(nv+nd+ni*nj/2+(0:nw-1)*ni*nj)/fs,max(reshape(prsp(1:nw*nj),nj,[]),[],1).','b-' );
     set(gca,'ylim',[-0.05 1.05]);
     xlabel('Time (s)');
     ylabel('Pr(speech)');

@@ -7,7 +7,7 @@ function s=sprintsi(x,d,w)
 % Example: sprintsi(2345,-2) gives '2.3 k'
 
 %      Copyright (C) Mike Brookes 1998
-%      Version: $Id: sprintsi.m,v 1.4 2007/05/04 07:01:39 dmb Exp $
+%      Version: $Id: sprintsi.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

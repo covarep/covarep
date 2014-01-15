@@ -1,6 +1,71 @@
 function [u,v,w]=sphrharm(m,a,b,c,d)
 %SPHRHARM  forward and inverse spherical harmonic transform
 %
+% Usage: (1) y=('f',n,x)      % Calculate complex transform of spatial data x up to order n
+%
+%        (2) y=('fr',n,x)     % Calculate real transform of spatial data x(ne,na) up to order n
+%                             % x is specified on a uniform grid with inclination e=(0.5:ne-0.5)*pi/ne
+%                             % and azimuth a=(0:na-1)*2*pi/na. The North pole has inclination 0 and
+%                             % azimuths increase going East.
+%
+%        (3) y=('fd',n,e,a,v) % Calculate transform of impulse at (e(i),a(i)) of height v(i) up to order n
+%                             % e(i), a(i) and v(i) should be the same dimension; v defaults to 1.
+%
+%        (4) x=('i',y,ne,na)  % Calculate spatial data from spherical harmonics y on
+%                             % a uniform grid with ne inclinations and na azimuths
+%
+%        (5) [e,a,w]=('cg',ne,na)   % Calculate the inclinations, azimuths and
+%                                   % quadrature weights of a Gaussian sampling grid
+%
+%        (6) n=2;             % illustrate real basis functions upto order 2
+%            for i=0:n
+%              for j=-i:i
+%                subplot(n+1,2*n+1,i*(2*n+1)+j+n+1);
+%                sphrharm('irp',[zeros(1,i^2+i+j) 1],25,25);
+%              end
+%            end
+%
+%  Inputs:  m string specifying various options:
+%               'f' forward transform
+%               'i' inverse transform
+%               'c' calculate the coordinates of the sampling grid [default if f or i omitted]
+%               'r' real spherical harmonics instead of complex
+%               'u' uniform inclination grid:  e=(0.5:ne-0.5)*pi/ne [default]
+%                      for invertibility, ne>=2N+1 for order N
+%               'U' uniform inclination grid:  e=(0:ne-1)*pi/ne
+%                      for invertibility, ne>=2N+1 for order N
+%               'g' gaussian inclination grid (non-uniform but fewer samples needed)
+%                      for invertibility, ne>=N+1 for order N
+%               'a' arbitrary (specified by user - inverse transform only)
+%               'd' delta function [forward transform only]
+%               'p' plot result
+%               'P' plot with colourbar
+%
+%           The remaining inputs depend on the mode specified:
+%               'f'  a         order of transform
+%                    b(ne,na)  input data array on the chosen inclination-azimuth sampling grid
+%               'fd' a         order of transform
+%                    b(k)      inclinations of k delta functions
+%                    c(k)      azimuths of k delta functions
+%                    d(k)      amplitudes of k delta functions [default=1]
+%               'i'  a()       spherical harmonics as a single row vector in the order:
+%                                 (0,0),(1,-1),(1,0),(1,1),(2,-2),(2,-1),...
+%                              To access as a 2-D harmonic: Y(n,m)=a(n^2+n+m+1) where n=0:N, m=-n:n
+%                    b         number of inclination values in output grid
+%                    c         number of azimuth values in output grid
+%               'c'  a         number of inclination values in output grid
+%                    b         number of azimuth values in output grid
+%
+% Outputs:  u output data according to transform direction:
+%                'f': spherical harmonics as a single row vector in the order:
+%                        (0,0),(1,-1),(1,0),(1,1),(2,-2),(2,-1),...
+%                     To access as a 2-D harmonic: Y(n,m)=u(n^2+n+m+1) where n=0:N, m=-n:n
+%                'i': u(ne,na) is spatial data sampled on an azimuth-inclination grid
+%                     with ne inclination points (in 0:pi) and na azimuth points (in 0:2*pi)
+%                'c': u(ne) gives inclination grid positions with 0 being the North pole
+%           v(na) gives azimuth grid positions
+%           w(ne) gives the quadrature weights used in the transform
+%
 % Suppose f(e,a) is a complex-valued function defined on the surface of the
 % sphere (0<=e<=pi, 0<=a<2pi) where e=inclination=pi/2-elevation and
 % a=azimuth. (0,*) is the North pole, (pi/2,0) is on the equator near
@@ -17,33 +82,6 @@ function [u,v,w]=sphrharm(m,a,b,c,d)
 %
 % The basis functions u(n,m,e,a) are orthonormal under the inner product
 % <u(e,a),v(e,a)> = integral(u(e,a)*v'(e,a)*sin(e)*de*da).
-%
-% m: direction: f=forward
-%               i=inverse
-%               c=coordinates
-%               [m=rotation matrix]
-%    transform: r=real spherical harmonics
-%               [h=complex harmonics but only the positive ones specified]
-%    grid       u=uniform inclination starting at pi/2n (default)
-%               U=uniform inclination but starting at north pole
-%               g=gaussian inclination grid
-%               a=arbitrary (specified by user - inverse transform only)
-%               d=delta function [forward transform only]
-%               [s=sparse azimuth]
-%               [z=include both north and south pole]
-%    plot       p=plot result, P=plot with colourbar
-%
-%   Typical usage (add the 'p' option to generate a plot):
-%
-%        y=('f',n,x)      Calculate complex transform of spatial data x up to order n
-%        y=('fr',n,x)     Calculate real transform of spatial data x up to order n
-%        y=('fd',n,e,a,v) Calculate transform of impulse at (e(i),a(i)) of height v(i) up to order n
-%                         e(i), a(i) and v(i) should be the same dimension;
-%                         v defaults to 1.
-%        x=('i',y,ne,na)  Calculate spatial data from spherical harmonics y on
-%                         a uniform grid with ne inclinations and na azimuths
-%  [e,a,w]=('cg',ne,na)   Calculate the inclinations, azimuths and
-%                         quadrature weights of a Gaussian sampling grid
 %
 %  Minimum spatial grid for invertibility:
 %     Gaussian grid: ne >= N+1,  na >= 2N+1
@@ -68,6 +106,13 @@ function [u,v,w]=sphrharm(m,a,b,c,d)
 %            w(1:ne)   Quadrature weights
 %
 
+% future options
+%    direction: [m=rotation matrix]
+%    transform: [h=complex harmonics but only the positive ones specified]
+%    grid       d=delta function [forward transform only]
+%               [s=sparse azimuth]
+%               [z=include both north and south pole]
+% 
 % bugs:
 %   (1) we could save space and time by taking advantage of symmetry of legendre polynomials
 %   (2) the number of points in the inclination (elevation) grid must, for now, be even if the 'U' option is chosen
@@ -81,14 +126,14 @@ function [u,v,w]=sphrharm(m,a,b,c,d)
 
 % errors:
 
-% tests
+% tests:
 % check for inverse transform n=4; m=4; [ve,va]=spvals(8,8,n,m); ve*va-sphrharm('iur',[zeros(1,n^2+n+m) 1],8,8)
 % check inverse followed by forward: no=4; h=rand(1,(no+1)^2); max(abs(sphrharm('fur',sphrharm('iur',h,10,10),no)-h))
 % same but complex: no=4; h=rand(1,(no+1)^2); max(abs(sphrharm('fu',sphrharm('iu',h,10,10),no)-h))
 % same but gaussian grid: no=4; h=rand(1,(no+1)^2); max(abs(sphrharm('fg',sphrharm('ig',h,6,10),no)-h))
 
 %      Copyright (C) Mike Brookes 2009
-%      Version: $Id: sphrharm.m,v 1.4 2011/02/15 17:30:37 dmb Exp $
+%      Version: $Id: sphrharm.m 2467 2012-11-02 08:12:41Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -111,7 +156,7 @@ function [u,v,w]=sphrharm(m,a,b,c,d)
 
 % decode option string
 mv='c u ';       % mv(1)=transform, mv(2)=real/complex, mv(3)=grid, mv(4)=plot
-if ~nargin
+if ~nargout
     mv(4)='P';
 end
 mc='ficruUgadpP';
@@ -290,7 +335,7 @@ if mv(4)~=' '
         case 'i'            % [data]=('i',sp,nincl,nazim)
             vv=(0:na)*2*pi/na;  % azimuth array
             gr=sin(ue)';
-            surf(gr*cos(vv),gr*sin(vv),repmat(cos(ue)',1,na+1),u(:,[1:na 1]));
+            surf(gr*cos(vv),gr*sin(vv),repmat(cos(ue)',1,na+1),real(u(:,[1:na 1])));
             axis equal;
             xlabel('X');
             ylabel('Y');

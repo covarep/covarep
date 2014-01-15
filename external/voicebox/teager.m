@@ -18,12 +18,12 @@ function y=teager(x,d,m)
 %  (d) x(n) = A*exp(B*n+C)    -->   y(n) = 0
 %
 % Reference:
-%  [1]	J. Kaiser. On a simple algorithm to calculate the ‘energy’ of a signal.
+%  [1]	J. Kaiser. On a simple algorithm to calculate the Â‘energyÂ’ of a signal.
 %       In Proc IEEE Intl Conf Acoustics, Speech and Signal Processing,
-%       pages 381–384, vol.1, Apr. 1990. doi: 10.1109/ICASSP.1990.115702.
+%       pages 381Â–384, vol.1, Apr. 1990. doi: 10.1109/ICASSP.1990.115702.
 
 %      Copyright (C) Mike Brookes 1997
-%      Version: $Id: teager.m,v 1.2 2010/08/07 15:36:18 dmb Exp $
+%      Version: $Id: teager.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

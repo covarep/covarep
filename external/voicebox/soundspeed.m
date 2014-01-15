@@ -1,5 +1,5 @@
 function [v,d,z]=soundspeed(t,p,m,g)
-%SOUNDSPEED gives the speed of sound, density of air and acostuc impedance as a function of temp & pressure [V,D,Z]=(T,P,M,G)
+%SOUNDSPEED gives the speed of sound, density of air and acoustic impedance as a function of temp & pressure [V,D,Z]=(T,P,M,G)
 %
 %  Inputs:  T        air temperature in Celsius  [20 deg C]
 %           P        air pressure [1 atm]
@@ -20,7 +20,7 @@ function [v,d,z]=soundspeed(t,p,m,g)
 %            1 atm = 101325 Pa = 1.01325 bar = 1.0332 at = 760 torr = 14.696 psi
 
 %	   Copyright (C) Mike Brookes 2006
-%      Version: $Id: soundspeed.m,v 1.5 2009/02/27 07:44:54 dmb Exp $
+%      Version: $Id: soundspeed.m 3287 2013-07-31 17:03:35Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

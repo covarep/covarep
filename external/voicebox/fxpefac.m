@@ -7,7 +7,8 @@ function [fx,tx,pv,fv]=fxpefac(s,fs,tinc,m,pp)
 %                     or [start increment end]
 %          m          mode
 %                     'g' plot graph showing waveform and pitch
-%                     'G' plot spectrogram with superimposed pitch
+%                     'G' plot spectrogram with superimposed pitch using
+%                         options pp.sopt [default: 'ilcwpf']
 %                     'x' use external files for algorithm parameter
 %                         initialization: fxpefac_g and fxpefac_w
 %          pp         structure containing algorithm parameters
@@ -27,7 +28,7 @@ function [fx,tx,pv,fv]=fxpefac(s,fs,tinc,m,pp)
 % (2) option of n-best DP
 
 %	   Copyright (C) Sira Gonzalez and Mike Brookes 2011
-%      Version: $Id: fxpefac.m,v 1.2 2011/07/27 07:22:07 dmb Exp $
+%      Version: $Id: fxpefac.m 3601 2013-10-11 15:27:30Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
@@ -57,40 +58,40 @@ if ~numel(w_u)
     % (b) sum of the power in the first three peaks
     %===== VUV
     if nargin>3 && any(m=='x')
-        fxpefac_g;    % read in GMM parameters
+        fxpefac_g;     % read in GMM parameters
         fxpefac_w;     % read in Weights parameters
     else
-        w_u=[0.2123723 0.207788 0.2701817 0.1293616 0.04741722 0.1328791 ]';
+        w_u=[0.1461799 0.3269458 0.2632178 0.02331986 0.06360947 0.1767271 ]';
 
-        m_u=[0.2220388 0.4067706 ;
-            0.04567656 0.4016914 ;
-            0.8415278 0.3192158 ;
-            0.2194808 0.1910079 ;
-            1.6347 0.5819833 ;
-            1.181519 0.6996485 ];
+        m_u=[13.38533 0.4199435 ;
+             12.23505 0.1496836 ;
+             12.76646 0.2581733 ;
+             13.69822 0.6893078 ;
+             9.804372 0.02786567 ;
+             11.03848 0.07711229 ];
 
-        v_u=reshape([0.01413822 0.003357913 0.003357913 0.01786169 ;
-            0.0009377269 0.0006220489 0.0006220489 0.03422057 ;
-            0.1233703 0.004299293 0.004299293 0.007660504 ;
-            0.01779449 0.002078821 0.002078821 0.001605052 ;
-            1.110173 0.00718649 0.00718649 0.005734435 ;
-            0.5477135 -0.00182316 -0.00182316 0.05659796 ]',[2 2 6]);
+        v_u=reshape([0.4575519 0.002619074 0.002619074 0.01262138 ;
+             0.7547719 0.008568089 0.008568089 0.001933864 ;
+             0.5770533 0.003561592 0.003561592 0.00527957 ;
+             0.3576287 0.01388739 0.01388739 0.04742106 ;
+             0.9049906 0.01033191 0.01033191 0.0001887114 ;
+             0.637969 0.009936445 0.009936445 0.0007082946 ]',[2 2 6]);
 
-        w_v=[0.07758689 0.2109879 0.1856225 0.06853158 0.2701563 0.1871148 ]';
+        w_v=[0.1391365 0.221577 0.2214025 0.1375109 0.1995124 0.08086066 ]';
 
-        m_v=[1.208656 0.3365564 ;
-            1.216643 0.5971916 ;
-            4.08585 1.240948 ;
-            8.322102 1.349939 ;
-            1.734108 1.168643 ;
-            0.5107205 0.940308 ];
+        m_v=[15.36667 0.8961554 ;
+             13.52718 0.4809653 ;
+             13.95531 0.8901121 ;
+             14.56318 0.6767258 ;
+             14.59449 1.190709 ;
+             13.11096 0.2861982 ];
 
-        v_v=reshape([0.06181574 0.002950501 0.002950501 0.004528442 ;
-            0.2946077 0.01433284 0.01433284 0.02684239 ;
-            2.508473 -0.03310555 -0.03310555 0.1098579 ;
-            14.17252 -0.09009174 -0.09009174 0.07989255 ;
-            0.5834894 -0.07854027 -0.07854027 0.1108958 ;
-            0.05978017 0.005528601 0.005528601 0.1309329 ]',[2 2 6]);
+        v_v=reshape([0.196497 -0.002605404 -0.002605404 0.05495016 ;
+             0.6054919 0.007776652 0.007776652 0.01899244 ;
+             0.5944617 0.0485788 0.0485788 0.03511229 ;
+             0.3871268 0.0292966 0.0292966 0.02046839 ;
+             0.3377683 0.02839657 0.02839657 0.04756354 ;
+             1.00439 0.03595795 0.03595795 0.006737475 ]',[2 2 6]);
     end
     %===== PDP
     %     dfm = -0.4238; % df mean
@@ -102,18 +103,16 @@ if ~numel(w_u)
     %===== END
 
 end
-
-
 % Algorithm parameter defaults
 
 p.fstep=5;              % frequency resolution of initial spectrogram (Hz)
 p.fmax=4000;            % maximum frequency of initial spectrogram (Hz)
 p.fres = 20;            % bandwidth of initial spectrogram (Hz)
-p.fbanklo = 40;         % low frequency limit of log filterbank (Hz)
-p.mpsmooth = 201;       % width of smoothing filter for mean power
+p.fbanklo = 10;         % low frequency limit of log filterbank (Hz)
+p.mpsmooth = 21;       % width of smoothing filter for mean power
 % p.maxtranf = 1000;      % maximum value of tranf cost term
 p.shortut = 7;          % max utterance length to average power of entire utterance
-p.pefact = 1.5;         % shape factor in PEFAC filter
+p.pefact = 1.8;         % shape factor in PEFAC filter
 p.numopt = 3;           % number of possible frequencies per frame
 p.flim = [60 400];      % range of feasible fundamental frequencies (Hz)
 p.w = dpwtdef;          % DP weights
@@ -121,6 +120,7 @@ p.w = dpwtdef;          % DP weights
 % p.rampcz = 100;         % relative amplitude cost for missing peak
 p.tmf = 2;              % median frequency smoothing interval (s)
 p.tinc = 0.01;          % default frame increment (s)
+p.sopt = 'ilcwpf';      % spectrogram options
 
 % update parameters from pp argument
 
@@ -162,35 +162,26 @@ ltass = ltass.*diff(auxf);                  % weight by bin width
 
 % estimated ltass
 O = O.*repmat(diff(auxf),nframes,1);     % weight spectrum by bin width
+O1 = O;
 
 if tx(end)<p.shortut                        % if it is a short utterance
     eltass = mean(O,1);                     % mean power per each frequency band
     eltass = smooth(eltass,p.mpsmooth);     % smooth in log frequency
     eltass= eltass(:).';                    % force a row vector
 
-    % Same mean power per frame as ltass
-    cte = mean(ltass)/mean(eltass);
-    eltass = eltass.*cte;                   % normalize to have the same mean as LTASS
-    O = O.*cte;
-
     % Linear AC
     alpha = (ltass)./(eltass);
     alpha = alpha(:).';
     alpha = repmat(alpha,nframes,1);
     O = O.*alpha;                           % force O to have an average LTASS spectrum
+
     % ==== should perhaps exclude the silent portions ***
 else                                        % long utterance
-    tsmo = 2; % time smoothing over 1 sec
-    stt = round(tsmo/txinc);
-    filttime = [ones(stt,1); zeros(stt-1,1)];
-    filtfreq = ones(1,p.mpsmooth);
-    eltass = imfilter(O,filttime);
-    eltass = imfilter(eltass,filtfreq);     % filter in time and log frequency
 
-    % Same mean power per frame than ltass
-    cte = repmat(mean(ltass),nframes,1)./mean(eltass,2);
-    eltass = eltass.*repmat(cte,1,length(cf));
-    O = O.*repmat(cte,1,length(cf));
+    tsmo = 3; % time smoothing over 3 sec
+    stt = round(tsmo/txinc);
+    eltass = timesm(O,stt);
+    eltass = smooth(eltass,p.mpsmooth);     % filter in time and log frequency
 
     % Linear AC
     alpha = repmat(ltass,nframes,1)./(eltass);
@@ -200,32 +191,34 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Create the filter to detect the harmonics
-ini = find(cf>2*cf(1));
-sca = cf/cf(ini(1)); % normalize bin frequencies to start at approximately 0.5
+ini = find(cf>3*cf(1));
+sca = cf/cf(ini(1)); % bin frequencies start at approximately 0.33 with sca(ini(1))=1 exactly
+
+% Middle
 sca = sca(sca<10.5 & sca>0.5);  % restrict to 0.5 - 10.5 times fundamental
-filh = -log10(p.pefact-cos(2*pi*sca));
-filh = filh-mean(filh);  % force filter to be zero mean
+
+sca1 = sca;
+filh = 1./(p.pefact-cos(2*pi*sca1));
+filh = filh - sum(filh(1:end).*diff([sca1(1),(sca1(1:end-1)+sca1(2:end))./2,sca1(end)]))/sum(diff([sca1(1),(sca1(1:end-1)+sca1(2:end))./2,sca1(end)]));
+
 posit = find(sca>=1);  % ==== this should just equal ini(1) ====
-if ~mod(length(posit),2)
-    filh = [filh 0];  % force to be an odd length after central tap
-end
 negat = find(sca<1);
 numz = length(posit)-1-length(negat);
 filh = filh./max(filh);
-filh = [zeros(1,numz) filh];
+filh = [zeros(1,numz) filh]; % length is always odd with central value = 1
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Filter the log-frequency scaled spectrogram
-B = imfilter(O,filh);  % ==== no good reason to use imfilter here ====
+B = imfilter(O,filh);  % does a convolution with zero lag at centre of filh
 
 % Feasible frequency range
 numopt = p.numopt; % Number of possible fundamental frequencies per frame
 flim = p.flim;
-pfreq = find(cf>flim(1) & cf<flim(2));
+pfreq = find(cf>flim(1) & cf<flim(2)); % flim = permitted fx range = [60 400]
 ff = zeros(nframes,numopt);
 amp = zeros(nframes,numopt);
 for i=1:nframes
-    [pos,peak]=findpeaks(B(i,pfreq),[],5/(cf(pfreq(2))-cf(pfreq(1)))); % ==== calculate some out of loop ====
+    [pos,peak]=v_findpeaks(B(i,pfreq),[],5/(cf(pfreq(2))-cf(pfreq(1)))); % min separation = 5Hz @ fx=flim(1) (could pre-calculate) ====
     if numel(pos)
         [peak,ind]=sort(peak,'descend');
         pos = pos(ind);                     % indices of peaks in the B array
@@ -233,9 +226,6 @@ for i=1:nframes
         fin = min(numopt,length(posff));
         ff(i,1:fin)=posff(1:fin);           % save both frequency and amplitudes
         amp(i,1:fin)=peak(1:fin);
-        %     else
-        %         ff(i,:)=0;          % ==== unnecessary since they start as zeros ====
-        %         amp(i,:)=0;
     end
 end
 
@@ -246,15 +236,15 @@ end
 % (a) mean power of the frame's log-freq spectrum (normalized so its short-term average is LTASS)
 % (b) sum of the power in the first three peaks
 
-pow = mean(O,2)*1e-6;
-vuvfea = [pow sum(amp,2)./(pow*1e9)];
+pow = mean(O,2);
+
+vuvfea = [log(pow) 1e-3*sum(amp,2)./(pow+1.75*1e5)];
+
+% %%%%%%%%%%%%%%%%%%%%%
 
 pru=gaussmixp(vuvfea,m_u,v_u,w_u);  % Probability of being unvoiced
 prv=gaussmixp(vuvfea,m_v,v_v,w_v);  % Probability of being voiced
 
-% pru = exp(pru);
-% prv=exp(prv);    % Linear probability
-% pv = prv./(prv+pru); % ==== better to write pv=(1+exp(pru-prv)).^(-1) ====
 pv=(1+exp(pru-prv)).^(-1);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -340,15 +330,17 @@ end
 % Traceback
 
 fx=zeros(nframes,1);
+ax=zeros(nframes,1);
 best = zeros(nframes,1);
 
 nose=find(cost(end,:)==min(cost(end,:))); % ==== bad method (dangerous) ===
 best(end)=nose(1);
-% ff = [ff zeros(nframes,1)];  % not clear why this was here
 fx(end)=ff(end,best(end));
+ax(end)=amp(end,best(end));
 for i=nframes:-1:2
     best(i-1)=prev(i,best(i));
     fx(i-1)=ff(i-1,best(i-1));
+    ax(i-1)=amp(i-1,best(i-1));
 end
 
 if nargout>=4
@@ -359,6 +351,7 @@ if nargout>=4
     fv.medfx=medfx;  % median pitch
     fv.w=w;  % DP weights
     fv.dffact=dffact;  % df scale factor
+    fv.hist = [log(mean(O,2)) sum(amp,2)./((mean(O,2)))];
 end
 
 if ~nargout || any(m=='g') || any(m=='G')
@@ -370,7 +363,7 @@ if ~nargout || any(m=='g') || any(m=='G')
     fxb(msk)=NaN; % allow only bad frames
     if any(m=='G') || ~nargout && ~any(m=='g')
         clf;
-        spgrambw(s,fs,'ilcwpf'); % draw spectrogram with log axes
+        spgrambw(s,fs,p.sopt); % draw spectrogram with log axes
         hold on
         plot(tx,log10(fxg),'-b',tx,log10(fxb),'-r'); % fx track
         yy=get(gca,'ylim');
@@ -418,6 +411,19 @@ if ~nargout || any(m=='g') || any(m=='G')
 end
 
 function y=smooth(x,n)
-nx=length(x);
-c=cumsum(x);
-y=[c(1:2:n)./(1:2:n) (c(n+1:end)-c(1:end-n))/n (c(end)-c(end-n+2:2:end-1))./(n-2:-2:1)];
+nx=size(x,2);
+nf=size(x,1);
+c=cumsum(x,2);
+y=[c(:,1:2:n)./repmat(1:2:n,nf,1) (c(:,n+1:end)-c(:,1:end-n))/n (repmat(c(:,end),1,floor(n/2))-c(:,end-n+2:2:end-1))./repmat(n-2:-2:1,nf,1)];
+
+function y=timesm(x,n)
+if ~mod(n,2)
+    n = n+1;
+end
+nx=size(x,2);
+nf=size(x,1);
+c=cumsum(x,1);
+mid = round(n/2);
+y=[c(mid:n,:)./repmat((mid:n).',1,nx); ...
+    (c(n+1:end,:)-c(1:end-n,:))/n; ...
+    (repmat(c(end,:),mid-1,1) - c(end-n+1:end-mid,:))./repmat((n-1:-1:mid).',1,nx)];

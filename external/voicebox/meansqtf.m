@@ -16,7 +16,7 @@ function d=meansqtf(b,a)
 % a finite sum even though the autocorrelation function of 1/a is infinite in extent.
 
 %      Copyright (C) Mike Brookes 1997
-%      Version: $Id: meansqtf.m,v 1.4 2007/05/04 07:01:39 dmb Exp $
+%      Version: $Id: meansqtf.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

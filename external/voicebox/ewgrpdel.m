@@ -18,7 +18,7 @@ function [y,mm]=ewgrpdel(x,w,m)
 % Example: x=zeros(1000,1); x(100:100:900)=1; ewgrpdel(x,99);
 
 %	   Copyright (C) Mike Brookes 2003
-%      Version: $Id: ewgrpdel.m,v 1.4 2007/05/04 07:01:38 dmb Exp $
+%      Version: $Id: ewgrpdel.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

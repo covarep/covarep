@@ -19,7 +19,7 @@ function l=gmmlpdf(x,m,v,w)
 %     (3) Add an extra arument for plotting control
 
 %      Copyright (C) Mike Brookes 2000-2006
-%      Version: $Id: gmmlpdf.m,v 1.2 2007/05/04 07:01:38 dmb Exp $
+%      Version: $Id: gmmlpdf.m 713 2011-10-16 14:45:43Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html

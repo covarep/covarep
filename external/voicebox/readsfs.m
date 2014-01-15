@@ -1,8 +1,7 @@
 function [y,fs,hd,ffx]=readsfs(ff,ty,sub,mode,nmax,nskip,xpath)
-%readsfs  Read a .SFS format sound file [Y,FS,HD,FFX]=(FF,TY,SUB,MODE,NMAX,NSKIP,XPATH)
+%READSFS  Read a .SFS format sound file [Y,FS,HD,FFX]=(FF,TY,SUB,MODE,NMAX,NSKIP,XPATH)
 %
-% The SFS (Speech Filing System) is a package mostly written by Mark Huckvale
-% and is available for UNIX and PC systems from http://www.phon.ucl.ac.uk/resource/sfs/
+% Usage:  [s,fs]=readsfs(filename,1); % read the last speech item in a file
 %
 % Input Parameters:
 %
@@ -86,6 +85,10 @@ function [y,fs,hd,ffx]=readsfs(ff,ty,sub,mode,nmax,nskip,xpath)
 %              {3} = (nitem,5) = one row per item [type subtype length position byteorder]
 %              {4} = {nitem,3} = cell: one row per item {processing parameters comment} text strings
 %
+%
+% The SFS (Speech Filing System) is a package mostly written by Mark Huckvale
+% and is available for UNIX and PC systems from
+% http://www.phon.ucl.ac.uk/resource/sfs/
 
 % Features yet to be implemented:
 %
@@ -100,7 +103,7 @@ function [y,fs,hd,ffx]=readsfs(ff,ty,sub,mode,nmax,nskip,xpath)
 
 
 %	   Copyright (C) Mike Brookes 1998
-%      Version: $Id: readsfs.m,v 1.4 2007/05/04 07:01:39 dmb Exp $
+%      Version: $Id: readsfs.m 1876 2012-05-25 15:43:29Z dmb $
 %
 %   VOICEBOX is a MATLAB toolbox for speech processing.
 %   Home page: http://www.ee.ic.ac.uk/hp/staff/dmb/voicebox/voicebox.html
