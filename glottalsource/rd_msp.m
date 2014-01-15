@@ -118,7 +118,8 @@ function err = optimfnRd(Rd, fs, f0, M, opt)
     [te tp ta] = Rd2tetpta(Rd);
 
     % Compute the glottal model frequency response
-    G = gfm_spec_lf(f0*(0:length(M)-1), fs, 1/f0, 1, te, tp, ta);
+    G = gfm_spec_lf(f0*(1:length(M)-1), fs, 1/f0, 1, te, tp, ta);
+    G = [eps G]; % Add a fake DC (replaced below anyway)
 
     % Compute the residual
     N = M./G.';
