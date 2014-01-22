@@ -55,7 +55,8 @@ warning on
 sd_gci = gci_sedreams(x,fs,median(srh_f0),1);        % SEDREAMS
 se_gci = se_vq(x,fs,median(srh_f0),creak);           % SE-VQ
 
-res = lpcresidual(x,25/1000*fs,5/1000*fs,fs/1000+2); % LP residual
+%res = lpcresidual(x,25/1000*fs,5/1000*fs,fs/1000+2); % LP residual
+res = Get_MaxLP_Residual(x,fs,round(fs/1000)+2);
 
 m = mdq(res,fs,se_gci); % Maxima dispersion quotient measurement
 
