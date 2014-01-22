@@ -72,7 +72,8 @@ function [gci,MeanBasedSignal,res] = gci_sedreams(wave,fs,f0mean,polarity)
 
 wave=polarity*wave;
 
-[res] = lpcresidual(wave,round(25/1000*fs),round(5/1000*fs),round(fs/1000)+2);
+%[res] = lpcresidual(wave,round(25/1000*fs),round(5/1000*fs),round(fs/1000)+2);
+[res] = Get_MaxLP_Residual(wave,fs,round(fs/1000)+2);
 res(isnan(res))=0;
 
 % Calculation of the mean-based signal
