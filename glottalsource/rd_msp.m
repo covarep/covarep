@@ -53,12 +53,15 @@
 %           estimation using phase minimization variants, Proc. Interspeech, 2012.
 %
 
-function [rds] = rd_msp(frames, fs)
+function [rds] = rd_msp(frames, fs, opt)
 
-    % Options
-    opt.gmodel = 1; % 1:LF; 2:ALM
-    opt.search_method = 2; % 1:Grid search; 2:Brent
-    opt.debug = 0;
+    if nargin<3
+        % Options
+        opt.gmodel = 1;        % 1:LF; 2:ALM
+        opt.search_method = 2; % 1:Grid search; 2:Brent
+        opt.debug = 0;
+    end
+    if nargin==0; rds=opt; return; end
 
     Rdrg = 0.3:0.1:2.5;
 
