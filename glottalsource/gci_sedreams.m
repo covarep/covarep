@@ -68,111 +68,120 @@
 %  Thomas Drugman thomas.drugman@umons.ac.be
 
 
-function [gci,MeanBasedSignal,res] = gci_sedreams(wave,fs,f0mean,polarity)
+function [gci, MeanBasedSignal, res] = gci_sedreams(wave, fs, f0mean, polarity, opt)
 
-wave=polarity*wave;
-
-%[res] = lpcresidual(wave,round(25/1000*fs),round(5/1000*fs),round(fs/1000)+2);
-[res] = Get_MaxLP_Residual(wave,fs,round(fs/1000)+2);
-res(isnan(res))=0;
-
-% Calculation of the mean-based signal
-MeanBasedSignal=zeros(1,length(wave));
-T0mean=round(fs/f0mean);
-
-halfL=round((1.7*T0mean)/2);
-Blackwin=blackman(2*halfL+1);
-
-for m=halfL+1:length(wave)-halfL
-    vec=wave(m-halfL:m+halfL);
-        
-    vec=vec.*Blackwin;
-    MeanBasedSignal(m)=mean(vec);
-end
-
-% Remove the low-frequency contents of the mean-based signal
-Ws = 30/(fs/2);
-Wp = 50/(fs/2);
-Rp = 3; Rs = 60;
-[n,Wp] = ellipord(Wp,Ws,Rp,Rs);
-[b,a] = ellip(real(n),Rp,Rs,Wp,'high');
-
-MeanBasedSignal=filtfilt(b,a,MeanBasedSignal);
-MeanBasedSignal=MeanBasedSignal/max(abs(MeanBasedSignal));
-
-
-
-
-% Detect the minima and maxima of the mean-based signal
-PotMaxis=[];
-PotMinis=[];
-
-for m=2:length(MeanBasedSignal)-1    
-    if (MeanBasedSignal(m)>MeanBasedSignal(m-1))&&(MeanBasedSignal(m)>MeanBasedSignal(m+1))
-        PotMaxis=[PotMaxis m];
-    elseif (MeanBasedSignal(m)<MeanBasedSignal(m-1))&&(MeanBasedSignal(m)<MeanBasedSignal(m+1))
-        PotMinis=[PotMinis m];
+    if nargin<5
+        % Options
+        opt.use_maxlpresidual = false; % Use the traditional LP residual by default, as in [1,2]
     end
-end
+    if nargin==0; gci=opt; return; end
 
-while PotMaxis(1)<PotMinis(1)
-    PotMaxis(1)=[];
-end
+    wave=polarity*wave;
 
-while PotMinis(end)>PotMaxis(end)
-    PotMinis(end)=[];
-end
-
-Minis=PotMinis;
-Maxis=PotMaxis;
-
-
-% Determine the median position of GCIs within the cycle
-res=res/max(abs(res));
-Posis=find(res>0.4);
-RelPosis=zeros(1,length(Posis));
-for k=1:length(Posis)
-
-    Dists=abs(Minis-Posis(k));
-    [mini,pos]=min(Dists);
-    interv=Maxis(pos)-Minis(pos);
-
-    RelPosis(k)=(Posis(k)-Minis(pos))/interv;
-end
-
-if isempty(RelPosis)==0
-    RatioGCI=median(RelPosis);
-else RatioGCI=0;
-end
-
-
-% Detect GCIs from the residual signal using the presence intervals derived
-% from the mean-based signal
-gci=zeros(1,length(Minis));
-
-Ind=1;
-for k=1:length(Minis)
-    interv=Maxis(k)-Minis(k);    
-    alpha=RatioGCI-0.35;
-    start=Minis(k)+round(alpha*interv);    
-    alpha=RatioGCI+0.35;
-    stop=Minis(k)+round(alpha*interv);
-
-    if start<1
-        start=1;
+    if ~opt.use_maxlpresidual
+        res = lpcresidual(wave,round(25/1000*fs),round(5/1000*fs),round(fs/1000)+2);
+    else
+        res = maxlpresidual(wave,fs,round(fs/1000)+2);
     end
-    if stop>length(res)
-        stop=length(res);
+    res(isnan(res))=0;
+
+    % Calculation of the mean-based signal
+    MeanBasedSignal=zeros(1,length(wave));
+    T0mean=round(fs/f0mean);
+
+    halfL=round((1.7*T0mean)/2);
+    Blackwin=blackman(2*halfL+1);
+
+    for m=halfL+1:length(wave)-halfL
+        vec=wave(m-halfL:m+halfL);
+            
+        vec=vec.*Blackwin;
+        MeanBasedSignal(m)=mean(vec);
     end
-   
-    vec=res(start:stop);
-    [maxi,posi]=max(vec);
-    gci(Ind)=start+posi-1;
-    Ind=Ind+1;
-end
+
+    % Remove the low-frequency contents of the mean-based signal
+    Ws = 30/(fs/2);
+    Wp = 50/(fs/2);
+    Rp = 3; Rs = 60;
+    [n,Wp] = ellipord(Wp,Ws,Rp,Rs);
+    [b,a] = ellip(real(n),Rp,Rs,Wp,'high');
+
+    MeanBasedSignal=filtfilt(b,a,MeanBasedSignal);
+    MeanBasedSignal=MeanBasedSignal/max(abs(MeanBasedSignal));
 
 
-gci = (gci-1)/fs;
+
+
+    % Detect the minima and maxima of the mean-based signal
+    PotMaxis=[];
+    PotMinis=[];
+
+    for m=2:length(MeanBasedSignal)-1    
+        if (MeanBasedSignal(m)>MeanBasedSignal(m-1))&&(MeanBasedSignal(m)>MeanBasedSignal(m+1))
+            PotMaxis=[PotMaxis m];
+        elseif (MeanBasedSignal(m)<MeanBasedSignal(m-1))&&(MeanBasedSignal(m)<MeanBasedSignal(m+1))
+            PotMinis=[PotMinis m];
+        end
+    end
+
+    while PotMaxis(1)<PotMinis(1)
+        PotMaxis(1)=[];
+    end
+
+    while PotMinis(end)>PotMaxis(end)
+        PotMinis(end)=[];
+    end
+
+    Minis=PotMinis;
+    Maxis=PotMaxis;
+
+
+    % Determine the median position of GCIs within the cycle
+    res=res/max(abs(res));
+    Posis=find(res>0.4);
+    RelPosis=zeros(1,length(Posis));
+    for k=1:length(Posis)
+
+        Dists=abs(Minis-Posis(k));
+        [mini,pos]=min(Dists);
+        interv=Maxis(pos)-Minis(pos);
+
+        RelPosis(k)=(Posis(k)-Minis(pos))/interv;
+    end
+
+    if isempty(RelPosis)==0
+        RatioGCI=median(RelPosis);
+    else RatioGCI=0;
+    end
+
+
+    % Detect GCIs from the residual signal using the presence intervals derived
+    % from the mean-based signal
+    gci=zeros(1,length(Minis));
+
+    Ind=1;
+    for k=1:length(Minis)
+        interv=Maxis(k)-Minis(k);    
+        alpha=RatioGCI-0.35;
+        start=Minis(k)+round(alpha*interv);    
+        alpha=RatioGCI+0.35;
+        stop=Minis(k)+round(alpha*interv);
+
+        if start<1
+            start=1;
+        end
+        if stop>length(res)
+            stop=length(res);
+        end
+    
+        vec=res(start:stop);
+        [maxi,posi]=max(vec);
+        gci(Ind)=start+posi-1;
+        Ind=Ind+1;
+    end
+
+
+    gci = (gci-1)/fs;
 
 return
 

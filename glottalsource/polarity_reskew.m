@@ -49,75 +49,88 @@
 %  Thomas Drugman thomas.drugman@umons.ac.be
 
 
-function polarity = polarity_reskew(s,fs)
+function polarity = polarity_reskew(s, fs, opt)
 
-Wp = 480/(fs/2);
-Ws = 500/(fs/2);
-Rp = 3; Rs = 60;
-[n,Wn] = ellipord(Wp,Ws,Rp,Rs);
-[b_h,a_h] = ellip(n,Rp,Rs,Wn,'high');
+    if nargin<3
+        % Options
+        opt.use_maxlpresidual = false; % Use the traditional LP residual by default, as in [1,2]
+    end
+    if nargin==0; gci=opt; return; end
 
-s_h=filtfilt(b_h,a_h,s);
+    Wp = 480/(fs/2);
+    Ws = 500/(fs/2);
+    Rp = 3; Rs = 60;
+    [n,Wn] = ellipord(Wp,Ws,Rp,Rs);
+    [b_h,a_h] = ellip(n,Rp,Rs,Wn,'high');
 
-
-[res] = GetLPCresidual_WithTwoSignals(s,s_h,round(25/1000*fs),round(5/1000*fs),round(fs/1000)+2);
-%[res2] = GetLPCresidual_WithTwoSignals(s,s,round(25/1000*fs),round(5/1000*fs),round(fs/1000)+2);
-[res2] = Get_MaxLP_Residual(s,fs,round(fs/1000)+2);
-
-Val1=skewness(res);
-Val2=skewness(res2);
-
-polarity=sign(Val2-Val1);
+    s_h=filtfilt(b_h,a_h,s);
 
 
+    [res] = GetLPCresidual_WithTwoSignals(s,s_h,round(25/1000*fs),round(5/1000*fs),round(fs/1000)+2);
+    %[res2] = GetLPCresidual_WithTwoSignals(s,s,round(25/1000*fs),round(5/1000*fs),round(fs/1000)+2);
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
+    if ~opt.use_maxlpresidual
+        res2 = lpcresidual(s,round(25/1000*fs),round(5/1000*fs),round(fs/1000)+2);
+    else
+        res2 = maxlpresidual(s,fs,round(fs/1000)+2);
+    end
 
-function [res,LPCcoeff] = GetLPCresidual_WithTwoSignals(wave,waveToComputeLPC,L,shift,order)
+    Val1=skewness(res);
+    Val2=skewness(res2);
 
-% %%%
-%  
-% Use: [res] = GetLPCresidual(wave,L,shift,order,gci,type,t0)
-% 
-% 
-% L=window length (samples) (typ.25ms)
-% shift=window shift (samples) (typ.5ms)
-% order= LPC order
-% gci=gci position (samples)
-% type=vector of voicing decisions (=0 if Unvoiced, =1 if Voiced)
-% t0=vector of period values (in samples)
-% 
-% Written by Thomas Drugman, TCTS Lab.
-% 
-% %%%
+    polarity=sign(Val2-Val1);
 
 
-start=1;
-stop=start+L;
 
-res=zeros(1,length(wave));
-LPCcoeff=zeros(order+1,round(length(wave)/shift));
-n=1;
-while stop<length(wave)
-    
-    segment=waveToComputeLPC(start:stop);
-    segment=segment.*hanning(length(segment));
-    
-    segment2=wave(start:stop);
-    segment2=segment2.*hanning(length(segment2));    
-    
-    [A]=lpc(segment,order);
-    LPCcoeff(:,n)=A(:);
-    
-    inv=filter(A,1,segment2);
-    
-    inv=inv*sqrt(sum(segment2.^2)/sum(inv.^2));
-    
-    res(start:stop)=res(start:stop)+inv';
-    
-    start=start+shift;
-    stop=stop+shift;
-    n=n+1;
-end
+    %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-res=res/max(abs(res));
+    function [res,LPCcoeff] = GetLPCresidual_WithTwoSignals(wave,waveToComputeLPC,L,shift,order)
+
+    % %%%
+    %  
+    % Use: [res] = GetLPCresidual(wave,L,shift,order,gci,type,t0)
+    % 
+    % 
+    % L=window length (samples) (typ.25ms)
+    % shift=window shift (samples) (typ.5ms)
+    % order= LPC order
+    % gci=gci position (samples)
+    % type=vector of voicing decisions (=0 if Unvoiced, =1 if Voiced)
+    % t0=vector of period values (in samples)
+    % 
+    % Written by Thomas Drugman, TCTS Lab.
+    % 
+    % %%%
+
+
+    start=1;
+    stop=start+L;
+
+    res=zeros(1,length(wave));
+    LPCcoeff=zeros(order+1,round(length(wave)/shift));
+    n=1;
+    while stop<length(wave)
+        
+        segment=waveToComputeLPC(start:stop);
+        segment=segment.*hanning(length(segment));
+        
+        segment2=wave(start:stop);
+        segment2=segment2.*hanning(length(segment2));    
+        
+        [A]=lpc(segment,order);
+        LPCcoeff(:,n)=A(:);
+        
+        inv=filter(A,1,segment2);
+        
+        inv=inv*sqrt(sum(segment2.^2)/sum(inv.^2));
+        
+        res(start:stop)=res(start:stop)+inv';
+        
+        start=start+shift;
+        stop=stop+shift;
+        n=n+1;
+    end
+
+    res=res/max(abs(res));
+
+return
