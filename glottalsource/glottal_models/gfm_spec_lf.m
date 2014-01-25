@@ -68,7 +68,7 @@ function G = gfm_spec_lf(f, fs, T0, Ee, te, tp, ta);
     % integral{0, T0} ULF(t) dt, where ULF(t) is the LF model equation
     A = (1-exp(-e*(T0-Te)))/(e^2*Ta) - (T0-Te)*exp(-e*(T0-Te))/(e*Ta);
     fa = @(a) (a.^2+wg^2)*sin(wg*Te)*A + wg*exp(-a.*Te) + a.*sin(wg*Te) - wg*cos(wg*Te);
-    a = fzero(fa, 0);
+    a = fzero(fa, [0, 1e9]);
 
     % E0 parameter
     E0 = -Ee/(exp(a*Te)*sin(wg*Te));                % [1](5)
