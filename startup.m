@@ -13,4 +13,6 @@ if ~exist('OCTAVE_VERSION')
 else
     % Octave is running
     more off;
+    pkg load tsa;
+    pkg load signal;
 end
