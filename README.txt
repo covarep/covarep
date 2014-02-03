@@ -55,6 +55,18 @@ Octave
     However, it is necessary to install the following packages:
         tsa, optimization, signal.
 
+How to cite
+    If you publish experiment results obtained by using Covarep, please cite
+    the repository using the following publication:
+      G. Degottex, J. Kane, T. Drugman, T. Raitio and S. Scherer, "COVAREP - A
+      collaborative voice analysis repository for speech technologies", In Proc.
+      IEEE International Conference on Acoustics, Speech and Signal Processing
+      (ICASSP), Florence, Italy 2014.
+
+    Also, within the text of your paper, please mention the version used.
+    E.g. "... we compared with methods X, Y, Z available in [Covarep](v1.0.1)."
+
+
 Maintainers
     Gilles Degottex <degottex@csd.uoc.gr>
         University of Crete, Heraklion, Greece
