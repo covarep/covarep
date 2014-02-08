@@ -30,10 +30,10 @@
 %  fs     : [Hz] The sampling frequency
 %  f0s    : [s, Hz] [Nx2] A temporal vector with time instants and fundamental
 %           frequency f0 estimated at the given time instants.
-%           The sinusoid parameters will be estimated at the given time instants
+%           The sinusoid parameters are always estimated at these time instants.
 %           For the Peak Peaking method, the f0 (second column) can be omitted.
 %  [opt]  : Additional options (see code below)
-%  
+%
 % Outputs
 %  frames : N structures containing the estimated sinusoid parameters and extra
 %           information (e.g. window length, the f0 used).
@@ -45,7 +45,7 @@
 %  syn    : if asked, the resynthesized waveform using an Overlap-Add method.
 %  opt    : The options structure which might have been altered for consistency
 %           purpose.
-%  
+%
 % Example
 %  Please se the HOWTO_sinusoidal example
 %
@@ -90,9 +90,11 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
 
         % Window
         opt.win_durf0sync = true;
-        opt.win_durnbper  = 3;% number of period per window (def. 3)
-        opt.win_dur       = 30/1000; % [s] Used only if win_durf0sync==false
-        opt.win_fn        = @blackman;
+        opt.win_durnbper  = 3;       % Number of period per window (def. 3)
+                                     % (used only if win_durf0sync==true)
+        opt.win_dur       = 30/1000; % [s] Duration of the analysis window
+                                     % (used only if win_durf0sync==false)
+        opt.win_fn        = @blackman; % Window type
 
         % Partials estimation
         opt.fharmonic = true; % Use harmonic or quasi-harmonic frequencies
