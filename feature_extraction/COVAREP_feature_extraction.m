@@ -72,16 +72,16 @@ opt.debug = 0;
 opt.use_ls     = false; % Use Peak Picking
 opt.dftlen     = 4096;  % Force the DFT length
 opt.frames_keepspec = true; % Keep the computed spectra in the frames structure
-MFCC_ord=24;
+MCEP_ord=24;
 
 % Analysis settings
 fileList=dir([in_dir filesep '*.wav']);
 N=length(fileList);
 names={'F0','VUV','NAQ','QOQ','H1H2','PSP','MDQ','peakSlope','Rd', ...
-    'Rd_conf','creak_prob','MFCC_0','MFCC_1','MFCC_2','MFCC_3','MFCC_4','MFCC_5', ...
-    'MFCC_6','MFCC_7','MFCC_8','MFCC_9','MFCC_10','MFCC_11','MFCC_12', ...
-    'MFCC_13','MFCC_14','MFCC_15','MFCC_16','MFCC_17','MFCC_18', ...
-    'MFCC_19','MFCC_20','MFCC_21','MFCC_22','MFCC_23','MFCC_24'};
+    'Rd_conf','creak_prob','MCEP_0','MCEP_1','MCEP_2','MCEP_3','MCEP_4','MCEP_5', ...
+    'MCEP_6','MCEP_7','MCEP_8','MCEP_9','MCEP_10','MCEP_11','MCEP_12', ...
+    'MCEP_13','MCEP_14','MCEP_15','MCEP_16','MCEP_17','MCEP_18', ...
+    'MCEP_19','MCEP_20','MCEP_21','MCEP_22','MCEP_23','MCEP_24'};
 
 if N==0
     disp('No wav files in inputted directory!!!')
@@ -152,11 +152,11 @@ for n=1:N
 
         % Spectral envelope parameterisation
         M=numel(frames);
-        MFCC=zeros(M,MFCC_ord+1);
+        MCEP=zeros(M,MCEP_ord+1);
         for m=1:M
             TE_order = round(0.5*fs/frames(m).f0); % optimal cepstral order
             Ete = env_te(hspec2spec(frames(m).S), TE_order);
-            MFCC(m,:) = spec2mfcc(hspec2spec(Ete), fs, MFCC_ord)';
+            MCEP(m,:) = spec2mfcc(hspec2spec(Ete), fs, MCEP_ord)';
         end
 
         % Interpolate features to feature sampling rate
@@ -167,14 +167,14 @@ for n=1:N
         Rd=interp1(rds(:,1)*fs,rds(:,2),feature_sampling);
         Rd_conf=interp1(rds(:,1)*fs,rds(:,3),feature_sampling);
 
-        MFCC_int=zeros(length(feature_sampling),MFCC_ord+1);
-        for m=1:MFCC_ord+1
-            MFCC_int(:,m) = interp1(round(linspace(1,length(x),size(MFCC,1))),MFCC(:,m),feature_sampling);
+        MCEP_int=zeros(length(feature_sampling),MCEP_ord+1);
+        for m=1:MCEP_ord+1
+            MCEP_int(:,m) = interp1(round(linspace(1,length(x),size(MCEP,1))),MCEP(:,m),feature_sampling);
         end
 
         % Create feature matrix and save
         features=[F0(:) VUV(:) NAQ(:) QOQ(:) H1H2(:) PSP(:) MDQ(:) PS(:) ...
-            Rd(:) Rd_conf(:) creak_pp(:) MFCC_int];
+            Rd(:) Rd_conf(:) creak_pp(:) MCEP_int];
         features(isnan(features))=0;
         save([in_dir filesep basename '.mat'],'features','names')
         clear features

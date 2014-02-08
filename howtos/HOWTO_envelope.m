@@ -63,8 +63,8 @@ for n=1:numel(frames)
 
     Ete(n,:) = env_te(hspec2spec(frames(n).S), order);
 
-    mfcc = spec2mfcc(hspec2spec(Ete(n,:)), fs, 24);
-    Etec(n,:) = mfcc2hspec(mfcc, fs, opt.dftlen);
+    fwcep = hspec2fwcep(Ete(n,:), fs, 24);
+    Etec(n,:) = fwcep2hspec(fwcep, fs, opt.dftlen);
 
     pb = progressbar(pb, n);
 end
@@ -142,7 +142,7 @@ fig(4) = subplot(4,3,10);
     axis xy;
     xlabel('Time [s]');
     ylabel('Frequency [Hz]');
-    title('Compressed/Decompressed TE envelope through MFCC');
+    title('Compressed/Decompressed TE envelope through mel freq. scale');
 
 fig(5) = subplot(4,3,2);
     plot(times, wav, 'k');
