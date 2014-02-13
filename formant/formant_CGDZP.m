@@ -115,7 +115,7 @@ for kk=0:numFrames-1
     if(numPeaks>numFormants)
         peakIndex=peakIndex(1:numFormants);
     elseif(numPeaks<numFormants)
-        peakIndex=[peakIndex zeros(1,numFormants-numPeaks)];
+        peakIndex=[peakIndex zeros(1,numFormants-size(peakIndex,2))];
     end
     formantPeaks=[formantPeaks ; peakIndex];
     
@@ -164,7 +164,7 @@ if(1)%replace possible continuation values instead of zero values
         [val,index]=find(currentPeaks);%finds non-zero elements
         nonZeroFormants=currentPeaks(index);numNonZeroFormants=length(index);
         numZeroFormants=numFormants-numNonZeroFormants;
-        if(numNonZeroFormants<numFormants)
+        if(numNonZeroFormants<numFormants && ~isempty(index))
             %smoothArray=round(sort(formantPeaks(kk-1,:)+formantPeaks(kk+1,:))/2);
             possibleValues=sort([formantPeaks(kk-1,:) formantPeaks(kk+1,:)]);
             while(possibleValues(1)==0)%discard zero entries
