@@ -181,7 +181,8 @@ for n=1:N
 
         str=sprintf('.............DONE!!!');
         disp(str)
-    catch str=sprintf('.............ERROR NOT ANALYSED!!!');
+    catch 
+        str=sprintf('.............ERROR NOT ANALYSED!!!');
         disp(str)
     end
     
