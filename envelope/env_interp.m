@@ -31,21 +31,34 @@
 
 function E = env_interp(sins, fs, dftlen, extrap_dcny, varargin)
 
-    if nargin<5; extrap_dcny=false; end
+    if nargin<4; extrap_dcny=0; end
 
     fks = sins(1,:);
     aks = sins(2,:);
 
-    if nargin<4; method='linear'; end
+    if sum(extrap_dcny)
+        if length(extrap_dcny)==1 || (length(extrap_dcny)==2 && extrap_dcny(1))
+            if fks(1)~=0 % If there is no DC, add one ...
+                a0 = aks(1);
+                % a0 = af(mi).a(1)+(af(mi).a(1)-af(mi).a(2));
+                fks = [0, fks];
+                aks = [a0, aks];
+            else                  % If there is a DC, put it to |H1|
+                a0 = aks(2);
+                % a0 = af(mi).a(1)+(af(mi).a(1)-af(mi).a(2));
+                aks(1) = a0;
+            end
+        end
 
-    if extrap_dcny
-        % Add freq up to Nyquist if necessary
-        if fks(end)~=fs/2
-            mfd = median(diff(fks));
-            if mfd<1; warning('The median frequency difference between sinusoidal components is smaller than 1Hz. Something is surely wrong in the sinusoidal parameters.'); end
-            while fks(end)<fs/2-mfd
-                fks = [fks, fks(end)+mfd];
-                aks = [aks, aks(end)];
+        if length(extrap_dcny)==1 || (length(extrap_dcny)==2 && extrap_dcny(2))
+            % Add freq up to Nyquist if necessary
+            if fks(end)~=fs/2
+                mfd = median(diff(fks));
+                if mfd<0.01; warning('The median frequency difference between sinusoidal components is smaller than 1Hz. Something is surely wrong in the sinusoidal parameters.'); end
+                while fks(end)<fs/2-mfd
+                    fks = [fks, fks(end)+mfd];
+                    aks = [aks, aks(end)];
+                end
             end
         end
     end
@@ -74,18 +87,21 @@ function E = env_interp(sins, fs, dftlen, extrap_dcny, varargin)
     aks = aks(idx);
     E = interp1(fks, log(abs(aks)), bins, varargin{:});
 
+    E = exp(E);
+
     if 0
-        figure
+        hold off;
         plot(fks, ld(aks), 'xr');
         hold on;
         stem([0 fs/2], [-180 -180], 'xk');
         binsext = fs*(-dftlen/8:dftlen)/dftlen;
-        Eext = interp1(fks, log(abs(aks)), binsext, method);
+        Eext = interp1(fks, log(abs(aks)), binsext, varargin{:});
         plot(binsext, ld(exp(Eext)), 'r');
-        plot(bins, ld(exp(E)), 'b');
-        keyboard
+        plot(bins, ld(E), 'b');
+        xlim([0 fs/2]);
+        ylim([-250 -80]);
+        pause
+%          keyboard
     end
-
-    E = exp(E);
 
 return
