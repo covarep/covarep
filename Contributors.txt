@@ -20,3 +20,9 @@ Contributors
     University of Southern California, Los Angeles, USA
         Institute for Creative Technologies - MultiComp Lab
         Stefan Scherer
+
+    Centre national de la recherche scientifique (CNRS), France
+        (UMR 7604) Laboratoire d'Acoustique Musicale (LAM), Paris
+    Institut National Polytechnique de Grenoble (INPG), Grenoble, France
+        Institut de la Communication Parlée (ICP)
+        Nathalie Henrich
