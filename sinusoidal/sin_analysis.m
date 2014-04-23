@@ -141,7 +141,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
     disp('Sinusoidal Analysis');
     if opt.fquasiharm; opt.fharmonic=true; end
     if opt.use_ls; opt.fharmonic=true; end % Currently, the LS solution is only possible with a harmonic model
-    if ~opt.use_ls && opt.fharmonic==true; opt.fquasiharm=true; end
+%      if ~opt.use_ls && opt.fharmonic==true; opt.fquasiharm=true; end % commented: otherwise we can't do harmonic PP
     if ~opt.use_ls && opt.fquasiharm==true; opt.fharmonic=true; end
     if size(f0s,2)>1 && any(f0s(:,2)<=0); error('If a fundamental frequency is specified, it cannot be zero.'); end
     if opt.fharmonic
@@ -308,6 +308,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
             if opt.fharmonic
                 % Select only peaks around harmonic frequencies
                 fr.sins = spec_getsins_f0(S, fs, f0);
+
                 if ~opt.fquasiharm
                     % Force harmonic frequencies after partial estimation
                     mf0 = median(diff(fr.sins(1,:)));
