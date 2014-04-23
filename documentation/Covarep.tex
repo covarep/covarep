@@ -101,6 +101,8 @@
     \subsection{Scope}
     Contributions are welcome from a wide range of speech processing areas, including (but not limited to): Speech analysis, synthesis, conversion, transformation, enhancement, glottal source/voice quality analysis, etc.
 
+    It can be novel methods as well as existing methods.
+
     \subsection{Requirements}
     In order to achieve a reasonable standard of consistency and homogeneity across algorithms, the following elements are required:
     \begin{itemize}
@@ -112,11 +114,17 @@
 
     \item Each method exist only once in the whole repository. Thus, redundancy has to be minimized between the methods existing in the repository and the submission.
     \end{itemize}
+    Note that the original author of a method (the author of the article) does not necessarily correspond to the author of the implementation! Anybody is free to send his/her implementation of a published method which does not exist yet in Covarep.
 
     \subsection{Submission process}
     The instructions for submitting contributions are given at:
     \url{http://covarep.github.io/covarep}.
-	There is no other source of information about the submission process.
+	In order to avoid confusion, there is no other source of information about the submission process.
+
+    \subsection{Improvements of methods}
+    We welcome improvements of methods already existing in Covarep (e.g. replacement of the traditional computation of the Linear Prediction residual by a more robust one which can be exploited in many functions in Covarep).
+    However, the default behavior of a function has to correspond to the original article description.
+    Thus, improvements can be added in existing functions, but they have to appear as a non-default option (please see \url{sinusoidal/sin\_analysis.m} for a complete example of option management).
 
 \newpage
 
@@ -143,11 +151,17 @@
 %     However, for the beginning of the project, no big evaluation module will be implemented in order to not discourage submissions.
     A basic function should allow the user to run regression tests to verify that all the methods implemented in Covarep are working properly on his/her machine.
 
-%     \subsection{Lanugages}
+%     \subsection{Frequently Reported Bugs (FRB)}
+%     There is always a few bugs which often appear when running a method on large dataset or on an environement which is not that of the first author.
+%     Authors are welcome to test these issues before submission.
+%     The most common ones are:
+%     * Signal segments with zero-values makes the method to crash. This situation often arise when a user pad the signal at the begining or the end of the signal (e.g. for compensating a filter delay).
+
+
+%     \subsection{Languages}
 %     I just want to add that actually Matlab do not dominate the speech community (e.g. HTS has nothing implemented in Matlab). I saw also perl, and python is, indeed, attracting more and more the researchers. I think it is necessary to distinguish two things:
 %     1) The languages which are convenient for research, Matlab, Python, Perl, etc.
 %     2) The langugaes which are clearly oriented for running efficiently for companies, C, C++, etc.
-%  
 %     As John suggested, we should think about parallel libraries dedicated for (1).
 %     For (2), I'm not sure the public research community will find here a big advantage. And personnaly, I don't see why I should code something in C/C++ without being paid :P. I think, a C/C++ version would be thus only with financial support.
     
