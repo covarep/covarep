@@ -19,7 +19,9 @@
 % [winlen] : Length of the window used to compute the spectrum
 %            (Not yet implemented !, please use [])
 % [mode]   : Binary flags encoded in a single value [def. 1+8+16+32]
-%            1   : Smooth the cepstral coefficients with a hamming window.
+%            1   : Smooth the cepstral coefficients with a hamming window
+%                  To keep the same bandwith as the rectangular window
+%                  the order has to be extend (factor 1.2).
 %            512 : Correct the DC and Nyquist bins such as they do not create
 %                  ripples in the envelope. It is done by estimating the
 %                  envelope with a lower order than given (see presmooth_factor)
@@ -89,7 +91,7 @@ function [E, cc, n] = env_te(S, order, winlen, mode, maxit, prec, presmooth_fact
     dblim = log(10.^(prec/20));
 
     if bitand(mode,1) % Use smoothing window
-        order = round(1.2*order); % [1] 1.66, [matmtl] 1.2
+        order = round(1.2*order);
         win = hamming(2*order+1)';
         win = win((end-1)/2+1:end);
     end
