@@ -46,7 +46,7 @@ a small {
 }
 
 .wrapper {
-  width:860px;
+  width:900px;
   margin:0 auto;
 }
 
@@ -160,7 +160,7 @@ header ul a strong {
 }
 
 section {
-  width:500px;
+  width:550px;
   float:right;
   padding-bottom:50px;
 }
@@ -181,6 +181,10 @@ footer {
   float:left;
   position:fixed;
   bottom:50px;
+}
+
+div.contrib_institutions p {
+   margin-bottom: 10px;
 }
 
 @media print, screen and (max-width: 960px) {
