@@ -93,7 +93,7 @@ function [f0sout, frames, opt] = ahm_air_analysis2(wav, fs, f0sin, opt)
 
     % ==========================================================================
 
-    disp(['(a)QHM-AIR analysis']);
+    disp(['aHM-AIR analysis']);
     if opt.debug>0; disp(opt); end
 
     if any(f0sin(:,2)<=0); error('The fundamental frequency cannot be zero. A value has to be specified at all time instants. In noisy segments, a consant value can be used, or an interpolation bewteen the surrounding quasi-period segments.'); end
