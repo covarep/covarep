@@ -156,7 +156,7 @@ for n=1:N
         for m=1:M
             TE_order = round(0.5*fs/frames(m).f0); % optimal cepstral order
             Ete = env_te(hspec2spec(frames(m).S), TE_order);
-            MCEP(m,:) = spec2mfcc(hspec2spec(Ete), fs, MCEP_ord)';
+            MCEP(m,:) = hspec2fwcep(Ete, fs, MCEP_ord)';
         end
 
         % Interpolate features to feature sampling rate
