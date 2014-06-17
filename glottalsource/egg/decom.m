@@ -26,7 +26,10 @@
 %
 % Inputs
 %  s         : The input EGG signal, in VFCA convention (vocal-fold contact area),
-%               i.e. EGG increases with glottal contact.
+%               i.e. EGG increases with glottal contact. The peak at closure is
+%               thus positive in the EGG derivative.
+%              It is recommended to high-pass the signal (around 50Hz) in order
+%              to remove the influence of the larynx global movements.
 %  fs        : [Hz] The sampling frequency of the EGG signal.
 %  f0        : [1x2 Hz] The search limits of f0, in a row vector.
 %              Default value is: f0=[80Hz, 1500Hz].
