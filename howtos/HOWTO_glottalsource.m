@@ -78,7 +78,7 @@ frames = sin_analysis(x, fs, [srh_time(:),srh_f0(:)], opt);
 rds = rd_msp(frames, fs);
 
 % Extract Cepstral Peak Prominence 
-CPP = cpp( x, fs, 1, 'mean' );
+CPPv = cpp( x, fs, 1, 'mean' );
 
 % Plots
 t=(0:length(x)-1)/fs;
