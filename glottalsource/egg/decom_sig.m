@@ -23,9 +23,9 @@
 %  Gilles Degottex <degottex@csd.uoc.gr>
 %
 
-function [Oqeggmess, f0mess, npicferms, npicouvers, atimes] = decom_sig(s, fs, f0, method)
+function [Oqeggmess, f0mess, npicferms, npicouvers, atimes] = decom_sig(s, fs, f0s, method)
 
-    if nargin<3; f0 = []; end
+    if nargin<3; f0s=[]; f0=[]; end
     if nargin<4; method = []; end
 
     winLen=2*round(20/1000*fs /2)+1;
@@ -41,6 +41,10 @@ function [Oqeggmess, f0mess, npicferms, npicouvers, atimes] = decom_sig(s, fs, f
         % Get windowed frame
         x_frame = s(start:stop);
         atimes(cnt) = (0.5*(stop+start))/fs;
+
+        if ~isempty(f0s) && size(f0s,2)>1
+            f0 = interp1(f0s(:,1), f0s(:,2), atimes(cnt), 'nearest', 'extrap');
+        end
 
         [Oqeggmess(cnt), f0mess(cnt), npicferms(cnt), npicouvers(cnt)] = decom(x_frame, fs, f0, method);
 
