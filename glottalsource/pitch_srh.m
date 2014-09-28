@@ -14,9 +14,9 @@
 % Inputs
 %  wave            : [samples] [Nx1] input signal (speech signal)
 %  fs              : [Hz]      [1x1] sampling frequency
-%  f0min           : [Hz] [1x1] minimum possible F0 value
-%  f0max           : [Hz]  [1x1] maximum possible F0 value
-%  hopsize         : [ms]  [1x1] time interval between two consecutive
+%  f0min           : [Hz]      [1x1] minimum possible F0 value
+%  f0max           : [Hz]      [1x1] maximum possible F0 value
+%  hopsize         : [ms]      [1x1] time interval between two consecutive
 %                    frames (i.e. defines the rate of feature extraction).
 %
 % Outputs
@@ -55,9 +55,12 @@
 % 
 % Author 
 %  Thomas Drugman thomas.drugman@umons.ac.be
+%
+% Modified
+%  John Kane kanejo@tcd.ie September 27th 2014 - Bug fix and efficiency
 
 
-function [F0s,VUVDecisions,SRHVal,time] = pitch_srh(wave,fs,f0min,f0max,hopsize)
+function [F0s,VUVDecisions,SRHVal,time] = pitch_srh_VEC(wave,fs,f0min,f0max,hopsize)
 
 if length(wave)/fs<0.1
     display('SRH error: the duration of your file should be at least 100ms long');
@@ -80,101 +83,105 @@ if nargin < 5
     hopsize=10;
 end
 
+%% Setings
+nHarmonics = 5;
+SRHiterThresh = 0.1;
+SRHstdThresh = 0.05;
+VoicingThresh = 0.07;
+VoicingThresh2 = 0.085;
 LPCorder=round(3/4*fs/1000);
 Niter=2;
 
-[res] = lpcresidual(wave,round(25/1000*fs),round(5/1000*fs),LPCorder);
+%% Compute LP residual
+[res] = lpcresidual(wave,round(25/1000*fs),round(5/1000*fs), ...
+                    LPCorder);
 
+%% Create frame matrix
+waveLen = length(wave);
+frameDuration = round(100/1000*fs)-2; % Minus 2 to make equivalent
+                                      % to original
+shift = round(hopsize/1000*fs);
+halfDur = round(frameDuration/2);
+time = halfDur+1:shift:waveLen-halfDur;
+N = length(time);
+frameMat=zeros(frameDuration,N);
+for n=1:N
+    frameMat(:,n) = res(time(n)-halfDur:time(n)+halfDur-1);
+end
+
+%% Create window matrix and apply to frames
+win = blackman(frameDuration);
+winMat = repmat( win, 1 , N );
+frameMatWin = frameMat .* winMat;
+
+%% Do mean subtraction
+frameMean = mean(frameMatWin,1);
+frameMeanMat = repmat(frameMean,frameDuration,1);
+frameMatWinMean = frameMatWin - frameMeanMat;
+
+%% Compute spectrogram matrix
+specMat = abs( fft(frameMatWinMean,fs) );
+specMat = specMat(1:fs/2,:);
+specDenom = sqrt( sum( specMat.^2, 1 ) );
+specDenomMat = repmat( specDenom, fs/2, 1 );
+specMat = specMat ./ specDenomMat;
 
 %% Estimate the pitch track in 2 iterations
 for Iter=1:Niter   
 
-    [F0s,SRHVal,time] = SRH_EstimatePitch(res',fs,f0min,f0max,hopsize);     
+    [F0s,SRHVal] = SRH( specMat, nHarmonics, f0min, f0max );
     
-    posiTmp=find(SRHVal>0.1);   
-    
-    if length(posiTmp)>1
-        
-        F0meanEst=median(F0s(posiTmp));        
-               
-        f0min=round(0.5*F0meanEst);
-        f0max=round(2*F0meanEst);        
+    if max(SRHVal) > SRHiterThresh
+        F0medEst = median( F0s( SRHVal > SRHiterThresh ) );
+        f0min=round(0.5*F0medEst);
+        f0max=round(2*F0medEst);        
     end
     
 end
 
-time = (time-1)/fs;
+time=time/fs;
 
-% Voiced-Unvoiced decisions are derived from the value of SRH (Summation of
-% Residual Harmonics)
-VUVDecisions=zeros(1,length(F0s));
-Threshold=0.07;
+%% Voiced-Unvoiced decisions are derived from the value of SRH (Summation of
+%% Residual Harmonics)
+VUVDecisions = zeros(1,N);
 
-if std(SRHVal)>0.05
-    Threshold=0.085;
+if std(SRHVal) > SRHstdThresh
+   VoicingThresh = VoicingThresh2;
 end
 
-pos= SRHVal>Threshold;
-VUVDecisions(pos)=1;
+VUVDecisions( SRHVal > VoicingThresh ) = 1;
 
 return
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [F0s,SRHVal,time] = SRH_EstimatePitch(sig,Fs,F0min,F0max,Hopsize)
+function [F0,SRHVal] = SRH( specMat, nHarmonics, f0min, f0max );
 
-time=[];
-start=1;
-stop=round(100/1000*Fs);
-shift=round(Hopsize/1000*Fs);
+% Function to compute Summation of Residual harmonics function
+% on a spectrogram matrix, with each column corresponding to one
+% spectrum.
 
-Nframes=floor((length(sig)-stop)/shift) + 1;
-SRHTot=zeros(Nframes,F0max);
-F0s = zeros(1,Nframes);
-SRHVal = zeros(1,Nframes);
+% Initial settings
+[M,N] = size( specMat );
+SRHmat = zeros(f0max,N);
 
-BlackWin=blackman(stop-start+1);
+fSeq = f0min:f0max;
+fLen = length(fSeq);
 
-index=1;
-while stop<=length(sig)
-%      time(index) = start;         % original
-    time(index) = 0.5*(start+stop); % degottex
-    seg=sig(start:stop);
-    seg=seg.*BlackWin;    
-    seg=seg-mean(seg);
+% Prepare harmonic indeces matrices. 
+plusIdx = repmat( (1:nHarmonics)',1,fLen) .* repmat(fSeq,nHarmonics,1);
+subtrIdx = round( repmat( (1:nHarmonics-1)'+.5,1,fLen) .* ...
+                  repmat(fSeq,nHarmonics-1,1) );
 
-    Spec=fft(seg,Fs);
-    Spec=abs(Spec(1:Fs/2));    
-    Spec=Spec/sqrt(sum(Spec.^2));
-        
-    SRHs=zeros(1,F0max);    
-    
-    % SRH spectral criterion
-    for freq=F0min:F0max
-        SRHs(freq)=(Spec(freq)+Spec(2*freq)+Spec(3*freq)+Spec(4*freq)+Spec(5*freq))-(Spec(round(1.5*freq))+Spec(round(2.5*freq))+Spec(round(3.5*freq))+Spec(round(4.5*freq)));
-    end
-    
-    SRHTot(index,:)=SRHs;
-
-    [maxi,posi]=max(SRHs);
-    F0frame=posi;
-        
-    F0s(index)=F0frame;
-    SRHVal(index)=SRHs(F0frame);
-    
-    start=start+shift;
-    stop=stop+shift;
-    index=index+1;
+% Do harmonic summation
+for n=1:N
+    specMatCur = repmat( specMat(:,n),1,fLen);
+    SRHmat(fSeq,n) = ( sum( specMatCur(plusIdx), 1 ) - ...
+                       sum( specMatCur(subtrIdx), 1 ) )';
 end
 
- NframesToAdd=round((100/1000*Fs)/(2*shift)); % commented by degottex
- 
- F0s=[zeros(1,NframesToAdd) F0s zeros(1,NframesToAdd)]; % commented by degottex
- SRHVal=[zeros(1,NframesToAdd) SRHVal zeros(1,NframesToAdd)]; % commented by degottex
+% Retrieve f0 and SRH value
+[SRHVal,F0] = max( SRHmat );
 
- for k=1:NframesToAdd     
-     time=[time(1)-shift time time(end)+shift];
- end
- 
 return
+
 
