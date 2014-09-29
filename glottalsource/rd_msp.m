@@ -80,6 +80,10 @@ function [rds] = rd_msp(frames, fs, opt)
         M = sin2shm(frames(n).sins, shmopt);
         M = M(1:end/2+1).';
 
+        if length(M)<9;
+            warning('The order of the harmonic model is too low for a reliable Rd estimate (Is the f0 estimate too high for the used sampling frequency?).');
+        end
+
         if opt.search_method==1
             % Grid search
             freqs = f0*(0:length(M)-1);
@@ -132,10 +136,11 @@ function err = optimfnRd(Rd, fs, f0, M, opt)
     R = N./spec2minphasespec(N(:));
 
     % Extract the phase
-    P = angle(R(1:8+1));
+    o = min([length(R)-1, 8]);
+    P = angle(R(1:1+o));
 
     % Compute the MSPD2 error according to [3](last eq. p.5)  or [4](5)
     PD2I = wrap(diff(P) - P(2));  % Equal to [3](last eq. p.5) (and a lot simpler)
-    err = mean(PD2I(2:8).^2);
+    err = mean(PD2I(2:o).^2);
 
 return
