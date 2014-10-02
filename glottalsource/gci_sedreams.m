@@ -68,18 +68,24 @@
 %  Thomas Drugman thomas.drugman@umons.ac.be
 
 
-function [gci, MeanBasedSignal, res] = gci_sedreams(wave, fs, f0mean, polarity, opt)
+function [gci, MeanBasedSignal, res] = gci_sedreams(wave, fs, f0mean, ...
+                                                    polarity, opt)
+    
 
     if nargin<5
         % Options
-        opt.use_maxlpresidual = false; % Use the traditional LP residual by default, as in [1,2]
+        opt.use_maxlpresidual = false; % Use the traditional LP
+                                       % residual by default, as in
+                                       % [1,2]
     end
     if nargin==0; gci=opt; return; end
 
     wave=polarity*wave;
 
     if ~opt.use_maxlpresidual
-        res = lpcresidual(wave,round(25/1000*fs),round(5/1000*fs),round(fs/1000)+2);
+        res = lpcresidual(wave,round(25/1000*fs),round(5/1000*fs), ...
+                          round(fs/1000)+2);
+        
     else
         res = maxlpresidual(wave,fs,round(fs/1000)+2);
     end
@@ -117,9 +123,11 @@ function [gci, MeanBasedSignal, res] = gci_sedreams(wave, fs, f0mean, polarity, 
     PotMinis=[];
 
     for m=2:length(MeanBasedSignal)-1    
-        if (MeanBasedSignal(m)>MeanBasedSignal(m-1))&&(MeanBasedSignal(m)>MeanBasedSignal(m+1))
+        if (MeanBasedSignal(m)>MeanBasedSignal(m-1)) && ...
+                (MeanBasedSignal(m)>MeanBasedSignal(m+1))
             PotMaxis=[PotMaxis m];
-        elseif (MeanBasedSignal(m)<MeanBasedSignal(m-1))&&(MeanBasedSignal(m)<MeanBasedSignal(m+1))
+        elseif (MeanBasedSignal(m)<MeanBasedSignal(m-1)) && ...
+                (MeanBasedSignal(m)<MeanBasedSignal(m+1))
             PotMinis=[PotMinis m];
         end
     end
@@ -169,6 +177,8 @@ function [gci, MeanBasedSignal, res] = gci_sedreams(wave, fs, f0mean, polarity, 
 
         if start<1
             start=1;
+        elseif start > length(res)
+            break
         end
         if stop>length(res)
             stop=length(res);
