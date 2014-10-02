@@ -60,7 +60,7 @@
 %  John Kane kanejo@tcd.ie September 27th 2014 - Bug fix and efficiency
 
 
-function [F0s,VUVDecisions,SRHVal,time] = pitch_srh_VEC(wave,fs,f0min,f0max,hopsize)
+function [F0s,VUVDecisions,SRHVal,time] = pitch_srh(wave,fs,f0min,f0max,hopsize)
 
 if length(wave)/fs<0.1
     display('SRH error: the duration of your file should be at least 100ms long');
@@ -131,10 +131,17 @@ for Iter=1:Niter
 
     [F0s,SRHVal] = SRH( specMat, nHarmonics, f0min, f0max );
     
-    if max(SRHVal) > SRHiterThresh
+    
+    if max(SRHVal) > SRHiterThresh 
         F0medEst = median( F0s( SRHVal > SRHiterThresh ) );
-        f0min=round(0.5*F0medEst);
-        f0max=round(2*F0medEst);        
+        
+        % Only refine F0 limits if within the original limits
+        if round(0.5*F0medEst) > f0min
+            f0min=round(0.5*F0medEst);
+        end
+        if round(2*F0medEst) < f0max
+            f0max=round(2*F0medEst);    
+        end
     end
     
 end
