@@ -183,11 +183,12 @@ function [gci, MeanBasedSignal, res] = gci_sedreams(wave, fs, f0mean, ...
         if stop>length(res)
             stop=length(res);
         end
-    
-        vec=res(start:stop);
-        [maxi,posi]=max(vec);
-        gci(Ind)=start+posi-1;
-        Ind=Ind+1;
+        if (stop > 1)
+            vec=res(start:stop);
+            [maxi,posi]=max(vec);
+            gci(Ind)=start+posi-1;
+            Ind=Ind+1;
+        end
     end
 
 
