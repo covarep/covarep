@@ -39,11 +39,11 @@ function [x,esq,j] = kmeanlbg(d,k)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 nc=size(d,2);
-[x,esq,j]=kmeans(d,1);
+[x,esq,j]=v_kmeans(d,1);
 m=1;
 while m<k
    n=min(m,k-m);
    m=m+n;
    e=1e-4*sqrt(esq)*rand(1,nc);
-   [x,esq,j]=kmeans(d,m,[x(1:n,:)+e(ones(n,1),:); x(1:n,:)-e(ones(n,1),:); x(n+1:m-n,:)]);
+   [x,esq,j]=v_kmeans(d,m,[x(1:n,:)+e(ones(n,1),:); x(1:n,:)-e(ones(n,1),:); x(n+1:m-n,:)]);
 end

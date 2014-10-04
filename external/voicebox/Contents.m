@@ -119,7 +119,7 @@
 %   pcma2lin      - Convert A-law PCM to linear PCM
 %   pcmu2lin      - Convert mu-law PCM to linear PCM
 %   lin2pcma      - Convert linear PCM to A-law PCM
-%   kmeans        - Vector quantisation: k-means algorithm
+%   v_kmeans        - Vector quantisation: k-means algorithm
 %   kmeanlbg      - Vector quantisation: LBG algorithm
 %   kmeanhar      - Vector quantization: K-harmonic means
 %   potsband      - Create telephone bandwidth filter

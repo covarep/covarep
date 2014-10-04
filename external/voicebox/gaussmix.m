@@ -139,11 +139,11 @@ if nargin<5 || isempty(v0) || ischar(v0)             % no initial values specifi
         w=repmat(1/k,k,1);                      % all mixtures equally likely
         if any(v0=='k')                         % k-means initialization
             if any(v0=='m')
-                [m,e,j]=kmeans(xs,k,m);
+                [m,e,j]=v_kmeans(xs,k,m);
             elseif any(v0=='p')
-                [m,e,j]=kmeans(xs,k,'p');
+                [m,e,j]=v_kmeans(xs,k,'p');
             else
-                [m,e,j]=kmeans(xs,k,'f');
+                [m,e,j]=v_kmeans(xs,k,'f');
             end
         elseif any(v0=='h')                     % k-harmonic means initialization
             if any(v0=='m')
@@ -167,7 +167,7 @@ if nargin<5 || isempty(v0) || ischar(v0)             % no initial values specifi
             else
                 m=xs(rnsubset(k,n),:);          % Forgy initialization: sample k centres without replacement [default]
             end
-            [e,j]=kmeans(xs,k,m,0);             % find out the cluster allocation
+            [e,j]=v_kmeans(xs,k,m,0);             % find out the cluster allocation
         end
         if any(v0=='s')
             xs=(x-mx0(wn,:))./sx0(wn,:);      % scale data now if not done previously
