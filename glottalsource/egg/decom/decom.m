@@ -9,32 +9,32 @@
 %  (npicferm) and the number of peaks at opening instant (npicouver).
 %
 % Original French description:
-%   DECOM  Mesure de f0 et Oq sur le signal DEGG
-%   mesure la fréquence fondamentale f0mes, le quotient d'ouverture Oqeggmes,
-%   le nombre de pics à la fermeture npicferm (vérification de l'unicité du pic),
-%   le nombre de pics à l'ouverture npicouver, sur un signal DEGG,
-%   connaissant les bornes en fréquence f0 =  [f0min,f0max] et la fréquence
-%   d'échantillonnage fs. Par défaut, f0min = 80, f0max = 1500.
-%   Si f0 ne donne qu'une valeur, elle est directement utilisée pour le
-%   calcul.
-%   La variable 'method' définit la méthode utilisée pour le
-%   calcul de Oq : 'max', le pic de la fonction
-%   d'intercorrélation ayant une amplitude maximale est
-%   sélectionné, 'premier' le premier des pics de la fonction
-%   d'intercorrélation est sélectionné, 'dernier' le dernier
-%   des pics est sélectionné.
+%  DECOM  Mesure de f0 et Oq sur le signal DEGG
+%  mesure la fréquence fondamentale f0mes, le quotient d'ouverture Oqeggmes,
+%  le nombre de pics à la fermeture npicferm (vérification de l'unicité du pic),
+%  le nombre de pics à l'ouverture npicouver, sur un signal DEGG,
+%  connaissant les bornes en fréquence f0 =  [f0min,f0max] et la fréquence
+%  d'échantillonnage fs. Par défaut, f0min = 80, f0max = 1500.
+%  Si f0 ne donne qu'une valeur, elle est directement utilisée pour le
+%  calcul.
+%  La variable 'method' définit la méthode utilisée pour le
+%  calcul de Oq : 'max', le pic de la fonction
+%  d'intercorrélation ayant une amplitude maximale est
+%  sélectionné, 'premier' le premier des pics de la fonction
+%  d'intercorrélation est sélectionné, 'dernier' le dernier
+%  des pics est sélectionné.
 %
 % Inputs
-%  s         : The input EGG signal, in VFCA convention (vocal-fold contact area),
-%               i.e. EGG increases with glottal contact. The peak at closure is
-%               thus positive in the EGG derivative.
-%              It is recommended to high-pass the signal (around 50Hz) in order
-%              to remove the influence of the larynx global movements.
-%  fs        : [Hz] The sampling frequency of the EGG signal.
-%  f0        : [1x2 Hz] The search limits of f0, in a row vector.
-%              Default value is: f0=[80Hz, 1500Hz].
-%              If a single value is used (e.g. f0=120), it replaces the
-%              measured f0 and estimate Oq using this f0 value.
+%  s       : The input EGG signal, in VFCA convention (vocal-fold contact area),
+%             i.e. EGG increases with glottal contact. The peak at closure is
+%             thus positive in the EGG derivative.
+%            It is recommended to high-pass the signal (around 50Hz) in order
+%            to remove the influence of the larynx global movements.
+%  fs      : [Hz] The sampling frequency of the EGG signal.
+%  f0      : [1x2 Hz] The search limits of f0, in a row vector.
+%            Default value is: f0=[80Hz, 1500Hz].
+%            If a single value is used (e.g. f0=120), it replaces the
+%            measured f0 and estimate Oq using this f0 value.
 % 
 %  method    : Select the method to compute Oq. It can be:
 %              'max'   : The peak of the intercorrelation with the maximum
