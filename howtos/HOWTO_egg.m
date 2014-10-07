@@ -12,8 +12,85 @@
 %
 % This function is part of the Covarep project: http://covarep.github.io/covarep
 %
+% Authors
+%  Alexis Michaud <alexis.michaud@vjf.cnrs.fr> <michaud.cnrs@gmail.com>
+%                  CNRS (Centre National de la Recherche Scientifique, France)
+%  Gilles Degottex <gilles.degottex@gmail.com>
+%                  Ircam, France
+%
 
 clear all;
+
+
+% Example for the peakdet.m method ---------------------------------------------
+
+% <peakdet.m> is intended for the semi-automatic analysis of the EGG signal for
+% a set of continuously voiced items: for example, vowels, syllable rhymes, or
+% sustained voiced sounds containing up to <MaxPerN> glottal cycles. 
+%
+% This demo shows the result for an example of type of signals for which peakdet
+% was devised: a Vietnamese syllable with a glottalized ending.
+%
+% As of 2014, a guide to the use of <peakdet> is available from:
+% http://voiceresearch.free.fr/egg/softwares.htm#peakdet
+%
+
+% reading the example file (electroglottographic signal)
+[egg, fs] = wavread('glottalized-m1.egg');
+[wav, fs] = wavread('glottalized-m1.wav');
+
+% running the <peakdet.m> function
+[results_matrix, SdSIG, SIG] = peakdet(egg, fs, 200, 3);
+
+% Plotting the results
+figure
+% retrieving the first and last glottis-closure-instants detected by <peakdet>
+firstclo = results_matrix(1,1);
+lastclo = results_matrix(length(nonzeros(results_matrix(:,2))),2);
+
+% EGG and dEGG in one figure, with indications on first and last detected
+% Glottis-Closure-Instants (GCI)
+fig(1) = subplot(311);
+    times = (0:length(wav)-1)/fs;
+    plot(times, wav, 'k');
+    hold on
+    plot(times, 1+SIG, 'b');
+    times = (0:length(SdSIG)-1)/fs;
+    plot(times, 2+SdSIG*30, 'r');
+    plot([firstclo firstclo],[-1 3],'-r')
+    plot([lastclo lastclo],[-1 3],'-r')
+    xlabel('Time [s]');
+    grid on
+    legend({'EGG', 'DEGG', 'First and last GCI'});
+
+% Second figure: estimated fundamental frequency (F0) and open quotient values
+fig(2) = subplot(312);
+    times = 0.5*(results_matrix(:,1)+results_matrix(:,2));
+    plot(times, results_matrix(:,3), '-pb');
+    grid on;
+    ylim([0 250]);
+    xlabel('Time [s]');
+    ylabel('F0 [Hz]');
+    legend({'Estimated F0'});
+
+fig(3) = subplot(313);
+    plot(times, results_matrix(:,5), '*g');
+    hold on
+    plot(times, results_matrix(:,7), '-pb');
+    plot(times, results_matrix(:,8), 'or');
+    plot(times, results_matrix(:,9), 'sk');
+    grid on;
+    ylim([0 80]);
+    xlabel('Time [s]');
+    ylabel('Oq');
+    legend({'Oq from raw maximum','Oq from maximum after smoothing','Oq from peak detection','Oq from peak detection with smoothing'});
+
+linkaxes(fig, 'x');
+xlim([0, length(SIG)/fs]);
+
+
+
+% Example for the DECOM method -------------------------------------------------
 
 % Load sound and EGG files
 [egg, fs] = wavread(['howtos' filesep 'DB-cresc-a-D4-m1.egg']);
@@ -38,6 +115,7 @@ howard_Oqeggmess(idx) = NaN;
 % Plots
 t=(0:length(degg)-1)/fs;
 
+figure
 fig(1) = subplot(411);
     plot(t, wav, 'k');
     hold on
