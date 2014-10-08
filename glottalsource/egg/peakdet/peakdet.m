@@ -42,7 +42,7 @@
 %              - beginning and end of period : in 1st and 2nd columns
 %              - F0 : 3rd column
 %              - DECPA, Derivative-Electroglottographic Closure Peak Amplitude:
-%                       4th column (on DECPA and DEOPA: see [2])
+%                       4th column (on DECPA and DEOPA: see [3])
 %              - Oq determined from raw maximum, and DEOPA : 5-6th col [1,2]
 %              - Oq determined from maximum after smoothing : 7th col [1,2]
 %              - Oq determined from peak detection : 8-9th col without
