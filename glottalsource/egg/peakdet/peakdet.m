@@ -9,7 +9,7 @@
 %  the EGG signal failed to meet the criterion for quasi-periodicity. Hence the
 %  decision to develop a new function, which, like <decom.m>, detects closing
 %  peaks and opening peaks on the derivative of the EGG signal, but by a
-%  *threshold* method and not by autocorrelation.
+%  *threshold* method and not by autocorrelation [1,2].
 %
 %  Created in October 2004, with minor changes in July 2005 and July 2007, by
 %  Alexis Michaud. Adapted to COVAREP by Nguyen Thi Lan.
@@ -35,7 +35,6 @@
 %          based methods (such as DECOM: Henrich et al. 2004). Thus this
 %          algorithm provides indications on glottal cycles even for
 %          laryngealized ("creaky") portions of signal.
-%          Using the function FO which takes the EGG signal as input
 %
 % Outputs
 %  results_matrix : Single matrix containing all the results.
@@ -43,20 +42,25 @@
 %              - beginning and end of period : in 1st and 2nd columns
 %              - F0 : 3rd column
 %              - DECPA, Derivative-Electroglottographic Closure Peak Amplitude:
-%                       4th column (on DECPA and DEOPA: see [1])
-%              - Oq determined from raw maximum, and DEOPA : 5th and 6th columns
-%              - Oq determined from maximum after smoothing : 7th column
-%              - Oq determined from peak detection : 8th and 9th colums without
-%                smoothing and with smoothing, respectively.
+%                       4th column (on DECPA and DEOPA: see [2])
+%              - Oq determined from raw maximum, and DEOPA : 5-6th col [1,2]
+%              - Oq determined from maximum after smoothing : 7th col [1,2]
+%              - Oq determined from peak detection : 8-9th col without
+%                smoothing and with smoothing, respectively [1,2].
 %
 % Example
 %  See the HOWTO_egg.m example file.
 %
 % Reference
-% [1] Michaud, Alexis. "A Measurement from Electroglottography: DECPA, and its
+% [1] Martine Mazaudon and Alexis Michaud, "Tonal Contrasts and Initial
+%     Consonants: A Case Study of Tamang, a 'missing Link' in Tonogenesis",
+%     Phonetica 65 (4): 231-56, 2008.
+% [2] Alexis Michaud "Final Consonants and Glottalization: New Perspectives from
+%     Hanoi Vietnamese", Phonetica 61 (2-3): 119-46, 2004.
+% [3] Michaud, Alexis. "A Measurement from Electroglottography: DECPA, and its
 %     Application in Prosody". In Bernard Bel & Isabelle Marlien (eds.), Proc.
 %     Speech Prosody 2004, 633-636. Nara, Japan.
-% [2] Guide available online at:
+% [4] Guide available online at:
 %      http://voiceresearch.free.fr/egg/softwares.htm#peakdet
 % 
 % Copyright (c) 2004 CNRS (Centre National de la Recherche Scientifique, France)
