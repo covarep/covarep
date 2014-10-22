@@ -1,4 +1,4 @@
-% Semi analysis of the electroglottographic signal for a continuously voiced
+% Analysis of the electroglottographic signal for a continuously voiced
 %  item of normal speech: typically, one syllable or a portion of a syllable.
 %
 % Description
