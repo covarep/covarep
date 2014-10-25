@@ -5,11 +5,10 @@
 %  negative quefrencies of X.
 %
 % Input
-%  X   : The spectrum to convert (full DFT length)
+%  X   : The half spectrum to convert (half DFT length)
 %
 % Output
-%  M   : The corresponding minimum-phase spectrum
-%  lM  : The log minimum-phase spectrum
+%  M   : The corresponding minimum-phase spectrum (half DFT length)
 %
 % References
 %  [1] Alan V. Oppenheim and Ronald W. Schafer, "Digital Signal Processing",
@@ -35,20 +34,8 @@
 %  Gilles Degottex <degottex@csd.uoc.gr>
 %
 
-function [M lM] = spec2minphasespec(X)
+function M = hspec2minphasehspec(X)
 
-    X = X(:).';
-
-    rcc = ifft(log(abs(X))); % Compute the real cepstrum
-
-    if mod(length(X),2)==0
-        % For even DFT length
-        lM = fft([rcc(1),2*rcc(2:end/2),rcc(end/2+1)], length(X));% [1]
-    else
-        % For odd DFT length
-        lM = fft([rcc(1),2*rcc(2:(end-1)/2+1)], length(X));       % [1]
-    end
-
-    M = exp(lM);
+    M = exp(hspec2minphaseloghspec(X));
 
 return

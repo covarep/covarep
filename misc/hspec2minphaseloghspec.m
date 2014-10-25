@@ -1,4 +1,4 @@
-% Minimum-phase spectrum of a given spectrum using the complex cepstrum
+% Minimum-phase log spectrum of a given spectrum using the complex cepstrum
 %
 % Description
 %  Compute the minimum-phase spectrum of a given spectrum X by dropping the
@@ -8,8 +8,7 @@
 %  X   : The spectrum to convert (full DFT length)
 %
 % Output
-%  M   : The corresponding minimum-phase spectrum
-%  lM  : The log minimum-phase spectrum
+%  lM  : The minimum-phase log spectrum (half DFT length)
 %
 % References
 %  [1] Alan V. Oppenheim and Ronald W. Schafer, "Digital Signal Processing",
@@ -35,20 +34,20 @@
 %  Gilles Degottex <degottex@csd.uoc.gr>
 %
 
-function [M lM] = spec2minphasespec(X)
+function lM = hspec2minphaseloghspec(X)
 
     X = X(:).';
 
-    rcc = ifft(log(abs(X))); % Compute the real cepstrum
+    rcc = ifft(hspec2spec(log(abs(X)))); % Compute the real cepstrum
 
-    if mod(length(X),2)==0
+    if mod(length(rcc),2)==0
         % For even DFT length
-        lM = fft([rcc(1),2*rcc(2:end/2),rcc(end/2+1)], length(X));% [1]
+        lM = fft([rcc(1),2*rcc(2:end/2),rcc(end/2+1)], length(rcc));% [1]
     else
         % For odd DFT length
-        lM = fft([rcc(1),2*rcc(2:(end-1)/2+1)], length(X));       % [1]
+        lM = fft([rcc(1),2*rcc(2:(end-1)/2+1)], length(rcc));       % [1]
     end
 
-    M = exp(lM);
+    lM = lM(1:end/2+1);
 
 return
