@@ -60,8 +60,8 @@ function [g a E opt] = env_dap(sins, fs, order, dftlen, opt)
     P = abs(sins(2,:));      % Magnitues
     N = size(sins,2);        % Number of Peaks
 
-    B = exp(-j*wm*(0:order));  % The Fourier basis
-    Binv = exp(j*wm*(0:order));% The inverse Fourier basis
+    B = exp(-j*wm*double(0:order));  % The Fourier basis
+    Binv = exp(j*wm*double(0:order));% The inverse Fourier basis
 
     if opt.debug>1
         subplot(211);
@@ -87,24 +87,6 @@ function [g a E opt] = env_dap(sins, fs, order, dftlen, opt)
     it=1;
     cont = true;
     while cont && it<opt.maxit
-        A = B*a; % Compute the frequency response of the model
-
-        h = (1/N)*real(B.'*(1./A)); % Compute the reversed impulse response
-        
-        anew = a*(1-opt.alpha) + opt.alpha * (Rmatinv*h); % Update the AR coeffs
-
-        % If asked, ensure stability of the AR filter
-        % by limiting the bandwidth of the poles
-        if ~isempty(opt.minbw); anew=polystab2(anew, minrr); end
-
-        % Compute the Itakura-Saito error
-        Phat = 1./abs(B*anew); % Get the model amplitude response
-        err(it)  =  1/N *sum(P(:)./Phat-log(P(:)./Phat)-1); % eq. (14) in [1]
-
-        if it>2 % Start at 3 in order to skip the influence of the initial guess
-            cont = err(it-1)-err(it)>opt.dISthresh;
-        end
-
         if opt.debug>1
             subplot(211);
                 plot(fs*wm/(2*pi), log(abs(Phat)));
@@ -121,6 +103,24 @@ function [g a E opt] = env_dap(sins, fs, order, dftlen, opt)
                 ylabel('Itakura-Saito error');
 
             pause
+        end
+
+        A = B*a; % Compute the frequency response of the model
+
+        h = (1/N)*real(B.'*(1./A)); % Compute the reversed impulse response
+
+        anew = a*(1-opt.alpha) + opt.alpha * (Rmatinv*h); % Update the AR coeffs
+
+        % If asked, ensure stability of the AR filter
+        % by limiting the bandwidth of the poles
+        if ~isempty(opt.minbw); anew=polystab2(anew, minrr); end
+
+        % Compute the Itakura-Saito error
+        Phat = 1./abs(B*anew); % Get the model amplitude response
+        err(it)  =  1/N *sum(P(:)./Phat-log(P(:)./Phat)-1); % eq. (14) in [1]
+
+        if it>2 % Start at 3 in order to skip the influence of the initial guess
+            cont = err(it-1)-err(it)>opt.dISthresh;
         end
 
         a = anew;
