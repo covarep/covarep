@@ -67,6 +67,7 @@
 %      Letters 45(7):381-383, 2009.
 %  [5] I. Saratxaga, I. Hernaez, M. Pucher, I. Sainz, "Perceptual Importance of
 %      the Phase Related Information in Speech", Proc. Interspeech, 2012.
+%  [6] M. Koutsogianaki TODO
 %
 % Copyright (c) 2011 University of Crete - Computer Science Department
 %
@@ -93,28 +94,36 @@ function [PE, AE, opt] = phase_rpspd(frames, fs, opt)
         % Phase
         opt.pd_vtf_rm    = true; % Remove the VTF phase from the inst. phase
 
+        opt.dc_phase     = 0;    % if empty, does not change it; otherwise, set the given value
+        opt.polarity_inv = false;% For vizualisation purpose, the phase of the
+                                 % inverted signal might be more convenient.
+                                 % (applied after DC's phase is set using dc_phase)
         opt.pd_method    = 1;    % 1:Phase Distortion (PD) [1-3]
                                  % 2:Relative Phase Shift (RPS) [4-5]
         opt.harm2freq    = false;% Convert the harmonic values on a hertz scale
-        opt.polarity_inv = false;% For vizualisation purpose, the phase of the
-                                 % inverted signal might be more convenient.
 
         opt.dftlen    = 4096;    % The DFT length used for envelope estimation
                                  % 
 
-        opt.debug     = 0;
+        opt.usemex    = false; % Use interp1ordered TODO to false
+        opt.debug     = false;
     end
     if nargin==0; PE=opt; return; end
-    opt.vtf_order=opt.dftlen/2;
 
-    f0s = [[frames.t]', [frames.f0]']; % A 2 column-vector for storing time and f0
-    Hmax = 0; % The maximum harmonic number among all frames
+    AE = [];
+
+    % A 2 column-vector for storing time and f0
+    f0s = [[frames.t]', [frames.f0]'];
+
+    % The maximum harmonic number among all frames
+    Hmax = 0;
     for n=1:size(f0s,1); Hmax = max(Hmax,size(frames(n).sins,2)-1); end
     
     if opt.pd_vtf_rm
+
         % Estimate the amplitude envelope
         F = fs*(0:opt.dftlen/2)/opt.dftlen;      % The freq scale in Hertz
-        AE = zeros(size(f0s,1),1+opt.vtf_order); % AE will store the amplitude env
+        AE = zeros(size(f0s,1),1+opt.dftlen/2); % AE will store the amplitude env
         for n=1:size(f0s,1)
 
             % Compute a very simple amplitude envelope
@@ -149,25 +158,44 @@ function [PE, AE, opt] = phase_rpspd(frames, fs, opt)
     PE = wrap((2*pi)*rand(length(f0s(:,1)), 1+Hmax));
     for n=1:size(f0s,1)
 
-        Ks = (0:size(frames(n).sins,2)-1);
+        Ks = (0:size(frames(n).sins,2)-1); % including DC
 
-        phi = frames(n).sins(3,:);
-        if opt.polarity_inv; phi = phi + pi; end % If asked, reverse the polarity
-        if opt.pd_method==0                      % Instantaneous phase
-            theta = phi;
-        elseif opt.pd_method==1                  
-            theta = wrap(diff(phi) - phi(2));    % Phase Distortion [1](5)
-        elseif opt.pd_method==2
-            theta = wrap(phi - Ks.*phi(2));      % Relative Phase Shift [4](5)
+        pk = frames(n).sins(3,:); % The instantaneous phase
+                        % (might be processed by the amplitude env estimation)
+
+        % Force the DC's phase value, if given
+        % By default, assume zero, since it is meaningless for acoustic sigals
+        if ~isempty(opt.dc_phase);
+            pk(1) = opt.dc_phase;
         end
 
-        mino = min(length(theta),1+Hmax);
-        PE(n,1:mino) = theta(1:mino);
+        % If asked, reverse the signal, thus, rotate the phase half a turn
+        if opt.polarity_inv;
+            pk = pk + pi;
+        end
+
+        if opt.pd_method==0; % Instantaneous phase
+            ppk = pk;
+        elseif opt.pd_method==1;  % PD
+            ppk = pk - Ks.*pk(2); % including DC
+            ppk = diff(unwrap(ppk));
+        elseif opt.pd_method==2;  % RPS
+            ppk = pk - Ks.*pk(2); % including DC
+        end
+
+        mino = min(length(ppk),1+Hmax);
+        PE(n,1:mino) = ppk(1:mino);
     end
+
+    PE = wrap(PE);
 
     if opt.harm2freq
         % If asked, use a linear freq scale in Hz and not the harmonic scale
-        PE = harmscale2hertzscale(PE, f0s, fs, opt.dftlen, @unwrap, @wrap, 'spline', NaN);
+        args = {'linear', NaN};
+        if opt.usemex; args{end+1} = 'usemex'; end
+        PE = harmscale2hertzscale(PE, f0s, fs, opt.dftlen, opt.dc_phase, @unwrap, @wrap, args{:});
+        idx = find(isnan(PE));
+        PE(idx) = wrap(2*pi*rand(length(idx),1));
     end
 
 return
