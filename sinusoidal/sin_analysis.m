@@ -138,7 +138,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
     end
     if nargin==0; frames=opt; return; end
 
-    disp('Sinusoidal Analysis');
+    if opt.debug>0; disp('Sinusoidal Analysis'); end
     if opt.fquasiharm; opt.fharmonic=true; end
     if opt.use_ls; opt.fharmonic=true; end % Currently, the LS solution is only possible with a harmonic model
 %      if ~opt.use_ls && opt.fharmonic==true; opt.fquasiharm=true; end % commented: otherwise we can't do harmonic PP
@@ -194,7 +194,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
         W = delay2spec((winlen-1)/2, dftlen);
     end
 
-    pb = progressbar(length(T));
+    if opt.debug>0; pb = progressbar(length(T)); end
     for ind=1:length(T)
 
         % Be sure the analysis instant is on the sample of the window center
@@ -369,9 +369,9 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
             keyboard
         end
         
-        pb = progressbar(pb, ind);
+        if opt.debug>0; pb = progressbar(pb, ind); end
     end
-    pb = progressbar(pb, length(T));
+    if opt.debug>0; pb = progressbar(pb, length(T)); end
 
     % Drop the necessary frames
     idx = find(~isnan(T));
