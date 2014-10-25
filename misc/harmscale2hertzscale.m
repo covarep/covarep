@@ -34,19 +34,34 @@
 %  Gilles Degottex <degottex@csd.uoc.gr>
 %
 
-function [Xr F] = harmscale2hertzscale(X, f0s, fs, dftlen, fn, ifn, varargin)
+function [Xr F] = harmscale2hertzscale(X, f0s, fs, dftlen, dcval, fn, ifn, varargin)
 
+    if strcmp(varargin{1},'linear') && any(strcmp(varargin, 'usemex'))
+        varargin = varargin(~strcmp(varargin, 'usemex'));
+        if numel(varargin)<2; error('For the mex version, varargin needs at least two elements, the second one being the default value'); end
+        interp1fn = @(x, y, xi, varargin) interp1ordered(x.', y.', xi.', varargin{2});
+    else
+        interp1fn = @(x, y, xi, varargin) interp1(x, y, xi, varargin{:});
+    end
+
+    if nargin<5
+        dcval = [];
+    end
     if nargin<6 || isempty(fn)
         fn = @(x)x;
         ifn = @(x)x;
     end
 
     F = fs*(0:dftlen/2)/dftlen;
-    Xr = NaN*ones(size(f0s,1), length(F));
+    Xr = nan(size(f0s,1), length(F));
     for n=1:size(f0s,1)
         idx = find(~isnan(X(n,:)));
         if length(idx)>1
-            Xr(n,:) = ifn(interp1(f0s(n,2)*(idx-1), fn(X(n,idx)), F, varargin{:}));
+            if isempty(dcval)
+                Xr(n,:) = ifn(interp1fn(f0s(n,2)*(idx-1), fn(X(n,idx)), F, varargin{:}));
+            else
+                Xr(n,:) = ifn(interp1fn([0 f0s(n,2)*0.95 f0s(n,2)*idx], fn([dcval dcval X(n,idx)]), F, varargin{:}));
+            end
         end
     end
 
