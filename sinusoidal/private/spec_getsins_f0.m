@@ -51,68 +51,43 @@
 
 function sins = spec_getsins_f0(S, fs, f0, max_h, varargin)
 
-    if nargin<4; max_h=[]; end
+    if nargin<4 || isempty(max_h); max_h = round((fs/2-f0/2)/f0);
+    else;                          max_h = min(max_h,floor((fs/2-f0/2)/f0)); end
 
     S = S(:).';
 
     dftlen = length(S);
 
-    step = dftlen*f0/fs;
+    step = dftlen*f0/fs; % f0 in number of bins
 
-    if ~isempty(max_h); max_h = min(max_h,floor((fs/2-f0/2)/f0));
-    else                max_h = round((fs/2-f0/2)/f0); end
+    % By default, use a simple harmonic sampling ...
+    sins(1,:) = step*(1:max_h);
+    sins(2,:) = abs(S(1+round(sins(1,:))));
 
-    sins = zeros(4,max_h);
-    for h=1:max_h
-
-        ind = round(h*step)+1;
-
-        [ind ok] = spec_getnearest_max(S, ind, round(0.5*step));
-
-        if ok
-            [sins(1,h) sins(2,h)] = spec_fit_freq_amp(S, fs, ind, varargin{:});
-        else
-            sins(1,h) = fs*(ind-1)/dftlen;
-            sins(2,h) = abs(S(ind));
-        end
-    end
+    % ... and replace by the peaks found.
+    [k, v] = v_findpeaks(abs(S(1:end/2+1)), 'q');
+    D = abs(repmat(k,1,max_h)-repmat(1+sins(1,:), length(k),1));
+    [mind, mindi] = min(D);
+    idx = mind<step/2;
+    sins(1,idx) = k(mindi(idx))-1;
+    sins(2,idx) = v(mindi(idx));
+    sins(1,:) = (fs/dftlen)*sins(1,:);
 
     % Estimate the phase from linear interpolation of the phase spectrum
     sins(3,:) = wrap(interp1q(fs*(0:dftlen/2)'/dftlen, unwrap(angle(S(1:end/2+1))).', sins(1,:)'));
 
-    sins(4,:) = 1:max_h;
+    % The harmonic number
+    sins(4,:) = 1:size(sins,2);
 
     % Add the DC
     sins = [[0; abs(S(1)); angle(S(1)); 0], sins];
 
-return
-
-function [i ok] = spec_getnearest_max(S, i, limit)
-
-    if i<=1 || i>=length(S)
-        ok = false;
-        return
+    if 0
+        F = fs*(0:dftlen/2)/dftlen;
+        plot(F, mag2db(abs(S(1:end/2+1))), 'k');
+        hold on;
+        plot(sins(1,:), mag2db(sins(2,:)), 'xb');
+        keyboard
     end
 
-    ok = true;
-    % get the nearest summit around i
-    if ~(abs(S(i-1))<abs(S(i)) && abs(S(i))>abs(S(i+1)))
-        il = i; ir = i;
-        ilsum = false; irsum = false;
-        imin = i-limit;
-        imax = i+limit;
-        while ok && ~ilsum && ~irsum
-            il = il - 1;
-            ok = il>1 && il>=imin;
-            if ok; ilsum = abs(S(il-1))<abs(S(il)) && abs(S(il))>abs(S(il+1)); end
-            ir = ir + 1;
-            ok = ir<length(S) && ir<=imax;
-            if ok; irsum = abs(S(ir-1))<abs(S(ir)) && abs(S(ir))>abs(S(ir+1)); end
-        end
-        if ok;
-            if ilsum;       i = il;
-            else            i = ir; end
-        end
-    end
 return
-
