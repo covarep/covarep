@@ -33,6 +33,13 @@ function E = env_interp(sins, fs, dftlen, extrap_dcny, varargin)
 
     if nargin<4; extrap_dcny=0; end
 
+    if strcmp(varargin{1}, 'interp1fn')
+        interp1fn = varargin{2};
+        varargin = varargin(3:end);
+    else
+        interp1fn = @interp1;
+    end
+
     fks = sins(1,:);
     aks = sins(2,:);
 
@@ -85,7 +92,7 @@ function E = env_interp(sins, fs, dftlen, extrap_dcny, varargin)
     [dum idx] = unique(fks);
     fks = fks(idx);
     aks = aks(idx);
-    E = interp1(fks, log(abs(aks)), bins, varargin{:});
+    E = interp1fn(fks, log(abs(aks)), bins, varargin{:});
 
     E = exp(E);
 
