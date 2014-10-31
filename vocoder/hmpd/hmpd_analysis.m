@@ -111,7 +111,6 @@ function [f0s, AE, PDM, PDD, opt] = hmpd_analysis(wav, fs, f0s, opt)
 
     % Estimate sinusoidal harmonic parameters
     frames = hmpd_analysis_harmonic(wav, fs, f0s, opt);
-    save('HMPDPREVIOUSBASEANALYSIS.mat', 'frames');
 
     % Compute amplitude envelope and phase statistics
     [f0s, AE, PDM, PDD] = hmpd_analysis_features(frames, fs, opt);
