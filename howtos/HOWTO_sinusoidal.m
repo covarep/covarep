@@ -71,7 +71,7 @@ figure
 fig(1) = subplot(211);
     plot(times, wav, 'k');
     hold on;
-    plot(times, syn_sm, 'c');
+    plot(times, syn_sm, 'g');
     plot(times, syn_hm, 'b');
     plot(times, syn_ahm, 'r');
     xlabel('Time [s]');
