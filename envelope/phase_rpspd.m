@@ -67,7 +67,10 @@
 %      Letters 45(7):381-383, 2009.
 %  [5] I. Saratxaga, I. Hernaez, M. Pucher, I. Sainz, "Perceptual Importance of
 %      the Phase Related Information in Speech", Proc. Interspeech, 2012.
-%  [6] M. Koutsogianaki TODO
+%  [6] M. Koutsogiannaki, O. Simantiraki, G. Degottex and Y. Stylianou, "The
+%      Importance of Phase on Voice Quality Assessment", In Proc. Interspeech,
+%      Singapore. International Speech Communication Association (ISCA), September
+%      2014.
 %
 % Copyright (c) 2011 University of Crete - Computer Science Department
 %
@@ -103,10 +106,9 @@ function [PE, AE, opt] = phase_rpspd(frames, fs, opt)
         opt.harm2freq    = false;% Convert the harmonic values on a hertz scale
 
         opt.dftlen    = 4096;    % The DFT length used for envelope estimation
-                                 % 
 
-        opt.usemex    = false; % Use interp1ordered TODO to false
-        opt.debug     = false;
+        opt.usemex    = false; % Use mex fn, faster but use linear interpolation
+        opt.debug     = 0;
     end
     if nargin==0; PE=opt; return; end
 
