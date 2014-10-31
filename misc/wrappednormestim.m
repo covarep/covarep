@@ -20,7 +20,6 @@
 
 % Estimate the paramaters of a wrapped normal distribution
 % http://en.wikipedia.org/wiki/Wrapped_normal_distribution
-%TODO The current estimator is biased, to unbias
 function [m s] = wrappednormestim(angles, dim)
 
     if nargin<2; dim=1; end
@@ -41,7 +40,7 @@ function [m s] = wrappednormestim(angles, dim)
         hold off;
         plot(hx, (hy), 'k');
         hold on;
-        p = wrappednormdist(hx, m, s);
+        p = wrappednormpdf(hx, m, s);
         p = p./sum(p);
         plot(hx, (p), 'b');
         ylim([0 max(p)+0.1]);
