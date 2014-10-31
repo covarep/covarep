@@ -17,7 +17,7 @@
 %      Note that this 2nd edition contains a chapter about complex cepstrum which
 %      has been removed in the 3rd edition (and possibly came back in the 4th ed.)
 %
-% Copyright (c) 2011 University of Crete - Computer Science Department
+% Copyright (c) 2011 University of Crete - Computer Science Department (UOC-CSD)
 %
 % License
 %  This file is under the LGPL license,  you can

@@ -1,6 +1,6 @@
 % Create a colormap which is consistent for circular values
 %
-% Copyright (c) 2011 University of Crete - Computer Science Department
+% Copyright (c) 2012 University of Crete - Computer Science Department (UOC-CSD)
 %
 % License
 %  This file is under the LGPL license,  you can

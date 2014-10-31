@@ -16,6 +16,8 @@
 %  D = delay2spec(12, 1024);
 %  S = S.*D;  % shift the time signal by 12 samples to the left
 %
+% Copyright (c) 2008 Ircam/CNRS-UMR9912-STMS
+%
 % License
 %  This file is under the LGPL license,  you can
 %  redistribute it and/or modify it under the terms of the GNU Lesser General 

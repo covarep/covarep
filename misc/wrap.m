@@ -1,6 +1,6 @@
 % Wrap a phase value in [-pi,pi]
 %
-% Copyright (c) 2011 University of Crete - Computer Science Department
+% Copyright (c) 2011 University of Crete - Computer Science Department (UOC-CSD)
 %  
 % License
 %  This file is under the LGPL license,  you can
