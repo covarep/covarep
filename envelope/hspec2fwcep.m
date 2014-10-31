@@ -81,7 +81,7 @@ function fwcep = hspec2fwcep(C, fs, order, warpfn, varargin)
     freqmel = 0.5*fs*warpfn(freqlin, varargin{:})/warpfn(0.5*fs, varargin{:});
 
     % Warp the spectrum
-    env = interp1(freqmel, abs(C), freqlin);
+    env = interp1q(freqmel, abs(C), freqlin);
     if isnan(env(end)); env(end)=env(end-1); end
     
     % Symmetrize the warped spectrum prior to cepstral computation
