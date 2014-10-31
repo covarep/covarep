@@ -68,8 +68,10 @@ function [AEC, PDMC, PDDC] = hmpd_features_compress(f0s, AE, PDM, PDD, fs, opt)
         PDMC = zeros(size(PDM,1), 1+opt.pdm_order);
         % Now, the phase is on a harmonic scale, with varying size cross time.
         % If asked, compress it using an f0 relative log scale with fixed size.
+        % Pre-compute the log-harmonic scale
+        hsl = hlin2hlog(opt.pdm_log_hb, opt.dftlen/2, 1+opt.pdm_order);
         for n=1:size(PDM,1)
-            PDMC(n,:) = philin2philog(PDM(n,:), opt.pdm_log_hb, opt.dftlen/2, 1+opt.pdm_order);
+            PDMC(n,:) = philin2philog(PDM(n,:), hsl);
 
             if 0
                 hold off;
