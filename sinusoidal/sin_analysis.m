@@ -95,6 +95,9 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
         opt.win_dur       = 30/1000; % [s] Duration of the analysis window
                                      % (used only if win_durf0sync==false)
         opt.win_fn        = @blackman; % Window type
+        opt.win_dropoutside=true;    % Drop windows which are partly outside of
+                                     % the signal (and thus drop the 
+                                     % corresponding analysis instants).
 
         % Partials estimation
         opt.fharmonic = true; % Use harmonic or quasi-harmonic frequencies
@@ -217,22 +220,39 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
         fr.winlen = winlen;
         fr.dftlen = dftlen;
 
-        winids = -(winlen-1)/2:(winlen-1)/2;
-        ids = round(T(ind)*fs)+1 + winids; % Indices of the window in the signal
+        winids = -(winlen-1)/2:(winlen-1)/2; % Indices relative to the center
+        idscenter = round(T(ind)*fs)+1;
+        ids = idscenter + winids; % Indices of the window in the signal
 
-        if ids(1)<1 || ids(end)>length(wav);
-            T(ind) = NaN;
-            continue;
+        if opt.win_dropoutside
+            if ids(1)<1 || ids(end)>length(wav);
+                T(ind) = NaN;
+                continue;
+            end
+            iddx = (1:winlen);
+            idsb = ids;
+            wavsel = wav(ids);
+        else
+            iddx = find(ids>=1 & ids<=length(wav)); % Valid indices of the window
+            idsb = ids(iddx); % Indices of the win in the sig bounded by the sig limits
+            wavsel = zeros(winlen,1);
+            wavsel(iddx) = wav(idsb);
         end
 
         if opt.use_ls
             % Use Least Squares (LS) solution [2]
             if opt.fadapted
                 % Adapt the frequency basis to the f0 curve
-                Ho = floor(((fs/2)-max(f1(ids))/2)/max(f1(ids)));
+                Ho = floor(((fs/2)-max(f1(idsb))/2)/max(f1(idsb)));
 
                 % Use interpolated phase (through interpolated frequencies)
-                pm = p1(ids) - p1(ids(1)+(winlen-1)/2);
+                if length(idsb)<winlen;
+                    % Extrapolate p1 if the window is partly outside of the sig
+                    p1sel = interp1(idsb, p1(idsb), ids, 'nearest', 'extrap')';
+                else
+                    p1sel = p1(ids);
+                end
+                pm = p1sel - p1(idscenter);
                 pm = pm*(-Ho:Ho);
                 Nbk = size(pm,2);
 
@@ -246,12 +266,12 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
                     R = Ew'*Ew;
                     fr.RCN = rcond(R); % Estimate the matrix condition number
 
-                    x = R\(Ew'*(wav(ids).*win)); % The LS solution
+                    x = R\(Ew'*(wavsel.*win)); % The LS solution
                     ak = x(Ho+1:end);     % amplitudes (skip the negative freqs)
                 end
 
                 % Get the f0 and the center of the window
-                cf0 = f1(ids(1)+(winlen-1)/2);
+                cf0 = f1(idscenter);
                 fr.sins = [cf0*(0:Ho); abs(ak)'; angle(ak)'; (0:Ho)];
 
             else
@@ -269,7 +289,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
 
                     fr.RCN = rcond(R);   % Estimate the matrix condition number
 
-                    x = R\(Ew'*(wav(ids).*win));   % The LS solution
+                    x = R\(Ew'*(wavsel.*win));   % The LS solution
                     ak = x(Ho+1:Nbk);       % amplitudes
 
                 else % simple-harmonics [2]
@@ -280,7 +300,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
 
                     fr.RCN = rcond(R); % Estimate the matrix condition number
 
-                    ak = R\(Ew'*(wav(ids).*win)); % The LS solution
+                    ak = R\(Ew'*(wavsel.*win)); % The LS solution
 
                     ak = ak(Ho+1:end);     % amplitudes (skip the negative freqs)
 
@@ -297,7 +317,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
             end
             
             % Window the signal segment
-            s = wav(ids).*win;
+            s = wavsel.*win;
 
             % Compute the spectrum and compansate the window delay
             S = fft(s, dftlen).';
@@ -330,9 +350,9 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
         if opt.resyn
             y = sin2sig(fr.sins, fs, winlen);
             y = 2*y;
-            fr.SNR = mag2db(std(wav(ids))/std(wav(ids)-y));
-            syn(ids) = syn(ids) + y.*win;
-            wins(ids) = wins(ids) + win;
+            fr.SNR = mag2db(std(wavsel)/std(wavsel-y));
+            syn(idsb) = syn(idsb) + y(iddx).*win(iddx);
+            wins(idsb) = wins(idsb) + win(iddx);
         end
 
         if length(frames)==0; frames = fr;
@@ -340,7 +360,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
 
         if 0 && T(ind)>0.3
             hold off;
-            plot(wav(ids), 'k');
+            plot(wavsel, 'k');
             hold on;
             plot(y, 'b');
             keyboard
@@ -350,7 +370,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
             % Compute the spectrum and compansate the window delay
             % TODO Check the behavior of the harmonic structure with the aDFT.
             win = win./sum(win);
-            S = fft(wav(ids).*win, dftlen);
+            S = fft(wavsel.*win, dftlen);
             F = fs*(0:length(S)-1)/length(S);
             hold off;
             plot(F, ld(S), 'k');
@@ -376,7 +396,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
     % Drop the necessary frames
     idx = find(~isnan(T));
     if length(idx)<length(T)
-        disp(['    Some windows were outside of the signal. ' num2str(length(T)-length(idx)) ' frames dropped.']);
+        disp(['    Some windows were outside of the signal. ' num2str(length(T)-length(idx)) ' frames dropped. (use opt.win_dropoutside=false in order to zero-pad the signal at boundaries).']);
         T = T(idx);
     end
 
