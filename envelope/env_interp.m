@@ -1,4 +1,4 @@
-% Compute a simple spectral envelope based on interpolation
+% Compute a spectral envelope based on a simple interpolation
 %
 % Input
 %  sins        : [Hz;amp] [2xN] Spectral peaks with frequency and linear amplitudes.
@@ -31,7 +31,7 @@
 
 function E = env_interp(sins, fs, dftlen, extrap_dcny, varargin)
 
-    if nargin<4; extrap_dcny=0; end
+    if nargin<4 || isempty(extrap_dcny); extrap_dcny=0; end
 
     if strcmp(varargin{1}, 'interp1fn')
         interp1fn = varargin{2};
