@@ -52,18 +52,18 @@ function [syn, opt] = hmpd_synthesis(f0s, AE, PDM, PDD, fs, wavlen, opt)
 
     if nargin<7
         % Options
-        opt.enc = hmpd_analysis_features();
+        opt.enc = hmpd_analysis();
         opt.amp_minphasegain = 1; % 1:minimum-phase, 0:zero-phase, -1:max-phase
         opt.pd_gain = 1;
         opt.rps_randunvoiced = false; % Randomize the RPS in unvoiced segments
                                       % Unvoiced segments are indicated by
                                       % f0=0 values.
                                       % (not used by default with HMPD)
-        opt.pdv_corrthresh = 0.75;% PDD correction threshold
+        opt.pdv_corrthresh = 0.75;    % PDD correction threshold
 
-        opt.defdbamp = -300; % [dB]
-        opt.usemex   = false; % Use interp1ordered TODO to false
-        opt.debug    = false;
+        opt.defdbamp = -300;  % [dB]
+        opt.usemex   = false; % Use mex fn, faster but use linear interpolation
+        opt.debug    = 1;
     end
     if nargin==0; syn=opt; return; end
     if nargin==1;
@@ -72,8 +72,8 @@ function [syn, opt] = hmpd_synthesis(f0s, AE, PDM, PDD, fs, wavlen, opt)
         return;
     end
 
-    disp('HMPD Vocoder: Synthesis ...');
-    if opt.debug; disp(opt); end
+    if opt.debug>0; disp('HMPD Vocoder: Synthesis ...'); end
+    if opt.debug>1; disp(opt); end
 
     % ==========================================================================
 
@@ -91,17 +91,15 @@ function [syn, opt] = hmpd_synthesis(f0s, AE, PDM, PDD, fs, wavlen, opt)
 
     % If asked, force full RPS randomization in unvoiced segments
     if opt.rps_randunvoiced
-        disp('    Randomize unvoiced segments (where f0=0)');
+        if opt.debug>0; disp('    Randomize unvoiced segments (where f0=0)');end
         idx = find(unvoiced);
         RPS(idx,:) = wrap(2.*pi.*rand(length(idx),size(RPS,2)));
     end
 
     % Add the VTF phase
-    RPS = wrap(opt.pd_gain*RPS + opt.amp_minphasegain*APH); % TODO the wrap is useless
+    RPS = wrap(opt.pd_gain*RPS + opt.amp_minphasegain*APH);
 
-    % TODO with APH only, the waveform seems weird, not just delayed diracs
-
-    disp(['    HM synthesis (' num2str(Hmax) ' harmonics)']);
+    if opt.debug>0; disp(['    HM synthesis (' num2str(Hmax) ' harmonics)']);end
     deflogamp = log(db2mag(opt.defdbamp));
 
     % Compute instantaneous fundamental frequency along the whole recording
