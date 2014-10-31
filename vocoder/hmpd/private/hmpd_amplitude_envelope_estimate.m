@@ -60,7 +60,7 @@ function [AE, frames, opt] = hmpd_amplitude_envelope_estimate(frames, fs, opt)
         if opt.pd_vtf_rm
             lE = hspec2minphaseloghspec(E);
             vtfp = phiinterp1fn(F, imag(lE), frames(n).sins(1,:), 0);
-            frames(n).sins(3,:) = wrap(frames(n).sins(3,:) - vtfp); % TODO try it again
+            frames(n).sins(3,:) = wrap(frames(n).sins(3,:) - vtfp);
             frames(n).sins = [frames(n).sins; vtfp]; % Keep the "vtf" phase
         end
     end 
