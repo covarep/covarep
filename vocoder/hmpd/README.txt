@@ -1,22 +1,22 @@
 
-              Vocoder: Harmonic Model + Phase Distortion (HMPD)
+               Harmonic Model + Phase Distortion (HMPD) vocoder
 
       Copyright (c) 2012 University of Crete - Computer Science Department \
-               Foundation for Research and Technology-Hellas -
+               Foundation for Research and Technology-Hellas - \
                   Institute of Computer Science (FORTH-ICS)
+
                                 October 2014
 
                     Gilles Degottex <degottex@csd.uoc.gr>
 
 
-This file describes mainly the few main options available in HMPD and provide
+This file describes mainly the few main options available in HMPD and provides
 some remarks on its use.
 
 An example of use is given in the HOWTO_hmpd.m file in the howtos directory.
 
 
---------------------------------------------------------------------------------
-F0 estimation
+F0 ESTIMATION ------------------------------------------------------------------
 
 For reason of fairness in the evaluations in [1,2], STRAIGHT [6] was used to
 compute the f0 values in voiced segments. However, it is not possible to include
@@ -31,8 +31,7 @@ If no f0 curve is provided, it is necessary to set f0min and f0max options
 appropriately to analyzed voice, as shown in the HOWTO_hmpd file.
 
 
---------------------------------------------------------------------------------
-Computation speed
+COMPUTATION SPEED --------------------------------------------------------------
 
 The analysis step is very slow, mainly because of the harmonic analysis which
 estimates sinusoidal parameters at harmonic frequencies (it accounts for ~95%
@@ -76,7 +75,6 @@ parameters, you can replace hmpd_analysis by it content:
 and save the intermediate frames structure instead of recomputing it each time.
 
 
-
 A second option to speed up the computational time is to use the mex function
 interp1ordered, which is a C implementation of the linear interpolation (without
 any input checking and way faster than interp1q).
@@ -97,8 +95,7 @@ Implications/Remarks:
       be obtained without using any options, as in [1,2,3,4].
 
 
---------------------------------------------------------------------------------
-Compression
+COMPRESSION --------------------------------------------------------------------
 
 The amplitude envelope and the short-term Phase Distortion statistics (PDD and
 PDM) can be compressed using log scales by using the following options:
@@ -111,21 +108,26 @@ Note that the compressed PDM has never been used for synthesis, only for
 classification [3].
 
 
---------------------------------------------------------------------------------
-Parameters between the original publications
+PARAMETERS DIFFERENCES AMONG THE PUBLICATIONS ----------------------------------
 
 Between the publications [1,2,3,4], the options used were not exactly the same.
 The HMPD code in COVAREP implements the version used in [1,2].
 
 Roughly, the trend of the phase of the pulse's shape is not removed in either
-[3,4] for computing the Phase Distortion Deviation (PDD). In [3,4] PDD is
+[3] or [4] for computing the Phase Distortion Deviation (PDD). In [3,4] PDD is
 neither corrected, as described in [1,2].
 For further details, please refer to the papers for the differences with the
 other publications.
 
 
---------------------------------------------------------------------------------
-Subjects to investigate
+ERRATUM ------------------------------------------------------------------------
+
+Unfortunately, the publications [1,2] do not mention a median filter and a
+hanning window used when computing the smooth PD (the local trend).
+Please have a look at hmpd_phase_smooth.m for the implementation used.
+
+
+SUBJECTS TO INVESTIGATE --------------------------------------------------------
 
 * Obtain the quality obtained with aHM-LS by using a Peak Picking method,
   which is way faster.
@@ -135,8 +137,8 @@ Subjects to investigate
   It should favor low frequency values in unvoiced segments.
 
 
---------------------------------------------------------------------------------
-References
+
+REFERENCES ---------------------------------------------------------------------
 
 [1] G. Degottex and D. Erro, "A uniform phase representation for the harmonic
     model in speech synthesis applications", EURASIP, Journal on Audio, Speech,
