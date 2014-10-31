@@ -46,8 +46,14 @@
 %
 
 function philog = philin2philog(philin, Hb, Hmax, order)
-
-    hsl = hlin2hlog(Hb, Hmax, order);
+    if nargin<3
+        % Hb contains directly the whole log-harmonnic scale (pre-computed)
+        hsl = Hb;
+        Hmax = length(Hb);
+        order = hsl(end);
+    else
+        hsl = hlin2hlog(Hb, Hmax, order);
+    end
     hsl = hsl(1:min(Hmax,length(philin)));
 
     hsl = round(hsl);
