@@ -23,7 +23,7 @@
 % Outputs
 %  f0sout : f0 feature with the generated times
 %
-% Copyright (c) 2012 University of Crete - Computer Science Department
+% Copyright (c) 2011 University of Crete - Computer Science Department (UOC-CSD)
 % 
 % License
 %  This file is under the LGPL license,  you can

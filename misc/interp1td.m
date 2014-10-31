@@ -16,7 +16,7 @@
 %  nexti : The index of the next element used for interpolation
 %  g     : The weight used between the previous and the next value
 %
-% Copyright (c) 2011 University of Crete - Computer Science Department
+% Copyright (c) 2011 University of Crete - Computer Science Department (UOC-CSD)
 % 
 % License
 %  This file is under the LGPL license,  you can

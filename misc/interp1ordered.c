@@ -1,6 +1,6 @@
 /* Fast linear interpolation of ordered values (see the Matlab version for doc)
 %
-% Copyright (c) 2012 University of Crete - Computer Science Department
+% Copyright (c) 2012 University of Crete - Computer Science Department (UOC-CSD)
 %
 % License
 %  This file is under the LGPL license,  you can
