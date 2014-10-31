@@ -70,7 +70,7 @@ function [f0s, AE, PDM, PDD, opt] = hmpd_analysis(wav, fs, f0s, opt)
         opt.sin.fharmonic  = true; % Force strict harmonicity
         opt.sin.use_ls     = true; % By default, use Least Square (LS) solution
         opt.sin.fadapted   = true; % and adapt the frequency basis to f0 curve
-        opt.sin.debug      = false;% Do not print anything while running
+        opt.sin.debug      = 0;    % Do not print anything while running
 
         % features computation
         opt.sin_nbat  = 4;    % Number of analysis instant per period

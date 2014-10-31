@@ -395,8 +395,8 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
 
     % Drop the necessary frames
     idx = find(~isnan(T));
-    if length(idx)<length(T)
-        disp(['    Some windows were outside of the signal. ' num2str(length(T)-length(idx)) ' frames dropped. (use opt.win_dropoutside=false in order to zero-pad the signal at boundaries).']);
+    if length(idx)<length(T) && opt.debug>0
+        disp(['    Some windows were outside of the signal. ' num2str(length(T)-length(idx)) ' frames dropped. (use opt.win_dropoutside=false if you want to keep all windows and zero-pad the necessary ones at signal boundaries).']);
         T = T(idx);
     end
 
