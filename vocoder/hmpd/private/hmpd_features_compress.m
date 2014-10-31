@@ -1,6 +1,29 @@
-% Harmonic Model + Phase Distortion (HMPD)
+% HMPD: Compress the HMPD features (if asked through the options)
+%  
+% Inputs
+%  f0s   : [s, Hz] [Nx2] A time/data column vector, containing the
+%          analysis instants and the used f0 curve. 
+%  AE    : [NxD] A matrix containing the amplitude envelope.
+%          D is either opt.dftlen/2+1 (from hmpd_features_compute.m), or
+%          opt.amp_order+1, depending if compression is disabled or enabled.
+%  PDM   : [NxD] A matrix containing the Phase Distortion Mean.
+%          D is either opt.dftlen/2+1 or opt.pdm_order+1, depending if
+%          compression is disabled or enabled.
+%  PDD   : [NxD] A matrix containing the Phase Distortion Deviation.
+%          D is either opt.dftlen/2+1 or opt.pdd_order+1, depending if
+%          compression is disabled or enabled.
+%  fs    : [Hz] The sampling rate of the analyzed waveform
+%  opt   : Additional options (see hmpd_features_compute.m)
+%  
+% Outputs
+%  AEC   : The compressed coefficients (e.g. cepstral coefficients)
+%          of the amplitude envelope.
+%  PDMC  : The compressed coefficients of PDM (e.g. on a log-harmonic scale)
+%  PDDC  : The compressed coefficients of PDD.
 %
-% Copyright (c) 2012 University of Crete - Computer Science Department
+% Copyright (c) 2013 University of Crete - Computer Science Department(UOC-CSD)/ 
+%                    Foundation for Research and Technology-Hellas - Institute
+%                    of Computer Science (FORTH-ICS)
 %
 % License
 %  This file is under the LGPL license,  you can

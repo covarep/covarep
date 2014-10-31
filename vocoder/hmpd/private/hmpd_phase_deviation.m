@@ -1,6 +1,8 @@
 % Harmonic Model + Phase Distortion (HMPD)
 %
-% Copyright (c) 2012 University of Crete - Computer Science Department
+% Copyright (c) 2013 University of Crete - Computer Science Department(UOC-CSD)/ 
+%                    Foundation for Research and Technology-Hellas - Institute
+%                    of Computer Science (FORTH-ICS)
 %
 % License
 %  This file is under the LGPL license,  you can

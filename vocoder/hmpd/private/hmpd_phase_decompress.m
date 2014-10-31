@@ -1,6 +1,23 @@
-% Harmonic Model + Phase Distortion (HMPD)
+% HMPD: Create a Relative Phase Shift corresponding to given PDM and PDD
+%  
+% Inputs
+%  PDM   : [NxD] A matrix containing the Phase Distortion Mean.
+%          D is either opt.dftlen/2+1 or opt.pdm_order+1, depending if
+%          compression is disabled or enabled.
+%  PDD   : [NxD] A matrix containing the Phase Distortion Deviation.
+%          D is either opt.dftlen/2+1 or opt.pdd_order+1, depending if
+%          compression is disabled or enabled.
+%  f0s   : [s, Hz] [Nx2] A time/data column vector, containing the
+%          analysis instants and the f0 curve. 
+%  fs    : [Hz] The sampling rate of the analyzed waveform
+%  opt   : Additional options (see hmpd_features_compute.m)
+%  
+% Outputs
+%  RPS   : A Relative Phase Shift (RPS) which can be used for synthesis.
 %
-% Copyright (c) 2012 University of Crete - Computer Science Department
+% Copyright (c) 2013 University of Crete - Computer Science Department(UOC-CSD)/ 
+%                    Foundation for Research and Technology-Hellas - Institute
+%                    of Computer Science (FORTH-ICS)
 %
 % License
 %  This file is under the LGPL license,  you can
@@ -33,7 +50,7 @@ function [RPS] = hmpd_phase_decompress(PDM, PDD, f0s, fs, opt)
             % If PDM is in linear-freq scale, put it back to a harmonic scale
             if opt.enc.pdm_log
                 % Compressed PDM has not been tested for synthesis
-                error('Compressed PDM not supported');
+                error('Compressed PDM not supported for synthesis');
             else
                 F = fs*(0:opt.enc.dftlen/2)/opt.enc.dftlen;
                 fks = f0s(n,2)*(1:floor(0.5*fs/f0s(n,2)));

@@ -1,6 +1,22 @@
-% Harmonic Model + Phase Distortion (HMPD)
+% HMPD: Estimate amplitude envelopes given sinusoidal parameters for all frames
+% 
+% Inputs
+%  frames : [Nxstruct] N structures containing the sinusoidal parameters,
+%           as provided by sin_analysis.m
+%  fs     : [Hz] The sampling rate of the analyzed waveform
+%  opt    : Additional options (see hmpd_features_compute.m)
+% 
+% Outputs
+%  AE    : [NxD] A matrix containing the amplitude envelope.
+%          D is either opt.dftlen/2+1 (from hmpd_features_compute.m), or
+%          opt.amp_order+1, depending if compression is disabled or enabled.
+%  frames: The same frames as in the input arguments with some possible
+%          modification.
+%          For example, if opt.pd_vtf_rm is True, the minimum-phase response of
+%          the estimated amplitude envelope is removed from the phase parameters
+%  opt   : The used options.
 %
-% Copyright (c) 2012 University of Crete - Computer Science Department
+% Copyright (c) 2012 University of Crete - Computer Science Department (UOC-CSD)
 %
 % License
 %  This file is under the LGPL license,  you can

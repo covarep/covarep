@@ -1,6 +1,36 @@
-% Harmonic Model + Phase Distortion (HMPD)
+% Waveform synthesis for the Harmonic Model + Phase Distortion (HMPD)
 %
-% Copyright (c) 2012 University of Crete - Computer Science Department
+% This the main entry point for synthesizing a waveform using HMPD parameters.
+%
+% Please read the README.txt file for general information about HMPD before
+% using it.
+%
+% Inputs
+%  f0s    : [s, Hz] [Nx2] A time/data column vector, containing the
+%           fundamental frequency f0 values. 
+%  AE     : [NxD] A matrix containing the amplitude envelope.
+%           D is either opt.dftlen/2+1 (from hmpd_features_compute.m), or
+%           opt.amp_order+1, depending if compression is disabled or enabled.
+%  PDM    : [NxD] A matrix containing the Phase Distortion Mean.
+%           D is either opt.dftlen/2+1 or opt.pdm_order+1, depending if
+%           compression is disabled or enabled.
+%  PDD    : [NxD] A matrix containing the Phase Distortion Deviation.
+%           D is either opt.dftlen/2+1 or opt.pdd_order+1, depending if
+%           compression is disabled or enabled.
+%  fs     : [Hz] The sampling rate of the waveform.
+%           (It has to be the same as the one used during analysis)
+% [wavlen]: Length of the synthesized waveform [in number of samples].
+%           If this option is omited, it is predicted from the last time instant
+%           of the f0s argument.
+% [opt]   : Additional options for synthesis (see code below).
+%           The option opt.enc has to contain absolutely the options used
+%           during analysis.
+%
+% Outputs
+%  syn   : The samples of the synthesized waveform
+%  opt   : The options used during synthesis.
+% 
+% Copyright (c) 2012 University of Crete - Computer Science Department (UOC-CSD)
 %
 % License
 %  This file is under the LGPL license,  you can
@@ -18,18 +48,18 @@
 %  Gilles Degottex <degottex@csd.uoc.gr>
 %
 
-function [syn, opt] = hmpd_synthesis(f0s, AE, PEM, PED, fs, wavlen, opt)
+function [syn, opt] = hmpd_synthesis(f0s, AE, PDM, PDD, fs, wavlen, opt)
 
     if nargin<7
         % Options
-        opt.enc = hmpd_features_compute();
-        opt.amp_minphasegain = 1; % 1:min, 0:zero-phase, -1:max
+        opt.enc = hmpd_analysis_features();
+        opt.amp_minphasegain = 1; % 1:minimum-phase, 0:zero-phase, -1:max-phase
         opt.pd_gain = 1;
         opt.rps_randunvoiced = false; % Randomize the RPS in unvoiced segments
                                       % Unvoiced segments are indicated by
                                       % f0=0 values.
                                       % (not used by default with HMPD)
-        opt.pdv_corrthresh = 0.75;
+        opt.pdv_corrthresh = 0.75;% PDD correction threshold
 
         opt.defdbamp = -300; % [dB]
         opt.usemex   = false; % Use interp1ordered TODO to false
@@ -57,7 +87,7 @@ function [syn, opt] = hmpd_synthesis(f0s, AE, PEM, PED, fs, wavlen, opt)
     Hmax = size(AH,2)-1; % Max number of harmonics (without DC)
 
     % Reconstruct a Relative Phase Shift (RPS) of the voice source
-    RPS = hmpd_phase_decompress(PEM, PED, f0s, fs, opt); % Phase decoding
+    RPS = hmpd_phase_decompress(PDM, PDD, f0s, fs, opt); % Phase decoding
 
     % If asked, force full RPS randomization in unvoiced segments
     if opt.rps_randunvoiced
@@ -98,6 +128,7 @@ function [syn, opt] = hmpd_synthesis(f0s, AE, PEM, PED, fs, wavlen, opt)
         end
 
         % Phase ----------------------------------------------------------------
+        % Interpolate on RPS domain
         Y = unwrap(RPS(:,1+h));
         if opt.usemex
             rpst = interp1ordered(f0s(:,1), Y, synts, 0).'; % Lose the splines !

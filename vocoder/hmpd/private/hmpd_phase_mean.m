@@ -1,6 +1,8 @@
 % Harmonic Model + Phase Distortion (HMPD)
 %
-% Copyright (c) 2012 University of Crete - Computer Science Department
+% Copyright (c) 2013 University of Crete - Computer Science Department(UOC-CSD)/ 
+%                    Foundation for Research and Technology-Hellas - Institute
+%                    of Computer Science (FORTH-ICS)
 %
 % License
 %  This file is under the LGPL license,  you can
@@ -24,7 +26,7 @@ function PDM = hmpd_phase_mean(PD, nbat)
     winlen = round(nbat/2)*2+1;
     % win = hann(winlen);
     win = ones(winlen,1); % Rectangular window seems better than smooth window
-                          % To study ...
+                          % To study ... TODO
     win = win./sum(win);
 
     % Compute the mean in polar coordinates

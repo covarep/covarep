@@ -1,6 +1,8 @@
 % Harmonic Model + Phase Distortion (HMPD)
 %
-% Copyright (c) 2012 University of Crete - Computer Science Department
+% Copyright (c) 2013 University of Crete - Computer Science Department(UOC-CSD)/ 
+%                    Foundation for Research and Technology-Hellas - Institute
+%                    of Computer Science (FORTH-ICS)
 %
 % License
 %  This file is under the LGPL license,  you can
@@ -34,7 +36,7 @@ function PD = hmpd_phase_smooth(PD, nbat)
     %             one frame to the next.
     %         ii) It keeps the outliers in the residual phase, which optimize
     %             the variance measurement.
-    PDc = medfilt1(PDc, winlen, [], 1);
+    PDc = medfilt1(PDc, winlen, [], 1); % TODO mentionned in the publications ???
     PDs = medfilt1(PDs, winlen, [], 1);
 
     % Then smooth the steps of the median filter

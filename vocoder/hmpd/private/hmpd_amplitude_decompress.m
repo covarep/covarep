@@ -1,6 +1,24 @@
-% Harmonic Model + Phase Distortion (HMPD)
+% HMPD: Decompress the ampitude envelope into harmonic amplitudes
 %
-% Copyright (c) 2012 University of Crete - Computer Science Department
+% This function is always used, even if the scale of the amplitude envelope is
+% linear.
+%
+% Inputs
+%  AE    : [NxD] A matrix containing the amplitude envelope.
+%          D is either opt.dftlen/2+1 (from hmpd_features_compute.m), or
+%          opt.amp_order+1, depending if compression is disabled or enabled.
+%  f0s   : [s, Hz] [Nx2] A time/data column vector, containing the f0 curve.
+%  fs    : [Hz] The sampling rate of the analyzed waveform
+%  opt   : Additional options (see hmpd_features_compute.m)
+%
+% Outputs
+%  AH    : [NxH] A marix with a row for each time instant containing the
+%          harmonic amplitudes.
+%          H is given by the maximum harmonic number among all frames.
+%  APH   : The minimum-phase response corresponding to the sampled amplitude
+%          envelope.
+%
+% Copyright (c) 2012 University of Crete - Computer Science Department(UOC-CSD)
 %
 % License
 %  This file is under the LGPL license,  you can

@@ -1,6 +1,21 @@
-% Harmonic Model + Phase Distortion (HMPD)
+% Log-harmonic scale
 %
-% Copyright (c) 2012 University of Crete - Computer Science Department
+% Inputs
+%  Hb    : Below this harmonic limit, the scale is linear
+%          (similar to the mel scale which is linear below 1000Hz)
+%          (e.g. 12)
+%          Based on observation of the LF model, the asymptotic behavior of the
+%          spectrum starts around the 12th harmonic (for the most tense voice)
+%  Hmax  : The maxmimum number of harmonic considered during synthesis
+%          (e.g. 256)
+%  order : The reduced number of phase coefficients (e.g. 24)
+%
+% Outputs
+%  hsl   : The log-harmonic scale
+%
+% Copyright (c) 2013 University of Crete - Computer Science Department(UOC-CSD)/ 
+%                    Foundation for Research and Technology-Hellas - Institute
+%                    of Computer Science (FORTH-ICS)
 %
 % License
 %  This file is under the LGPL license,  you can
@@ -17,16 +32,6 @@
 % Author
 %  Gilles Degottex <degottex@csd.uoc.gr>
 %
-
-% Hb    : Below this harmonic limit, the scale is linear
-%         (similar to the mel scale)
-%         (e.g. 12)
-%         Based on observation of the LF model, the asymptotic behavior of the
-%         spectrum starts around the 12th harmonic (for the most tense voice)
-% Hmax  : The maxmimum number of harmonic considered during synthesis
-%         (e.g. 256)
-% order : The given number of reduced phase coefficients
-%         (e.g. 24)
 
 function hsl = hlin2hlog(Hb, Hmax, order)
 
@@ -45,6 +50,7 @@ function hsl = hlin2hlog(Hb, Hmax, order)
         % Use linear scale below Hb (higher coefs will be overwritten)
         hsl = 1:Hmax;
 
+        % TODO DROP CASTELJAU
         % Build a Bezier curve to start with a linear scale and finish smoothly
         % at (Hmax,order)
         p(1,:) = [Hb, Hb];

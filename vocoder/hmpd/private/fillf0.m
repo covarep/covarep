@@ -1,6 +1,6 @@
-% Put default f0 values in unvoiced segments by interpolation of the boundaries
+% Replace zeros f0 values by linear interpolation
 %
-% Copyright (c) 2012 University of Crete - Computer Science Department
+% Copyright (c) 2012 University of Crete - Computer Science Department (UOC-CSD)
 %
 % License
 %  This file is under the LGPL license,  you can
