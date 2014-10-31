@@ -72,9 +72,10 @@ function [f0s, AE, PDM, PDD, opt] = hmpd_analysis(wav, fs, f0s, opt)
         opt.sin.fadapted   = true; % and adapt the frequency basis to f0 curve
         opt.sin.debug      = false;% Do not print anything while running
 
-        opt.sin_nbat       = 4; % 4 analysis per period for statistics estimates
-
-        opt.dftlen    = 1024;   % Used DFT length (e.g. uncompressed features)
+        % features computation
+        opt.sin_nbat  = 4;    % Number of analysis instant per period
+        opt.dftlen    = 1024; % Used DFT length (e.g. for uncompressed features)
+        opt.regularstepsize = 0.005;% [s] step size for features resampling
 
         % Amplitude
         opt.amp_enc_method = 1; % 1:envelope; % 2:cepstral
@@ -83,37 +84,37 @@ function [f0s, AE, PDM, PDD, opt] = hmpd_analysis(wav, fs, f0s, opt)
         opt.amp_order = opt.dftlen/2; % 24mfcc smells for 32kHz, 32 good
         opt.amp_logfn = @frq2mel;
 
-        opt.pd_vtf_rm = true; % Remove the VTF phase from the phase measurement
+        opt.pd_vtf_rm = true;% Remove the VTF phase from the phase measurement
 
         % Phase
         opt.dc_phase   = 0;  % keep ori. phase if empty; otherwise, set to value
         opt.polarity_inv = false; % (applied after dc_phase is set)
 
-        opt.pdm_nbper  = 6;  % TODO
+        opt.pdm_nbper  = 6;  % Number of period to consider for PDM
         opt.pdm_log    = false; % If true, compress the phase coefficients using
-                                % a log scale on a harmonic scale
-        opt.pdm_log_hb = 8; % Below this harmonic limit, the scale is linear
-                            % Then it is logarithmic (similar to the mel scale)
-        opt.pdm_order  = opt.dftlen/2; %32? for log TODO
+                             % a log scale on a harmonic scale
+        opt.pdm_log_hb = 8;  % Below this harmonic limit, the scale is linear
+                             % Then it is logarithmic (similar to the mel scale)
+        opt.pdm_order  = opt.dftlen/2;% PDM's order for compression
 
-        opt.pdd_nbper = 2; % TODO
-        opt.pdd_log    = false; % lin&log scale (kind of a mel scale)
-        opt.pdd_order  = opt.dftlen/2; %32? for log TODO
-
-        opt.regularstepsize = 0.005; % [s] step size for features resampling
+        opt.pdd_nbper  = 2;            % Number of period to consider for PDD
+        opt.pdd_log    = false;        % lin&log scale (kind of a mel scale)
+        opt.pdd_order  = opt.dftlen/2; % PDD's order for compression
 
         % Misc
-        opt.usemex    = false; % Use interp1ordered TODO to false
+        opt.usemex    = false; % Use mex fn, faster but use linear interpolation
         opt.debug     = 1;
     end
     if nargin==0; f0s=opt; return; end
     if nargin<3; f0s=[]; end
+    if opt.amp_enc_method==1; opt.amp_order=opt.dftlen/2; end
 
 tic;
 
     % Estimate sinusoidal harmonic parameters
-    frames = hmpd_analysis_harmonic(wav, fs, f0s, opt);
-
+%      frames = hmpd_analysis_harmonic(wav, fs, f0s, opt);
+%      save('HMPDPREVIOUSBASEANALYSIS.mat', 'frames');
+    load('HMPDPREVIOUSBASEANALYSIS.mat', 'frames');
 toc;
 
 tic;
