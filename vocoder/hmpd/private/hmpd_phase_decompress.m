@@ -38,6 +38,7 @@
 function [RPS] = hmpd_phase_decompress(PDM, PDD, f0s, fs, opt)
 
     Hmax = ceil(0.5*fs/min(f0s(:,2)));
+
     % Phase info will be decoded into a Relative Phase Shift (RPS),
     % (phase without the linear phase and without VTF phase)
     RPS = zeros(size(f0s,1),1+Hmax);
@@ -97,9 +98,9 @@ function [RPS] = hmpd_phase_decompress(PDM, PDD, f0s, fs, opt)
 
         % Retreive the corresponding RPS
         rp = wrap(cumsum(a)).';
-        rp = [0; rp(1:end-1)]; % Add the DC phase (lost through diff and cummulation)
+        rp = [0; rp(1:end-1)]; % Add the DC phase (lost through diff)
         RPS(n,1:hmin) = rp(1:hmin);
-        RPS(n,hmin+1:end) = 2*pi*rand(1,size(RPS,2)-hmin);
+        RPS(n,hmin+1:end) = 2*pi*rand(1,size(RPS,2)-hmin); % Fill with noise
         RPS(n,:) = wrap(RPS(n,:));
     end
 
