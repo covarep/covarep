@@ -109,17 +109,11 @@ function [f0s, AE, PDM, PDD, opt] = hmpd_analysis(wav, fs, f0s, opt)
     if nargin<3; f0s=[]; end
     if opt.amp_enc_method==1; opt.amp_order=opt.dftlen/2; end
 
-tic;
-
     % Estimate sinusoidal harmonic parameters
-%      frames = hmpd_analysis_harmonic(wav, fs, f0s, opt);
-%      save('HMPDPREVIOUSBASEANALYSIS.mat', 'frames');
-    load('HMPDPREVIOUSBASEANALYSIS.mat', 'frames');
-toc;
+    frames = hmpd_analysis_harmonic(wav, fs, f0s, opt);
+    save('HMPDPREVIOUSBASEANALYSIS.mat', 'frames');
 
-tic;
     % Compute amplitude envelope and phase statistics
     [f0s, AE, PDM, PDD] = hmpd_analysis_features(frames, fs, opt);
-toc;
 
 return
