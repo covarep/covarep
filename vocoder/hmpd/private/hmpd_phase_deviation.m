@@ -1,4 +1,14 @@
-% Harmonic Model + Phase Distortion (HMPD)
+% HMPD: Estimate the short-term deviation of Phase Distortion
+%
+% Inputs
+%  PD   : [NxM rad] A matrix of Phase Distortion to measure the deviation from.
+%         N is the number of frames, M is the order of the PD (either the
+%         maximum number of harmonics or the number of bins).
+%  nbat : The number of frames to consider in the smoothing window, i.e. the
+%         window size.
+%  
+% Outputs
+%  PDD  : [NxM rad] The Phase Distortion Deviation (PDD)
 %
 % Copyright (c) 2013 University of Crete - Computer Science Department(UOC-CSD)/ 
 %                    Foundation for Research and Technology-Hellas - Institute

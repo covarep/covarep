@@ -1,4 +1,14 @@
-% Harmonic Model + Phase Distortion (HMPD)
+% HMPD: Compute a smooth estimate of the Phase Distortion (a local trend)
+%  
+% Inputs
+%  PD   : [NxM rad] A matrix of Phase Distortion to be smoothed
+%         N is the number of frames, M is the order of the PD (either the
+%         maximum number of harmonics or the number of bins).
+%  nbat : The number of frames to consider in the smoothing window, i.e. the
+%         window size.
+%  
+% Outputs
+%  PD   : [NxM rad] The smoothed Phase Distortion
 %
 % Copyright (c) 2013 University of Crete - Computer Science Department(UOC-CSD)/ 
 %                    Foundation for Research and Technology-Hellas - Institute
@@ -24,7 +34,7 @@
 function PD = hmpd_phase_smooth(PD, nbat)
 
     winlen = round(nbat/2)*2+1;
-    win = hann(winlen);
+    win = hann(winlen); % TODO window mentionned in the pub ?
     win = win./sum(win);
 
     % Smooth the values in polar coordinates

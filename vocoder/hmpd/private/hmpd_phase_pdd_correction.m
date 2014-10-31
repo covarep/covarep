@@ -1,4 +1,18 @@
-% Harmonic Model + Phase Distortion (HMPD)
+% HMPD: Correct Phase Distortion Deviation
+%
+% The PDD is always under-estimated, for reason which need to be investigated.
+% This function does a simple engeenering solution: It amplify the PDD's 
+% distribution above a given threshold.
+%  
+% Inputs
+%  PDD  : [NxM rad] A matrix of Phase Distortion Deviation (PDD) to correct.
+%         N is the number of frames, M is the order of the PDD (either the
+%         maximum number of harmonics or the number of bins).
+%  thr  : The PDD's threshold. Below this value, PDD is kept, above, PDD is
+%         amplified.
+%  
+% Outputs
+%  PDD  : [NxM rad] The corrected Phase Distortion Deviation (PDD)
 %
 % Copyright (c) 2013 University of Crete - Computer Science Department(UOC-CSD)/ 
 %                    Foundation for Research and Technology-Hellas - Institute
@@ -20,8 +34,6 @@
 %  Gilles Degottex <degottex@csd.uoc.gr>
 %
 
-% Correct the variance which is under-estimated
-% Engeenering solution: Amplify the distribution after a given threshold
 function PDD = hmpd_phase_pdd_correction(PDD, thr)
 
     if thr==Inf; return; end

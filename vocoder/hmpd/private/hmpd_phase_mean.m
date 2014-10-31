@@ -1,4 +1,14 @@
-% Harmonic Model + Phase Distortion (HMPD)
+% HMPD: Estimate the short-term mean of Phase Distortion
+%
+% Inputs
+%  PD   : [NxM rad] A matrix of Phase Distortion to measure the mean from.
+%         N is the number of frames, M is the order of the PD (either the
+%         maximum number of harmonics or the number of bins).
+%  nbat : The number of frames to consider in the smoothing window, i.e. the
+%         window size.
+%  
+% Outputs
+%  PDM  : [NxM rad] The Phase Distortion Mean (PDM)
 %
 % Copyright (c) 2013 University of Crete - Computer Science Department(UOC-CSD)/ 
 %                    Foundation for Research and Technology-Hellas - Institute
@@ -20,13 +30,12 @@
 %  Gilles Degottex <degottex@csd.uoc.gr>
 %
 
-% Compute mean phase
 function PDM = hmpd_phase_mean(PD, nbat)
 
     winlen = round(nbat/2)*2+1;
-    % win = hann(winlen);
+    % win = hann(winlen); % TODO
     win = ones(winlen,1); % Rectangular window seems better than smooth window
-                          % To study ... TODO
+                          % To study ...
     win = win./sum(win);
 
     % Compute the mean in polar coordinates
