@@ -1,4 +1,4 @@
-% Estimate of partials frequency, amplitude and phase given a gross fundamental frequency
+% Estimate of harmonic frequencies, amplitude and phase given a gross f0
 %
 % Octave compatible
 % 
@@ -13,18 +13,7 @@
 %
 %  f0           : undamental frquency in Hertz
 %
-%  [method]     : 0:'nearest': no refinement, simple spectrum sampling
-%                 1:'linear':  refine amplitude linearly
-%                              phase linearly
-%                 2:'refine':  refine frequency by quadratic interpolation
-%                   (default)  amplitude by quadratic interpolation
-%                              phase by linear interpolation
-%
-%  [sampling]   : first estimate of partial sampling
-%                 sampling(1) is suposed to be on the first harmonic
-%                 eg. sampling=w0*(1:floor(length(S)/2-1)/w0)+1;
-%
-%  [zp]         : used zero-padding
+%  [max_h]      : number of harmonic to return (+1 bcs of DC)
 %
 % OUPUT
 %  partials     : vector of partials [freq;amp;phase;harm;amp_var]
@@ -49,7 +38,7 @@
 %  Gilles Degottex <degottex@csd.uoc.gr>
 %
 
-function sins = spec_getsins_f0(S, fs, f0, max_h, varargin)
+function sins = spec_getsins_f0(S, fs, f0, max_h)
 
     if nargin<4 || isempty(max_h); max_h = round((fs/2-f0/2)/f0);
     else;                          max_h = min(max_h,floor((fs/2-f0/2)/f0)); end
