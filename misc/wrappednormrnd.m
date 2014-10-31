@@ -2,7 +2,7 @@
 %
 % Any neater, faster, more precise and accurate generator is very welcome.
 %
-% Copyright (c) 2012 University of Crete - Computer Science Department
+% Copyright (c) 2012 University of Crete - Computer Science Department (UOC-CSD)
 %
 % License
 %  This file is under the LGPL license,  you can
@@ -44,7 +44,7 @@ function wgr = wrappednormrndunitystd(n, pregen)
 
         % If run for the first time, initialize the cumulative distrib fns
         if isempty(wrappednormrnd) || ~isfield(wrappednormrnd, 'icdf')
-            fprintf('wrappednormrnd.m: Pre-compute the cumulative distribution function ... ');
+            fprintf('wrappednormrnd.m: Pre-compute the cumulative distribution function once for all ... ');
 
             xs = -pi:(2*pi)/1e6:pi;
             xs = xs(1:end-1);
