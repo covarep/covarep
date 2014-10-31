@@ -86,8 +86,7 @@ function [frames, opt] = hmpd_analysis_harmonic(wav, fs, f0s, opt)
     end
 
     % Generate analysis time instants for the harmonic analysis
-    tmargin = 0.5*opt.sin.win_durnbper/max(opt.f0min,0.66*min(f0s(1,2),f0s(end,2)));
-    hrts = gen_analysis_times(wav, fs, tmargin, true, 2, f0s, opt.sin_nbat);
+    hrts = gen_analysis_times(wav, fs, 0, true, 2, f0s, opt.sin_nbat);
     f0shr = interp1td(f0s, hrts);
 
     frames = sin_analysis(wav, fs, f0shr, opt.sin);
