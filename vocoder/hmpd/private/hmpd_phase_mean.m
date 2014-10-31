@@ -33,7 +33,7 @@
 function PDM = hmpd_phase_mean(PD, nbat)
 
     winlen = round(nbat/2)*2+1;
-    % win = hann(winlen); % TODO
+    % win = hann(winlen);
     win = ones(winlen,1); % Rectangular window seems better than smooth window
                           % To study ...
     win = win./sum(win);
