@@ -1,7 +1,5 @@
 % Harmonic model analysis for the Harmonic Model + Phase Distortion (HMPD)
 %
-% This the main entry point for estimating the parameters of the HMPD vocoder.
-%
 % Please read the README.txt file for general information about HMPD before
 % using it.
 %
@@ -23,7 +21,8 @@
 %          adapt the f0min and f0max options if no f0s argument is provided.
 % 
 % Outputs
-%  TODO
+%  frames : [Nxstruct] N structures containing the sinusoidal parameters.
+%  opt    : The options used for the analysis.
 %
 % Copyright (c) 2012 University of Crete - Computer Science Department (UOC-CSD)
 %
@@ -44,28 +43,6 @@
 %
 
 function [frames, opt] = hmpd_analysis_harmonic(wav, fs, f0s, opt)
-    if nargin<4
-        % Options for the f0 estimation
-        % (used only if f0 not provided as argument)
-        opt.f0min   = 60;
-        opt.f0max   = 440;
-        opt.f0refine = false;
-
-        % Options for the harmonic analysis
-        opt.highpass = []; % High-pass the signal before sinusoidal analysis
-
-        opt.sin = sin_analysis();
-        opt.sin.use_f0time = true; % Use the times adapted to f0 curve.
-        opt.sin.fharmonic  = true; % Force strict harmonicity
-        opt.sin.use_ls     = true; % By default, use Least Square (LS) solution
-        opt.sin.fadapted   = true; % and adapt the frequency basis to f0 curve
-        opt.sin.debug      = false;% Do not print anything while running
-
-        opt.sin_nbat       = 4; % 4 analysis per period for statistics estimates
-    end
-    if nargin==0; frames=opt; return; end
-    if nargin<3; f0s=[]; end
-
     if opt.debug>0; disp('HMPD Vocoder: Harmonic analysis ...'); end
     
     % Get fundamental frequency (f0)

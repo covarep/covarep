@@ -1,7 +1,5 @@
 % Features computation for the Harmonic Model + Phase Distortion (HMPD)
 %
-% This the main entry point for estimating the parameters of the HMPD vocoder.
-%
 % Please read the README.txt file for general information about HMPD before
 % using it.
 %
@@ -47,45 +45,7 @@
 %
 
 function [f0s, AE, PDM, PDD, opt] = hmpd_analysis_features(frames, fs, opt)
-    if nargin<3
-        opt.sin_nbat = 4; % TODO
-
-        opt.dftlen    = 1024;     % Used DFT length (e.g. uncompressed features)
-
-        % Amplitude
-        opt.amp_enc_method = 1; % 1:envelope; % 2:cepstral
-        opt.amp_f0norm = true;
-        opt.amp_log   = false;
-        opt.amp_order = opt.dftlen/2; % 24mfcc smells for 32kHz, 32 good
-        opt.amp_logfn = @frq2mel;
-
-        opt.pd_vtf_rm = true; % Remove the VTF phase from the phase measurement
-
-        % Phase
-        opt.dc_phase   = 0;  % keep ori. phase if empty; otherwise, set to value
-        opt.polarity_inv = false; % (applied after dc_phase is set)
-
-        opt.pdm_nbper  = 6;  % TODO
-        opt.pdm_log    = false; % If true, compress the phase coefficients using
-                                % a log scale on a harmonic scale
-        opt.pdm_log_hb = 8; % Below this harmonic limit, the scale is linear
-                            % Then it is logarithmic (similar to the mel scale)
-        opt.pdm_order  = opt.dftlen/2;
-
-        opt.pdd_nbper = 2; % TODO
-        opt.pdd_log    = false; % lin&log scale (kind of a mel scale)
-        opt.pdd_order  = opt.dftlen/2; %32 for log TODO
-
-
-        opt.regularstepsize = 0.005; % [s] step size for features resampling
-
-        % Misc
-        opt.usemex    = false; % Use interp1ordered TODO to false
-        opt.debug     = false;
-    end
-    if nargin==0; f0s=opt; return; end
-    if opt.amp_enc_method==1; opt.amp_order=opt.dftlen/2; end
-
+%  keyboard
     if opt.debug>0; disp('HMPD Vocoder: Features computation ...'); end
 
     irregf0s = [[frames.t]', [frames.f0]']; % Retrieve f0 from the frames
@@ -96,7 +56,7 @@ function [f0s, AE, PDM, PDD, opt] = hmpd_analysis_features(frames, fs, opt)
     if opt.debug>0; disp('    Estimate phase envelope ...'); end
     rpspdopt = opt;
     rpspdopt.pd_method = 1;
-    rpspdopt.pd_vtf_rm = false; % Already done in hmpd_amplitude_envelope_estimate
+    rpspdopt.pd_vtf_rm =false;% Already done in hmpd_amplitude_envelope_estimate
     rpspdopt.harm2freq = true;
     rpspdopt.usemex = opt.usemex;
     PE = phase_rpspd(frames, fs, rpspdopt);
