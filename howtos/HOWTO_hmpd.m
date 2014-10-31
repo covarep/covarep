@@ -1,4 +1,4 @@
-% Harmonic Model + Phase Distortion (HMPD)
+% Harmonic Model + Phase Distortion (HMPD) vocoder
 %
 % Copyright (c) 2014 University of Crete - Computer Science Department(UOC-CSD)/ 
 %                    Foundation for Research and Technology-Hellas - Institute
@@ -20,12 +20,11 @@
 %  Gilles Degottex <degottex@csd.uoc.gr>
 %
 
-
-
 clear all;
 
 fname = '0011.arctic_bdl1';
 [wav, fs] = wavread([fname '.wav']);
+
 
 % Analysis ---------------------------------------------------------------------
 
@@ -34,16 +33,17 @@ hmpdopt.f0min   = 75; % To adapt to the analyzed voice
 hmpdopt.f0max   = 220;% To adapt to the analyzed voice
 
 % Speed up options
-hmpdopt.sin.use_ls=false;   % For analysis step, use simple Peak Picking 
-hmpdopt.sin.fadapted=false; % For analysis step, use the stationary DFT 
-hmpdopt.usemex = true; % Use mex linear interp (affects mainly the synth.)
+%  hmpdopt.sin.use_ls=false;   % For analysis step, use simple Peak Picking 
+%  hmpdopt.sin.fadapted=false; % For analysis step, use the stationary DFT 
+%  hmpdopt.usemex = true; % Use mex linear interp (affects mainly the synth.)
 
 % Compression options
-hmpdopt.amp_enc_method=2; hmpdopt.amp_log=true; hmpdopt.amp_order=39;
-hmpdopt.pdd_log=true; hmpdopt.pdd_order=12;% MFCC-like phase variance
-hmpdopt.pdm_log=true; hmpdopt.pdm_order=24;% Number of log-Harmonic coefs
+%  hmpdopt.amp_enc_method=2; hmpdopt.amp_log=true; hmpdopt.amp_order=39;
+%  hmpdopt.pdd_log=true; hmpdopt.pdd_order=12;% MFCC-like phase variance
+%  hmpdopt.pdm_log=true; hmpdopt.pdm_order=24;% Number of log-Harmonic coefs
 
 [f0s, AE, PDM, PDD] = hmpd_analysis(wav, fs, [], hmpdopt);
+
 
 % Synthesis --------------------------------------------------------------------
 
