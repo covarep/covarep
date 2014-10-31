@@ -1,28 +1,42 @@
 Contributors
-    University of Crete, Heraklion, Greece
-        Computer Science Department - Multimedia Informatics Lab (MMI)
-        Gilles Degottex
-        Georgos Kafentzis
+    Gilles Degottex 1,10
+    John Kane 2
+    Thomas Drugman 3
+    Tuomo Raitio 4
+    Stefan Scherer 5
+    Georgos Kafentzis 1
+    Jouni Pohjalainen 4
+    Nathalie Henrich 6,7
+    Alexis Michaud 8,9
 
-    Trinity College Dublin, Dublin, Ireland
-        Centre for Language and Communication Sciences - Phonetics & Speech Lab
-        John Kane
-    
-    University of Mons, Mons, Belgium
-        Polytechnic Faculty - TCTS Lab
-        Thomas Drugman
+Institutions
+1. University of Crete, Heraklion, Greece
+   Computer Science Department - Multimedia Informatics Lab (MMI)
 
-    Aalto University, Espoo, Finland
-        Department of Signal Processing and Acoustics
-        Tuomo Raitio
-        Jouni Pohjalainen
+2. Trinity College Dublin, Dublin, Ireland
+   Centre for Language and Communication Sciences - Phonetics & Speech Lab
 
-    University of Southern California, Los Angeles, USA
-        Institute for Creative Technologies - MultiComp Lab
-        Stefan Scherer
+3. University of Mons, Mons, Belgium
+   Polytechnic Faculty - TCTS Lab
 
-    Centre national de la recherche scientifique (CNRS), France
-        (UMR 7604) Laboratoire d'Acoustique Musicale (LAM), Paris
-    Institut National Polytechnique de Grenoble (INPG), Grenoble, France
-        Institut de la Communication Parlée (ICP)
-        Nathalie Henrich
+4. Aalto University, Espoo, Finland
+   Department of Signal Processing and Acoustics
+
+5. University of Southern California, Los Angeles, USA
+   Institute for Creative Technologies - MultiComp Lab
+
+6. Centre national de la recherche scientifique (CNRS), France
+   (UMR 7604) Laboratoire d'Acoustique Musicale (LAM), Paris
+
+7. Institut National Polytechnique de Grenoble (INPG), Grenoble, France
+   Institut de la Communication Parlée (ICP)
+
+8. Centre national de la recherche scientifique (CNRS), France
+   (UMR 7107) Langues et Civilisations à Tradition Orale (LACITO)
+
+9. International Research Institute MICA, Hanoi, Vietnam:
+   CNRS(UMI 2954) - Hanoi University of Science and Technology (HUST) - Grenoble INP
+
+10.Foundation for Research and Technology-Hellas (FORTH), Heraklion, Greece
+   Institute of Computer Science (ICS) - Signal Processing Laboratory
+
