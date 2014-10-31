@@ -41,7 +41,6 @@ function hsl = hlin2hlog(Hb, Hmax, order)
     % Use linear scale below Hb (higher coefs will be overwritten)
     hsl = 1:Hmax;
 
-    % TODO DROP CASTELJAU
     % Build a Bezier curve to start with a linear scale and finish smoothly
     % at (Hmax,order)
     p(1,:) = [Hb, Hb];
@@ -50,10 +49,6 @@ function hsl = hlin2hlog(Hb, Hmax, order)
     t = 0:0.01:1;
     [X,Y,p_bez] = CASTELJAU(0,1,p,t);
     hsl(Hb+1:end) = interp1(p_bez(:,1), p_bez(:,2), (Hb+1):Hmax);
-
-%      af=abs(frq);
-%      mel = sign(frq).*log(1+af/700)*k;
-%      mr=(700+af)/k;
 
     if 0
         hs = 1:Hmax;
