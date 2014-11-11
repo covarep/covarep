@@ -90,8 +90,8 @@ function [f0s, AE, PDM, PDD, opt] = hmpd_analysis_features(frames, fs, opt)
     f0s = [uT, uf0s(idx)];
 
     % Then, resample amplitude, PD's mean and PD's deviation
-    AE = irregsampling2uniformsampling(irregf0s(:,1), AE, uT, [], [], 'linear', NaN, 1);
-    PDM = irregsampling2uniformsampling(irregf0s(:,1), PDM, uT, @unwrap, @wrap, 'linear', 0, 1);
-    PDD = irregsampling2uniformsampling(irregf0s(:,1), PDD, uT, [], [], 'linear', 0, 1);
+    AE = irregsampling2uniformsampling(irregf0s(:,1), AE, uT, [], [], 'linear', NaN, opt.usemex);
+    PDM = irregsampling2uniformsampling(irregf0s(:,1), PDM, uT, @unwrap, @wrap, 'linear', 0, opt.usemex);
+    PDD = irregsampling2uniformsampling(irregf0s(:,1), PDD, uT, [], [], 'linear', 0, opt.usemex);
 
 return
