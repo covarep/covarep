@@ -10,10 +10,10 @@
                     Gilles Degottex <degottex@csd.uoc.gr>
 
 
-This file describes mainly the few main options available in HMPD and provides
+This file describes mainly the main options available in HMPD and provides
 some remarks on its use.
 
-An example of use is given in the HOWTO_hmpd.m file in the howtos directory.
+A use case is given in the HOWTO_hmpd.m file in the howtos directory.
 
 
 F0 ESTIMATION ------------------------------------------------------------------
@@ -25,10 +25,10 @@ COVAREP uses the SRH [7] method instead.
 
 You can obviously use your own f0 estimation curve as argument of the 
 hmpd_analysis function (or similarly hmpd_analysis_harmonic). For this
-purpose, please see documention in this function.
+purpose, please see the documentation in these functions.
 
 If no f0 curve is provided, it is necessary to set f0min and f0max options
-appropriately to analyzed voice, as shown in the HOWTO_hmpd file.
+appropriately with respect to the analyzed voice, as shown in HOWTO_hmpd.
 
 
 COMPUTATION SPEED --------------------------------------------------------------
@@ -40,10 +40,10 @@ of the computation time of the analysis).
 It has been shown that analysis/re-resynthesis of the aHM model with LS solution
 (aHM-LS) has quasi-perfect reconstruction while providing among the most
 accurate sinusoidal parameters [5]. Therefore, aHM-LS was used in the
-original works in order to minimize the impact of the harmonic analysis on the
-evaluation results. This ensures, as best as possible, that the results
-presented in [1,2,3,4] are due to the phase processing techniques, the studied
-subject, and not the harmonic analysis method.
+original works [1,2,3,4] in order to minimize the impact of the harmonic
+analysis on the evaluation results. This ensures, as best as possible, that the
+results presented in [1,2,3,4] are due to the phase processing techniques, the 
+subject studied, and not due to the harmonic analysis method.
 However, this doesn't mean that the results cannot be obtained with a simpler,
 and quicker, harmonic analysis method.
 Thus, the analysis step can be speed up by using a simple Peak Picking (PP)
@@ -57,17 +57,16 @@ Implications/Remarks:
       the original time.
     * WARNING: Keep in mind that using the peak picking method instead of the
       aHM-LS solution, the quality is degraded! (as shown in [5])
-      (e.g. fricatives sound more bussy using PP than using aHM-LS).
+      (e.g. fricatives sound more buzzy using PP than using aHM-LS).
     * It could be a good practice to use the speed up options for testing a
-      prototype, whereas final evaluations should be done using the LS solution
-      (i.e. without the speed up options).
+      prototype, whereas final evaluations should be done using the LS solution.
     * For reason of replication of the published results, the slow settings are
       used in the HOWTO_hmpd.m file.
 
 By looking at the content of hmpd_analysis.m, you will notice that this function
 simply calls the two functions hmpd_analysis_harmonic and hmpd_analysis_features.
 Thus, if you only want to play around with the features computation and its
-parameters, you can replace hmpd_analysis by it content:
+parameters, you can replace hmpd_analysis by it content in the HOWTO_hmpd file:
     % Estimate sinusoidal harmonic parameters
     frames = hmpd_analysis_harmonic(wav, fs, f0s, opt)
     % Compute amplitude envelope and phase statistics
@@ -84,14 +83,14 @@ The slow interp1 function can be replaced by activating the option:
 
 Implications/Remarks:
     * It should drop the computation time of the synthesis to ~35% of the
-      original time, making it real-time for a state-of-the-art machine (2014).
-    * It almost does not affect the computation time of the analysis step.
-    * This replace some spline interpolations by linear interpolation.
+      original time, making it real-time for a state-of-the-art machine (2012).
+    * It almost does NOT affect the computation time of the analysis step.
+    * This replaces some spline interpolations by linear interpolation.
       (e.g. RPS interpolation). Thus, creating steps in the frequency tracks
       of the harmonics. Though, to my best experience, I've never heard any
       difference.
-    * Similarly to the options above, a good practice would be to develope
-      prototypes with the speed up optins of HMPD, but the final results should
+    * Similarly to the options above, a good practice would be to develop
+      prototypes with the speed up options of HMPD, but the final results should
       be obtained without using any options, as in [1,2,3,4].
 
 
@@ -111,7 +110,8 @@ classification [3].
 PARAMETERS DIFFERENCES AMONG THE PUBLICATIONS ----------------------------------
 
 Between the publications [1,2,3,4], the options used were not exactly the same.
-The HMPD code in COVAREP implements the version used in [1,2].
+The HMPD code in COVAREP with the default options implements the version used
+in [1,2].
 
 Roughly, the trend of the phase of the pulse's shape is not removed in either
 [3] or [4] for computing the Phase Distortion Deviation (PDD). In [3,4] PDD is
@@ -120,21 +120,19 @@ For further details, please refer to the papers for the differences with the
 other publications.
 
 
-ERRATUM ------------------------------------------------------------------------
+ERRATA -------------------------------------------------------------------------
 
-Unfortunately, the publications [1,2] do not mention a median filter and a
-hanning window used when computing the smooth PD (the local trend).
-Please have a look at hmpd_phase_smooth.m for the implementation used.
+A) Unfortunately, the publications [1,2] do not mention a median filter and a
+   hanning window used when computing the smooth PD (the local trend).
+   Please have a look at hmpd_phase_smooth.m for the implementation used.
 
+B) The description of the PDM compression in [3] is wrong.
+   We tried the compression described in [3], which didn't work as expected,
+   I replaced it by the one described in philin2philog.m, but didn't replaced
+   the description in the paper we were writing. My mistake.
 
-SUBJECTS TO INVESTIGATE --------------------------------------------------------
-
-* Obtain the quality obtained with aHM-LS by using a Peak Picking method,
-  which is way faster.
-* Improve the accuracy of PDD's estimate [1,2].
-  (and study the tradeoff for opt.sin_nbat about quality and speed).
-* Estimate an f0 curve which is convenient for HMPD.
-  It should favor low frequency values in unvoiced segments.
+Thanks to the COVAREP project, you can work with the actual implementations and
+not with the article descriptions only.
 
 
 
