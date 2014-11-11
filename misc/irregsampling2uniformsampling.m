@@ -27,7 +27,7 @@ function Xr = irregsampling2uniformsampling(T, X, nT, fn, ifn, method, def, usem
     if isempty(fn) || isempty(ifn); fn=@(x)x; ifn=@(x)x; end
 
     if nargin<8 || isempty(usemex) || ~usemex
-        interp1fn = @(x, y, xi, method, yid) interp1(x, y, xi, meth, yid).';
+        interp1fn = @(x, y, xi, method, yid) interp1(x, y, xi, method, yid).';
     else
         interp1fn = @(x, y, xi, method, yid) interp1ordered(x.', y.', xi.', yid).';
     end
