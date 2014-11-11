@@ -172,9 +172,20 @@ for n=1:N
             MCEP_int(:,m) = interp1(round(linspace(1,length(x),size(MCEP,1))),MCEP(:,m),feature_sampling);
         end
 
+        % Add PDM and PDD
+        hmpdopt = hmpd_analysis();
+        hmpdopt.debug = 0;
+        hmpdopt.usemex = false;
+        hmpdopt.amp_enc_method=2; hmpdopt.amp_log=true; hmpdopt.amp_order=39;
+        hmpdopt.pdd_log=true; hmpdopt.pdd_order=12;% MFCC-like phase variance
+        hmpdopt.pdm_log=true; hmpdopt.pdm_order=24;% Number of log-Harmonic coefs
+        [hmpdf0s, dummy, HMPDM, HMPDD] = hmpd_analysis_features(frames, fs, hmpdopt);
+        HMPDM = irregsampling2uniformsampling(hmpdf0s(:,1), HMPDM, (feature_sampling-1)/fs, @unwrap, @wrap, 'linear', 0, hmpdopt.usemex);
+        HMPDD = irregsampling2uniformsampling(hmpdf0s(:,1), HMPDD, (feature_sampling-1)/fs, [], [], 'linear', 0, hmpdopt.usemex);
+
         % Create feature matrix and save
         features=[F0(:) VUV(:) NAQ(:) QOQ(:) H1H2(:) PSP(:) MDQ(:) PS(:) ...
-            Rd(:) Rd_conf(:) creak_pp(:) MCEP_int];
+            Rd(:) Rd_conf(:) creak_pp(:) MCEP_int HMPDM HMPDD];
         features(isnan(features))=0;
         save([in_dir filesep basename '.mat'],'features','names')
         clear features
