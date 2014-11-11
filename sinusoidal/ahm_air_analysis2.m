@@ -168,7 +168,7 @@ function [f0sout, frames, opt] = ahm_air_analysis2(wav, fs, f0sin, opt)
         p1 = filter(1, [1 -1], 2*pi*f1/fs);
 
         disp(['    Adaptation ' num2str(adapt) ': ' num2str(length(toups)) '/' num2str(nt) ' frames to update']);
-        pb = progressbar(nt);
+        if opt.debug>0; pb = progressbar(nt); end
         for toupsi=1:length(toups)
             ind = toups(toupsi);
 
@@ -286,9 +286,9 @@ function [f0sout, frames, opt] = ahm_air_analysis2(wav, fs, f0sin, opt)
                 end
             end
 
-            pb = progressbar(pb,ind);
+            if opt.debug>0; pb = progressbar(pb,ind); end
         end
-        pb = progressbar(pb,nt);
+        if opt.debug>0; pb = progressbar(pb,nt); end
 
         f0s = f0s_new;
         aks = aks_new;

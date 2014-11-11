@@ -51,12 +51,12 @@
 
 function [syn, fs, opt] = hm_synthesis4(frames, wavlen, fs, opt)
 
-    if nargin<5
+    if nargin<4
         % Options
         opt.syn_dc    = true;   % Synthesize the DC component
 
 
-        opt.debug     = false;
+        opt.debug     = 1;
 
         opt.usemex    = 0; %[]; % Use mex, faster but use linear interpolations
                                 % instead of splines.
@@ -99,7 +99,7 @@ function [syn, fs, opt] = hm_synthesis4(frames, wavlen, fs, opt)
         Hmax=max(Hmax, length(aks{n})-1);
     end
 
-    disp(['Harmonic synthesis (Hmax=' num2str(Hmax) ', usemex=' num2str(opt.usemex) ')']);
+    if opt.debug>0; disp(['Harmonic synthesis (Hmax=' num2str(Hmax) ', usemex=' num2str(opt.usemex) ')']); end
     syn = zeros(wavlen,1);
 
     if opt.syn_dc
@@ -127,7 +127,7 @@ function [syn, fs, opt] = hm_synthesis4(frames, wavlen, fs, opt)
         keyboard
     end
 
-    pb = progressbar(Hmax);
+    if opt.debug>0; pb = progressbar(Hmax); end
     % Then for each harmonic
     for h=1:Hmax
 
@@ -229,7 +229,7 @@ function [syn, fs, opt] = hm_synthesis4(frames, wavlen, fs, opt)
         
         syn(idx) = syn(idx) + 2*am(idx).*cos(ph(idx));
 
-        pb = progressbar(pb,h);
+        if opt.debug>0; pb = progressbar(pb,h); end
     end
 
     if opt.debug>1

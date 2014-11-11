@@ -403,7 +403,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
     if opt.resyn
         idx = find(wins>0);
         syn(idx) = syn(idx)./wins(idx);
-        disp(['Mean SNR=' num2str(mean([frames.SNR]))]);
+        if opt.debug>0; disp(['Mean SNR=' num2str(mean([frames.SNR]))]); end
     end
     
     if opt.debug>1
