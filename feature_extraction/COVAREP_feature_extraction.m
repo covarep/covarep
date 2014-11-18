@@ -98,6 +98,12 @@ for n=1:N
         % Load file and set sample locations
         [x,fs]=wavread([in_dir filesep basename '.wav']);
         feature_sampling=round((sample_rate/2)*fs):round(sample_rate*fs):length(x);
+        
+        % Check if signal is mono or stereo
+        if(size(x, 2) ~= 1)
+            warning(sprintf('file: %s is not a mono signal. processing only first channel.', basename));
+            x = x(:,1);
+        end
 
         % Polarity detection
         polarity = polarity_reskew(x,fs);
