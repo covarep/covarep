@@ -90,14 +90,15 @@ function [E, cc, n] = env_te(S, order, winlen, mode, maxit, prec, presmooth_fact
     end
     dblim = log(10.^(prec/20));
 
+    dftlen = length(S);
+    order = min(order, dftlen/2-1);
+
     if bitand(mode,1) % Use smoothing window
         order = round(1.2*order);
+        order = min(order, dftlen/2-1);
         win = hamming(2*order+1)';
         win = win((end-1)/2+1:end);
     end
-
-    dftlen = length(S);
-    order = min(order, dftlen/2-1);
 
     A = fnlog(abs(S));
     cc = zeros(1,1+order);
