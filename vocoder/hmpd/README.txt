@@ -5,25 +5,24 @@
                Foundation for Research and Technology-Hellas - \
                   Institute of Computer Science (FORTH-ICS)
 
+                    Gilles Degottex <degottex@csd.uoc.gr>
                                 October 2014
 
-                    Gilles Degottex <degottex@csd.uoc.gr>
 
-
-This file describes mainly the main options available in HMPD and provides
-some remarks on its use.
+This file describes mainly the main options available in HMPD and provides some
+remarks on its use.
 
 A use case is given in the HOWTO_hmpd.m file in the howtos directory.
 
 
 F0 ESTIMATION ------------------------------------------------------------------
 
-For reason of fairness in the evaluations in [1,2], STRAIGHT [6] was used to
-compute the f0 values in voiced segments. However, it is not possible to include
+For reason of fairness in evaluations, STRAIGHT [6] was used in [1,2] to compute
+the f0 values in voiced segments. However, it is not possible to include
 STRAIGHT in COVAREP for legal reasons. Consequently, the version of HMPD in
 COVAREP uses the SRH [7] method instead.
 
-You can obviously use your own f0 estimation curve as argument of the 
+You can obviously use your own f0 estimation curve given as argument of the 
 hmpd_analysis function (or similarly hmpd_analysis_harmonic). For this
 purpose, please see the documentation in these functions.
 
@@ -37,10 +36,10 @@ The analysis step is very slow, mainly because of the harmonic analysis which
 estimates sinusoidal parameters at harmonic frequencies (it accounts for ~95%
 of the computation time of the analysis).
 
-It has been shown that analysis/re-resynthesis of the aHM model with LS solution
-(aHM-LS) has quasi-perfect reconstruction while providing among the most
-accurate sinusoidal parameters [5]. Therefore, aHM-LS was used in the
-original works [1,2,3,4] in order to minimize the impact of the harmonic
+It has been shown [5] that analysis/re-resynthesis of the aHM model with LS
+solution (aHM-LS) has quasi-perfect reconstruction while providing among the
+most accurate sinusoidal parameters [5]. Therefore, aHM-LS was used in the
+original works of HMPD [1,2,3,4] in order to minimize the impact of the harmonic
 analysis on the evaluation results. This ensures, as best as possible, that the
 results presented in [1,2,3,4] are due to the phase processing techniques, the 
 subject studied, and not due to the harmonic analysis method.
@@ -65,16 +64,17 @@ Implications/Remarks:
 
 By looking at the content of hmpd_analysis.m, you will notice that this function
 simply calls the two functions hmpd_analysis_harmonic and hmpd_analysis_features.
-Thus, if you only want to play around with the features computation and its
-parameters, you can replace hmpd_analysis by it content in the HOWTO_hmpd file:
+Thus, if you only want to play around with the computation of the features, you
+can replace hmpd_analysis by it content in the HOWTO_hmpd file:
     % Estimate sinusoidal harmonic parameters
     frames = hmpd_analysis_harmonic(wav, fs, f0s, opt)
     % Compute amplitude envelope and phase statistics
     [f0s, AE, PDM, PDD] = hmpd_analysis_features(frames, fs, opt);
-and save the intermediate frames structure instead of recomputing it each time.
+and save the intermediate frames structure instead of recomputing it each time
+you run hmpd_analysis.
 
 
-A second option to speed up the computational time is to use the mex function
+A second solution to speed up the computational time is to use the mex function
 interp1ordered, which is a C implementation of the linear interpolation (without
 any input checking and way faster than interp1q).
 The slow interp1 function can be replaced by activating the option:
@@ -89,9 +89,9 @@ Implications/Remarks:
       (e.g. RPS interpolation). Thus, creating steps in the frequency tracks
       of the harmonics. Though, to my best experience, I've never heard any
       difference.
-    * Similarly to the options above, a good practice would be to develop
-      prototypes with the speed up options of HMPD, but the final results should
-      be obtained without using any options, as in [1,2,3,4].
+    * Similarly to the previous option above, a good practice would be to
+      develop prototypes with the speed up options, but the final results should
+      be obtained without using any such options, as in [1,2,3,4].
 
 
 COMPRESSION --------------------------------------------------------------------
@@ -113,8 +113,8 @@ Between the publications [1,2,3,4], the options used were not exactly the same.
 The HMPD code in COVAREP with the default options implements the version used
 in [1,2].
 
-Roughly, the trend of the phase of the pulse's shape is not removed in either
-[3] or [4] for computing the Phase Distortion Deviation (PDD). In [3,4] PDD is
+Roughly, for computing the Phase Distortion Deviation (PDD), the trend of the
+phase of the pulse's shape is not removed in either [3] or [4]. In [3,4] PDD is
 neither corrected, as described in [1,2].
 For further details, please refer to the papers for the differences with the
 other publications.
@@ -122,17 +122,19 @@ other publications.
 
 ERRATA -------------------------------------------------------------------------
 
-A) Unfortunately, the publications [1,2] do not mention a median filter and a
-   hanning window used when computing the smooth PD (the local trend).
-   Please have a look at hmpd_phase_smooth.m for the implementation used.
+A)  Unfortunately, the publications [1,2] do not mention a median filter and a
+    hanning filter used when computing the smooth PD (the local trend).
+    This has been forgotten during the writing of [1,2]. Please have a look at
+    hmpd_phase_smooth.m for the implementation used.
 
-B) The description of the PDM compression in [3] is wrong.
-   We tried the compression described in [3], which didn't work as expected,
-   I replaced it by the one described in philin2philog.m, but didn't replaced
-   the description in the paper we were writing. My mistake.
+B)  In [3], the description of the PDM compression is wrong. We tried the
+    compression described in [3], which didn't work as expected,
+    Later on, I replaced it by the one described in philin2philog.m, but I
+    didn't replace the description in the paper we were writing.
 
-Thanks to the COVAREP project, you can work with the actual implementations and
-not with the article descriptions only.
+Thanks to the COVAREP project, you can work with the implementations that have
+been actually used for the experiments presented in [1,2] and not with the
+article descriptions only.
 
 
 
