@@ -98,6 +98,7 @@ Niter=2;
 
 %% Create frame matrix
 waveLen = length(wave);
+clear wave;
 frameDuration = round(100/1000*fs)-2; % Minus 2 to make equivalent
                                       % to original
 shift = round(hopsize/1000*fs);
@@ -108,23 +109,31 @@ frameMat=zeros(frameDuration,N);
 for n=1:N
     frameMat(:,n) = res(time(n)-halfDur:time(n)+halfDur-1);
 end
+clear res;
 
 %% Create window matrix and apply to frames
 win = blackman(frameDuration);
 winMat = repmat( win, 1 , N );
 frameMatWin = frameMat .* winMat;
+clear winMat;
 
 %% Do mean subtraction
 frameMean = mean(frameMatWin,1);
 frameMeanMat = repmat(frameMean,frameDuration,1);
 frameMatWinMean = frameMatWin - frameMeanMat;
+clear frameMean frameMeanMat frameMatWin frameMat;
 
 %% Compute spectrogram matrix
-specMat = abs( fft(frameMatWinMean,fs) );
+specMat = zeros(fs, size(frameMatWinMean,2));
+for i = 1:size(frameMatWinMean,2)
+    specMat(:,i) = abs( fft(frameMatWinMean(:,i),fs) )';
+end
+% specMat = abs( fft(frameMatWinMean,fs) );
 specMat = specMat(1:fs/2,:);
 specDenom = sqrt( sum( specMat.^2, 1 ) );
 specDenomMat = repmat( specDenom, fs/2, 1 );
 specMat = specMat ./ specDenomMat;
+clear specDenom specDenomMat;
 
 %% Estimate the pitch track in 2 iterations
 for Iter=1:Niter   
