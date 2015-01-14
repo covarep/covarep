@@ -51,6 +51,7 @@ function [AE, frames, opt] = hmpd_amplitude_envelope_estimate(frames, fs, opt)
 
         % Estimate an amplitude envelope
         E = env_interp(frames(n).sins(1:2,2:end), fs, opt.dftlen, true, 'interp1fn', ampinterp1fn);
+        E(isnan(E)) = db2mag(opt.amp_def);
 
         if opt.amp_f0norm; E = E./sqrt(frames(n).f0); end
 

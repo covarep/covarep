@@ -83,8 +83,9 @@ function [f0s, AE, PDM, PDD, opt] = hmpd_analysis(wav, fs, f0s, opt)
         opt.amp_log   = false;
         opt.amp_order = opt.dftlen/2; % 24mfcc smells for 32kHz, 32 good
         opt.amp_logfn = @frq2mel;
+        opt.amp_def   = -300; % [dB] def value that replaces zero values
 
-        opt.pd_vtf_rm = true;% Remove the VTF phase from the phase measurement
+        opt.pd_vtf_rm = true; % Remove the VTF phase from the phase measurement
 
         % Phase
         opt.dc_phase   = 0;  % keep ori. phase if empty; otherwise, set to value
