@@ -36,7 +36,7 @@ function sins = spec_getsins(S, fs, varargin)
 
     dftlen = length(S);
 
-    idx = v_findpeaks(abs(S(1:floor(end/2))));
+    idx = v_findpeaks(abs(S(1:floor(end/2)))); % TODO Use 'q'
     
     sins = zeros(3,length(idx));
     for k=1:length(idx)

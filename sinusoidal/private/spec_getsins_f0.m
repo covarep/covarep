@@ -55,11 +55,17 @@ function sins = spec_getsins_f0(S, fs, f0, max_h)
 
     % ... and replace by the peaks found.
     [k, v] = v_findpeaks(abs(S(1:end/2+1)), 'q');
-    D = abs(repmat(k,1,max_h)-repmat(1+sins(1,:), length(k),1));
-    [mind, mindi] = min(D);
-    idx = mind<step/2;
-    sins(1,idx) = k(mindi(idx))-1;
-    sins(2,idx) = v(mindi(idx));
+    if length(k)==1
+        idx = (k-sins(1,:))<step/2;
+        sins(1,idx) = k-1;
+        sins(2,idx) = v;
+    elseif length(k)>1
+        D = abs(repmat(k,1,max_h)-repmat(1+sins(1,:), length(k),1));
+        [mind, mindi] = min(D);
+        idx = mind<step/2;
+        sins(1,idx) = k(mindi(idx))-1;
+        sins(2,idx) = v(mindi(idx));
+    end
     sins(1,:) = (fs/dftlen)*sins(1,:);
 
     % Estimate the phase from linear interpolation of the phase spectrum
