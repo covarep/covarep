@@ -54,17 +54,17 @@ function sins = spec_getsins_f0(S, fs, f0, max_h)
     sins(2,:) = abs(S(1+round(sins(1,:))));
 
     % ... and replace by the peaks found.
-    [k, v] = v_findpeaks(abs(S(1:end/2+1)), 'q');
+    [k, v] = v_findpeaks(log(abs(S(1:end/2+1))), 'q');
     if length(k)==1
         idx = (k-sins(1,:))<step/2;
         sins(1,idx) = k-1;
-        sins(2,idx) = v;
+        sins(2,idx) = exp(v);
     elseif length(k)>1
         D = abs(repmat(k,1,max_h)-repmat(1+sins(1,:), length(k),1));
         [mind, mindi] = min(D);
         idx = mind<step/2;
         sins(1,idx) = k(mindi(idx))-1;
-        sins(2,idx) = v(mindi(idx));
+        sins(2,idx) = exp(v(mindi(idx)));
     end
     sins(1,:) = (fs/dftlen)*sins(1,:);
 
@@ -77,7 +77,7 @@ function sins = spec_getsins_f0(S, fs, f0, max_h)
     % Add the DC
     sins = [[0; abs(S(1)); angle(S(1)); 0], sins];
 
-    if 0
+    if 1
         F = fs*(0:dftlen/2)/dftlen;
         plot(F, mag2db(abs(S(1:end/2+1))), 'k');
         hold on;
