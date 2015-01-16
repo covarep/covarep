@@ -20,9 +20,13 @@
 
 function f0sout = fillf0(f0sin)
 
-    idx = find(f0sin(:,2)~=0);
     f0sout = f0sin;
-    f0sout(:,2) = 2.^(interp1(f0sin(idx,1), log2(f0sin(idx,2)), f0sin(:,1), 'linear', NaN));
+
+    idx = find(f0sin(:,2)~=0);
+    if ~isempty(idx)
+        f0sout(:,2) = 2.^(interp1(f0sin(idx,1), log2(f0sin(idx,2)), f0sin(:,1), 'linear', NaN));
+    end
+
     f0sout(:,2) = interp1_fixnan(f0sout(:,2));
 
 return

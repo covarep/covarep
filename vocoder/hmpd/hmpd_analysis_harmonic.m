@@ -44,7 +44,7 @@
 
 function [frames, opt] = hmpd_analysis_harmonic(wav, fs, f0s, opt)
     if opt.debug>0; disp('HMPD Vocoder: Harmonic analysis ...'); end
-    
+
     % Get fundamental frequency (f0)
     if ~isempty(f0s)
         % If an f0 curve is provided ...
@@ -57,8 +57,12 @@ function [frames, opt] = hmpd_analysis_harmonic(wav, fs, f0s, opt)
 
         [f0s,VUVDecisions,SRHVal,f0times] = pitch_srh(wav, fs, opt.f0min, opt.f0max, 5);
         f0s = [f0times(:), f0s(:)];
-        f0s(find(~VUVDecisions),2) = 0;
-        f0s = fillf0(f0s);
+        if ~any(VUVDecisions)
+            warning(['No voiced segment detected in this signal. You might have to adapt the f0 range (currently [' num2str(opt.f0min) ',' num2str(opt.f0max) ']Hz)']);
+        else
+            f0s(find(~VUVDecisions),2) = 0;
+            f0s = fillf0(f0s);
+        end
 
         if opt.f0refine
             airopt = ahm_air_analysis2();
