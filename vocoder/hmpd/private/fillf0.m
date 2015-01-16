@@ -23,7 +23,9 @@ function f0sout = fillf0(f0sin)
     f0sout = f0sin;
 
     idx = find(f0sin(:,2)~=0);
-    if ~isempty(idx)
+    if length(idx)==1
+        f0sout(:,2) = f0sin(idx,2);
+    elseif length(idx)>1
         f0sout(:,2) = 2.^(interp1(f0sin(idx,1), log2(f0sin(idx,2)), f0sin(:,1), 'linear', NaN));
     end
 
