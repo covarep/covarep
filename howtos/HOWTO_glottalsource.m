@@ -35,6 +35,9 @@ x=polarity*x;
 % Extract the pitch and voicing information
 [srh_f0,srh_vuv,srh_vuvc,srh_time] = pitch_srh(x,fs,F0min,F0max,frame_shift);
 
+% Extract the maximum voiced frequency
+[max_voiced_freq] = maximum_voiced_frequency(x,fs,srh_f0.*srh_vuv,srh_time);
+
 % Creaky probability estimation
 warning off
 try
@@ -83,7 +86,7 @@ CPPv = cpp( x, fs, 1, 'mean' );
 % Plots
 t=(0:length(x)-1)/fs;
 
-fig(1) = subplot(511);
+fig(1) = subplot(311);
     plot(t,x, 'b');
     hold on
     plot(srh_time, srh_vuv, 'g');
@@ -93,13 +96,23 @@ fig(1) = subplot(511);
     xlabel('Time [s]');
     ylabel('Amplitude');
 
-fig(2) = subplot(512);
+fig(2) = subplot(312);
     plot(srh_time, srh_f0, 'r');
     legend('f0 (SRH)');
     xlabel('Time [s]');
     ylabel('Hz');
+    
+fig(3) = subplot(313);
+    plot(srh_time, max_voiced_freq, 'g');
+    legend('Maximum voiced frequency');
+    xlabel('Time [s]');
+    ylabel('Hz');
 
-fig(3) = subplot(513);
+linkaxes(fig, 'x');
+xlim([0 srh_time(end)]);
+figure
+    
+fig(4) = subplot(311);
     plot(t,x, 'b');
     hold on
     plot(ps(:,1), ps(:,2),'--b');
@@ -108,7 +121,7 @@ fig(3) = subplot(513);
     legend('Speech signal','PeakSlope','MDQ','Rd');
     xlabel('Time [s]');
 
-fig(4) = subplot(514);
+fig(5) = subplot(312);
     plot(t,x, 'b');
     hold on
     plot(t,norm(x)*gf_iaif./norm(gf_iaif), 'g');
@@ -117,7 +130,7 @@ fig(4) = subplot(514);
     ylabel('Amplitude');
     legend('Speech signal','Glottal flow (IAIF)','Creaky voice probability','Location','NorthWest');
     
-fig(5) = subplot(515);
+fig(6) = subplot(313);
     plot(t,x, 'b');
     hold on
     plot(t,norm(x)*dgf_cc./norm(dgf_cc), 'r');    
