@@ -4,15 +4,15 @@
 %
 % Description
 % Based on the tracked formants F1 and F2 for the voiced regions of speech 
-% we compute the vowel space for each recorded subject individually. 
+% we compute the vowel space for each recorded subject individually [1]. 
 % We define the vowel space as the frequency region covered by the triangle 
 % in the two dimensional frequency space spanned by F1 and F2 for the vowels 
-% /i/ (as in heed), /a/ (as in hod), and /u/ (as in who'd) following [1].
+% /i/ (as in heed), /a/ (as in hod), and /u/ (as in who'd) following [2].
 % These three vowels represent the vowels with the most extreme positions 
 % of the tongue and are therefore located in the extremes of this triangularly 
-% shaped two-dimensional frequency space [2]. The method is developed
-% following the recommendations in [3]. Reference frequencies of american
-% english vowels are found in [4].
+% shaped two-dimensional frequency space [3]. The method is developed
+% following the recommendations in [4]. Reference frequencies of american
+% english vowels are found in [5].
 %
 %
 % [ratio, centroids] = getVowelSpace(formant_data, gender, mode, scaling, plot_formants)
@@ -32,16 +32,19 @@
 %  centroids        : [1x12] vector containing prototype vowel locations
 %
 % References
-% [1] H.-M. Liu, F.-M. Tsao, and P. K. Kuhl, ?The effect of reduced vowel
+% [1] Scherer, S., Morency, L.-P., Gratch, J., and Pestian, J., EDUCED VOWEL SPACE
+% IS A ROBUST INDICATOR OF PSYCHOLOGICAL DISTRESS: A CROSS-CORPUS ANALYSIS,
+% Proceedings of ICASSP 2015.
+% [2] H.-M. Liu, F.-M. Tsao, and P. K. Kuhl, ?The effect of reduced vowel
 % working space on speech intelligibility in mandarin-speaking young
 % adults with cerebral palsy,? Journal of the Acoustical Society of America,
 % vol. 117, no. 6, pp. 3879?3889, 2005.
-% [2] B. Lindblom, ?Explaining phonetic variation: A sketch of the h&h
+% [3] B. Lindblom, ?Explaining phonetic variation: A sketch of the h&h
 % theory,? Speech Production and Speech Modeling, pp. 403?439, 1990.
-% [3] S. Sandoval, V. Berisha, R. L. Utianski, J. M. Liss, and A. Spanias,
+% [4] S. Sandoval, V. Berisha, R. L. Utianski, J. M. Liss, and A. Spanias,
 % ?Automatic assessment of vowel space area,? Journal of the Acoustical
 % Society of America, vol. 134, no. 5, pp. 477?483, 2013.
-% [4] J. Hillenbrand, L. A. Getty, M. J. Clark, and K. Wheeler, ?Acoustic
+% [5] J. Hillenbrand, L. A. Getty, M. J. Clark, and K. Wheeler, ?Acoustic
 % characteristics of american english vowels,? Journal of the Acoustical
 % Society of America, vol. 97, no. 5, pp. 3099?3111, 1995.
 %
