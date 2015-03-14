@@ -37,7 +37,6 @@
 
 function CPP = cpp( x, fs, smoothOpt, normOpt )
 
-addpath( genpath( pwd ) );
 if nargin < 3
     smoothOpt = 0;
 end
