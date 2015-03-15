@@ -9,11 +9,10 @@
 %                  The DC has to be included (in the first column)
 %  fs            : [Hz] Signal's sampling frequency
 %  order         : Cepstral order
-%  [extrap_dcny] : If true, alleviate the stability problem of the DCE by
-%                        replacing the DCE value and extrapolating sinusoidal
-%                        components up to Nyquist.
-%                  If false, use the sinusoidal components as they are.
-%                        (default)
+%  [extrap_dcny] : If true (default), alleviate stability problems of the DCE 
+%                     by replacing the DCE value and extrapolating sinusoidal
+%                     components up to Nyquist.
+%                  If false, use the sinusoidal components as they are.  
 %  [scale]       : empty  : Frequency linear scale (default)
 %                 'mel'  : see frq2mel (for MFCC computation)
 %                 'bark' : see frq2bark
@@ -26,6 +25,13 @@
 %  [lr]          : Regularization parameter (as in [2]) (def. 0)
 %  [dftlen]      : DFT's length, if the 4th output argument is requested.
 %
+% Output
+%  cc             : Cepstral coefficients
+%  Dk             : [log] Log energy corrections
+%  af             : As in input, plus the aligned amplitudes values in the
+%                   'a' field.
+%  E              : The amplitude cepstral envelope
+%  
 % References
 %  [1] Y. Shiga and S. King, "Estimation of voice source and vocal tract 
 %      characteristics based on multi-frame analysis," EUROSPEECH, 2003.
@@ -54,7 +60,7 @@ function [cc Dk af E] = env_dce_mfa_shiga4(af, fs, order, extrap_dcny, scale, Bw
     debug = 0; % 0:Do nothing; 1:Plot iterations info; 2:Plot results
 
     % Input parameters
-    if nargin<4; extrap_dcny=false; end
+    if nargin<4; extrap_dcny=true; end
     if nargin<5; scale = []; end
     if nargin<6 || isempty(Bw); Bw = fs*3000/16000; end
     if nargin<7 || isempty(lr); lr = 0; end
@@ -201,17 +207,4 @@ function [cc Dk af E] = env_dce_mfa_shiga4(af, fs, order, extrap_dcny, scale, Bw
         end
     end
 
-    if 0 % Plot the final solution
-        hold off;
-        sins = [[af(:).f]; exp([af(:).a])];
-        plot(sins(1,:), mag2db(sins(2,:)), 'x', 'Color', 0.66*[1,1,1]);
-        hold on;
-        plot(af(ci).f, mag2db(exp(af(ci).a)), 'xk');
-
-        bins = fs*(0:dftlen/2)/dftlen;
-        plot(bins, mag2db(abs(E)), 'b');
-        title(['DCE-MFA order=' num2str(order)]);
-
-        keyboard
-    end
 return
