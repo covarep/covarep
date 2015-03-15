@@ -62,7 +62,7 @@ function [cc Dk af E] = env_dce_mfa_shiga4(af, fs, order, extrap_dcny, scale, Bw
     % Input parameters
     if nargin<4; extrap_dcny=true; end
     if nargin<5; scale = []; end
-    if nargin<6 || isempty(Bw); Bw = fs*3000/16000; end
+    if nargin<6 || isempty(Bw); Bw = 2000*(fs*/16000); end% 2kHz with 16kHz[1]
     if nargin<7 || isempty(lr); lr = 0; end
     if nargin<8; dftlen=4096; end
 
