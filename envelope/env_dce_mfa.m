@@ -55,7 +55,7 @@
 %  Gilles Degottex <degottex@csd.uoc.gr> (regularization term)
 %
 
-function [cc Dk af E] = env_dce_mfa_shiga4(af, fs, order, extrap_dcny, scale, Bw, lr, dftlen)
+function [cc Dk af E] = env_dce_mfa(af, fs, order, extrap_dcny, scale, Bw, lr, dftlen)
 
     debug = 0; % 0:Do nothing; 1:Plot iterations info; 2:Plot results
 
