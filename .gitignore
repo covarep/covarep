@@ -1,3 +1,7 @@
 # Backup files
 *.m~
+*.log
+*.out
+*.aux
+*.toc
 
