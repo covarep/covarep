@@ -1,4 +1,4 @@
-% Feature extraction for the VAD system.
+% Feature extraction for the VAD system and Robust DNN-based ASR.
 %
 % Description
 %  This is the module of feature extraction for the VAD system.
@@ -21,11 +21,16 @@
 %  [2] S.O. Sadjadi, J. Hansen: "Unsupervised Speech Activity Detection Using
 %  Voicing Measures and Perceptual Spectral Flux", IEEE Sig. Pro. Letters,
 %  vol. 20, pp. 197-200, 2013.
+%  [3] T. Drugman, Y. Stylianou, L. Chen, X. Chen, M. Gales, Robust
+%  Excitation-based Features for Automatic Speech Recognition, IEEE 
+%  International Conference on Acoustics, Speech and Signal Processing (ICASSP),
+%   2015: http://tcts.fpms.ac.be/~drugman/files/ICASSP15_ASR.pdf
 %
 % Copyright (c) 2014 Toshiba Cambridge Research Laboratory
 %
 % License
-%  This code will be part of the GLOAT toolbox (http://tcts.fpms.ac.be/~drugman/Toolbox/)
+%  This code will be part of the GLOAT toolbox
+%    (http://tcts.fpms.ac.be/~drugman/Toolbox/)
 %  with the following licence:
 %  This program is free software: you can redistribute it and/or modify
 %  it under the terms of the GNU General Public License as published by
@@ -36,7 +41,8 @@
 %  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 %  GNU General Public License for more details.
 %
-% This function will also be part of the Covarep project: http://covarep.github.io/covarep
+% This function is also be part of the Covarep project:
+%  http://covarep.github.io/covarep
 % 
 % Author 
 %  Thomas Drugman thomas.drugman@umons.ac.be
