@@ -1,7 +1,7 @@
 % Create a spectrum from ARMA coefficients (g,b,a)
 %
 % Inputs
-%  g          : gain
+%  g          : gain [linear energy]
 %  b          : MA coefficients
 %  a          : AR coefficients
 %  dftlen     : length of the spectrum
@@ -31,24 +31,46 @@
 
 function S = gba2hspec(g, b, a, dftlen)
 
-    a = a(:)';
-    b = b(:)';
-
-    if length(b)==1
-        if length(a)==1
-            S = g.*(b/a) * ones(dftlen,1);
-        else
-            S = g.*b ./fft(a, dftlen);
+    if prod(size(g))>length(g) || prod(size(b))>length(b) || prod(size(a))>length(a)
+        Nframes = max([size(g,1), size(b,1), size(a,1)]);
+        if mod(dftlen,2)==0; S = zeros(Nframes, dftlen/2+1);
+        else;                S = zeros(Nframes, (dftlen-1)/2+1);   end
+        for k=1:Nframes
+            if length(b)>0
+                if length(a)>0
+                    S(k,:) = gba2hspec(g(k), b(k,:), a(k,:), dftlen);
+                else
+                    S(k,:) = gba2hspec(g(k), b(k,:), 1, dftlen);
+                end
+            else
+                if length(a)>0
+                    S(k,:) = gba2hspec(g(k), 1, a(k,:), dftlen);
+                else
+                    S(k,:) = g(k);
+                end
+            end
         end
+
     else
-        if length(a)==1
-            S = g.*fft(b, dftlen)./a;
-        else
-            S = g.*fft(b, dftlen)./fft(a, dftlen);
-        end
-    end
+        a = a(:)';
+        b = b(:)';
 
-    if mod(dftlen,2)==0; S=S(1:end/2+1);
-    else;                S=S(1:(end-1)/2+1);   end
+        if length(b)==1
+            if length(a)==1
+                S = g.*(b/a) * ones(dftlen,1);
+            else
+                S = g.*b ./fft(a, dftlen);
+            end
+        else
+            if length(a)==1
+                S = g.*fft(b, dftlen)./a;
+            else
+                S = g.*fft(b, dftlen)./fft(a, dftlen);
+            end
+        end
+
+        if mod(dftlen,2)==0; S=S(1:end/2+1);
+        else;                S=S(1:(end-1)/2+1);   end
+    end
 
 return
