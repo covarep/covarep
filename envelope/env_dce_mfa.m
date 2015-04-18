@@ -102,7 +102,6 @@ function [cc Dk af E] = env_dce_mfa(af, fs, order, extrap_dcny, scale, Bw, lr, d
         Bk = [ones(Nk,1) 2*cos(2*pi*fk/fs*(1:order))];
 
         wk = exp(-fk.^2 / (2 * Bw * Bw))'; % Bottom-right paragraph p.3
-        wk = wk./sum(wk);
         Wk = diag(wk)/Nk; % (8)
 
         % keep the main matrices
@@ -179,7 +178,7 @@ function [cc Dk af E] = env_dce_mfa(af, fs, order, extrap_dcny, scale, Bw, lr, d
 
 
     % Align the gain corrections with respect to the central frame
-    ci = (numel(af)-1)/2+1;
+    ci = floor((numel(af)-1)/2)+1;
     cc(1) = cc(1)+Dk(ci);
     Dk = Dk - Dk(ci);
     cc(2:end) = 2*cc(2:end);
