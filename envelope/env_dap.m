@@ -98,10 +98,9 @@ function [g a E opt] = env_dap(sins, fs, order, dftlen, opt)
                 ylabel('Amplitude [log]');
 
             subplot(212);
-                plot(err);
+                plot(log10(err));
                 xlabel('Iterations');
-                ylabel('Itakura-Saito error');
-
+                ylabel('Itakura-Saito error [log10]');
             pause
         end
 
