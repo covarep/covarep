@@ -63,7 +63,7 @@ function [E] = env_dli_mfa(af, fs, dftlen, extrap_dcny)
     E = [E(1), E];
 
     % Align the envelope on the harmonics of the central frame
-    ci = (numel(af)-1)/2+1;
+    ci = floor((numel(af)-1)/2)+1;
     ek = interp1(F', E, af(ci).sins(1,:));
     ak = log(af(ci).sins(2,:));
     idx = find(af(ci).sins(1,:)>0 & af(ci).sins(1,:)<4000);
