@@ -54,7 +54,7 @@
 
 function [AS_IHPC,AS_IHPC_ICPC,AS,IHPC,ICPC] = maximum_voiced_frequency(wave,Fs,f0,t)
 
-t = t*Fs;
+t = round(t*Fs)+1; % From [s] to [samples]
 
 AS=[];
 IHPC=[];
