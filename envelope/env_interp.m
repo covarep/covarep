@@ -85,6 +85,10 @@ function E = env_interp(sins, fs, dftlen, extrap_dcny, varargin)
         dftony = fs/2-fks(end:-1:end-4);
         fks = [fks fs/2+dftony]; % Add the symetrical to Nyquist
         aks = [aks aks(end:-1:end-4)];
+    elseif fks(end)==fs/2
+        dftony = fs/2-fks(end-1:-1:end-5);
+        fks = [fks fs/2+dftony]; % Add the symetrical to Nyquist
+        aks = [aks aks(end-1:-1:end-5)];
     end
 
     % Do the interpolation
