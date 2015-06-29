@@ -38,16 +38,17 @@ function sins = spec_getsins(S, fs, varargin)
 
     idx = v_findpeaks(abs(S(1:floor(end/2)))); % TODO Use 'q'
     
-    sins = zeros(3,length(idx));
+    sins = zeros(5,length(idx));
     for k=1:length(idx)
         [sins(1,k) sins(2,k)] = spec_fit_freq_amp(S, fs, idx(k), varargin{:});
     end
+    sins(5,:) = true; % they are all from spectral peaks
 
     % Estimate the phase from linear interpolation of the phase spectrum
     sins(3,:) = wrap(interp1q(fs*(0:dftlen/2)'/dftlen, unwrap(angle(S(1:end/2+1))).', sins(1,:)'));
 
     % Add the DC
-    sins = [[0; abs(S(1)); angle(S(1))], sins];
+    sins = [[0; abs(S(1)); angle(S(1)); 0; abs(S(1))>abs(S(2))], sins];
 
 return
 
