@@ -47,6 +47,7 @@ function [AE, frames, opt] = hmpd_amplitude_envelope_estimate(frames, fs, opt)
     AE = zeros(numel(frames),opt.dftlen/2+1); % Pre-allocate the necessary space
     F = fs*(0:opt.dftlen/2)/opt.dftlen; % The bins' frequency of the envelope
 
+    if opt.debug>0; pg=progressbar(numel(frames)); end
     for n=1:numel(frames)
 
         % Estimate an amplitude envelope
@@ -61,9 +62,11 @@ function [AE, frames, opt] = hmpd_amplitude_envelope_estimate(frames, fs, opt)
         if opt.pd_vtf_rm
             lE = hspec2minphaseloghspec(E);
             vtfp = phiinterp1fn(F, imag(lE), frames(n).sins(1,:), 0);
-            frames(n).sins(3,:) = wrap(frames(n).sins(3,:) - vtfp);
-            frames(n).sins = [frames(n).sins; vtfp]; % Keep the "vtf" phase
+            frames(n).sins(3,:) = wrap(frames(n).sins(3,:) - vtfp(:)');
+            frames(n).sins = [frames(n).sins; vtfp(:)']; % Keep the "vtf" phase
         end
+
+        if opt.debug>0; pg=progressbar(pg, n); end
     end 
     
 return
