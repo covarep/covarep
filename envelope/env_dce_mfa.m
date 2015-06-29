@@ -118,7 +118,11 @@ function [cc Dk af E] = env_dce_mfa(af, fs, order, extrap_dcny, scale, Bw, lr, d
     if debug>0; disp(['iter:' num2str(iter) ' error=' num2str(erI) 'log']); end
 
     % first estimation of ceps
-    cc = (BWB+lr*diag(ones(size(BWB,1),1)))\rt; % Solution of (9)
+    if lr==0
+        cc = BWB\rt; % Solution of (9)
+    else
+        cc = (BWB+lr*diag(ones(size(BWB,1),1)))\rt; % Solution of (9) + Regul term
+    end
     cc(1) = 0;
 
     iter = 1;
@@ -142,7 +146,11 @@ function [cc Dk af E] = env_dce_mfa(af, fs, order, extrap_dcny, scale, Bw, lr, d
 
             Dk(k) = dk;
         end
-        cc = (BWB+lr*diag(ones(size(BWB,1),1)))\rt;
+        if lr==0
+            cc = BWB\rt; % Solution of (9)
+        else
+            cc = (BWB+lr*diag(ones(size(BWB,1),1)))\rt; % Solution of (9) + Regul term
+        end
         cc(1) = 0;
 
         if debug>0; disp(['iter:' num2str(iter) ' error=' num2str(er) 'log']); end
