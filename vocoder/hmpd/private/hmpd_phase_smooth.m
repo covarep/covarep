@@ -61,8 +61,8 @@ function PD = hmpd_phase_smooth(PD, nbat)
     %         ii) It keeps the outliers in the residual phase, which optimize
     %             the variance measurement.
     % ERRATUM: Was not mentioned in the original papers [1,2]
-    PDc = medfilt1(PDc, winlen, [], 1);
-    PDs = medfilt1(PDs, winlen, [], 1);
+    PDc = medfilt1(PDc, winlen);
+    PDs = medfilt1(PDs, winlen);
 
     % Then smooth the steps of the median filter
     PDc = filtfilt(win, 1, PDc);
