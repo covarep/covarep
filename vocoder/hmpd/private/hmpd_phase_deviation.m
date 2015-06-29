@@ -45,8 +45,8 @@ function PDD = hmpd_phase_deviation(PD, nbat)
 
     z = abs(PDc + 1j*PDs); % For the variance, we need only the magnitude
 
-    z = min(1,z); % BUG FIX: without this: abs(z)=1 can imply PDD=0+0i
-
-    PDD = sqrt(-2*log(z)); % Fisher's standard-deviation
+    PDD = zeros(size(PDc));
+    idx = find(z<1); % To avoid neg sqrt or sqrt(-log(0))
+    PDD(idx) = sqrt(-2*log(z(idx))); % Fisher's standard-deviation
 
 return
