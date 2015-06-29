@@ -49,6 +49,8 @@ function sins = spec_getsins_f0(S, fs, f0, max_h)
 
     step = dftlen*f0/fs; % f0 in number of bins
 
+    sins = zeros(5,max_h); % Allocate the whole matrix first
+
     % By default, use a simple harmonic sampling ...
     sins(1,:) = step*(1:max_h);
     sins(2,:) = abs(S(1+round(sins(1,:))));
@@ -59,12 +61,14 @@ function sins = spec_getsins_f0(S, fs, f0, max_h)
         idx = (k-(1+sins(1,:)))<step/2;
         sins(1,idx) = k-1;
         sins(2,idx) = exp(v);
+        sins(5,idx) = true;
     elseif length(k)>1
         D = abs(repmat(k,1,max_h)-repmat(1+sins(1,:), length(k),1));
         [mind, mindi] = min(D);
         idx = mind<step/2;
         sins(1,idx) = k(mindi(idx))-1;
         sins(2,idx) = exp(v(mindi(idx)));
+        sins(5,idx) = true;
     end
     sins(1,:) = (fs/dftlen)*sins(1,:);
 
@@ -75,13 +79,15 @@ function sins = spec_getsins_f0(S, fs, f0, max_h)
     sins(4,:) = 1:size(sins,2);
 
     % Add the DC
-    sins = [[0; abs(S(1)); angle(S(1)); 0], sins];
+    sins = [[0; abs(S(1)); angle(S(1)); 0; abs(S(1))>abs(S(2))], sins];
 
     if 0
         F = fs*(0:dftlen/2)/dftlen;
         plot(F, mag2db(abs(S(1:end/2+1))), 'k');
         hold on;
         plot(sins(1,:), mag2db(sins(2,:)), 'xb');
+        idx = find(sins(5,:));
+        plot(sins(1,idx), mag2db(sins(2,idx)), 'xr');
         keyboard
     end
 
