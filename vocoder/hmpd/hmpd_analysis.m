@@ -109,6 +109,7 @@ function [f0s, AE, PDM, PDD, opt] = hmpd_analysis(wav, fs, f0s, opt)
     if nargin==0; f0s=opt; return; end
     if nargin<3; f0s=[]; end
     if opt.amp_enc_method==1; opt.amp_order=opt.dftlen/2; end
+    if exist('OCTAVE_VERSION'); opt.usemex=false; end
 
     % Estimate sinusoidal harmonic parameters
     frames = hmpd_analysis_harmonic(wav, fs, f0s, opt);
