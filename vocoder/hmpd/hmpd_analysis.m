@@ -1,5 +1,7 @@
 % Parameter analysis for the Harmonic Model + Phase Distortion (HMPD)
 %
+% Octave compatible
+%
 % This the main entry point for estimating the parameters of the HMPD vocoder.
 %
 % Please read the README.txt file for general information about HMPD before

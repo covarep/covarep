@@ -1,5 +1,7 @@
 % Features computation for the Harmonic Model + Phase Distortion (HMPD)
 %
+% Octave compatible
+%
 % Please read the README.txt file for general information about HMPD before
 % using it.
 %
