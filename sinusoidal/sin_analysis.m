@@ -38,9 +38,10 @@
 %  frames : N structures containing the estimated sinusoid parameters and extra
 %           information (e.g. window length, the f0 used).
 %           For each frame, the sinusoid parameters are in a matrix with format:
-%              [4xK] for each column: the frequency [Hz], the linear amplitude,
-%              the instantaneous phase [rad] and the harmonic number of each
-%              sinusoidal component.
+%              [5xK] for each column: the frequency [Hz], the linear amplitude,
+%              the instantaneous phase [rad], the harmonic number of each
+%              sinusoidal component and a boolean specifying if the sinusoidal
+%              parameters are from a spectral peak or through sampling.
 %              The DC is ALWAYS included at the beginning of the matrix.
 %  syn    : if asked, the resynthesized waveform using an Overlap-Add method.
 %  opt    : The options structure which might have been altered for consistency
@@ -272,7 +273,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
 
                 % Get the f0 and the center of the window
                 cf0 = f1(idscenter);
-                fr.sins = [cf0*(0:Ho); abs(ak)'; angle(ak)'; (0:Ho)];
+                fr.sins = [cf0*(0:Ho); abs(ak)'; angle(ak)'; (0:Ho); zeros(1,Ho+1)];
 
             else
                 % Use stationary components
@@ -307,7 +308,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
                     %  y = real(E*ak); % reconstructed signal
                 end
 
-                fr.sins = [fk(Ho+1:end); abs(ak)'; angle(ak)'; (0:Ho)];
+                fr.sins = [fk(Ho+1:end); abs(ak)'; angle(ak)'; (0:Ho); zeros(1,Ho+1)];
             end
         else
             % Use Peak Picking (PP) from a spectrum [1]
