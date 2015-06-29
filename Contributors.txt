@@ -8,6 +8,7 @@ Contributors
     Jouni Pohjalainen 4
     Nathalie Henrich 6,7
     Alexis Michaud 8,9
+    Yannis Stylianou 1,10,11
 
 Institutions
 1. University of Crete, Heraklion, Greece
@@ -40,3 +41,5 @@ Institutions
 10.Foundation for Research and Technology-Hellas (FORTH), Heraklion, Greece
    Institute of Computer Science (ICS) - Signal Processing Laboratory
 
+11.Toshiba Cambridge Research Laboratory, Cambridge, UK
+   Speech Technology Group (STG)
