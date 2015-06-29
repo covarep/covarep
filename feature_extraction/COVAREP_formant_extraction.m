@@ -70,7 +70,7 @@ if(hasParallelComputing)
         disp(str)
         try
             % Load file and set sample locations
-            [x,fs]=audioread([in_dir filesep basename '.wav'], [1, 100000]);
+            [x,fs]=audioread([in_dir filesep basename '.wav']);
             feature_sampling=round((sample_rate/2)*fs):round(sample_rate*fs):length(x);
             
             [formantPeaks_int, vowelSpace] = do_computation(x,fs,sample_rate,feature_sampling);
@@ -92,7 +92,7 @@ else
         disp(str)
         try
             % Load file and set sample locations
-            [x,fs]=audioread([in_dir filesep basename '.wav'], [1, 100000]);
+            [x,fs]=audioread([in_dir filesep basename '.wav']);
             feature_sampling=round((sample_rate/2)*fs):round(sample_rate*fs):length(x);
             
             [formantPeaks_int, vowelSpace] = do_computation(x,fs,sample_rate,feature_sampling);
