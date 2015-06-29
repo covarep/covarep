@@ -92,6 +92,7 @@ function [syn, fs, opt] = hm_synthesis4(frames, wavlen, fs, opt)
     % Fundamental phase from fundamental frequency
     p1 = filter(1, [1 -1], 2*pi*f1/fs);
     p1at = interp1(times, p1, T);
+    p1at = interp1_extrapbounds(p1at); % T can be outside of times (const extrap is not good, but ...)
 
     % Count the maximum number of harmonic in the whole recording
     Hmax = 0;
