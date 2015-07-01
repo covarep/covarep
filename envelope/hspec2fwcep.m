@@ -88,7 +88,7 @@ function fwcep = hspec2fwcep(C, fs, order, warpfn, varargin)
     Cwrap = [abs(env(1)); env(2:end-1); abs(env(end)); conj(env(end-1:-1:2))];
 
     % Compute the cepstrum
-    fwcep = ifft(log(abs(Cwrap)));
+    fwcep = real(ifft(log(abs(Cwrap))));
 
     % Drop the negative quefrencies and compensate the loss of cepstral energy
     fwcep = [fwcep(1); 2*fwcep(2:1+order)];
