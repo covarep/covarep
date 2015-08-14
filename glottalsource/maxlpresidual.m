@@ -95,7 +95,7 @@ while stop<=length(s)
     end
 
     %% Choose now the value of Alpha (the preemphasis coeff) maximizing the Gini index (here used as a sparsity measure)
-    [maxi,posi]=max(Val);    
+    [~,posi]=max(Val);    
     SparseRes=Res(posi,:); 
     
     if Alphas(posi)<-0.7

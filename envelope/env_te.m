@@ -148,7 +148,7 @@ function [E, cc, n] = env_te(S, order, winlen, mode, maxit, prec, presmooth_fact
     end
 
     if mod(dftlen,2)==0; lV=lV(1:end/2+1);
-    else;                lV=lV(1:(end-1)/2+1);   end
+    else                lV=lV(1:(end-1)/2+1);   end
 
     E = fnexp(lV);
 

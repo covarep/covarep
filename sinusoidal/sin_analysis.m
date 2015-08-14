@@ -84,7 +84,7 @@
 %  Gilles Degottex <degottex@csd.uoc.gr>
 %
 
-function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
+function [frames, syn, opt] = sin_analysis(wav, fs, f0s, opt)
 
     if nargin<4
         % Options
@@ -340,7 +340,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
                 fr.sins = spec_getsins(S, fs);
 
                 if opt.funique
-                    [dum idx] = unique(fr.sins(1,:));
+                    [~, idx] = unique(fr.sins(1,:));
                     fr.sins = fr.sins(:,idx);
                 end
             end
@@ -419,7 +419,7 @@ function [frames syn opt] = sin_analysis(wav, fs, f0s, opt)
         end
         hold off;
         [mf0, winlen, dftlen] = spec_info(fs, f0s);
-        [X Fs Ts] = spectrogram(wav, blackman(winlen), round(0.9*winlen), dftlen, fs);
+        [X, Fs, Ts] = spectrogram(wav, blackman(winlen), round(0.9*winlen), dftlen, fs);
         imagesc(Ts, Fs, lin2db(X));
         axis xy;
         hold on;

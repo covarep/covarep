@@ -151,7 +151,7 @@ function [gci, MeanBasedSignal, res] = gci_sedreams(wave, fs, f0mean, ...
     for k=1:length(Posis)
 
         Dists=abs(Minis-Posis(k));
-        [mini,pos]=min(Dists);
+        [~,pos]=min(Dists);
         interv=Maxis(pos)-Minis(pos);
 
         RelPosis(k)=(Posis(k)-Minis(pos))/interv;
@@ -185,7 +185,7 @@ function [gci, MeanBasedSignal, res] = gci_sedreams(wave, fs, f0mean, ...
         end
         if (stop > 1)
             vec=res(start:stop);
-            [maxi,posi]=max(vec);
+            [~,posi]=max(vec);
             gci(Ind)=start+posi-1;
             Ind=Ind+1;
         end

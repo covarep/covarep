@@ -72,7 +72,7 @@ searchRate=0.2;
 m=zeros(1,length(GCI));
 
 %% Do wavelet-based decomposition
-[TMP,y_n] = do_daless_decomp(res,fs,i);
+[~,y_n] = do_daless_decomp(res,fs,i);
 
 %% Do processing
 for n=1:length(GCI)
@@ -101,7 +101,7 @@ for n=1:length(GCI)
         % Measure dispersion at each frequency band
         for k=1:s_num
             y_curn = y_cur(k,:);
-            [TMP,maxIdx] = max(y_curn);
+            [~,maxIdx] = max(y_curn);
             dist_cur(k) = abs(midpoint-maxIdx);
         end  
 
