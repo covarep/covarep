@@ -101,9 +101,8 @@ else
             
             str=sprintf('.............DONE!!!');
             disp(str)
-        catch
-            str=sprintf('.............ERROR NOT ANALYSED!!!');
-            disp(str)
+        catch err
+            warning(['An error occurred while analysing ' basename ': ' getReport(err)])
         end
     end
 end
