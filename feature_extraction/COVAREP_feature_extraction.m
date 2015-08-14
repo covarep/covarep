@@ -92,8 +92,7 @@ for n=1:N
    
     basename=regexp(fileList(n).name,'\.wav','split');
     basename=char(basename(1));
-    str=sprintf('Analysing file: %s',basename);
-    disp(str)
+    disp(['Analysing file: ' basename])
     try
         % Load file and set sample locations
         [x,fs]=wavread([in_dir filesep basename '.wav']);
@@ -196,11 +195,10 @@ for n=1:N
         save([in_dir filesep basename '.mat'],'features','names')
         clear features
 
-        str=sprintf('.............DONE!!!');
-        disp(str)
-    catch 
-        str=sprintf('.............ERROR NOT ANALYSED!!!');
-        disp(str)
+        disp([basename ' successfully analysed'])
+        
+    catch err
+        warning(['An error occurred while analysing ' basename ': ' getReport(err)])
     end
     
 end
