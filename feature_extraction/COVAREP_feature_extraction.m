@@ -95,7 +95,7 @@ for n=1:N
     disp(['Analysing file: ' basename])
     try
         % Load file and set sample locations
-        [x,fs]=wavread([in_dir filesep basename '.wav']);
+        [x,fs]=audioread([in_dir filesep basename '.wav']);
         feature_sampling=round((sample_rate/2)*fs):round(sample_rate*fs):length(x);
         
         % Check if signal is mono or stereo
