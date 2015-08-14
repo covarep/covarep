@@ -144,7 +144,7 @@ for n=1:length(GCI)
         if length(h_idx) >= min_harm_num
             f0_idx=zeros(HRF_harm_num,1);
             for m=1:HRF_harm_num
-                [TMP,f0_idx(m)]=min(abs(h_idx-(F0*m))); % Find closest peak to F0
+                [~,f0_idx(m)]=min(abs(h_idx-(F0*m))); % Find closest peak to F0
             end
             H1H2(n)=h_amp(f0_idx(1))-h_amp(f0_idx(2));
             HRF(n) = sum(h_amp(f0_idx(2:end)))/h_amp(f0_idx(1));

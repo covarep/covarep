@@ -114,15 +114,12 @@ clear res;
 
 %% Create window matrix and apply to frames
 win = blackman(frameDuration);
-winMat = repmat( win, 1 , N );
-frameMatWin = frameMat .* winMat;
-clear winMat;
+frameMatWin = bsxfun(@times, frameMat, win);
 
 %% Do mean subtraction
 frameMean = mean(frameMatWin,1);
-frameMeanMat = repmat(frameMean,frameDuration,1);
-frameMatWinMean = frameMatWin - frameMeanMat;
-clear frameMean frameMeanMat frameMatWin frameMat;
+frameMatWinMean = bsxfun(@minus, frameMatWin, frameMean);
+clear frameMean frameMatWin frameMat;
 
 %% Compute spectrogram matrix
 specMat = zeros(fs, size(frameMatWinMean,2));
@@ -132,9 +129,8 @@ end
 % specMat = abs( fft(frameMatWinMean,fs) );
 specMat = specMat(1:fs/2,:);
 specDenom = sqrt( sum( specMat.^2, 1 ) );
-specDenomMat = repmat( specDenom, fs/2, 1 );
-specMat = specMat ./ specDenomMat;
-clear specDenom specDenomMat;
+specMat = bsxfun(@rdivide, specMat, specDenom);
+clear specDenom;
 
 %% Estimate the pitch track in 2 iterations
 for Iter=1:Niter   
@@ -171,14 +167,14 @@ VUVDecisions( SRHVal > VoicingThresh ) = 1;
 return
 
 
-function [F0,SRHVal] = SRH( specMat, nHarmonics, f0min, f0max );
+function [F0,SRHVal] = SRH( specMat, nHarmonics, f0min, f0max )
 
 % Function to compute Summation of Residual harmonics function
 % on a spectrogram matrix, with each column corresponding to one
 % spectrum.
 
 % Initial settings
-[M,N] = size( specMat );
+N = size(specMat, 2);
 SRHmat = zeros(f0max,N);
 
 fSeq = f0min:f0max;

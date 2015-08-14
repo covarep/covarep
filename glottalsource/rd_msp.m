@@ -97,7 +97,7 @@ function [rds] = rd_msp(frames, fs, opt)
 
             if opt.debug
                 subplot(2,1,1);
-                    [s t] = sin2sig(frames(n).sins, fs, 2*round(3*fs/f0/2)+1);
+                    [s, t] = sin2sig(frames(n).sins, fs, 2*round(3*fs/f0/2)+1);
                     plot(t, s, 'k');
                     title(['t=' num2str(frames(n).t)]);
                 subplot(2,1,2);
@@ -122,7 +122,7 @@ return
 
 function err = optimfnRd(Rd, fs, f0, M, opt)
     
-    [te tp ta] = Rd2tetpta(Rd);
+    [te, tp, ta] = Rd2tetpta(Rd);
 
     % Compute the glottal model frequency response
     G = gfm_spec_lf(f0*(1:length(M)-1), fs, 1/f0, 1, te, tp, ta);

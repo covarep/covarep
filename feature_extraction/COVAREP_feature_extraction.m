@@ -92,8 +92,7 @@ for n=1:N
    
     basename=regexp(fileList(n).name,'\.wav','split');
     basename=char(basename(1));
-    str=sprintf('Analysing file: %s',basename);
-    disp(str)
+    disp(['Analysing file: ' basename])
     try
         % Load file and set sample locations
         [x,fs]=wavread([in_dir filesep basename '.wav']);
@@ -101,7 +100,7 @@ for n=1:N
         
         % Check if signal is mono or stereo
         if(size(x, 2) ~= 1)
-            warning(sprintf('file: %s is not a mono signal. processing only first channel.', basename));
+            warning(['file: ' basename ' is not a mono signal. processing only first channel.']);
             x = x(:,1);
         end
 
@@ -185,7 +184,7 @@ for n=1:N
         hmpdopt.amp_enc_method=2; hmpdopt.amp_log=true; hmpdopt.amp_order=39;
         hmpdopt.pdd_log=true; hmpdopt.pdd_order=12;% MFCC-like phase variance
         hmpdopt.pdm_log=true; hmpdopt.pdm_order=24;% Number of log-Harmonic coefs
-        [hmpdf0s, dummy, HMPDM, HMPDD] = hmpd_analysis_features(frames, fs, hmpdopt);
+        [hmpdf0s, ~, HMPDM, HMPDD] = hmpd_analysis_features(frames, fs, hmpdopt);
         HMPDM = irregsampling2uniformsampling(hmpdf0s(:,1), HMPDM, (feature_sampling-1)/fs, @unwrap, @wrap, 'linear', 0, hmpdopt.usemex);
         HMPDD = irregsampling2uniformsampling(hmpdf0s(:,1), HMPDD, (feature_sampling-1)/fs, [], [], 'linear', 0, hmpdopt.usemex);
 
@@ -196,11 +195,10 @@ for n=1:N
         save([in_dir filesep basename '.mat'],'features','names')
         clear features
 
-        str=sprintf('.............DONE!!!');
-        disp(str)
-    catch 
-        str=sprintf('.............ERROR NOT ANALYSED!!!');
-        disp(str)
+        disp([basename ' successfully analysed'])
+        
+    catch err
+        warning(['An error occurred while analysing ' basename ': ' getReport(err)])
     end
     
 end
