@@ -180,14 +180,18 @@ SRHmat = zeros(f0max,N);
 fSeq = f0min:f0max;
 fLen = length(fSeq);
 
-% Prepare harmonic indeces matrices. 
+% Prepare harmonic indeces matrices.
 plusIdx = repmat( (1:nHarmonics)',1,fLen) .* repmat(fSeq,nHarmonics,1);
 subtrIdx = round( repmat( (1:nHarmonics-1)'+.5,1,fLen) .* ...
                   repmat(fSeq,nHarmonics-1,1) );
 
+% avoid costly repmat operation by adjusting indices
+plusIdx = mod(plusIdx-1,size(specMat,1))+1;
+subtrIdx = mod(subtrIdx-1,size(specMat,1))+1;
+
 % Do harmonic summation
 for n=1:N
-    specMatCur = repmat( specMat(:,n),1,fLen);
+    specMatCur = specMat(:,n);
     SRHmat(fSeq,n) = ( sum( specMatCur(plusIdx), 1 ) - ...
                        sum( specMatCur(subtrIdx), 1 ) )';
 end
