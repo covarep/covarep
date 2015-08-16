@@ -66,8 +66,7 @@ if(hasParallelComputing)
     parfor n=1:N
         basename=regexp(fileList(n).name,'\.wav','split');
         basename=char(basename(1));
-        str=sprintf('Analysing file: %s',basename);
-        disp(str)
+        disp(['Analysing file: ' basename])
         try
             % Load file and set sample locations
             [x,fs]=audioread([in_dir filesep basename '.wav']);
@@ -77,19 +76,16 @@ if(hasParallelComputing)
             
             wrap_up(basename, in_dir, formantPeaks_int, vowelSpace);
             
-            str=sprintf('.............DONE!!!');
-            disp(str)
-        catch
-            str=sprintf('.............ERROR NOT ANALYSED!!!');
-            disp(str)
+            disp([basename ' successfully analysed'])
+        catch err
+            warning(['An error occurred while analysing ' basename ': ' getReport(err)])
         end
     end
 else
     for n=1:N
         basename=regexp(fileList(n).name,'\.wav','split');
         basename=char(basename(1));
-        str=sprintf('Analysing file: %s',basename);
-        disp(str)
+        disp(['Analysing file: ' basename])
         try
             % Load file and set sample locations
             [x,fs]=audioread([in_dir filesep basename '.wav']);
@@ -99,8 +95,7 @@ else
             
             wrap_up(basename, in_dir, formantPeaks_int, vowelSpace);
             
-            str=sprintf('.............DONE!!!');
-            disp(str)
+            disp([basename ' successfully analysed'])
         catch err
             warning(['An error occurred while analysing ' basename ': ' getReport(err)])
         end
