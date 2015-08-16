@@ -90,7 +90,7 @@ for kk=0:numFrames-1
     windowedData=speechData.*blackman(length(speechData));
     
     numPeaks=0;R=Rfix;%the following loop searches for the R value where we have numFormants number of formats
-    while(numPeaks~=numFormants & R>1.01 & R<1.25)
+    while(numPeaks~=numFormants && R>1.01 && R<1.25)
         zeroPhaseData=real(ifft(abs(fft(diff(windowedData)))));%obtain zero-pha version
         %chirp z-transform calculation using fft,...multiplication with an exponential function is sufficient
         exponentialEnvelope=exp(log(1/R)*n)';%this is needed for computation of z-transform using fft
@@ -101,16 +101,16 @@ for kk=0:numFrames-1
         
         [peakIndex]=formantPeakPick(chirpGroupDelay,1);
         numPeaks=length(peakIndex);
-        if(numPeaks>numFormants & R>=Rfix)
+        if(numPeaks>numFormants && R>=Rfix)
             R=R+0.01;peakIndex=peakIndex(1:numFormants);
-        elseif(numPeaks<numFormants & R<=Rfix)
+        elseif(numPeaks<numFormants && R<=Rfix)
             R=R-0.01;peakIndex=[peakIndex zeros(1,numFormants-numPeaks)];
         else
             break;
         end
     end 
     
-    chirpGroupDelay_spectrogram(kk+1,:)=chirpGroupDelay;
+    %chirpGroupDelay_spectrogram(kk+1,:)=chirpGroupDelay;
     
     if(numPeaks>numFormants)
         peakIndex=peakIndex(1:numFormants);
@@ -161,7 +161,7 @@ end
 if(1)%replace possible continuation values instead of zero values
     for kk=2:numFrames-1
         currentPeaks=formantPeaks(kk,:);
-        [val,index]=find(currentPeaks);%finds non-zero elements
+        [~,index]=find(currentPeaks);%finds non-zero elements
         nonZeroFormants=currentPeaks(index);numNonZeroFormants=length(index);
         numZeroFormants=numFormants-numNonZeroFormants;
         if(numNonZeroFormants<numFormants && ~isempty(index))
@@ -184,7 +184,7 @@ if(1)%replace possible continuation values instead of zero values
             if(lenPossibleCandidates<=numZeroFormants)
                 currentPeaks=sort([nonZeroFormants possibleCandidates zeros(1,numZeroFormants-lenPossibleCandidates)]);
             elseif(numZeroFormants==1)%the most common case
-                [val,index]=sort(diff(possibleCandidates));
+                [~,index]=sort(diff(possibleCandidates));
                 currentPeaks=sort([nonZeroFormants possibleCandidates(index(1))]);
             elseif(numZeroFormants<lenPossibleCandidates)
                 possibleCandidates=possibleCandidates(1:numZeroFormants);
@@ -212,16 +212,12 @@ lendiffPhase=length(diffPhase);
 
 peakIndex=[];
 for kk=6:lendiffPhase-6
-    if(diffPhase(kk)>=diffPhase(kk-1) & diffPhase(kk)>=diffPhase(kk+1))%first neighbours
-        if(diffPhase(kk)>=diffPhase(kk-2) & diffPhase(kk)>=diffPhase(kk+2))%second neighbours
-            if(diffPhase(kk)>diffPhase(kk-3) & diffPhase(kk)>diffPhase(kk+3))%third neighbours
-                if(diffPhase(kk)>diffPhase(kk-4) & diffPhase(kk)>diffPhase(kk+4))%fourth neighbours
-                    if(diffPhase(kk)>diffPhase(kk-5) & diffPhase(kk)>diffPhase(kk+5))%fifth neighbours
-                        peakIndex=[peakIndex kk];
-                    end
-                end
-            end
-        end
+    if (diffPhase(kk)>=diffPhase(kk-1) && diffPhase(kk)>=diffPhase(kk+1)) ...%first neighbours
+            && (diffPhase(kk)>=diffPhase(kk-2) && diffPhase(kk)>=diffPhase(kk+2)) ...%second neighbours
+            && (diffPhase(kk)>diffPhase(kk-3) && diffPhase(kk)>diffPhase(kk+3)) ...%third neighbours
+            && (diffPhase(kk)>diffPhase(kk-4) && diffPhase(kk)>diffPhase(kk+4)) ...%fourth neighbours
+            && (diffPhase(kk)>diffPhase(kk-5) && diffPhase(kk)>diffPhase(kk+5))%fifth neighbours
+        peakIndex=[peakIndex kk];
     end
 end
 
