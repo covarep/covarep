@@ -115,6 +115,7 @@ clear res;
 %% Create window matrix and apply to frames
 win = blackman(frameDuration);
 frameMatWin = bsxfun(@times, frameMat, win);
+clear frameMat;
 
 %% Do mean subtraction
 frameMean = mean(frameMatWin,1);
@@ -122,12 +123,14 @@ frameMatWinMean = bsxfun(@minus, frameMatWin, frameMean);
 clear frameMean frameMatWin frameMat;
 
 %% Compute spectrogram matrix
-specMat = zeros(fs, size(frameMatWinMean,2));
+specMat = zeros(fs/2, size(frameMatWinMean,2));
 for i = 1:size(frameMatWinMean,2)
-    specMat(:,i) = abs( fft(frameMatWinMean(:,i),fs) )';
+    tmp = abs( fft(frameMatWinMean(:,i),fs) )';
+    specMat(:,i) = tmp(1:fs/2);
 end
+clear frameMatWinMean tmp;
 % specMat = abs( fft(frameMatWinMean,fs) );
-specMat = specMat(1:fs/2,:);
+% specMat = specMat(1:fs/2,:);
 specDenom = sqrt( sum( specMat.^2, 1 ) );
 specMat = bsxfun(@rdivide, specMat, specDenom);
 clear specDenom;
@@ -151,7 +154,7 @@ for Iter=1:Niter
     end
     
 end
-
+clear specMat;
 time=time/fs;
 
 %% Voiced-Unvoiced decisions are derived from the value of SRH (Summation of
@@ -164,7 +167,7 @@ end
 
 VUVDecisions( SRHVal > VoicingThresh ) = 1;
 
-return
+end
 
 
 function [F0,SRHVal] = SRH( specMat, nHarmonics, f0min, f0max )
@@ -199,6 +202,6 @@ end
 % Retrieve f0 and SRH value
 [SRHVal,F0] = max( SRHmat );
 
-return
+end
 
 
