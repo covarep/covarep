@@ -105,6 +105,7 @@ function polarity = polarity_reskew(s, fs, opt)
 
     start=1;
     stop=start+L;
+    win = hanning(numel(start:stop));
 
     res=zeros(1,length(wave));
     LPCcoeff=zeros(order+1,round(length(wave)/shift));
@@ -112,10 +113,10 @@ function polarity = polarity_reskew(s, fs, opt)
     while stop<length(wave)
         
         segment=waveToComputeLPC(start:stop);
-        segment=segment.*hanning(length(segment));
+        segment=segment.*win;
         
         segment2=wave(start:stop);
-        segment2=segment2.*hanning(length(segment2));    
+        segment2=segment2.*win;    
         
         [A]=lpc(segment,order);
         LPCcoeff(:,n)=A(:);
