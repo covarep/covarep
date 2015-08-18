@@ -66,7 +66,7 @@ Ind=1;
 Es=[];
 Ts=[];
 
-win = hanning(numel(start:stop));
+win = hanning(numel(Start:Stop));
  
 while Stop<length(x)
    
