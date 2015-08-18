@@ -65,6 +65,8 @@ Ind=1;
  
 Es=[];
 Ts=[];
+
+win = hanning(numel(start:stop));
  
 while Stop<length(x)
    
@@ -72,7 +74,7 @@ while Stop<length(x)
     Ts(Ind)=Mid;
    
     Sig=x(Start:Stop); % Select frame segment
-    Sig=Sig(:).*hanning(length(Sig)); % Window segment
+    Sig=Sig(:).*win; % Window segment
 
    
     Es(Ind)=mean(Sig.^2); % Get energy value
