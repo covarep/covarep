@@ -52,7 +52,7 @@
 %  Make the computation independent from T0 (for better numerical stability)
 %
 
-function G = gfm_spec_lf(f, fs, T0, Ee, te, tp, ta);
+function G = gfm_spec_lf(f, fs, T0, Ee, te, tp, ta)
 
     Te = te*T0;
     Tp = tp*T0;
@@ -74,10 +74,10 @@ function G = gfm_spec_lf(f, fs, T0, Ee, te, tp, ta);
     E0 = -Ee/(exp(a*Te)*sin(wg*Te));                % [1](5)
 
     % LF spectrum formula                           % [2](1)
-    P1 = E0*(1./((a - j*2*pi.*f).^2 + wg^2));
-    P2 = (wg + exp((a - j*2*pi.*f)*Te).*((a - j*2*pi.*f)*sin(wg*Te) - wg*cos(wg*Te)));
-    P3 = (Ee*(exp( - j*2*pi.*f*Te)./((e*Ta*j*2*pi*f).*(e + j*2*pi.*f))));
-    P4 = (e*(1 - e*Ta).*(1 - exp(- j*2*pi.*f*(T0 - Te))) - e*Ta*j*2*pi.*f);
+    P1 = E0*(1./((a - 1i*2*pi.*f).^2 + wg^2));
+    P2 = (wg + exp((a - 1i*2*pi.*f)*Te).*((a - 1i*2*pi.*f)*sin(wg*Te) - wg*cos(wg*Te)));
+    P3 = (Ee*(exp( - 1i*2*pi.*f*Te)./((e*Ta*1i*2*pi*f).*(e + 1i*2*pi.*f))));
+    P4 = (e*(1 - e*Ta).*(1 - exp(- 1i*2*pi.*f*(T0 - Te))) - e*Ta*1i*2*pi.*f);
     G = P1.*P2 + P3.*P4;
 
     % Fix the amplitude so as Ee is respected
