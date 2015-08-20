@@ -85,7 +85,7 @@ smoothingstep = 3;
 [EGGfilename,pathEGG] = uigetfile('*.*','A:\Coding\Matlab\Data Test\','Please choose the EGG file to be downloaded');
 
 % finding out the characteristics of the sound file
-[Y,FS,NBITS] = wavread([pathEGG EGGfilename],1);
+[Y,FS,NBITS] = audioread([pathEGG EGGfilename],1);
 
 
 %%% loading file that contains beginning and endpoint of relevant
@@ -132,7 +132,7 @@ for i = 1:maxnb
         % and converting from milliseconds to seconds
         time = [LENG(i,1)/1000 LENG(i,2)/1000];
         % if there is a single channel: no difficulty.
-        [SIG,FS,NBITS] = wavread([pathEGG EGGfilename],[round(time(1) * COEF(1)) round(time(2) * COEF(1))]);
+        [SIG,FS,NBITS] = audioread([pathEGG EGGfilename],[round(time(1) * COEF(1)) round(time(2) * COEF(1))]);
         results_matrix=peakdet(SIG, FS, maxF, method);
 % end of syllable loop
 end

@@ -36,8 +36,8 @@ clear all;
 %
 
 % reading the example file (electroglottographic signal)
-[egg, fs] = wavread('glottalized-m1.egg');
-[wav, fs] = wavread('glottalized-m1.wav');
+[egg, fs] = audioread('glottalized-m1.egg');
+[wav, fs] = audioread('glottalized-m1.wav');
 
 % running the <peakdet.m> function
 [results_matrix, SdSIG, SIG] = peakdet(egg, fs, 200, 3);
@@ -93,8 +93,8 @@ xlim([0, length(SIG)/fs]);
 % Example for the DECOM method -------------------------------------------------
 
 % Load sound and EGG files
-[egg, fs] = wavread(['howtos' filesep 'DB-cresc-a-D4-m1.egg']);
-[wav, fs] = wavread(['howtos' filesep 'DB-cresc-a-D4-m1.wav']);
+[egg, fs] = audioread(['howtos' filesep 'DB-cresc-a-D4-m1.egg']);
+[wav, fs] = audioread(['howtos' filesep 'DB-cresc-a-D4-m1.wav']);
 
 degg=diff(egg);
 degg(length(egg))=degg(length(egg)-1);

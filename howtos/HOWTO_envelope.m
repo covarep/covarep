@@ -25,7 +25,7 @@ clear all;
 
 % Load the waveform
 fname = '0011.arctic_bdl1';
-[wav, fs] = wavread([fname '.wav']);
+[wav, fs] = audioread([fname '.wav']);
 times = (0:length(wav)-1)'/fs;
 
 % Load an f0 curve
@@ -57,7 +57,7 @@ Edap = zeros(numel(frames),opt.dftlen/2+1);
 pb = progressbar(numel(frames));
 for n=1:numel(frames)
 
-    [g a Edap(n,:)] = env_dap(frames(n).sins, fs, ar_order, opt.dftlen);
+    [g a Edap(n,:)] = env_dap(frames(n).sins, fs, ar_order, opt.dftlen); % TODO DC has been dropped ???
 
     pb = progressbar(pb, n);
 end

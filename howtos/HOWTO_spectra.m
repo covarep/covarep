@@ -27,7 +27,7 @@ clear all;
 
 % Load the waveform
 fname = '0011.arctic_bdl1';
-[wav, fs] = wavread([fname '.wav']);
+[wav, fs] = audioread([fname '.wav']);
 times = (0:length(wav)-1)'/fs;
 
 % Load an f0 curve

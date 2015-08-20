@@ -27,7 +27,7 @@ clear all;
 
 % Load the waveform
 fname = '0011.arctic_bdl1';
-[wav, fs] = wavread([fname '.wav']);
+[wav, fs] = audioread([fname '.wav']);
 times = (0:length(wav)-1)'/fs;
 
 % Load a rough f0 curve
@@ -40,7 +40,7 @@ opt.fharmonic  = false;
 opt.use_ls     = false;
 opt.resyn      = true; % Use the internal OLA method for the resynthesis
 [frames syn_sm] = sin_analysis(wav, fs, f0s, opt);
-wavwrite(syn_sm, fs, [fname '.sm.wav']);
+audiowrite([fname '.sm.wav'], syn_sm, fs);
 
 disp(['Compute: Harmonic Model (HM)']);
 opt = sin_analysis();
@@ -49,7 +49,7 @@ opt.fadapted   = false;
 opt.use_ls     = true;
 frames = sin_analysis(wav, fs, f0s, opt);
 syn_hm = hm_synthesis4(frames, length(wav), fs); % Use the harmonic resynthesis
-wavwrite(syn_hm, fs, [fname '.hm.wav']);
+audiowrite([fname '.hm.wav'], syn_hm, fs);
 
 disp(['Compute: Adaptive Harmonic Model (aHM) using the Adaptive Iterative Refinment (AIR)']);
 optair = ahm_air_analysis2();
@@ -64,7 +64,7 @@ opt.fadapted   = true;
 opt.use_ls     = true;
 frames = sin_analysis(wav, fs, f0sair, opt);
 syn_ahm = hm_synthesis4(frames, length(wav), fs); % Use the harmonic resynthesis
-wavwrite(syn_ahm, fs, [fname '.ahm-air.wav']);
+audiowrite([fname '.ahm-air.wav'], syn_ahm, fs);
 %  save([fname '.ahm_frames.mat'], 'frames');
 
 figure

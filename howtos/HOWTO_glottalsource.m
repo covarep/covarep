@@ -26,7 +26,7 @@ F0max = 500; % Maximum F0 set to 80 Hz
 frame_shift = 10; % Frame shift in ms
 
 % Load soundfile
-[x,fs] = wavread(['howtos' filesep 'arctic_a0007.wav']);
+[x,fs] = audioread(['howtos' filesep 'arctic_a0007.wav']);
 
 % Check the speech signal polarity
 polarity = polarity_reskew(x,fs);

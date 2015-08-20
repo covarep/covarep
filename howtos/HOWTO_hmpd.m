@@ -23,7 +23,7 @@
 clear all;
 
 fname = '0011.arctic_bdl1';
-[wav, fs] = wavread([fname '.wav']);
+[wav, fs] = audioread([fname '.wav']);
 
 
 % Analysis ---------------------------------------------------------------------
@@ -51,11 +51,11 @@ synopt = hmpd_synthesis();
 synopt.enc = hmpdopt; 
 synopt.usemex = hmpdopt.usemex; % Speed up with mex function
 syn = hmpd_synthesis(f0s, AE, [], PDD, fs, length(wav), synopt);
-wavwrite(syn, fs, [fname '.hmpd-pdd.wav']);
+audiowrite([fname '.hmpd-pdd.wav'], syn, fs);
 
 if ~hmpdopt.pdm_log
     syn = hmpd_synthesis(f0s, AE, PDM, PDD, fs, length(wav), synopt);
-    wavwrite(syn, fs, [fname '.hmpd-pdmpdd.wav']);
+    audiowrite([fname '.hmpd-pdmpdd.wav'], syn, fs);
 end
 
 

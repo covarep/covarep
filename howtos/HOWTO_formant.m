@@ -26,7 +26,7 @@
 clear all;
 
 % Load soundfile
-[x,fs] = wavread('arctic_a0007.wav');
+[x,fs] = audioread('arctic_a0007.wav');
 
 [formantPeaks,t_analysis]=formant_CGDZP(x,fs,30,10);
 

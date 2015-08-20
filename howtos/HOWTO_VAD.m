@@ -14,7 +14,7 @@
 %  Thomas Drugman <thomas.drugman@umons.ac.be>
 
 % Read any speech audio file
-[x,fs] = wavread(['howtos' filesep 'arctic_a0007.wav']);
+[x,fs] = audioread(['howtos' filesep 'arctic_a0007.wav']);
 
 % VAD algorithm
 % The third input is just a flag to plot the results or not
