@@ -55,10 +55,11 @@ LPCcoeff=zeros(order+1,round(length(x)/shift));
 
 %% Do processing
 n=1;
+win = hanning(numel(start:stop));
 while stop<length(x)
 
      segment=x(start:stop);
-     segment=segment.*hanning(length(segment));
+     segment=segment.*win;
         
      A=lpc(segment,order);
      LPCcoeff(:,n)=A(:);

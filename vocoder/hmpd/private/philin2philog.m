@@ -59,7 +59,7 @@ function philog = philin2philog(philin, Hb, Hmax, order)
     hsl = round(hsl);
     philog = nan(1,order);
     for h=1:order
-        idx = find(hsl==h);
+        idx = hsl==h;
         philog(h) = angle(mean(exp(1i*philin(idx))));
     end
 
