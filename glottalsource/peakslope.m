@@ -71,8 +71,7 @@ y=zeros(length(i),length(s)); % Allocate space for the different frequency bands
 
 for n=1:length(i) 
     h_i = daless_MW(i,n,fs); % Generate mother wavelet
-    y_i = do_daless_filt(s,h_i); % Carry out zero-phase filtering
-    y(n,:) = y_i;
+    y(n,:) = do_daless_filt(s,h_i); % Carry out zero-phase filtering
 end
 
 %% Measure peakSlope per frame
@@ -96,9 +95,9 @@ while finish <= length(s)
     start = start+frameShift;
     finish = start+frameLen-1;
 end
-PS(find(isnan(PS(:,2))),2)=0;
+PS(isnan(PS(:,2)),2)=0;
 
-return
+end
 
 % Changes
 % 2012-11-01> John Kane kanejo@tcd.ie

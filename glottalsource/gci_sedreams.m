@@ -114,18 +114,8 @@ function [gci, MeanBasedSignal, res] = gci_sedreams(wave, fs, f0mean, ...
     MeanBasedSignal=MeanBasedSignal/max(abs(MeanBasedSignal));
 
     % Detect the minima and maxima of the mean-based signal
-    PotMaxis=[];
-    PotMinis=[];
-
-    for m=2:length(MeanBasedSignal)-1    
-        if (MeanBasedSignal(m)>MeanBasedSignal(m-1)) && ...
-                (MeanBasedSignal(m)>MeanBasedSignal(m+1))
-            PotMaxis=[PotMaxis m];
-        elseif (MeanBasedSignal(m)<MeanBasedSignal(m-1)) && ...
-                (MeanBasedSignal(m)<MeanBasedSignal(m+1))
-            PotMinis=[PotMinis m];
-        end
-    end
+    [~,PotMaxis]=findpeaks(MeanBasedSignal);
+    [~,PotMinis]=findpeaks(-MeanBasedSignal);
 
     while PotMaxis(1)<PotMinis(1)
         PotMaxis(1)=[];
