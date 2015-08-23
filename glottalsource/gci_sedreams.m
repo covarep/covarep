@@ -92,16 +92,14 @@ function [gci, MeanBasedSignal, res] = gci_sedreams(wave, fs, f0mean, ...
     res(isnan(res))=0;
 
     % Calculation of the mean-based signal
-    MeanBasedSignal=zeros(1,length(wave));
     T0mean=round(fs/f0mean);
-
     halfL=round((1.7*T0mean)/2);
     Blackwin=blackman(2*halfL+1);
 
     % filter wave with blackwin and take mean
     MeanBasedSignal = filter(Blackwin,numel(Blackwin),wave)';
     % shift output since MATLAB's filter 'center' is the first element
-    MeanBasedSignal(halfL:end-halfL) = MeanBasedSignal(2*halfL:end);
+    MeanBasedSignal(halfL+1:end-halfL) = MeanBasedSignal(1+2*halfL:end);
     % and pad begin and end with zeros
     MeanBasedSignal([1:halfL end-halfL+1:end]) = 0;
     
