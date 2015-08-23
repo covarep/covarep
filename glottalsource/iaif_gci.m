@@ -71,6 +71,7 @@ gd=zeros(1,length(x));
 g=zeros(1,length(x));
 a=zeros(p_vt+1,N);
 ag=zeros(p_gl+1,N);
+hpfilter_out = [];
 
 %% Do processing
 for n=1:N
@@ -94,7 +95,7 @@ for n=1:N
     x_win=x_frame(:).*hanning(length(x_frame));
     
     % Do IAIF
-    [g_frame,gd_frame,a_frame,ag_frame]=iaif(x_win,fs,p_vt,p_gl,d,hpfilt);
+    [g_frame,gd_frame,a_frame,ag_frame,hpfilter_out]=iaif(x_win,fs,p_vt,p_gl,d,hpfilt,hpfilter_out);
     if isempty(g_frame)==0
         a(:,n)=a_frame(:);
         ag(:,n)=ag_frame(:);

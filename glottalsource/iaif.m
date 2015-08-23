@@ -56,19 +56,22 @@
 %
 % $Id <info set by the versioning system> $
 
-function [g,dg,a,ag] = iaif(x,fs,p_vt,p_gl,d,hpfilt)
+function [g,dg,a,ag,hpfilter_out] = iaif(x,fs,p_vt,p_gl,d,hpfilt,hpfilter_in)
 
 % Set default parameters
-if nargin < 6
-    hpfilt = 1;
-    if nargin < 5
-        d = 0.99;
-        if nargin < 4
-            p_gl = 2*round(fs/4000);
-            if nargin < 3
-                p_vt = 2*round(fs/2000)+4;
-                if nargin < 2
-                    disp('Error: Not enough input arguments.');
+if nargin < 7
+    hpfilter_in = [];
+    if nargin < 6
+        hpfilt = 1;
+        if nargin < 5
+            d = 0.99;
+            if nargin < 4
+                p_gl = 2*round(fs/4000);
+                if nargin < 3
+                    p_vt = 2*round(fs/2000)+4;
+                    if nargin < 2
+                        disp('Error: Not enough input arguments.');
+                    end
                 end
             end
         end
@@ -81,6 +84,7 @@ x = x(:);
 
 % High-pass filter speech in order to remove possible low frequency
 % fluctuations (Linear-phase FIR, Fc = 70 Hz)
+hpfilter_out = [];
 if hpfilt > 0
     Fstop = 40;                 % Stopband Frequency
     Fpass = 70;                 % Passband Frequency
@@ -88,12 +92,24 @@ if hpfilt > 0
     if mod(Nfir,2) == 1
         Nfir = Nfir + 1;
     end
-    B = hpfilter_fir(Fstop,Fpass,fs,Nfir);
+    
+    % it is very very expensive to calculate the firls filter! However, as 
+    % long as the fs does not change, the firls filter does not change.
+    % Therefore, the computed filter is returned and can be passed to this
+    % function later on to avoid the calculated of the (same) filter.
+    if ~isempty(hpfilter_in)
+        B = hpfilter_in;
+    else
+        B = hpfilter_fir(Fstop,Fpass,fs,Nfir);
+    end
+    hpfilter_out = B;
+    
     for i = 1:hpfilt
         x = filter(B,1,[x ; zeros(round(length(B)/2)-1,1)]);
         x = x(round(length(B)/2):end);
     end
 end
+
 
 % Estimate the combined effect of the glottal flow and the lip radiation
 % (Hg1) and cancel it out through inverse filtering. Note that before
