@@ -80,11 +80,7 @@ finish = start+frameLen-1;
 m=1;
 
 while finish <= length(s)
-    maxima = zeros(1,length(i)); % allocate space
-    
-    for n=1:length(i)
-        maxima(n) = max(abs(y(n,start:finish))); % measure peaks at each scale
-    end
+    maxima = max(abs(y(:,start:finish)),[],2)';
     maxima = log10(maxima(end:-1:1)); % reverse order to follow frequency order and convert to dB
     t=1:length(maxima);
     p=polyfit(t,maxima,1); % do straight line regression fitting
