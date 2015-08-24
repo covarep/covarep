@@ -82,16 +82,18 @@ SIZEwave=length(wave);
 numFrames=floor((SIZEwave-frameSize)/frameShift);
 
 t_analysis=zeros(1,numFrames);
+blackWin = blackman(frameSize);
 
 formantPeaks=[];
 for kk=0:numFrames-1
     
     speechData=wave(kk*frameShift+1:kk*frameShift+frameSize);
-    windowedData=speechData.*blackman(length(speechData));
+    windowedData=speechData.*blackWin;
+    
+    zeroPhaseData=real(ifft(abs(fft(diff(windowedData)))));%obtain zero-pha version
     
     numPeaks=0;R=Rfix;%the following loop searches for the R value where we have numFormants number of formats
     while(numPeaks~=numFormants && R>1.01 && R<1.25)
-        zeroPhaseData=real(ifft(abs(fft(diff(windowedData)))));%obtain zero-pha version
         %chirp z-transform calculation using fft,...multiplication with an exponential function is sufficient
         exponentialEnvelope=exp(log(1/R)*n)';%this is needed for computation of z-transform using fft
         fourierTrans=fft(zeroPhaseData.*exponentialEnvelope,fsLR);
