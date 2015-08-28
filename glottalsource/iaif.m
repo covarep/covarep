@@ -117,14 +117,16 @@ end
 % diminish ripple in the beginning of the frame. The ramp is removed after
 % filtering.
 if length(x)>p_vt
-    Hg1 = lpc(x.*hanning(length(x)),1);
+    win = hanning(length(x));
+    
+    Hg1 = lpc(x.*win,1);
     y = filter(Hg1,1,[linspace(-x(1),x(1),preflt)' ; x]);
     y = y(preflt+1:end);
 
     % Estimate the effect of the vocal tract (Hvt1) and cancel it out through
     % inverse filtering. The effect of the lip radiation is canceled through
     % intergration. Signal g1 is the first estimate of the glottal flow.
-    Hvt1 = lpc(y.*hanning(length(x)),p_vt);
+    Hvt1 = lpc(y.*win,p_vt);
     g1 = filter(Hvt1,1,[linspace(-x(1),x(1),preflt)' ; x]);
     g1 = filter(1,[1 -d],g1);
     g1 = g1(preflt+1:end);
@@ -132,7 +134,7 @@ if length(x)>p_vt
     % Re-estimate the effect of the glottal flow (Hg2). Cancel the contribution
     % of the glottis and the lip radiation through inverse filtering and
     % integration, respectively.
-    Hg2 = lpc(g1.*hanning(length(x)),p_gl);
+    Hg2 = lpc(g1.*win,p_gl);
     y = filter(Hg2,1,[linspace(-x(1),x(1),preflt)' ; x]);
     y = filter(1,[1 -d],y);
     y = y(preflt+1:end);
@@ -140,7 +142,7 @@ if length(x)>p_vt
     % Estimate the model for the vocal tract (Hvt2) and cancel it out through
     % inverse filtering. The final estimate of the glottal flow is obtained
     % through canceling the effect of the lip radiation.
-    Hvt2 = lpc(y.*hanning(length(x)),p_vt);
+    Hvt2 = lpc(y.*win,p_vt);
     dg = filter(Hvt2,1,[linspace(-x(1),x(1),preflt)' ; x]);
     g = filter(1,[1 -d],dg);
     g = g(preflt+1:end);
