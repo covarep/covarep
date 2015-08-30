@@ -63,8 +63,8 @@ ZCs_ms=ZCs/1000*fs;
 
 Ind=1;
  
-Es=[];
-Ts=[];
+Es=zeros(1,numel(Stop:Shift:length(x)));
+Ts=zeros(size(Es));
 
 win = hanning(numel(Start:Stop));
  

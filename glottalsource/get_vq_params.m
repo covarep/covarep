@@ -142,10 +142,7 @@ for n=1:length(GCI)
         [h_idx,h_amp]=v_findpeaks(f_spec,[],F0/2);
         HRF_harm_num=floor(HRF_freq_max/F0);
         if length(h_idx) >= min_harm_num
-            f0_idx=zeros(HRF_harm_num,1);
-            for m=1:HRF_harm_num
-                [~,f0_idx(m)]=min(abs(h_idx-(F0*m))); % Find closest peak to F0
-            end
+            [~,f0_idx] = min(abs(bsxfun(@minus,h_idx,(1:HRF_harm_num)*F0)),[],1);
             H1H2(n)=h_amp(f0_idx(1))-h_amp(f0_idx(2));
             HRF(n) = sum(h_amp(f0_idx(2:end)))/h_amp(f0_idx(1));
         end
@@ -217,17 +214,27 @@ flag = 0;
 N = 3; % An set to an initial value of 3, as per Alku et al (1997)
 X=X(:);
 
+X2=X.^2;
+k2_sum=sum((0:N-2).^2);
+
 %% Do processing
 while flag == 0
-	k = 0:N-1;
+    k = (0:N-1)';
   
-    % Equation 5
-    k=k(:);   
-    a = (N*sum(X(k+1).*k.^2)-sum(X(k+1)).*sum(k.^2))/(N*sum(k.^4)-(sum(k.^2)).^2); 
-  
+    k2= k.^2;
+    k2_sum= k2_sum + k2(end);
+    
+    k1 = k+1;
+    X_k1 = X(k1);
+    
+    % Equation 5 
+    a = (N*sum(X_k1.*k2)-sum(X_k1).*k2_sum)/(N*sum(k2.^2)-k2_sum.^2); 
+    
+    X_k1_a_k2 = X_k1-a*k2;
+    
     % Equation 4
-    b = 1/N*sum(X(k+1)-a*k.^2);
-    NE = (sum((X(k+1)-a*k.^2-b).^2))/(sum(X(k+1).^2));
+    b = 1/N*sum(X_k1_a_k2);
+    NE = (sum((X_k1_a_k2-b).^2))/(sum(X2(k1)));
 
     % Increment or stop
     if NE < NE_min
