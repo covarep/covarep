@@ -126,7 +126,7 @@ clear frameMean frameMatWin frameMat;
 specMat = zeros(fs/2, size(frameMatWinMean,2));
 idx = 1:fs/2;
 for i = 1:size(frameMatWinMean,2)
-    tmp = abs( fft(frameMatWinMean(:,i),fs) )';
+    tmp = abs( fft(frameMatWinMean(:,i),fs) );
     specMat(:,i) = tmp(idx);
 end
 clear frameMatWinMean tmp idx;
