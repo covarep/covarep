@@ -233,16 +233,16 @@ xlim([0 times(end)]);
 
 figure
 fig = [];
+ts = [frames.t];
+F = fs*(0:opt.dftlen/2)/opt.dftlen;
 fig(1) = subplot(2,1,1);
-    F = fs*(0:opt.dftlen/2)/opt.dftlen;
-    imagesc([frames.t], F, RPS', [-pi pi]);
+    imagesc(ts, F, RPS', [-pi pi]);
     colormap(circmap); freezeColors;
     axis xy;
     ylabel('Frequency [Hz]');
     title('Relative Phase Shift');
 fig(2) = subplot(2,1,2);
-    F = fs*(0:opt.dftlen/2)/opt.dftlen;
-    imagesc([frames.t], F, PD', [-pi pi]);
+    imagesc(ts, F, PD', [-pi pi]);
     colormap(circmap); freezeColors;
     axis xy;
     xlabel('Time [s]');
