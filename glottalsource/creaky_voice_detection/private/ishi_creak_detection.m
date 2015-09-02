@@ -76,13 +76,15 @@ finish=start+veryShort_len-1;
 
 % Get very short term power contour
 n=1;
+x_filt2 = x_filt.^2;
 while finish <= length(x_filt)
-    veryShort_powCont(n) = mean(x_filt(start:finish).^2);
+    veryShort_powCont(n) = mean(x_filt2(start:finish));
     t_pow(n)=mean([start finish]);
     start = start + veryShort_shift;
     finish=start+veryShort_len-1;
     n=n+1;
 end
+clear x_filt2;
 
 veryShort_powCont_dB = 20*log10(veryShort_powCont);
 

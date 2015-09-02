@@ -30,7 +30,7 @@
 %  Manage holes in the harmonic structure
 %
 
-function [M opt] = sin2shm(sins, opt)
+function [M, opt] = sin2shm(sins, opt)
 
     if nargin<2
         opt.nbh             = Inf; % Number of harmonics to be use in the model
@@ -49,7 +49,7 @@ function [M opt] = sin2shm(sins, opt)
     % TODO manage holes in the harmonic structure
 
     if ~isempty(opt.max_freq) && opt.max_freq>0
-        inds = find(sins(1,:)<=opt.max_freq);
+        inds = sins(1,:)<=opt.max_freq;
         sins = sins(:,inds);
     end
     sins = sins(:,1:min(size(sins,2), 1+opt.nbh));

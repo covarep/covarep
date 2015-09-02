@@ -92,19 +92,17 @@ function [gci, MeanBasedSignal, res] = gci_sedreams(wave, fs, f0mean, ...
     res(isnan(res))=0;
 
     % Calculation of the mean-based signal
-    MeanBasedSignal=zeros(1,length(wave));
     T0mean=round(fs/f0mean);
-
     halfL=round((1.7*T0mean)/2);
     Blackwin=blackman(2*halfL+1);
 
-    for m=halfL+1:length(wave)-halfL
-        vec=wave(m-halfL:m+halfL);
-            
-        vec=vec.*Blackwin;
-        MeanBasedSignal(m)=mean(vec);
-    end
-
+    % filter wave with blackwin and take mean
+    MeanBasedSignal = filter(Blackwin,numel(Blackwin),wave)';
+    % shift output since MATLAB's filter 'center' is the first element
+    MeanBasedSignal(halfL+1:end-halfL) = MeanBasedSignal(1+2*halfL:end);
+    % and pad begin and end with zeros
+    MeanBasedSignal([1:halfL end-halfL+1:end]) = 0;
+    
     % Remove the low-frequency contents of the mean-based signal
     Ws = 30/(fs/2);
     Wp = 50/(fs/2);
@@ -115,22 +113,9 @@ function [gci, MeanBasedSignal, res] = gci_sedreams(wave, fs, f0mean, ...
     MeanBasedSignal=filtfilt(b,a,MeanBasedSignal);
     MeanBasedSignal=MeanBasedSignal/max(abs(MeanBasedSignal));
 
-
-
-
     % Detect the minima and maxima of the mean-based signal
-    PotMaxis=[];
-    PotMinis=[];
-
-    for m=2:length(MeanBasedSignal)-1    
-        if (MeanBasedSignal(m)>MeanBasedSignal(m-1)) && ...
-                (MeanBasedSignal(m)>MeanBasedSignal(m+1))
-            PotMaxis=[PotMaxis m];
-        elseif (MeanBasedSignal(m)<MeanBasedSignal(m-1)) && ...
-                (MeanBasedSignal(m)<MeanBasedSignal(m+1))
-            PotMinis=[PotMinis m];
-        end
-    end
+    [~,PotMaxis]=findpeaks(MeanBasedSignal);
+    [~,PotMinis]=findpeaks(-MeanBasedSignal);
 
     while PotMaxis(1)<PotMinis(1)
         PotMaxis(1)=[];
@@ -194,5 +179,5 @@ function [gci, MeanBasedSignal, res] = gci_sedreams(wave, fs, f0mean, ...
 
     gci = (gci-1)/fs;
 
-return
+end
 

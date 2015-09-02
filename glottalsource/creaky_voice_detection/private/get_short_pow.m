@@ -52,24 +52,22 @@ function [pow,pow_std,pow_std_inter] = get_short_pow(x,fs)
 veryShort_len = 4*(fs/1000); % 4ms frame length for "very short-term" analysis
 veryShort_shift = 2*(fs/1000); % 2ms shift for "very short-term" analysis
 veryShort_powCont = zeros(1,ceil((length(x)-veryShort_len)/veryShort_shift));
-t_pow = zeros(1,ceil((length(x)-veryShort_len)/veryShort_shift));
 start=1;
 finish=start+veryShort_len-1;
 
 n=1;
+x2 = x.^2;
 while finish <= length(x)
-    veryShort_powCont(n) = mean(x(start:finish).^2);
-    t_pow(n)=mean([start finish]);
+    veryShort_powCont(n) = mean(x2(start:finish));
     start = start + veryShort_shift;
     finish=start+veryShort_len-1;
     n=n+1;
 end
+clear x2;
 
 pow = 20*log10(veryShort_powCont);
-inf_idx=find(isinf(pow));
-pow2=pow;
-pow2(inf_idx)=Inf;
-pow(inf_idx)=min(pow2);
+inf_idx=isinf(pow);
+pow(inf_idx)=min(pow(~inf_idx));
 
 pow_std=zeros(1,length(pow));
 std_len=16;

@@ -77,7 +77,7 @@ for k=1:m(1)
     mini=Minis(k);
     maxi=Maxis(k);
     
-    pos=find(isnan(vec));
+    pos=isnan(vec);
     vec(pos)=mini;
     
     X(k,:)=-1+((vec-mini)/(maxi-mini))*2;

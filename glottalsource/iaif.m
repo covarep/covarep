@@ -56,19 +56,22 @@
 %
 % $Id <info set by the versioning system> $
 
-function [g,dg,a,ag] = iaif(x,fs,p_vt,p_gl,d,hpfilt)
+function [g,dg,a,ag,hpfilter_out] = iaif(x,fs,p_vt,p_gl,d,hpfilt,hpfilter_in)
 
 % Set default parameters
-if nargin < 6
-    hpfilt = 1;
-    if nargin < 5
-        d = 0.99;
-        if nargin < 4
-            p_gl = 2*round(fs/4000);
-            if nargin < 3
-                p_vt = 2*round(fs/2000)+4;
-                if nargin < 2
-                    disp('Error: Not enough input arguments.');
+if nargin < 7
+    hpfilter_in = [];
+    if nargin < 6
+        hpfilt = 1;
+        if nargin < 5
+            d = 0.99;
+            if nargin < 4
+                p_gl = 2*round(fs/4000);
+                if nargin < 3
+                    p_vt = 2*round(fs/2000)+4;
+                    if nargin < 2
+                        disp('Error: Not enough input arguments.');
+                    end
                 end
             end
         end
@@ -81,6 +84,7 @@ x = x(:);
 
 % High-pass filter speech in order to remove possible low frequency
 % fluctuations (Linear-phase FIR, Fc = 70 Hz)
+hpfilter_out = [];
 if hpfilt > 0
     Fstop = 40;                 % Stopband Frequency
     Fpass = 70;                 % Passband Frequency
@@ -88,12 +92,24 @@ if hpfilt > 0
     if mod(Nfir,2) == 1
         Nfir = Nfir + 1;
     end
-    B = hpfilter_fir(Fstop,Fpass,fs,Nfir);
+    
+    % it is very very expensive to calculate the firls filter! However, as 
+    % long as the fs does not change, the firls filter does not change.
+    % Therefore, the computed filter is returned and can be passed to this
+    % function later on to avoid the calculated of the (same) filter.
+    if ~isempty(hpfilter_in)
+        B = hpfilter_in;
+    else
+        B = hpfilter_fir(Fstop,Fpass,fs,Nfir);
+    end
+    hpfilter_out = B;
+    
     for i = 1:hpfilt
         x = filter(B,1,[x ; zeros(round(length(B)/2)-1,1)]);
         x = x(round(length(B)/2):end);
     end
 end
+
 
 % Estimate the combined effect of the glottal flow and the lip radiation
 % (Hg1) and cancel it out through inverse filtering. Note that before
@@ -101,34 +117,38 @@ end
 % diminish ripple in the beginning of the frame. The ramp is removed after
 % filtering.
 if length(x)>p_vt
-    Hg1 = lpc(x.*hanning(length(x)),1);
-    y = filter(Hg1,1,[linspace(-x(1),x(1),preflt)' ; x]);
-    y = y(preflt+1:end);
+    win = hanning(length(x));
+    signal = [linspace(-x(1),x(1),preflt)' ; x];
+    idx = preflt+1:numel(signal);
+    
+    Hg1 = lpc(x.*win,1);
+    y = filter(Hg1,1,signal);
+    y = y(idx);
 
     % Estimate the effect of the vocal tract (Hvt1) and cancel it out through
     % inverse filtering. The effect of the lip radiation is canceled through
     % intergration. Signal g1 is the first estimate of the glottal flow.
-    Hvt1 = lpc(y.*hanning(length(x)),p_vt);
-    g1 = filter(Hvt1,1,[linspace(-x(1),x(1),preflt)' ; x]);
+    Hvt1 = lpc(y.*win,p_vt);
+    g1 = filter(Hvt1,1,signal);
     g1 = filter(1,[1 -d],g1);
-    g1 = g1(preflt+1:end);
+    g1 = g1(idx);
 
     % Re-estimate the effect of the glottal flow (Hg2). Cancel the contribution
     % of the glottis and the lip radiation through inverse filtering and
     % integration, respectively.
-    Hg2 = lpc(g1.*hanning(length(x)),p_gl);
-    y = filter(Hg2,1,[linspace(-x(1),x(1),preflt)' ; x]);
+    Hg2 = lpc(g1.*win,p_gl);
+    y = filter(Hg2,1,signal);
     y = filter(1,[1 -d],y);
-    y = y(preflt+1:end);
+    y = y(idx);
 
     % Estimate the model for the vocal tract (Hvt2) and cancel it out through
     % inverse filtering. The final estimate of the glottal flow is obtained
     % through canceling the effect of the lip radiation.
-    Hvt2 = lpc(y.*hanning(length(x)),p_vt);
-    dg = filter(Hvt2,1,[linspace(-x(1),x(1),preflt)' ; x]);
+    Hvt2 = lpc(y.*win,p_vt);
+    dg = filter(Hvt2,1,signal);
     g = filter(1,[1 -d],dg);
     g = g(preflt+1:end);
-    dg = dg(preflt+1:end);
+    dg = dg(idx);
 
     % Set vocal tract model to 'a' and glottal source spectral model to 'ag'
     a = Hvt2;

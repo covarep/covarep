@@ -97,7 +97,7 @@ function [AEC, PDMC, PDDC] = hmpd_features_compress(f0s, AE, PDM, PDD, fs, opt)
         for n=1:size(PDD,1)
             X = PDD(n,:);
             X(1) = X(2);
-            idx = find(X==0);
+            idx = X==0;
             X(idx) = 0.001;
             PDDC(n,1:1+opt.pdd_order) = hspec2fwcep(X, fs, opt.pdd_order);
             if 0

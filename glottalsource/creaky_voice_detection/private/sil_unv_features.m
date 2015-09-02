@@ -62,11 +62,11 @@ pos=mean([Start Stop]);
 ZCs_ms=ZCs/1000*fs;
 
 Ind=1;
- 
-Es=[];
-Ts=[];
 
-win = hanning(numel(Start:Stop));
+Es=zeros(1,floor((length(x)-Stop+1)/Shift)+1);
+Ts=zeros(size(Es));
+
+win = hanning(Stop-Start+1);
  
 while Stop<length(x)
    
@@ -84,5 +84,5 @@ while Stop<length(x)
     pos(Ind)=mean([Start Stop]);
     Ind=Ind+1;
 end 
- 
+
 Es=log(Es);
