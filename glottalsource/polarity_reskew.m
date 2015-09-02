@@ -75,6 +75,9 @@ function polarity = polarity_reskew(s, fs, opt)
         res2 = maxlpresidual(s,fs,round(fs/1000)+2);
     end
 
+    res(isnan(res))=0;   % Nan-safe estimation
+    res2(isnan(res2))=0; % Nan-safe estimation
+
     Val1=skewness(res);
     Val2=skewness(res2);
 
