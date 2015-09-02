@@ -74,11 +74,11 @@ if f0max<=f0min
 end
     
 
-%  if fs~=16000
-%      display('Sample rate not equal to 16kHz. Audio is resampled.')
-%      wave=resample(wave,16000,fs);
-%      fs=16000;
-%  end
+if fs>16000
+    display('Sample rate is bigger than 16kHz. Audio is resampled.')
+    wave=resample(wave,16000,fs);
+    fs=16000;
+end
 
 if nargin < 5
     hopsize=10;
