@@ -50,6 +50,8 @@
 %  PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
 %  details.
 %
+% This function is part of the COVAREP project: http://covarep.github.io/covarep
+%
 % Authors
 %  Yannis Stylianou <yannis@csd.uoc.gr>
 %  Gilles Degottex <degottex@csd.uoc.gr> (regularization term)
