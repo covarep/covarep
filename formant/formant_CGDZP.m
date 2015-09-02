@@ -169,7 +169,7 @@ if(1)%replace possible continuation values instead of zero values
         if(numNonZeroFormants<numFormants && ~isempty(index))
             %smoothArray=round(sort(formantPeaks(kk-1,:)+formantPeaks(kk+1,:))/2);
             possibleValues=sort([formantPeaks(kk-1,:) formantPeaks(kk+1,:)]);
-            while(possibleValues(1)==0)%discard zero entries
+            while((length(possibleValues)>0) && (possibleValues(1)==0)) %discard zero entries
                 possibleValues=possibleValues(2:length(possibleValues));
             end
             possibleCandidates=[];%candidate for the zero valued formant
