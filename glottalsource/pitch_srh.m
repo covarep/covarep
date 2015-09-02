@@ -74,11 +74,11 @@ if f0max<=f0min
 end
     
 
-if fs~=16000
-    display('Sample rate not equal to 16kHz. Audio is resampled.')
-    wave=resample(wave,16000,fs);
-    fs=16000;
-end
+%  if fs~=16000
+%      display('Sample rate not equal to 16kHz. Audio is resampled.')
+%      wave=resample(wave,16000,fs);
+%      fs=16000;
+%  end
 
 if nargin < 5
     hopsize=10;
@@ -102,6 +102,7 @@ waveLen = length(wave);
 clear wave;
 frameDuration = round(100/1000*fs)-2; % Minus 2 to make equivalent
                                       % to original
+frameDuration = round(frameDuration/2)*2; % Enforce evenness of the frame's length
 shift = round(hopsize/1000*fs);
 halfDur = round(frameDuration/2);
 time = halfDur+1:shift:waveLen-halfDur;
@@ -123,8 +124,8 @@ frameMatWinMean = bsxfun(@minus, frameMatWin, frameMean);
 clear frameMean frameMatWin frameMat;
 
 %% Compute spectrogram matrix
-specMat = zeros(fs/2, size(frameMatWinMean,2));
-idx = 1:fs/2;
+specMat = zeros(floor(fs/2), size(frameMatWinMean,2));
+idx = 1:floor(fs/2);
 for i = 1:size(frameMatWinMean,2)
     tmp = abs( fft(frameMatWinMean(:,i),fs) );
     specMat(:,i) = tmp(idx);
