@@ -23,5 +23,5 @@ end
 
 MATLABVERSION=version('-release'); MATLABVERSION=MATLABVERSION(1:end-1);
 if str2num(MATLABVERSION)>=2015
-    rmpath(genpath([pwd '/external/backcomp_2015']));
+    rmpath(genpath([pwd '/external/backcompatibility_2015']));
 end
