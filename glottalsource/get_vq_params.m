@@ -214,39 +214,40 @@ flag = 0;
 N = 3; % An set to an initial value of 3, as per Alku et al (1997)
 X=X(:);
 
+% pre-allocate&compute
 X2=X.^2;
-k = (0:N-2)';
+k = (0:100)';
 k2 = k.^2;
-k2_sum=sum(k2);
 k4 = k2.^2;
-k4_sum=sum(k4);
-k1 = k+1;
-X_k1_sum = sum(X(k1));
-X_k1_k2_sum = sum(X(k1).*k2);
-X2_k1_sum = sum(X2(k1));
+
+% init sum
+k2_sum=sum(k2(1:N-1));
+k4_sum=sum(k4(1:N-1));
+X_k1_sum = sum(X(1:N-1));
+X_k1_k2_sum = sum(X((1:N-1)).*k2(1:N-1));
+X2_k1_sum = sum(X2((1:N-1)));
 
 %% Do processing
 while flag == 0
-    k = (0:N-1)';
+
+    % re-allocate if necessary
+    if N>numel(k)
+        k = (0:numel(k)*2)';
+        k2 = k.^2;
+        k4 = k2.^2;
+    end
   
     % iteratively built sum
-    k2= k.^2;
-    k2_sum= k2_sum + k2(end);
-    
-    k4 = k2.^2;
-    k4_sum= k4_sum + k4(end);
-    
-    k1 = k+1;
-    X_k1 = X(k1);
-    X_k1_sum = X_k1_sum + X_k1(end);
-    X_k1_k2_sum = X_k1_k2_sum + X_k1(end)*k2(end);
-    
-    X2_k1_sum = X2_k1_sum + X2(k1(end));
+    k2_sum= k2_sum + k2(N);
+    k4_sum= k4_sum + k4(N);
+    X_k1_sum = X_k1_sum + X(N);
+    X_k1_k2_sum = X_k1_k2_sum + X(N)*k2(N);
+    X2_k1_sum = X2_k1_sum + X2(N);
     
     % Equation 5 
     a = (N*X_k1_k2_sum-X_k1_sum.*k2_sum)/(N*k4_sum-k2_sum.^2); 
     
-    X_k1_a_k2 = X_k1-a*k2;
+    X_k1_a_k2 = X(1:N)-a*k2(1:N);
     
     % Equation 4
     b = 1/N*sum(X_k1_a_k2);
