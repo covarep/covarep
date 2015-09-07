@@ -62,13 +62,16 @@ function G = gfm_spec_lf(f, fs, T0, Ee, te, tp, ta)
 
     % e is expressed by an implicit equation
     fb = @(e) 1 - exp(-e.*(T0-Te)) - e.*Ta;         % [1](12) (or [3](p.18) )
-    e = fzero(fb, 1/Ta+eps);
+    e = fzero_plain(fb,1/(Ta+eps));
 
     % a is expressed by another implicit equation   % based on [3]p.18
     % integral{0, T0} ULF(t) dt, where ULF(t) is the LF model equation
     A = (1-exp(-e*(T0-Te)))/(e^2*Ta) - (T0-Te)*exp(-e*(T0-Te))/(e*Ta);
     fa = @(a) (a.^2+wg^2)*sin(wg*Te)*A + wg*exp(-a.*Te) + a.*sin(wg*Te) - wg*cos(wg*Te);
-    a = fzero(fa, [0, 1e9]);
+    % find smaller interval than [0, 1e9]
+    x = [0 1e1 1e2 1e3 1e4 1e5 1e6 1e7 1e8 1e9];
+    idx = find(diff(sign(fa(x))),1);
+    a = fzero_plain(fa, x([idx idx+1]));
 
     % E0 parameter
     E0 = -Ee/(exp(a*Te)*sin(wg*Te));                % [1](5)
@@ -110,5 +113,4 @@ function G = gfm_spec_lf(f, fs, T0, Ee, te, tp, ta)
         keyboard
     %      pause
     end
-
-return
+end
