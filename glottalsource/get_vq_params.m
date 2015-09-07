@@ -216,13 +216,11 @@ X=X(:);
 
 % pre-allocate&compute
 X2=X.^2;
-k = (0:100)';
-k2 = k.^2;
-k4 = k2.^2;
+k2 = ((0:100).^2)';
 
 % init sum
 k2_sum=sum(k2(1:N-1));
-k4_sum=sum(k4(1:N-1));
+k4_sum=sum(k2(1:N-1).^2);
 X_k1_sum = sum(X(1:N-1));
 X_k1_k2_sum = sum(X((1:N-1)).*k2(1:N-1));
 X2_k1_sum = sum(X2((1:N-1)));
@@ -231,15 +229,13 @@ X2_k1_sum = sum(X2((1:N-1)));
 while flag == 0
 
     % re-allocate if necessary
-    if N>numel(k)
-        k = (0:numel(k)*2)';
-        k2 = k.^2;
-        k4 = k2.^2;
+    if N>numel(k2)
+        k2 = ((0:numel(k2)*2).^2)';
     end
   
     % iteratively built sum
     k2_sum= k2_sum + k2(N);
-    k4_sum= k4_sum + k4(N);
+    k4_sum= k4_sum + k2(N)*k2(N);
     X_k1_sum = X_k1_sum + X(N);
     X_k1_k2_sum = X_k1_k2_sum + X(N)*k2(N);
     X2_k1_sum = X2_k1_sum + X2(N);
