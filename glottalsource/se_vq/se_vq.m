@@ -63,7 +63,7 @@ T0mean = fs/F0mean; % Rough period length for mean-based signal
 
 winLen = 25; % window length in ms 
 winShift = 5; % window shift in ms 
-LPC_ord = (fs/1000)+2; % LPC order
+LPC_ord = round(fs/1000)+2; % LPC order
 Ncand=5; % Number of candidate GCI residual peaks to be considered in the dynamic programming
 
 trans_wgt=1; % Transition cost weight
