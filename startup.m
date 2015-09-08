@@ -23,5 +23,7 @@ end
 
 MATLABVERSION=version('-release'); MATLABVERSION=MATLABVERSION(1:end-1);
 if str2num(MATLABVERSION)>=2015
-    rmpath(genpath([pwd '/external/backcompatibility_2015']));
+    entries = regexp(path, ['[^',pathsep,']+'],'match');
+    idx = find(~cellfun(@isempty,regexp(entries,'backcompatibility_2015')));
+    if ~isempty(idx); rmpath(entries{idx}); end
 end
