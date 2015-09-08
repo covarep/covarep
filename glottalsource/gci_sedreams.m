@@ -171,7 +171,7 @@ function [gci, MeanBasedSignal, res] = gci_sedreams(wave, fs, f0mean, ...
         if (stop > 1)
             vec=res(start:stop);
             [~,posi]=max(vec);
-            gci(Ind)=start+posi-1;
+            gci(Ind)=start+posi(1)-1;
             Ind=Ind+1;
         end
     end
