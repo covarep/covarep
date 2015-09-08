@@ -56,9 +56,9 @@ if nargin < 3
 end
 
 %% Settings
-N = 32*(fs/1000); % 32ms frame length for periodicity analysis
-shift = 10*(fs/1000); % 10ms frame length for periodicity analysis
-maxLag = 15*(fs/1000); % 15ms is maximum lag duration
+N = round(32*(fs/1000)); % 32ms frame length for periodicity analysis
+shift = round(10*(fs/1000)); % 10ms frame length for periodicity analysis
+maxLag = round(15*(fs/1000)); % 15ms is maximum lag duration
 peak_tol=1/1000*fs;
 t_IFP = zeros(1,round((length(x_filt)-N)/shift));
 IFP = zeros(1,round((length(x_filt)-N)/shift));
