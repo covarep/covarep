@@ -1,0 +1,215 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration build-checksum="460857408" file="\\bigvh\cicero\twoertwein_dcaps\feature_extraction\covarep.prj" location="\\bigvh\cicero\twoertwein_dcaps\feature_extraction" name="covarep" preferred-package-location="\\bigvh\cicero\twoertwein_dcaps\feature_extraction\covarep\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
+    <param.appname>covarep</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>1.0</param.version>
+    <param.authnamewatermark>Stefan Scherer</param.authnamewatermark>
+    <param.email />
+    <param.company>Covarep</param.company>
+    <param.summary>http://covarep.github.io/covarep/</param.summary>
+    <param.description>COVAREP is an open-source repository of advanced speech processing algorithms and stored in a GitHub project where researchers in speech processing can store original implementations of published algorithms.
+
+Over the past few decades a vast array of advanced speech processing algorithms have been developed, often offering significant improvements over the existing state-of-the-art. Such algorithms can have a reasonably high degree of complexity and, hence, can be difficult to accurately re-implement based on article descriptions. Another issue is the so-called 'bug magnet effect' with re-implementations requently having significant differences from the original ones. The consequence of all this has been that many promising developments have been under-exploited or discarded, with researchers tending to stick to conventional analysis methods.
+
+By developing COVAREP we are hoping to address this by encouraging authors to include original implementations of their algorithms, thus resulting in a single de facto version for the speech community to refer to.
+
+We envisage a range of benefits to the repository:
+
+Reproducible research: COVAREP will allow fairer comparison of algorithms in published articles.
+
+Encouraged usage: the free availability of these algorithms will encourage researchers from a wide range of speech-related disciplines to exploit them for their own applications.
+
+Feedback: as a GitHub project users will be able to offer comments on algorithms, report bugs, suggest improvements etc.
+
+Scope
+
+We welcome contributions from a wide range of speech processing areas, including (but not limited to): Speech analysis, synthesis, conversion, transformation, enhancement, glottal source/voice quality analysis, etc.
+
+Please also have a look at the Covarep.pdf document in the documentation directory for more information.
+
+
+Related Presentations
+
+Paper at IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), Florence, Italy, 2014. Poster
+Presentation at Signal Processing Media Applications Group (SIGMEDIA) in the Department of Electrical and Electronic Engineering, Trinity College Dublin (TCD), Irland, 2013.
+
+How to cite
+
+If you publish experiment results obtained by using COVAREP, please cite the repository using the following publication:
+
+G. Degottex, J. Kane, T. Drugman, T. Raitio and S. Scherer, "COVAREP - A collaborative voice analysis repository for speech technologies", In Proc. IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), Florence, Italy 2014.
+
+Also, within the text of your paper, please mention the version used. For example, assuming the COVAREP reference is the 12th:
+... we compared with methods X, Y, Z, available in [12](v1.0.1).</param.description>
+    <param.screenshot />
+    <param.guid />
+    <param.installpath.string>\Covarep\covarep\</param.installpath.string>
+    <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
+    <param.logo />
+    <param.install.notes />
+    <param.target.install.notes />
+    <param.intermediate>${PROJECT_ROOT}\covarep\for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}\covarep\for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}\covarep\for_redistribution</param.output>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options />
+    <param.embed.ctf>true</param.embed.ctf>
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.support.packages />
+    <param.required.mcr.products>
+      <item>35000</item>
+      <item>35010</item>
+    </param.required.mcr.products>
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.version />
+      <param.email />
+      <param.screenshot />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.target.install.notes />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.enable.clean.build />
+      <param.user.defined.mcr.options />
+      <param.embed.ctf />
+      <param.target.type />
+      <param.support.packages />
+      <param.web.mcr />
+      <param.package.mcr />
+      <param.no.mcr />
+      <param.web.mcr.name />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+    </unset>
+    <fileset.main>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\feature_extraction\run_covarep.m</file>
+    </fileset.main>
+    <fileset.resources />
+    <fileset.package />
+    <fileset.depfun>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\envelope\env_interp.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\envelope\env_te.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\envelope\fwcep2hspec.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\envelope\hspec2fwcep.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\envelope\phase_rpspd.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\external\voicebox\frq2mel.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\external\voicebox\v_findpeaks.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\external\voicebox\xticksi.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\external\voicebox\xyzticksi.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\external\voicebox\yticksi.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\feature_extraction\COVAREP_feature_extraction.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\feature_extraction\COVAREP_formant_extraction.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\formant\formant_CGDZP.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\formant\getVowelSpace.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\detect_creaky_voice.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\private\creaky_voice_do_detection.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\private\get_all_creak_features.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\private\get_creak_h2h1.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\private\get_delta_mat.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\private\get_ifp.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\private\get_ishi_params_inter.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\private\get_kd_creak_features.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\private\get_res_peak_prom.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\private\get_short_pow.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\private\get_zero_x_rate.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\private\ishi_creak_detection.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\private\res_peak.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\private\sil_unv_features.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\daless\daless_MW.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\daless\do_daless_decomp.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\daless\do_daless_filt.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\gci_sedreams.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\get_vq_params.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\glottal_models\fzero_plain.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\glottal_models\gfm_spec_lf.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\glottal_models\Rd2tetpta.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\iaif.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\iaif_gci.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\lpcresidual.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\maxlpresidual.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\mdq.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\peakslope.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\pitch_srh.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\polarity_reskew.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\rd_msp.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\misc\delay2spec.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\misc\gen_analysis_times.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\misc\harmscale2hertzscale.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\misc\hspec2minphaseloghspec.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\misc\hspec2spec.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\misc\interp1ordered.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\misc\interp1td.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\misc\irregsampling2uniformsampling.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\misc\progressbar.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\misc\spec2hspec.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\misc\spec2minphasespec.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\misc\spec_derivative.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\misc\wrap.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\sinusoidal\ahm_air_analysis2.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\sinusoidal\private\get_optimal_winlen.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\sinusoidal\private\interp1_extrapbounds.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\sinusoidal\private\mainlobebw.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\sinusoidal\private\spec_fit_freq_amp.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\sinusoidal\private\spec_getsins.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\sinusoidal\private\spec_getsins_f0.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\sinusoidal\sin2shm.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\sinusoidal\sin2sig.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\sinusoidal\sin_analysis.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\hmpd_analysis.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\hmpd_analysis_features.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\hmpd_analysis_harmonic.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\private\fillf0.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\private\hlin2hlog.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\private\hmpd_amplitude_envelope_estimate.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\private\hmpd_features_compress.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\private\hmpd_phase_deviation.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\private\hmpd_phase_mean.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\private\hmpd_phase_smooth.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\private\interp1_fixnan.m</file>
+      <file>\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\private\philin2philog.m</file>
+    </fileset.depfun>
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}\covarep\for_testing" name="readme.txt" optional="true">\\bigvh\cicero\twoertwein_dcaps\feature_extraction\covarep\for_testing\readme.txt</file>
+      <file location="${PROJECT_ROOT}\covarep\for_testing" name="covarep.exe" optional="false">\\bigvh\cicero\twoertwein_dcaps\feature_extraction\covarep\for_testing\covarep.exe</file>
+      <file location="${PROJECT_ROOT}\covarep\for_testing" name="splash.png" optional="false">\\bigvh\cicero\twoertwein_dcaps\feature_extraction\covarep\for_testing\splash.png</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files (x86)\MATLAB\R2015b</root>
+      <toolboxes />
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>6.1</osver>
+      <os32>true</os32>
+      <os64>false</os64>
+      <arch>win32</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>

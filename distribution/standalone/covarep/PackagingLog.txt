@@ -1,0 +1,99 @@
+mcc -C -o covarep -W WinMain:covarep -T link:exe -d \\bigvh\cicero\twoertwein_dcaps\feature_extraction\covarep\for_testing -v \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\feature_extraction\run_covarep.m 
+Compiler version: 6.1 (R2015b)
+
+Dependency analysis by REQUIREMENTS.
+
+Begin validation of MEX files: Mon Sep 28 14:06:55 2015
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dsp_blocks_2.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dsp_blocks_3.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dsp_core_blocks.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dsp_fixpt_3.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dsp_rt.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dsp_sim_common.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dspcg.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dspfft.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\frommmfile.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\hostlibaudio.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\hostlibmultimedia.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\libmwipp.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\networkdevice.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\scopesutil.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\sea_fixpt_3.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\sea_sim_common.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\sldirectshow.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\sysobjcoreblocks.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\systemobject_coreblocksmcos.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\systemobject_mcos.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\systemobject_sfun.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\systemobject_sfunmcos.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\tommfile.dll'.
+No conflicting MATLAB file found.
+End validation of MEX files: Mon Sep 28 14:06:55 2015
+[Warning: Adding path
+"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\feature_extraction" to Compiler
+path instance.] 
+[] 
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\feature_extraction\run_covarep.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 30 temporary MEX authorization files.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240813647_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240810594_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240819058_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240819352_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240818074_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_024086120_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240825582_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240827449_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240820915_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240811753_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_024087242_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240829256_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240820058_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_024087091_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240823532_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240831652_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240812228_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240831803_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240813382_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240827652_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240815515_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240823823_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_024086140_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240811479_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240832171_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240820134_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240826305_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240815612_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240824472_9224.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_0240817674_9224.auth'.
+Generating file "\\bigvh\cicero\twoertwein_dcaps\feature_extraction\covarep\for_testing\readme.txt".
+Packaging...
+Adding custom icon C:\Program Files (x86)\MATLAB\R2015b\toolbox\compiler\Resources\default_icon.ico to \\bigvh\cicero\twoertwein_dcaps\feature_extraction\covarep\for_testing\covarep.exe.
+Attempting to embed the CTF archive into the application \\bigvh\cicero\twoertwein_dcaps\feature_extraction\covarep\for_testing\covarep.exe.
+Finished embedding CTF archive. Deleting the external CTF archive.
+Creating the bundle...
+Web based installer created at \\bigvh\cicero\twoertwein_dcaps\feature_extraction\covarep\for_redistribution\MyAppInstaller_web.exe.
+Packaging complete.
+Elapsed packaging time was: 1 minutes and 13 seconds.

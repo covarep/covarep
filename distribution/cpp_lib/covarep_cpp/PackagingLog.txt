@@ -1,0 +1,331 @@
+mcc -W cpplib:covarep_cpp -T link:lib -d \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing -v \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\detect_creaky_voice.m \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\envelope\env_te.m \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\gci_sedreams.m \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\get_vq_params.m \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\hmpd_analysis.m \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\hmpd_analysis_features.m \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\envelope\hspec2fwcep.m \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\iaif_gci.m \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\lpcresidual.m \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\mdq.m \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\peakslope.m \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\pitch_srh.m \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\polarity_reskew.m \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\rd_msp.m \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\sinusoidal\sin_analysis.m 
+Compiler version: 6.1 (R2015b)
+
+Dependency analysis by REQUIREMENTS.
+
+Begin validation of MEX files: Mon Sep 28 16:50:58 2015
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dsp_blocks_2.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dsp_blocks_3.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dsp_core_blocks.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dsp_fixpt_3.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dsp_rt.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dsp_sim_common.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dspcg.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\dspfft.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\frommmfile.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\hostlibaudio.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\hostlibmultimedia.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\libmwipp.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\networkdevice.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\scopesutil.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\sea_fixpt_3.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\sea_sim_common.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\sldirectshow.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\sysobjcoreblocks.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\systemobject_coreblocksmcos.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\systemobject_mcos.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\systemobject_sfun.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\systemobject_sfunmcos.dll'.
+No conflicting MATLAB file found.
+Validating 'C:\Program Files (x86)\MATLAB\R2015b\bin\win32\tommfile.dll'.
+No conflicting MATLAB file found.
+End validation of MEX files: Mon Sep 28 16:50:58 2015
+[Warning: Adding path
+"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection"
+to Compiler path instance.] 
+[] 
+[Warning: Adding path "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\envelope"
+to Compiler path instance.] 
+[] 
+[Warning: Adding path
+"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource" to Compiler path
+instance.] 
+[] 
+[Warning: Adding path
+"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource" to Compiler path
+instance.] 
+[] 
+[Warning: Adding path
+"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd" to Compiler path
+instance.] 
+[] 
+[Warning: Adding path
+"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd" to Compiler path
+instance.] 
+[] 
+[Warning: Adding path "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\envelope"
+to Compiler path instance.] 
+[] 
+[Warning: Adding path
+"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource" to Compiler path
+instance.] 
+[] 
+[Warning: Adding path
+"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource" to Compiler path
+instance.] 
+[] 
+[Warning: Adding path
+"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource" to Compiler path
+instance.] 
+[] 
+[Warning: Adding path
+"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource" to Compiler path
+instance.] 
+[] 
+[Warning: Adding path
+"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource" to Compiler path
+instance.] 
+[] 
+[Warning: Adding path
+"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource" to Compiler path
+instance.] 
+[] 
+[Warning: Adding path
+"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource" to Compiler path
+instance.] 
+[] 
+[Warning: Adding path "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\sinusoidal"
+to Compiler path instance.] 
+[] 
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\creaky_voice_detection\detect_creaky_voice.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\envelope\env_te.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\gci_sedreams.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\get_vq_params.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\hmpd_analysis.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\vocoder\hmpd\hmpd_analysis_features.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\envelope\hspec2fwcep.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\iaif_gci.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\lpcresidual.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\mdq.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\peakslope.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\pitch_srh.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\polarity_reskew.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\glottalsource\rd_msp.m"
+	(Referenced from: "Compiler Command Line").
+Parsing file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\sinusoidal\sin_analysis.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 28 temporary MEX authorization files.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd823717_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd86005_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd827949_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd84352_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd820550_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd81316_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd830121_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd8298_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd826663_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd829859_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd812548_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd89171_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd811072_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd811868_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd828173_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd821596_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd828670_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd813656_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd820667_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd824493_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd825912_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd831840_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd817090_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd812658_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd817680_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd832740_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd826514_8152.auth'.
+Removing: 'C:\Users\scherer\AppData\Local\Temp\mathworks_tmp_01fd815480_8152.auth'.
+Generating file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.h".
+Generating file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.cpp".
+Generating file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.exports".
+Generating file "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\readme.txt".
+Using pushd/popd, disregard cmd.exe warnings about UNC directory pathnames.'\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2'
+CMD.EXE was started with the above path as the current directory.
+UNC paths are not supported.  Defaulting to Windows directory.
+Executing command: ""C:\Program Files (x86)\MATLAB\R2015b\bin\mbuild"  -client mbuild -O -v -output "covarep_cpp" -I"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing" "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.cpp"  DEFFILE"=""\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.def""" LINKEXPORT"=""/DLL /def:\"$DEFFILE\"""" LDEXT"="".dll""" CMDLINE250"=""mt -outputresource:$EXE;2 -manifest $MANIFEST""" -outdir "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing""Verbose mode is on.
+No MEX options file identified; looking for an implicit selection.
+... Looking for compiler 'Intel C++ Composer XE 2011 with Microsoft SDK 7.1' ...
+... Looking for environment variable 'ICPP_COMPILER12' ...No.
+Did not find installed compiler 'Intel C++ Composer XE 2011 with Microsoft SDK 7.1'.
+... Looking for compiler 'Intel C++ Composer XE 2011 with Microsoft Visual Studio 2008' ...
+... Looking for environment variable 'ICPP_COMPILER12' ...No.
+Did not find installed compiler 'Intel C++ Composer XE 2011 with Microsoft Visual Studio 2008'.
+... Looking for compiler 'Intel C++ Composer XE 2011 with Microsoft Visual Studio 2010 ' ...
+... Looking for environment variable 'ICPP_COMPILER12' ...No.
+Did not find installed compiler 'Intel C++ Composer XE 2011 with Microsoft Visual Studio 2010 '.
+... Looking for compiler 'Intel C++ Composer XE 2013 with Microsoft SDK 7.1' ...
+... Looking for environment variable 'ICPP_COMPILER14' ...No.
+... Looking for environment variable 'ICPP_COMPILER13' ...No.
+Did not find installed compiler 'Intel C++ Composer XE 2013 with Microsoft SDK 7.1'.
+... Looking for compiler 'Intel C++ Composer XE 2013 with Microsoft Visual Studio 2010' ...
+... Looking for environment variable 'ICPP_COMPILER14' ...No.
+... Looking for environment variable 'ICPP_COMPILER13' ...No.
+Did not find installed compiler 'Intel C++ Composer XE 2013 with Microsoft Visual Studio 2010'.
+... Looking for compiler 'Intel C++ Composer XE 2013 with Microsoft Visual Studio 2012' ...
+... Looking for environment variable 'ICPP_COMPILER14' ...No.
+... Looking for environment variable 'ICPP_COMPILER13' ...No.
+Did not find installed compiler 'Intel C++ Composer XE 2013 with Microsoft Visual Studio 2012'.
+... Looking for compiler 'Microsoft Visual C++ 2008 Professional' ...
+... Looking for environment variable 'VS90COMNTOOLS' ...Yes ('c:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\Tools\').
+... Looking for file 'c:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\bin\cl.exe' ...Yes.
+... Looking for folder 'c:\Program Files (x86)\Microsoft Visual Studio 9.0' ...Yes.
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v6.0A' InstallationFolder ...Yes ('C:\Program Files\Microsoft SDKs\Windows\v6.0A\').
+... Looking for environment variable 'VS90COMNTOOLS' ...Yes ('c:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\Tools\').
+... Looking for file 'c:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe' ...Yes.
+... Looking for environment variable 'VS90COMNTOOLS' ...Yes ('c:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\Tools\').
+... Looking for file 'c:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\vcvarsall.bat' ...Yes.
+... Looking for folder 'c:\Program Files (x86)\Microsoft Visual Studio 9.0\VC' ...Yes.
+Found installed compiler 'Microsoft Visual C++ 2008 Professional'.
+... Looking for compiler 'Microsoft Visual C++ 2010 Professional' ...
+... Looking for environment variable 'VS100COMNTOOLS' ...Yes ('c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\Tools\').
+... Looking for file 'c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\cl.exe' ...Yes.
+... Looking for folder 'c:\Program Files (x86)\Microsoft Visual Studio 10.0' ...Yes.
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A' InstallationFolder ...Yes ('C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\').
+... Looking for environment variable 'VS100COMNTOOLS' ...Yes ('c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\Tools\').
+... Looking for file 'c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\devenv.exe' ...Yes.
+... Looking for environment variable 'VS100COMNTOOLS' ...Yes ('c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\Tools\').
+... Looking for file 'c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat' ...Yes.
+... Looking for folder 'c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC' ...Yes.
+Found installed compiler 'Microsoft Visual C++ 2010 Professional'.
+... Looking for compiler 'Microsoft Visual C++ 2012' ...
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 11.0 ...Yes ('C:\Program Files (x86)\Microsoft Visual Studio 11.0\').
+... Looking for file 'C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\cl.exe' ...Yes.
+... Looking for folder 'C:\Program Files (x86)\Microsoft Visual Studio 11.0' ...Yes.
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v8.0' InstallationFolder ...Yes ('C:\Program Files (x86)\Windows Kits\8.0\').
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 11.0 ...Yes ('C:\Program Files (x86)\Microsoft Visual Studio 11.0\').
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VC7' 11.0 ...Yes ('C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\').
+... Looking for environment variable 'VS110COMNTOOLS' ...Yes ('C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\Tools\').
+... Looking for file 'C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\devenv.exe' ...Yes.
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 11.0 ...Yes ('C:\Program Files (x86)\Microsoft Visual Studio 11.0\').
+... Looking for file 'C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat' ...Yes.
+... Looking for folder 'C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC' ...Yes.
+Found installed compiler 'Microsoft Visual C++ 2012'.
+... Looking for compiler 'Microsoft Visual C++ 2013 Professional' ...
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 12.0 ...No.
+... Looking for registry setting 'HKCU\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 12.0 ...No.
+... Looking for registry setting 'HKLM\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7' 12.0 ...No.
+... Looking for registry setting 'HKCU\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7' 12.0 ...No.
+Did not find installed compiler 'Microsoft Visual C++ 2013 Professional'.
+... Looking for compiler 'Microsoft Visual C++ 2015 Professional' ...
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 14.0 ...No.
+... Looking for registry setting 'HKCU\SOFTWARE\Microsoft\VisualStudio\SxS\VS7' 14.0 ...No.
+... Looking for registry setting 'HKLM\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7' 14.0 ...No.
+... Looking for registry setting 'HKCU\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7' 14.0 ...No.
+Did not find installed compiler 'Microsoft Visual C++ 2015 Professional'.
+... Looking for compiler 'Microsoft Windows SDK 7.1 (C++)' ...
+... Looking for registry setting 'HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.1' InstallationFolder ...No.
+Did not find installed compiler 'Microsoft Windows SDK 7.1 (C++)'.
+Set PATH = C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\Bin;C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\Bin\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE;C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\Tools;C:\Program Files (x86)\Windows Kits\8.0\\bin\x86;;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Perl64\site\bin;C:\Perl64\bin;C:\Program Files (x86)\CodeSynthesis XSD 3.3\bin\;C:\Program Files (x86)\CodeSynthesis XSD 3.3\bin64\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\TortoiseSVN\bin;c:\Program Files (x86)\Microsoft SQL Server\90\Tools\binn\;C:\Program Files (x86)\MATLAB\R2015b\runtime\win32;C:\Program Files (x86)\MATLAB\R2015b\bin;C:\Program Files (x86)\MATLAB\R2014b32\runtime\win32;C:\Program Files (x86)\MATLAB\R2014b32\bin;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files (x86)\Liquid Technologies\Liquid XML Studio 2011\XmlDataBinder9\Redist9\cpp\win32\bin;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files (x86)\Windows Kits\8.0\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\MiKTeX\miktex\bin\x64\;C:\Users\scherer\Downloads\ffmpeg\bin\
+Set INCLUDE = C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\ATLMFC\INCLUDE;C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\INCLUDE;C:\Program Files (x86)\Windows Kits\8.0\\include\shared;C:\Program Files (x86)\Windows Kits\8.0\\include\um;C:\Program Files (x86)\Windows Kits\8.0\\include\winrt;C:\Program Files (x86)\MATLAB\R2015b\extern\include;
+Set LIB = C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\LIB;C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\ATLMFC\LIB;C:\Program Files (x86)\Windows Kits\8.0\\lib\win8\um\x86;;
+Set LIBPATH = C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\Lib;C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\ATLMFC\LIB;C:\Program Files (x86)\Windows Kits\8.0\\lib\win8\um\x86;C:\Program Files (x86)\MATLAB\R2015b\extern\lib\win32;;
+Options file details
+-------------------------------------------------------------------
+	Compiler location: C:\Program Files (x86)\Microsoft Visual Studio 11.0
+	Options file: C:\Program Files (x86)\MATLAB\R2015b\bin\win32\mexopts\msvcpp2012.xml
+	CMDLINE100 : cl /c -MD -Zp8 -GR -W3 -EHsc- -Zc:wchar_t- -nologo -O2 -DNDEBUG /DMSVC /DIBMPC /D_CRT_SECURE_NO_DEPRECATE -I\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing  -I"C:\Program Files (x86)\MATLAB\R2015b\extern\include" -I"C:\Program Files (x86)\MATLAB\R2015b\extern\include\win32" \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.cpp /FoC:\Users\scherer\AppData\Local\Temp\mex_12602863913208597_16472\covarep_cpp.obj
+	CMDLINE200 : link /nologo /manifest   /DLL /def:"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.def" C:\Users\scherer\AppData\Local\Temp\mex_12602863913208597_16472\covarep_cpp.obj  /LIBPATH:"C:\Program Files (x86)\MATLAB\R2015b\extern\lib\win32\microsoft" mclmcrrt.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /out:\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.dll
+	CMDLINE250 : mt -outputresource:\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.dll;2 -manifest \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.dll.manifest
+	CMDLINE300 : del \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.dll.manifest "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.map" 
+	COMPILER : cl
+	COMPFLAGS : -MD -Zp8 -GR -W3 -EHsc- -Zc:wchar_t- -nologo
+	COMPDEFINES : /DMSVC /DIBMPC /D_CRT_SECURE_NO_DEPRECATE
+	MATLABMEX : 
+	OPTIMFLAGS : -O2 -DNDEBUG
+	INCLUDE : -I\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing  -I"C:\Program Files (x86)\MATLAB\R2015b\extern\include" -I"C:\Program Files (x86)\MATLAB\R2015b\extern\include\win32"
+	DEBUGFLAGS : /Z7
+	LINKER : link
+	LINKFLAGS : /nologo /manifest
+	LINKTYPE : 
+	LINKEXPORT : /DLL /def:"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.def"
+	LINKLIBS : /LIBPATH:"C:\Program Files (x86)\MATLAB\R2015b\extern\lib\win32\microsoft" mclmcrrt.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
+	LINKDEBUGFLAGS : /debug /PDB:"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.pdb"
+	LINKOPTIMFLAGS : 
+	OBJEXT : .obj
+	LDEXT : .dll
+	SETENV : set COMPILER=cl 
+				set COMPFLAGS=/c -MD -Zp8 -GR -W3 -EHsc- -Zc:wchar_t- -nologo /DMSVC /DIBMPC /D_CRT_SECURE_NO_DEPRECATE  
+				set OPTIMFLAGS=-O2 -DNDEBUG 
+				set DEBUGFLAGS=/Z7 
+				set LINKER=link 
+				set LINKFLAGS=/nologo /manifest /export:%ENTRYPOINT%  /LIBPATH:"C:\Program Files (x86)\MATLAB\R2015b\extern\lib\win32\microsoft" mclmcrrt.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DLL /def:"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.def" 
+				set LINKDEBUGFLAGS=/debug /PDB:"%OUTDIR%%MEX_NAME%.dll.pdb" 
+				set NAME_OUTPUT=/out:"%OUTDIR%%MEX_NAME%%MEX_EXT%"
+	VSROOT : C:\Program Files (x86)\Microsoft Visual Studio 11.0
+	SDKROOT : C:\Program Files (x86)\Windows Kits\8.0\
+	VSINSTALLDIR : C:\Program Files (x86)\Microsoft Visual Studio 11.0\
+	VCINSTALLDIR : C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\
+	PROF_ENV : C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\devenv.exe
+	VCVARSALLDIR : C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC
+	MATLABROOT : C:\Program Files (x86)\MATLAB\R2015b
+	ARCH : win32
+	SRC : \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.cpp
+	OBJ : C:\Users\scherer\AppData\Local\Temp\mex_12602863913208597_16472\covarep_cpp.obj
+	OBJS : C:\Users\scherer\AppData\Local\Temp\mex_12602863913208597_16472\covarep_cpp.obj 
+	SRCROOT : \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp
+	DEF : C:\Users\scherer\AppData\Local\Temp\mex_12602863913208597_16472\covarep_cpp.def
+	EXP : \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.exp
+	LIB : \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.lib
+	EXE : \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.dll
+	ILK : \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.ilk
+	MANIFEST : \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.dll.manifest
+	TEMPNAME : \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp
+	EXEDIR : \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\
+	EXENAME : covarep_cpp
+	DEFFILE : \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.def
+	OPTIM : -O2 -DNDEBUG
+	LINKOPTIM : 
+-------------------------------------------------------------------
+Building with 'Microsoft Visual C++ 2012'.
+cl /c -MD -Zp8 -GR -W3 -EHsc- -Zc:wchar_t- -nologo -O2 -DNDEBUG /DMSVC /DIBMPC /D_CRT_SECURE_NO_DEPRECATE -I\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing  -I"C:\Program Files (x86)\MATLAB\R2015b\extern\include" -I"C:\Program Files (x86)\MATLAB\R2015b\extern\include\win32" \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.cpp /FoC:\Users\scherer\AppData\Local\Temp\mex_12602863913208597_16472\covarep_cpp.obj
+covarep_cpp.cpp
+
+link /nologo /manifest   /DLL /def:"\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.def" C:\Users\scherer\AppData\Local\Temp\mex_12602863913208597_16472\covarep_cpp.obj  /LIBPATH:"C:\Program Files (x86)\MATLAB\R2015b\extern\lib\win32\microsoft" mclmcrrt.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /out:\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.dll
+   Creating library \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.lib and object \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.exp
+
+mt -outputresource:\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.dll;2 -manifest \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.dll.manifest
+Microsoft (R) Manifest Tool version 6.2.9200.16384
+
+Copyright (c) Microsoft Corporation 2012. 
+
+All rights reserved.
+
+
+del \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.dll.manifest "\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_testing\covarep_cpp.map"
+Packaging...
+Creating the bundle...
+Web based installer created at \\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_cpp\for_redistribution\MyAppInstaller_web.exe.
+Packaging complete.
+Elapsed packaging time was: 2 minutes and 12 seconds.
