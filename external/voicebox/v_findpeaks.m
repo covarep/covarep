@@ -53,21 +53,21 @@ if any(m=='v')
 else
     x=x(:);        % force to be a column vector
 end
-dx=x(2:end)-x(1:end-1);
+dx=diff(x);
 r=find(dx>0);
 f=find(dx<0);
 
-if length(r)>0 & length(f)>0    % we must have at least one rise and one fall
+if ~isempty(r) && ~isempty(f)    % we must have at least one rise and one fall
     dr=r;
-    dr(2:end)=r(2:end)-r(1:end-1);
-    rc=repmat(1,nx,1);
+    dr(2:end)=diff(r);
+    rc=ones(nx,1);
     rc(r+1)=1-dr;
     rc(1)=0;
     rs=cumsum(rc); % = time since the last rise
     
     df=f;
-    df(2:end)=f(2:end)-f(1:end-1);
-    fc=repmat(1,nx,1);
+    df(2:end)=diff(f);
+    fc=ones(nx,1);
     fc(f+1)=1-df;
     fc(1)=0;
     fs=cumsum(fc); % = time since the last fall
@@ -95,12 +95,12 @@ if length(r)>0 & length(f)>0    % we must have at least one rise and one fall
     % now purge nearby peaks
     
     if nargin>2
-        j=find(k(2:end)-k(1:end-1)<=w);
+        j=find(diff(k)<=w);
         while any(j)
             j=j+(v(j)>=v(j+1));
             k(j)=[];
             v(j)=[];
-            j=find(k(2:end)-k(1:end-1)<=w);
+            j=find(diff(k)<=w);
         end
     end
 else
