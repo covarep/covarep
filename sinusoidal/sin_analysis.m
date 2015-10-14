@@ -356,7 +356,7 @@ function [frames, syn, opt] = sin_analysis(wav, fs, f0s, opt)
         end
 
         if ind==1
-            mes(length(T)) = fr; % pre-allocate with correct fieldnames
+            frames(length(T)) = fr; % pre-allocate with correct fieldnames
         end
         frames(ind)=fr;
 
