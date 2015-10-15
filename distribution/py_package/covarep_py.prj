@@ -1,0 +1,266 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration build-checksum="2838811808" file="\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_py.prj" location="\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2" name="covarep_py" preferred-package-location="\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_py\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.library" target-name="Library Compiler">
+    <param.appname>covarep_py</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>1.0</param.version>
+    <param.authnamewatermark>Stefan Scherer</param.authnamewatermark>
+    <param.email />
+    <param.company />
+    <param.summary>python package of covarep</param.summary>
+    <param.description>Aim
+
+COVAREP is an open-source repository of advanced speech processing algorithms and stored in a GitHub project where researchers in speech processing can store original implementations of published algorithms.
+
+Over the past few decades a vast array of advanced speech processing algorithms have been developed, often offering significant improvements over the existing state-of-the-art. Such algorithms can have a reasonably high degree of complexity and, hence, can be difficult to accurately re-implement based on article descriptions. Another issue is the so-called 'bug magnet effect' with re-implementations requently having significant differences from the original ones. The consequence of all this has been that many promising developments have been under-exploited or discarded, with researchers tending to stick to conventional analysis methods.
+
+By developing COVAREP we are hoping to address this by encouraging authors to include original implementations of their algorithms, thus resulting in a single de facto version for the speech community to refer to.
+
+We envisage a range of benefits to the repository:
+
+Reproducible research: COVAREP will allow fairer comparison of algorithms in published articles.
+
+Encouraged usage: the free availability of these algorithms will encourage researchers from a wide range of speech-related disciplines to exploit them for their own applications.
+
+Feedback: as a GitHub project users will be able to offer comments on algorithms, report bugs, suggest improvements etc.
+
+Scope
+
+We welcome contributions from a wide range of speech processing areas, including (but not limited to): Speech analysis, synthesis, conversion, transformation, enhancement, glottal source/voice quality analysis, etc.
+
+Please also have a look at the Covarep.pdf document in the documentation directory for more information.
+
+
+Related Presentations
+
+Paper at IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), Florence, Italy, 2014. Poster
+Presentation at Signal Processing Media Applications Group (SIGMEDIA) in the Department of Electrical and Electronic Engineering, Trinity College Dublin (TCD), Irland, 2013.
+
+How to cite
+
+If you publish experiment results obtained by using COVAREP, please cite the repository using the following publication:
+
+G. Degottex, J. Kane, T. Drugman, T. Raitio and S. Scherer, "COVAREP - A collaborative voice analysis repository for speech technologies", In Proc. IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), Florence, Italy 2014.
+
+Also, within the text of your paper, please mention the version used. For example, assuming the COVAREP reference is the 12th:
+... we compared with methods X, Y, Z, available in [12](v1.0.1).</param.description>
+    <param.screenshot />
+    <param.guid />
+    <param.installpath.string>\covarep_py\</param.installpath.string>
+    <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
+    <param.logo />
+    <param.install.notes />
+    <param.target.install.notes>You must have Python 2.7, 3.3, or 3.4 on your machine to install this package. Go to the directory to which setup.py and your package have been written. Then execute:
+
+        python setup.py install [options]
+
+For details, see the readme.txt distributed with this package.</param.target.install.notes>
+    <param.intermediate>${PROJECT_ROOT}\covarep_py\for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}\covarep_py\for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}\covarep_py\for_redistribution</param.output>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options />
+    <param.embed.ctf>true</param.embed.ctf>
+    <param.target.type>subtarget.python.module</param.target.type>
+    <param.support.packages />
+    <param.required.mcr.products>
+      <item>35000</item>
+      <item>35010</item>
+    </param.required.mcr.products>
+    <param.namespace />
+    <param.classorg />
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <param.user.only.registration>false</param.user.only.registration>
+    <param.net.framework>option.net.framework.default</param.net.framework>
+    <param.assembly.type>false</param.assembly.type>
+    <param.encryption.key.file />
+    <param.net.enable.remoting>false</param.net.enable.remoting>
+    <param.net.tsa.enable>false</param.net.tsa.enable>
+    <param.net.tsa.assembly />
+    <param.net.tsa.interface />
+    <param.net.tsa.namespace />
+    <param.net.tsa.superclass>Class1</param.net.tsa.superclass>
+    <param.net.tsa.metadata />
+    <param.net.tsa.metadata.assembly>C:\Program Files (x86)\MATLAB\R2015b\bin</param.net.tsa.metadata.assembly>
+    <param.net.saved.interface />
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.version />
+      <param.email />
+      <param.company />
+      <param.screenshot />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.enable.clean.build />
+      <param.user.defined.mcr.options />
+      <param.embed.ctf />
+      <param.support.packages />
+      <param.namespace />
+      <param.classorg />
+      <param.web.mcr />
+      <param.package.mcr />
+      <param.no.mcr />
+      <param.web.mcr.name />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+      <param.user.only.registration />
+      <param.net.framework />
+      <param.assembly.type />
+      <param.encryption.key.file />
+      <param.net.enable.remoting />
+      <param.net.tsa.enable />
+      <param.net.tsa.assembly />
+      <param.net.tsa.interface />
+      <param.net.tsa.namespace />
+      <param.net.tsa.superclass />
+      <param.net.tsa.metadata />
+      <param.net.tsa.metadata.assembly />
+      <param.net.saved.interface />
+    </unset>
+    <fileset.exports>
+      <file>${PROJECT_ROOT}\envelope\env_te.m</file>
+      <file>${PROJECT_ROOT}\envelope\hspec2fwcep.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\detect_creaky_voice.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\gci_sedreams.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\get_vq_params.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\iaif_gci.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\lpcresidual.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\mdq.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\peakslope.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\pitch_srh.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\polarity_reskew.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\rd_msp.m</file>
+      <file>${PROJECT_ROOT}\sinusoidal\sin_analysis.m</file>
+      <file>${PROJECT_ROOT}\vocoder\hmpd\hmpd_analysis.m</file>
+      <file>${PROJECT_ROOT}\vocoder\hmpd\hmpd_analysis_features.m</file>
+    </fileset.exports>
+    <fileset.classes>
+      <entity.package name="">
+        <entity.class name="Class1">
+          <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\detect_creaky_voice.m</file>
+          <file>${PROJECT_ROOT}\envelope\env_te.m</file>
+          <file>${PROJECT_ROOT}\glottalsource\gci_sedreams.m</file>
+          <file>${PROJECT_ROOT}\glottalsource\get_vq_params.m</file>
+          <file>${PROJECT_ROOT}\vocoder\hmpd\hmpd_analysis.m</file>
+          <file>${PROJECT_ROOT}\vocoder\hmpd\hmpd_analysis_features.m</file>
+          <file>${PROJECT_ROOT}\envelope\hspec2fwcep.m</file>
+          <file>${PROJECT_ROOT}\glottalsource\iaif_gci.m</file>
+          <file>${PROJECT_ROOT}\glottalsource\lpcresidual.m</file>
+          <file>${PROJECT_ROOT}\glottalsource\mdq.m</file>
+          <file>${PROJECT_ROOT}\glottalsource\peakslope.m</file>
+          <file>${PROJECT_ROOT}\glottalsource\pitch_srh.m</file>
+          <file>${PROJECT_ROOT}\glottalsource\polarity_reskew.m</file>
+          <file>${PROJECT_ROOT}\glottalsource\rd_msp.m</file>
+          <file>${PROJECT_ROOT}\sinusoidal\sin_analysis.m</file>
+        </entity.class>
+      </entity.package>
+    </fileset.classes>
+    <fileset.resources />
+    <fileset.depfun>
+      <file>${PROJECT_ROOT}\envelope\env_interp.m</file>
+      <file>${PROJECT_ROOT}\envelope\fwcep2hspec.m</file>
+      <file>${PROJECT_ROOT}\envelope\phase_rpspd.m</file>
+      <file>${PROJECT_ROOT}\external\voicebox\frq2mel.m</file>
+      <file>${PROJECT_ROOT}\external\voicebox\v_findpeaks.m</file>
+      <file>${PROJECT_ROOT}\external\voicebox\xticksi.m</file>
+      <file>${PROJECT_ROOT}\external\voicebox\xyzticksi.m</file>
+      <file>${PROJECT_ROOT}\external\voicebox\yticksi.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\private\creaky_voice_do_detection.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\private\get_all_creak_features.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\private\get_creak_h2h1.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\private\get_delta_mat.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\private\get_ifp.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\private\get_ishi_params_inter.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\private\get_kd_creak_features.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\private\get_res_peak_prom.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\private\get_short_pow.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\private\get_zero_x_rate.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\private\ishi_creak_detection.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\private\res_peak.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\creaky_voice_detection\private\sil_unv_features.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\daless\daless_MW.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\daless\do_daless_decomp.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\daless\do_daless_filt.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\glottal_models\fzero_plain.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\glottal_models\gfm_spec_lf.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\glottal_models\Rd2tetpta.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\iaif.m</file>
+      <file>${PROJECT_ROOT}\glottalsource\maxlpresidual.m</file>
+      <file>${PROJECT_ROOT}\misc\delay2spec.m</file>
+      <file>${PROJECT_ROOT}\misc\gen_analysis_times.m</file>
+      <file>${PROJECT_ROOT}\misc\harmscale2hertzscale.m</file>
+      <file>${PROJECT_ROOT}\misc\hspec2minphaseloghspec.m</file>
+      <file>${PROJECT_ROOT}\misc\hspec2spec.m</file>
+      <file>${PROJECT_ROOT}\misc\interp1ordered.m</file>
+      <file>${PROJECT_ROOT}\misc\interp1td.m</file>
+      <file>${PROJECT_ROOT}\misc\irregsampling2uniformsampling.m</file>
+      <file>${PROJECT_ROOT}\misc\progressbar.m</file>
+      <file>${PROJECT_ROOT}\misc\spec2hspec.m</file>
+      <file>${PROJECT_ROOT}\misc\spec2minphasespec.m</file>
+      <file>${PROJECT_ROOT}\misc\spec_derivative.m</file>
+      <file>${PROJECT_ROOT}\misc\wrap.m</file>
+      <file>${PROJECT_ROOT}\sinusoidal\ahm_air_analysis2.m</file>
+      <file>${PROJECT_ROOT}\sinusoidal\private\get_optimal_winlen.m</file>
+      <file>${PROJECT_ROOT}\sinusoidal\private\interp1_extrapbounds.m</file>
+      <file>${PROJECT_ROOT}\sinusoidal\private\mainlobebw.m</file>
+      <file>${PROJECT_ROOT}\sinusoidal\private\spec_fit_freq_amp.m</file>
+      <file>${PROJECT_ROOT}\sinusoidal\private\spec_getsins.m</file>
+      <file>${PROJECT_ROOT}\sinusoidal\private\spec_getsins_f0.m</file>
+      <file>${PROJECT_ROOT}\sinusoidal\sin2shm.m</file>
+      <file>${PROJECT_ROOT}\sinusoidal\sin2sig.m</file>
+      <file>${PROJECT_ROOT}\vocoder\hmpd\hmpd_analysis_harmonic.m</file>
+      <file>${PROJECT_ROOT}\vocoder\hmpd\private\fillf0.m</file>
+      <file>${PROJECT_ROOT}\vocoder\hmpd\private\hlin2hlog.m</file>
+      <file>${PROJECT_ROOT}\vocoder\hmpd\private\hmpd_amplitude_envelope_estimate.m</file>
+      <file>${PROJECT_ROOT}\vocoder\hmpd\private\hmpd_features_compress.m</file>
+      <file>${PROJECT_ROOT}\vocoder\hmpd\private\hmpd_phase_deviation.m</file>
+      <file>${PROJECT_ROOT}\vocoder\hmpd\private\hmpd_phase_mean.m</file>
+      <file>${PROJECT_ROOT}\vocoder\hmpd\private\hmpd_phase_smooth.m</file>
+      <file>${PROJECT_ROOT}\vocoder\hmpd\private\interp1_fixnan.m</file>
+      <file>${PROJECT_ROOT}\vocoder\hmpd\private\philin2philog.m</file>
+    </fileset.depfun>
+    <fileset.package />
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}\covarep_py\for_testing" name="readme.txt" optional="true">\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_py\for_testing\readme.txt</file>
+      <file location="${PROJECT_ROOT}\covarep_py\for_testing" name="setup.py" optional="false">\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_py\for_testing\setup.py</file>
+      <file location="${PROJECT_ROOT}\covarep_py\for_testing" name="covarep_py" optional="false">\\bigvh\cicero\twoertwein_dcaps\covarep-1.3.2\covarep_py\for_testing\covarep_py</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files (x86)\MATLAB\R2015b</root>
+      <toolboxes />
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>6.1</osver>
+      <os32>true</os32>
+      <os64>false</os64>
+      <arch>win32</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
