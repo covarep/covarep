@@ -159,7 +159,6 @@ function [frames, syn, opt] = sin_analysis(wav, fs, f0s, opt)
     if nargout<2; opt.resyn=false; end
     if opt.debug>0; disp(opt); end
 
-    frames=[];
     wav = wav(:);
     if opt.resyn
         syn  = zeros(size(wav));
@@ -356,8 +355,10 @@ function [frames, syn, opt] = sin_analysis(wav, fs, f0s, opt)
             wins(idsb) = wins(idsb) + win(iddx);
         end
 
-        if length(frames)==0; frames = fr;
-        else                  frames(end+1)=fr; end
+        if ind==1
+            frames(length(T)) = fr; % pre-allocate with correct fieldnames
+        end
+        frames(ind)=fr;
 
         if 0 && T(ind)>0.3
             hold off;
