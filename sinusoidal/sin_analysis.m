@@ -390,7 +390,7 @@ function [frames, syn, opt] = sin_analysis(wav, fs, f0s, opt)
             V3part(frames(end).sins, fs);
             keyboard
         end
-        
+
         if opt.debug>0; pb = progressbar(pb, ind); end
     end
     if opt.debug>0; pb = progressbar(pb, length(T)); end
@@ -399,8 +399,9 @@ function [frames, syn, opt] = sin_analysis(wav, fs, f0s, opt)
     idx = find(~isnan(T));
     if length(idx)<length(T) && opt.debug>0
         disp(['    Some windows were outside of the signal. ' num2str(length(T)-length(idx)) ' frames dropped. (use opt.win_dropoutside=false if you want to keep all windows and zero-pad the necessary ones at signal boundaries).']);
-        T = T(idx);
     end
+    T = T(idx);
+    frames = frames(idx);
 
     if opt.resyn
         idx = find(wins>0);
