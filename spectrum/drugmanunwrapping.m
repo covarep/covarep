@@ -71,7 +71,7 @@ Ind=1;
 Nfft_init=Nfft;
 while (abs(N_OUC-Nref)>1)
     
-   ph = unwrap(angl(fft(x,Nfft)));
+   ph = unwrap(angle(fft(x,Nfft)));
    
    N_OUC = -round(ph(length(ph)/2 + 1)/pi);    
    Nfft = 2*Nfft;   
