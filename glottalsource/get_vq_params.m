@@ -72,7 +72,7 @@ H1H2=zeros(1,length(GCI));
 HRF=zeros(1,length(GCI));
 PSP=zeros(1,length(GCI));
 
-glot_shift=0.5/1000*fs;
+glot_shift=round(0.5/1000*fs);
 qoq_level=0.5; % Threshold for QOQ estimation
 T0_num=3; % Number of local glottal pulses to be used for harmonic spectrum
 min_harm_num=5;
@@ -105,13 +105,13 @@ for n=1:length(GCI)
             end
         else line=0;
         end
-        
         gf_seg=gf(start:stop);
         gf_seg_comp=gf_seg(:)-line(:);
         
         if stop+glot_shift <= length(gfd)
             stop2=stop+glot_shift;
-        else stop2=stop;
+        else
+            stop2=stop;
         end
         gfd_seg=gfd(start:stop2);
         
