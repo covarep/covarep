@@ -44,20 +44,21 @@ function [res,LPCcoeff] = lpcresidual(x,L,shift,order)
 
 %% Initial settings
 x=x(:);
+shift = round(shift);
+order = round(order);
 
 start=1;
+L = round(L);
 stop=start+L;    
 
 % Allocate space
 res=zeros(1,length(x));
 LPCcoeff=zeros(order+1,round(length(x)/shift));
 
-
 %% Do processing
 n=1;
 win = hanning(stop-start+1);
 while stop<length(x)
-
      segment=x(start:stop);
      segment=segment.*win;
         
