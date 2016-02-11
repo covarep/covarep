@@ -124,44 +124,58 @@ for n=1:N
         VUV(isnan(VUV)==1)=0; VUV_int(isnan(VUV_int)==1)=0; 
         VUV(VUV>=.5)=1; VUV(VUV<.5)=0;
 
-        GCI = gci_sedreams(x,fs,F0med,1); % SEDREAMS GCI detection
-        GCI=round(GCI*fs); GCI(GCI<1|isnan(GCI)==1|isinf(GCI)==1)=[];
-        GCI(VUV_int(GCI)<.5)=[]; % Remove GCIs in detected unvoiced regions
-        GCI=unique(GCI); % Remove possible duplications
+        %GCI = gci_sedreams(x,fs,F0med,1); % SEDREAMS GCI detection
+        %GCI=round(GCI*fs); GCI(GCI<1|isnan(GCI)==1|isinf(GCI)==1)=[];
+        %GCI(VUV_int(GCI)<.5)=[]; % Remove GCIs in detected unvoiced regions
+        %GCI=unique(GCI); % Remove possible duplications
 
         % Iterative and adaptive inverse filtering (IAIF) & LP inverse
         % filtering
-        p_gl = 2*round(fs/4000);
-        p_vt = 2*round(fs/2000)+4;
-        [g_iaif,gd_iaif] = iaif_gci(x,fs,GCI/fs,p_vt,p_gl,d,hpfilt);
-        res = lpcresidual(x,LP_winLen*fs,LP_winShift*fs,fs/1000+2); % LP residual
+        %p_gl = 2*round(fs/4000);
+        %p_vt = 2*round(fs/2000)+4;
+        %[g_iaif,gd_iaif] = iaif_gci(x,fs,GCI/fs,p_vt,p_gl,d,hpfilt);
+        %res = lpcresidual(x,LP_winLen*fs,LP_winShift*fs,fs/1000+2); % LP residual
 
         % Glottal source parameterisation
-        [NAQ,QOQ,H1H2,HRF,PSP] = get_vq_params(g_iaif,gd_iaif,fs,GCI/fs); % Estimate conventional glottal parameters
+        %[NAQ,QOQ,H1H2,HRF,PSP] = get_vq_params(g_iaif,gd_iaif,fs,GCI/fs); % Estimate conventional glottal parameters
 
         % Wavelet-based parameters
-        MDQ = mdq(res,fs,GCI/fs); % Maxima dispersion quotient measurement
-        PS = peakslope(x,fs);   % peakSlope extraction
-        MDQ=interp1(MDQ(:,1)*fs,MDQ(:,2),feature_sampling);
-        PS=interp1(PS(:,1)*fs,PS(:,2),feature_sampling);
+        %MDQ = mdq(res,fs,GCI/fs); % Maxima dispersion quotient measurement
+        %PS = peakslope(x,fs);   % peakSlope extraction
+        %MDQ=interp1(MDQ(:,1)*fs,MDQ(:,2),feature_sampling);
+        %PS=interp1(PS(:,1)*fs,PS(:,2),feature_sampling);
 
         % Rd parameter estimation of the LF glottal model using Mean Squared
         % Phase (MSP)
         srh_f0(srh_f0==0) = 100;
         frames = sin_analysis(x, fs, [srh_time(:),srh_f0(:)], opt);
-        rds = rd_msp(frames, fs);
+        %rds = rd_msp(frames, fs);
 
         % Creaky voice detection
-        warning off
-        try
-            creak_pp = detect_creaky_voice(x,fs); % Detect creaky voice
-            creak_pp=interp1(creak_pp(:,2),creak_pp(:,1),feature_sampling);
-        catch
+        %warning off
+        %try
+        %    creak_pp = detect_creaky_voice(x,fs); % Detect creaky voice
+        %    creak_pp=interp1(creak_pp(:,2),creak_pp(:,1),feature_sampling);
+        %catch
             creak_pp=zeros(length(feature_sampling),1);
-        end
-        warning on
+        %end
+        %warning on
 
         % Spectral envelope parameterisation
+        tic
+        M=numel(frames);
+        MCEP=zeros(M,MCEP_ord+1);
+        TE_orders = round(0.5*fs./[frames.f0]); % optimal cepstral order
+        spec = hspec2spec_vec(vertcat(frames.S));
+        TE_orders_unique = unique(TE_orders);
+        for m=1:numel(TE_orders_unique)
+            idx = TE_orders_unique(m)==TE_orders;
+            MCEP(idx,:) = hspec2fwcep_vec(env_te_vec(spec(idx,:), TE_orders_unique(m))',...
+                fs, MCEP_ord)';
+        end
+        toc
+        
+        tic
         M=numel(frames);
         MCEP=zeros(M,MCEP_ord+1);
         for m=1:M
@@ -169,6 +183,11 @@ for n=1:N
             Ete = env_te(hspec2spec(frames(m).S), TE_order);
             MCEP(m,:) = hspec2fwcep(Ete, fs, MCEP_ord)';
         end
+        toc
+        
+        assert(all(MCEP(:) == MCEP2(:)))
+        
+        return
 
         % Interpolate features to feature sampling rate
         NAQ=interp1(NAQ(:,1)*fs,NAQ(:,2),feature_sampling);
