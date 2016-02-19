@@ -6,7 +6,8 @@
 %
 % Inputs
 %  hS         : a half spectrum: positive frequencies with DC an Nyquist frequency
-%               indices S(1:end/2+1)
+%               indices S(1:end/2+1). If hS is a vector, hS should have the
+%               size [1 length(S(1:end/2+1))]. hS can be matrix of size [n length(S(1:end/2+1))].
 %
 % Outputs
 %  S          : a spectrum as made by the fft function 
@@ -38,15 +39,15 @@
 
 function S = hspec2spec(hS, has_nyquist)
 
-    hS = hS(:).';
+    if size(hS,2)==1, hS = hS'; end
 
     % full-spectrum has even length 
     if nargin<2 || has_nyquist
-        S = [hS, conj(hS(end-1:-1:2))];
+        S = [hS, conj(hS(:,end-1:-1:2))];
 
     % full-spectrum has odd length
     else
-        S = [hS, conj(hS(end:-1:2))];
+        S = [hS, conj(hS(:,end:-1:2))];
     end
-    
-return
+
+end

@@ -14,7 +14,8 @@
 % 
 % Inputs
 %  S       : Spectrum to be enveloped (full spectrum as computed by fft.m)
-%            Currently only even size is supported
+%            Currently only even size is supported. If S is a vector, S
+%            should have the size [1 m]. S can be matrix f of size [n m]
 %  order   : Cepstral order
 % [winlen] : Length of the window used to compute the spectrum
 %            (Not yet implemented !, please use [])
@@ -75,6 +76,8 @@
 
 function [E, cc, n] = env_te(S, order, winlen, mode, maxit, prec, presmooth_factor, gamma)
 
+    if size(S,2)==1, S = S'; end
+
     if nargin<3; winlen = []; end
     if ~isempty(winlen); disp('Use of winlen not yet implemented'); end
     if nargin<4; mode = 1+512; end
@@ -90,7 +93,7 @@ function [E, cc, n] = env_te(S, order, winlen, mode, maxit, prec, presmooth_fact
     end
     dblim = log(10.^(prec/20));
 
-    dftlen = length(S);
+    dftlen = size(S,2);
     order = min(order, dftlen/2-1);
 
     if bitand(mode,1) % Use smoothing window
@@ -101,58 +104,70 @@ function [E, cc, n] = env_te(S, order, winlen, mode, maxit, prec, presmooth_fact
     end
 
     A = fnlog(abs(S));
-    cc = zeros(1,1+order);
+    cc = zeros(size(S,1),1+order);
 
     if bitand(mode,512)
         pE = env_te(S, round((order)/presmooth_factor), [], 1);
         slim = round(0.25*dftlen/order);
         pE = hspec2spec(pE);
-        A(1:slim) = fnlog(abs(pE(1:slim)));
-        A(end/2+1-slim+2:end/2+1) = fnlog(abs(pE(end/2+1-slim+2:end/2+1)));
-        A = hspec2spec(A(1:end/2+1));
+        A(:,1:slim) = fnlog(abs(pE(:,1:slim)));
+        A(:,end/2+1-slim+2:end/2+1) = fnlog(abs(pE(:,end/2+1-slim+2:end/2+1)));
+        A = hspec2spec(A(:,1:end/2+1));
     end
     A0 = A;
 
     n=0;
-    max_diff = Inf;
-    while n<maxit && max_diff>dblim
+    lV_final = nan(size(S,1),dftlen);
+    idx_final = 1:size(S,1);
+    while n<maxit
 
-        cca = ifft(A);
+        cca = ifft(A,[],2,'symmetric');
 
         ccp = cca;
-        ccp = [ccp(1), 2*ccp(2:1+order)];
+        ccp = [ccp(:,1), 2*ccp(:,2:1+order)];
 
         if bitand(mode,1)            % Use smoothing window
-            Eo = sqrt(sum((2*cca(order+2:end/2)).^2));
-            Ei = sqrt(sum(ccp(1:order+1).^2));
-            lambda = (Ei+Eo)/Ei;
-            cc = lambda.*win.*(ccp-cc) + cc; % Eq. (5) in [1]
+            Eo = sqrt(sum((2*cca(:,order+2:end/2)).^2,2));
+            Ei = sqrt(sum(ccp(:,1:order+1).^2,2));
+            lambda = (Ei+Eo)./Ei;
+            cc = bsxfun(@times,lambda,win).*(ccp-cc) + cc; % Eq. (5) in [1]
         else
             cc = ccp;
         end
 
-        lV = fft(cc, dftlen);
+        lV = fft(cc, dftlen,2);
         A = max(A,real(lV));         % Max of log amplitudes
 
-        max_diff = max(A0-real(lV)); % Can create over-shot
+        max_diff = max(A0-real(lV),[],2); % Can create over-shot
 
         n = n+1;
 
-        if 0
-            V3clear();
-            V3spec(fnexp(A0), 1, 'k');
-            V3spec(fnexp(A), 1, 'g');
-            V3spec(fnexp(lV), 1, 'b'); subplot(312);xlim([0 0.04]);
-            keyboard
+        idx = max_diff<=dblim;
+        if any(idx)
+            % save finished lV
+            lV_final(idx_final(idx),:) = lV(idx,:);
+            
+            % remove finished data
+            idx_final = idx_final(~idx);
+            A = A(~idx,:);
+            cc = cc(~idx,:);
+            A0 = A0(~idx,:);
+        end
+        
+        % don't delete lV if we reach maxit
+        if isempty(A)
+            lV = [];
+            break;
         end
     end
+    
+    lV_final(idx_final,:) = lV;
 
-    if mod(dftlen,2)==0; lV=lV(1:end/2+1);
-    else                lV=lV(1:(end-1)/2+1);   end
+    if mod(dftlen,2)==0,    lV_final=lV_final(:,1:end/2+1);
+    else                    lV_final=lV_final(:,1:(end-1)/2+1);   end
 
-    E = fnexp(lV);
-
-return
+    E = fnexp(lV_final);
+end
 
 function y = genlog(x, gamma)
 
@@ -162,7 +177,7 @@ function y = genlog(x, gamma)
         y = (x.^gamma - 1)./gamma;
     end
 
-return
+end
 
 function x = igenlog(y, gamma)
 
@@ -172,4 +187,4 @@ function x = igenlog(y, gamma)
         x = exp(log(gamma*y+1)./gamma);
     end
 
-return
+end

@@ -164,10 +164,13 @@ for n=1:N
         % Spectral envelope parameterisation
         M=numel(frames);
         MCEP=zeros(M,MCEP_ord+1);
-        for m=1:M
-            TE_order = round(0.5*fs/frames(m).f0); % optimal cepstral order
-            Ete = env_te(hspec2spec(frames(m).S), TE_order);
-            MCEP(m,:) = hspec2fwcep(Ete, fs, MCEP_ord)';
+        TE_orders = round(0.5*fs./[frames.f0]); % optimal cepstral order
+        spec = hspec2spec(vertcat(frames.S));
+        TE_orders_unique = unique(TE_orders);
+        for m=1:numel(TE_orders_unique)
+            idx = TE_orders_unique(m)==TE_orders;
+            MCEP(idx,:) = hspec2fwcep(env_te(spec(idx,:), TE_orders_unique(m))',...
+                fs, MCEP_ord)';
         end
 
         % Interpolate features to feature sampling rate

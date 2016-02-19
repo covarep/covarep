@@ -19,7 +19,8 @@
 %  domain.
 %
 % Input
-%  C         : The half spectrum to compress (of size dftlen/2+1)
+%  C         : The half spectrum to compress. If C is a vector, C should have
+%              the size [dftlen/2+1 1]. C can be a matrix of size [dftlen/2+1 n]
 %  fs        : [Hz] Sampling frequency
 % [order]    : Order of the cepstrum
 %              (Without counting the 0-coefficient. The size of the fwcep vector
@@ -68,13 +69,13 @@
 
 function fwcep = hspec2fwcep(C, fs, order, warpfn, varargin)
 
+    if size(C,1)==1, C = C'; end
+
     % The input C is assumed to be a half spectrum
-    dftlen = (length(C)-1)*2;
+    dftlen = (size(C,1)-1)*2;
 
     if nargin<3 || isempty(order); order=dftlen/2; end
     if nargin<4 || isempty(warpfn); warpfn=@frq2mel; end
-
-    C = C(:);
 
     % Compute the warping function
     freqlin = (0:dftlen/2)'*fs/dftlen;
@@ -82,23 +83,17 @@ function fwcep = hspec2fwcep(C, fs, order, warpfn, varargin)
 
     % Warp the spectrum
     env = interp1q(freqmel, abs(C), freqlin);
-    if isnan(env(end)); env(end)=env(end-1); end
+    idx = isnan(env(end,:));
+    if any(idx)
+        env(end,idx)=env(end-1,idx);
+    end
     
     % Symmetrize the warped spectrum prior to cepstral computation
-    Cwrap = [abs(env(1)); env(2:end-1); abs(env(end)); conj(env(end-1:-1:2))];
+    Cwrap = [env; conj(env(end-1:-1:2,:))];
 
     % Compute the cepstrum
-    fwcep = real(ifft(log(abs(Cwrap))));
+    fwcep = ifft(log(abs(Cwrap)),'symmetric');
 
     % Drop the negative quefrencies and compensate the loss of cepstral energy
-    fwcep = [fwcep(1); 2*fwcep(2:1+order)];
-
-    if 0
-        Cmel = fwcep2hspec(fwcep, fs, dftlen, warpfn, varargin{:});
-
-        V3spec(C, fs, 'k');
-        V3spec(Cwrap, fs, 'r');
-        V3spec(Cmel, fs, 'b');
-        keyboard
-    end
-return
+    fwcep = [fwcep(1,:); 2*fwcep(2:1+order,:)];
+end
