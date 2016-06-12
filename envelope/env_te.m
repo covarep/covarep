@@ -136,6 +136,7 @@ function [E, cc, n] = env_te(S, order, winlen, mode, maxit, prec, presmooth_fact
         end
 
         lV = fft(cc, dftlen,2);
+
         A = max(A,real(lV));         % Max of log amplitudes
 
         max_diff = max(A0-real(lV),[],2); % Can create over-shot
@@ -160,8 +161,10 @@ function [E, cc, n] = env_te(S, order, winlen, mode, maxit, prec, presmooth_fact
             break;
         end
     end
-    
-    lV_final(idx_final,:) = lV;
+
+    if ~isempty(idx_final);
+        lV_final(idx_final,:) = lV;
+    end
 
     if mod(dftlen,2)==0,    lV_final=lV_final(:,1:end/2+1);
     else                    lV_final=lV_final(:,1:(end-1)/2+1);   end
