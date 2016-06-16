@@ -58,7 +58,7 @@ function sins = spec_getsins_f0(S, fs, f0, max_h)
     % ... and replace by the peaks found.
     [k, v] = v_findpeaks(log(abs(S(1:end/2+1))), 'q');
     if length(k)==1
-        idx = (k-(1+sins(1,:)))<step/2;
+        idx = abs(k-(1+sins(1,:)))<step/2;
         sins(1,idx) = k-1;
         sins(2,idx) = exp(v);
         sins(5,idx) = true;
