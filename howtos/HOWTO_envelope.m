@@ -146,6 +146,10 @@ E_dcemfa = mag2db(abs(cell2mat(E_dcemfa')));
 
 % Phase
 disp('Compute the Relative Phase Shift and Phase Distortion');
+opt = sin_analysis();
+opt.fharmonic  = true; % Use harmonic model
+opt.use_ls     = false; % Use Peak Picking
+frames = sin_analysis(wav, fs, f0s, opt);
 opt = phase_rpspd();
 opt.harm2freq = true;
 opt.pd_method = 1;
