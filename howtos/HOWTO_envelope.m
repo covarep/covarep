@@ -30,6 +30,8 @@ times = (0:length(wav)-1)'/fs;
 
 % Load an f0 curve
 f0s = load([fname '.f0.txt']);
+idx = f0s(:,2)>0.0;
+f0s(:,2) = interp1(f0s(idx,1), f0s(idx,2), f0s(:,1), 'linear', 'extrap');
 
 % Alternatively extract f0 with the SRH algorithm
 [srh_f0,srh_vuv,srh_vuvc,srh_time] = pitch_srh(wav,fs,70,500,10);
