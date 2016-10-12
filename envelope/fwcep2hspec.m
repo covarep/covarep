@@ -52,8 +52,6 @@ function C = fwcep2hspec(fwcep, fs, dftlen, warpfn, varargin)
 
     if nargin<4 || isempty(warpfn); warpfn=@frq2mel; end
 
-    fwcep = fwcep(:);
-
     % Compute the warping function
     freqlin = (0:dftlen/2)'*fs/dftlen;
     freqmel = 0.5*fs*frq2mel(freqlin)/frq2mel(fs/2);
@@ -62,7 +60,7 @@ function C = fwcep2hspec(fwcep, fs, dftlen, warpfn, varargin)
     Cwrapl = exp(fft(fwcep, dftlen));
 
     % Unwarp the spectrum
-    C = interp1q(freqlin, abs(Cwrapl(1:end/2+1)), freqmel);
+    C = interp1q(freqlin, abs(Cwrapl(1:end/2+1,:)), freqmel);
 
     if 0
         V3spec(Cwrapl, fs, 'g');
