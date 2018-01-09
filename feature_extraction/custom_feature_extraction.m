@@ -28,11 +28,13 @@
 %  channel:     If the audio file has multiple channels (default: 1)
 %  save_mat:    Save the results as a MAT file (default: false)
 %  save_csv:    Save the results as a CSV file (default: true)
-%                   If 'save_mat' or 'save_csv' are strings, the are
+%                   If 'save_mat' or 'save_csv' are strings, they are
 %                   interpreted as paths to the file to be created.
 %
 % Author
-%  Torsten Wörtwein <twoertwein@gmail.com>
+%  Torsten Wörtwein <twoertwe@cs.cmu.edu> based on
+%   COVAREP_feature_extraction.m (John Kane <kanejo@.tcd.ie>) and
+%   COVAREP_formant_extraction.m (Stefan Scherer <scherer@ict.usc.edu>)
 
 function results = custom_feature_extraction(audio_file, options)
 
@@ -86,7 +88,8 @@ polarity = polarity_reskew(x, fs);
 x = polarity * x; % Correct polarity if necessary
 
 %% pitch_srh: required for f0, VUV, and all frame-based features
-if any(ismember(options.features, {'f0_SRH, VUV', 'Rd', 'MCEP', 'HMPDM', 'HMPDD', 'f0_HM'}))
+if any(ismember(options.features, {'f0_SRH, VUV', 'Rd', 'MCEP', 'HMPDM', ...
+        'HMPDD', 'f0_HM', 'vowelSpace'}))
     [srh_f0, srh_vuv, ~, srh_time] = pitch_srh(x, fs, options.F0min, options.F0max, options.feature_fs*1000);
 end
 
@@ -95,8 +98,9 @@ if any(ismember(options.features, {'NAQ', 'QOQ', 'H1H2', 'PSP', 'MDQ', 'HRF'}))
     % gci_sedreams
     F0med = median(srh_f0(srh_f0>options.F0min & srh_f0<options.F0max & srh_vuv==1));
     GCI = gci_sedreams(x, fs, F0med, 1); % SEDREAMS GCI detection
-    GCI = round(GCI*fs); GCI(GCI<1|isnan(GCI)==1|isinf(GCI)==1)=[];
-    VUV_int = interp1(round(srh_time*fs),srh_vuv,1:length(x));
+    GCI = round(GCI*fs);
+    GCI(GCI<1 | isnan(GCI)==1 | isinf(GCI)==1) = [];
+    VUV_int = interp1(round(srh_time*fs), srh_vuv, 1:length(x));
     VUV_int(isnan(VUV_int))=0;
     GCI(VUV_int(GCI)<.5) = []; % Remove GCIs in detected unvoiced regions
     GCI = unique(GCI); % Remove possible duplications
@@ -115,12 +119,12 @@ if any(ismember(options.features, {'NAQ', 'QOQ', 'H1H2', 'PSP', 'HRF'}))
 end
 
 %% Maxima dispersion quotient measurement
-if any(ismember(options.features, {'MDQ'}))
+if any(strcmp(options.features, 'MDQ'))
     MDQ = mdq(res, fs, GCI/fs); 
 end
 
 %% Peak Slope
-if any(ismember(options.features, {'peakSlope'}))
+if any(strcmp(options.features, 'peakSlope'))
     PS = peakslope(x, fs);
 end
 
@@ -131,12 +135,12 @@ if any(ismember(options.features, {'Rd', 'MCEP', 'HMPDM', 'HMPDD', 'f0_HM'}))
 end
 
 %% Rd parameter estimation of the LF glottal model using Mean Squared Phase (MSP)
-if any(ismember(options.features, {'Rd'}))
+if any(strcmp(options.features, 'Rd'))
     rds = rd_msp(frames, fs);
 end
 
 %% MCEP
-if any(ismember(options.features, {'MCEP'}))
+if any(strcmp(options.features, 'MCEP'))
     % Spectral envelope parameterisation
     M = numel(frames);
     MCEP = zeros(M, options.mcep_order+1);
@@ -165,12 +169,12 @@ if any(ismember(options.features, {'HMPDM', 'HMPDD', 'f0_HM'}))
 end
 
 %% Voice activation detection
-if any(ismember(options.features, {'VAD'}))
+if any(strcmp(options.features, 'VAD'))
     [VAD, ~, ~, ~, VAD_time] = VAD_Drugman(x, fs, false);
 end
 
 %% Formants
-if any(ismember(options.features, {'F'}))
+if any(ismember(options.features, {'F', 'vowelSpace'}))
     formantPeaks = formant_CGDZP(x, fs, 30, options.feature_fs*1000);
 end
 
