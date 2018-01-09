@@ -59,8 +59,8 @@ function PS = peakslope(s,fs)
 %% Initial settings
 frameLen_ms = 40; % Frame length chosen to ensure one pulse length down to f0=25 Hz
 frameShift_ms = 10; % Frame shift set to 10 ms
-frameLen = (frameLen_ms/1000)*fs; % Convert frame length to samples
-frameShift = (frameShift_ms/1000)*fs; % Convert frame shift to samples
+frameLen = round((frameLen_ms/1000)*fs); % Convert frame length to samples
+frameShift = round((frameShift_ms/1000)*fs); % Convert frame shift to samples
 
 PS=zeros(round((length(s)-frameLen)/frameShift),2);
 
