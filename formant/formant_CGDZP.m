@@ -64,8 +64,8 @@ end
     
 numFormants=5;
 numFormatsFinal=numFormants;
-frameSize=fs/1000*frameSize;
-frameShift=fs/1000*frameShift;
+frameSize=round(fs/1000*frameSize);
+frameShift=round(fs/1000*frameShift);
 fsLR=2048;%lower resolution
 viewRange=round(fsLR/3.2);
 R=1.12;Rfix=R;
