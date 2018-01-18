@@ -35,11 +35,11 @@
 function COVAREP_parallel_feature_formant_extraction(in_dir, options)
 
 %% Sanity check options
-if isfield(options, 'save_mat') && ~isboolean(options.save_mat)
+if isfield(options, 'save_mat') && ~islogical(options.save_mat)
     warning('Non boolean save_mat options will overwrite the output file.')
 end
 
-if isfield(options, 'save_csv') && ~isboolean(options.save_csv)
+if isfield(options, 'save_csv') && ~islogical(options.save_csv)
     warning('Non boolean save_csv options will overwrite the output file.')
 end
 
