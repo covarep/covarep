@@ -34,6 +34,11 @@
 
 function COVAREP_parallel_feature_formant_extraction(in_dir, options)
 
+%% Default settings
+if nargin < 2
+    options = struct; % Default empty options struct
+end
+
 %% Sanity check options
 if isfield(options, 'save_mat') && ~islogical(options.save_mat)
     warning('Non boolean save_mat options will overwrite the output file.')
