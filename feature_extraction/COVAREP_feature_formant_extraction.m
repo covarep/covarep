@@ -28,7 +28,7 @@
 %                   interpreted as paths to the file to be created.
 % Author
 %   Florian Helmhold <Florian@Helmhold.de> based on
-%   COVAREP_feature_formant_extraction (Torsten Wörtwein <twoertwe@cs.cmu.edu>)
+%   COVAREP_feature_formant_extraction_perfile (Torsten Wörtwein <twoertwe@cs.cmu.edu>)
 %   COVAREP_feature_extraction.m (John Kane <kanejo@.tcd.ie>)
 %   COVAREP_formant_extraction.m (Stefan Scherer <scherer@ict.usc.edu>)
 
@@ -62,7 +62,7 @@ if(hasParallelComputing)
         basename=char(basename(1));
         disp(['Analysing file: ' basename])
         try
-            COVAREP_feature_formant_extraction([in_dir filesep basename '.wav'], options)
+            COVAREP_feature_formant_extraction_perfile([in_dir filesep basename '.wav'], options)
             disp([basename ' successfully analysed'])
         catch err
             warning(['An error occurred while analysing ' basename ': ' getReport(err)])
@@ -74,7 +74,7 @@ else
         basename=char(basename(1));
         disp(['Analysing file: ' basename])
         try
-            COVAREP_feature_formant_extraction([in_dir filesep basename '.wav'], options)
+            COVAREP_feature_formant_extraction_perfile([in_dir filesep basename '.wav'], options)
             disp([basename ' successfully analysed'])
         catch err
             warning(['An error occurred while analysing ' basename ': ' getReport(err)])
