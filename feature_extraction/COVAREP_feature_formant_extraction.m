@@ -32,7 +32,7 @@
 %   COVAREP_feature_extraction.m (John Kane <kanejo@.tcd.ie>)
 %   COVAREP_formant_extraction.m (Stefan Scherer <scherer@ict.usc.edu>)
 
-function COVAREP_parallel_feature_formant_extraction(in_dir, options)
+function COVAREP_feature_formant_extraction(in_dir, options)
 
 %% Default settings
 if nargin < 2
