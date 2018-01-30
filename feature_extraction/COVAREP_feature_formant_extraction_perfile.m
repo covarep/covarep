@@ -36,7 +36,7 @@
 %   COVAREP_feature_extraction.m (John Kane <kanejo@.tcd.ie>) and
 %   COVAREP_formant_extraction.m (Stefan Scherer <scherer@ict.usc.edu>)
 
-function results = COVAREP_feature_formant_extraction(audio_file, options)
+function results = COVAREP_feature_formant_extraction_perfile(audio_file, options)
 
 all_features = {'f0', 'VUV', 'NAQ', 'QOQ', 'H1H2', 'PSP', 'MDQ', 'HRF', ...
     'peakSlope','Rd', 'Rd_conf','MCEP', 'HMPDM', 'HMPDD', ...
