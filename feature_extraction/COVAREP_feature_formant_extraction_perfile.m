@@ -22,6 +22,10 @@
 %               Possible features are: 'f0', 'F', 'VUV', 'NAQ', 'QOQ', 
 %               'H1H2', 'PSP', 'MDQ', 'HRF', 'peakSlope', 'Rd', 'Rd_conf',
 %               'MCEP', 'HMPDM', 'HMPDD', 'vowelSpace', 'VAD'
+%  start:       Extract features after this point in time (in seconds;
+%               default: 0).
+%  stop:        Extract features before this point in time (in seconds). If
+%               negative, no stop limit is enforced (default: -1)
 %  mcep_order:  Order of the MCEPs (default: 24)
 %  hmpdm_order:	Order of the HMPDMs (default: 24)
 %  hmpdd_order:	Order of the HMPDDs (default: 12)
@@ -47,6 +51,8 @@ if ~exist('options', 'var'), options = struct(); end
 if ~isfield(options, 'feature_fs'), options.feature_fs = 0.01; end
 if ~isfield(options, 'gender'), options.gender = 0; end
 if ~isfield(options, 'features'), options.features = all_features; end
+if ~isfield(options, 'start'), options.start = 0; end
+if ~isfield(options, 'stop'), options.stop = -1; end
 if ~isfield(options, 'mcep_order'), options.mcep_order = 24; end
 if ~isfield(options, 'hmpdm_order'), options.hmpdm_order = 24; end
 if ~isfield(options, 'hmpdd_order'), options.hmpdd_order = 12; end
@@ -69,6 +75,7 @@ opt.fharmonic = true;
 opt.use_ls = false; % Use Peak Picking
 opt.dftlen = 4096;  % Force the DFT length
 opt.frames_keepspec = true; % Keep the computed spectra in the frames structure
+opt.debug = 0;
 if isfield(options, 'fharmonic'),  opt.fharmonic = options.fharmonic; end
 if isfield(options, 'use_ls'),  opt.use_ls = options.use_ls; end
 if isfield(options, 'dftlen'),  opt.dftlen = options.dftlen; end
@@ -82,12 +89,20 @@ assert(all(ismember(options.features, all_features)), ...
 [x, fs] = audioread(audio_file);
 if ismatrix(x), x = x(:, options.channel); end
 
+%% Trim audio to start/stop
+start_index = fs * options.start;
+stop_index = fs * options.stop - 1;
+if options.stop < 0
+    stop_index = numel(x);
+end
+x = x(start_index:stop_index);
+
 %% Polarity detection
 x = polarity_reskew(x, fs) * x; % Correct polarity if necessary
 
 %% pitch_srh: required for f0, VUV, and all frame-based features
 if any(ismember(options.features, {'f0', 'VUV', 'vowelSpace', 'Rd', ...
-        'MCEP', 'HMPDM', 'HMPDD', }))
+        'MCEP', 'HMPDM', 'HMPDD', 'NAQ', 'QOQ', 'H1H2', 'PSP', 'MDQ', 'HRF'}))
     [srh_f0, srh_vuv, ~, srh_time] = pitch_srh(x, fs, options.F0min, ...
         options.F0max, options.feature_fs*1000);
     srh_f0(srh_f0 <= options.F0min) = options.F0min;
@@ -290,6 +305,9 @@ for ifeature = 1:numel(options.features)
     % add to table
     results = [results array2table(signal, 'VariableNames', names)];
 end
+
+%% adjust time to account for different start point
+results.time = results.time + options.start;
 
 %% save results
 [dirs, name, ~] = fileparts(audio_file);
