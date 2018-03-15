@@ -131,7 +131,7 @@ clear frameMat tmp idx;
 specMat = bsxfun(@rdivide, specMat, sqrt(sum(specMat.^2, 1)));
 
 %% Estimate the pitch track in 2 iterations
-no_pitch_range_adjsutment = true;
+no_pitch_range_adjustment = true;
 for Iter=1:Niter   
 
     [F0s,SRHVal] = SRH( specMat, nHarmonics, f0min, f0max );
@@ -143,14 +143,14 @@ for Iter=1:Niter
         % Only refine F0 limits if within the original limits
         if round(0.5*F0medEst) > f0min
             f0min=round(0.5*F0medEst);
-            no_pitch_range_adjsutment = false;
+            no_pitch_range_adjustment = false;
         end
         if round(2*F0medEst) < f0max
             f0max=round(2*F0medEst);
-            no_pitch_range_adjsutment = false;
+            no_pitch_range_adjustment = false;
         end
     end
-    if no_pitch_range_adjsutment
+    if no_pitch_range_adjustment
         break
     end
 end
