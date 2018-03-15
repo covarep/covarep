@@ -115,29 +115,23 @@ clear res;
 
 %% Create window matrix and apply to frames
 win = blackman(frameDuration);
-frameMatWin = bsxfun(@times, frameMat, win);
-clear frameMat;
+frameMat = bsxfun(@times, frameMat, win);
 
 %% Do mean subtraction
-frameMean = mean(frameMatWin,1);
-frameMatWinMean = bsxfun(@minus, frameMatWin, frameMean);
-clear frameMean frameMatWin frameMat;
+frameMat = bsxfun(@minus, frameMat, mean(frameMat, 1));
 
 %% Compute spectrogram matrix
-specMat = zeros(floor(fs/2), size(frameMatWinMean,2));
+specMat = zeros(floor(fs/2), size(frameMat, 2));
 idx = 1:floor(fs/2);
-for i = 1:size(frameMatWinMean,2)
-    tmp = abs( fft(frameMatWinMean(:,i),fs) );
-    specMat(:,i) = tmp(idx);
+for i = 1:size(frameMat,2)
+    tmp = abs(fft(frameMat(:, i), fs));
+    specMat(:, i) = tmp(idx);
 end
-clear frameMatWinMean tmp idx;
-% specMat = abs( fft(frameMatWinMean,fs) );
-% specMat = specMat(1:fs/2,:);
-specDenom = sqrt( sum( specMat.^2, 1 ) );
-specMat = bsxfun(@rdivide, specMat, specDenom);
-clear specDenom;
+clear frameMat tmp idx;
+specMat = bsxfun(@rdivide, specMat, sqrt(sum(specMat.^2, 1)));
 
 %% Estimate the pitch track in 2 iterations
+no_pitch_range_adjsutment = true;
 for Iter=1:Niter   
 
     [F0s,SRHVal] = SRH( specMat, nHarmonics, f0min, f0max );
@@ -149,12 +143,16 @@ for Iter=1:Niter
         % Only refine F0 limits if within the original limits
         if round(0.5*F0medEst) > f0min
             f0min=round(0.5*F0medEst);
+            no_pitch_range_adjsutment = false;
         end
         if round(2*F0medEst) < f0max
-            f0max=round(2*F0medEst);    
+            f0max=round(2*F0medEst);
+            no_pitch_range_adjsutment = false;
         end
     end
-    
+    if no_pitch_range_adjsutment
+        break
+    end
 end
 clear specMat;
 time=time/fs;
@@ -205,5 +203,3 @@ end
 [SRHVal,F0] = max( SRHmat );
 
 end
-
-
