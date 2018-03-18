@@ -90,11 +90,12 @@ assert(all(ismember(options.features, all_features)), ...
 if ismatrix(x), x = x(:, options.channel); end
 
 %% Trim audio to start/stop
-start_index = fs * options.start + 1;
-stop_index = fs * options.stop;
+start_index = round(fs * options.start + 1);
+stop_index = round(fs * options.stop);
 if options.stop < 0
     stop_index = numel(x);
 end
+stop_index = min(stop_index, numel(x));
 x = x(start_index:stop_index);
 
 %% Polarity detection
