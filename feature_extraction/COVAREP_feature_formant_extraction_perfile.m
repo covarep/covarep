@@ -91,6 +91,7 @@ if ismatrix(x), x = x(:, options.channel); end
 
 %% Trim audio to start/stop
 start_index = round(fs * options.start + 1);
+options.start = (start_index - 1) / fs
 stop_index = round(fs * options.stop);
 if options.stop < 0
     stop_index = numel(x);
