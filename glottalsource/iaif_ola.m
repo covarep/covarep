@@ -62,8 +62,8 @@ function [g,gd,a,ag] = iaif_ola(x,fs,winLen,winShift,p_vt,p_gl,d,hpfilt)
 
     %% Initial settings
     if nargin < 3
-        winLen=25/1000*fs;
-        winShift=5/1000*fs;
+        winLen=round(25/1000*fs);
+        winShift=round(5/1000*fs);
     end
 
     % Use default settings from Tuomo Raitios iaif.m implementation

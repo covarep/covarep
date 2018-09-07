@@ -65,7 +65,7 @@ quef = linspace( 0, frameLen / 1000, NFFT );
 F0lim = [ 500, 50 ]; % Note that this differs from Hillenbrands
                      % settings of 60-300 Hz, to allow for a
                      % fuller range of potential F0 values
-quefLim = fs ./ F0lim;
+quefLim = round(fs ./ F0lim);
 quefSeq = ( quefLim(1):quefLim(2) )';
 
 time_samples = frameLength+1:frameShift:xLen-frameLength;
