@@ -9,6 +9,10 @@ Contributors
     Nathalie Henrich 6,7
     Alexis Michaud 8,9
     Yannis Stylianou 1,10,11
+    Yingxue Wang 12
+    Sean Robertson 12
+    Gerald Penn 12
+    
 
 Institutions
 1. University of Crete, Heraklion, Greece
@@ -43,3 +47,6 @@ Institutions
 
 11.Toshiba Cambridge Research Laboratory, Cambridge, UK
    Speech Technology Group (STG)
+
+12. University of Toronto, Canada
+    Department of Computer Science - Vector Institute
