@@ -9,3 +9,4 @@ HOWTO_VAD;
 HOWTO_envelope;
 HOWTO_formant;
 HOWTO_hmpd;
+HOWTO_filterbanks;
