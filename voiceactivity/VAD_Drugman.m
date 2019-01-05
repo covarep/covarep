@@ -66,7 +66,7 @@ if nargin<3
     doPlot=0;
 end
 
-if max(abs(wave)>1)
+if max(abs(wave))>1
     wave=wave/max(abs(wave));
 end
 
