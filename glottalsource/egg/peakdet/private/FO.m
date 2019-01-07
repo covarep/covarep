@@ -55,11 +55,10 @@ for w = 1 : length(SIG) - 1
 end
 
 %%%% smoothing the derivative of the signal
-% retrieving the smoothing step specified by the user
-C_SMOO = COEF(2);
-% smoothing
 if C_SMOO > 0
+    disp('Smoothing signal...')
     SdSIG = smoo(dSIG,C_SMOO);
+    disp('Smoothed.')
 else
     SdSIG = dSIG;
 end
