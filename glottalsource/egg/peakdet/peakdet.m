@@ -53,7 +53,7 @@
 % Example
 %  See the HOWTO_egg.m example file.
 %
-% Reference
+% References
 % [1] Martine Mazaudon and Alexis Michaud, "Tonal Contrasts and Initial
 %     Consonants: A Case Study of Tamang, a 'missing Link' in Tonogenesis",
 %     Phonetica 65 (4): 231-56, 2008.
@@ -65,8 +65,7 @@
 % [4] Guide available online at:
 %      http://voiceresearch.free.fr/egg/softwares.htm#peakdet
 % 
-% Copyright (c) 2004 CNRS (Centre National de la Recherche Scientifique, France)
-%
+% 
 % License
 %  This file is under the LGPL license,  you can
 %  redistribute it and/or modify it under the terms of the GNU Lesser General 
@@ -79,13 +78,9 @@
 %
 % This function is part of the Covarep project: http://covarep.github.io/covarep
 % 
-% Authors
-%  Alexis Michaud <alexis.michaud@vjf.cnrs.fr> <michaud.cnrs@gmail.com>
+% Author
+%  Alexis Michaud <alexis.michaud@cnrs.fr> <michaud.cnrs@gmail.com>
 %                  CNRS (Centre National de la Recherche Scientifique, France)
-%  Nguyen Thi Lan <thi-lan.nguyen@mica.edu.vn>
-%                 International Research Institute MICA, September 2014.
-%                 Adaptation to COVAREP standards
-%
 
 function [ results_matrix, dSIG, SdSIG ] = peakdet ( SIG, FS, F0, Method )
 
