@@ -47,6 +47,8 @@
 %              - Oq determined from maximum after smoothing : 7th col [1,2]
 %              - Oq determined from peak detection : 8-9th col without
 %                smoothing and with smoothing, respectively [1,2].
+%  dSIG : derivative of EGG signal
+%  SdSIG : smoothed derivative of EGG signal
 %
 % Example
 %  See the HOWTO_egg.m example file.
@@ -85,7 +87,7 @@
 %                 Adaptation to COVAREP standards
 %
 
-function [ results_matrix, SdSIG, SIG ] = peakdet ( SIG, FS, F0, Method )
+function [ results_matrix, dSIG, SdSIG ] = peakdet ( SIG, FS, F0, Method )
 
 % Setting the resampling coefficient. The electroglottographic signal is
 %  resampled (reinterpolated) at the closing and opening peaks for accurate
@@ -165,7 +167,7 @@ smoothingstep = 3;
 COEF = [FS smoothingstep 1 0];
 
 %%%%%%%%%%%%%% running main analysis programme
-[Fo,Oq,Oqval,DEOPA,goodperiods,OqS,OqvalS,DEOPAS,goodperiodsS,simppeak,SIG,dSIG,SdSIG] = FO(COEF,method,propthresh,resampC,maxF,SIG,FS);	
+[Fo,Oq,Oqval,DEOPA,goodperiods,OqS,OqvalS,DEOPAS,goodperiodsS,simppeak,dSIG,SdSIG] = FO(COEF,method,propthresh,resampC,maxF,SIG,FS);	
         %%% Placing main results in a single matrix
         datafile = [];
         if isempty(Fo)
