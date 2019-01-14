@@ -11,8 +11,7 @@
 %  peaks and opening peaks on the derivative of the EGG signal, but by a
 %  *threshold* method and not by autocorrelation [1,2].
 %
-%  Created in October 2004, with minor changes in July 2005 and July 2007, by
-%  Alexis Michaud. Adapted to COVAREP by Nguyen Thi Lan.
+%  Created in October 2004, with minor changes in July 2005 and July 2007.
 %
 % Inputs
 %  SIG: The input EGG signal, in VFCA convention (vocal-fold contact area), 
@@ -20,6 +19,32 @@
 %            positive in the EGG derivative.
 %  FS : [Hz] The sampling frequency of the EGG signal.
 %  F0 : The maximum possible F0 (e.g. F0=500Hz).
+%  smoothingstep: the step for EGG smoothing. From zero (no smoothing) to 3 (or more) points to the left and right.
+% Smoothing the DEGG signal turned out to be useful
+% in the many cases where there is one single opening peak but its amplitude is
+% very small and it tends to be drowned in noise. A smoothing step of 1 means
+% smoothing 1 point to the left and right; 2 means averaging over (2x2+1) = 5 points.
+% As the programme computes the open quotient results by four methods two of
+% which operate on the unsmoothed signal, it is avisable to choose a smoothing
+% step that is higher than zero even if the user believes that this smoothing is unnecessary:
+% this assumption can be verified by comparing the results with and without
+% smoothing, which will show a complete fit if the original signal has very
+% little background noise.
+% Concerning the choice of a smoothing step for noisy signals : a step up to 5
+% can be chosen ; visual comparison of the DEGG signals before and after
+% smoothing is recommended to verify that this smoothing does not make
+% neighbouring peaks coalesce. It must be remembered that in some cases the DEGG
+% method simply does not apply, and (arguably) should not be forcibly applied:
+% if taken to its limits, smoothing artificially creates a neat hump for opening
+% and one for closing, but these humps fudge up the issue, as they do not
+% correspond to any precise physiological reality anymore : the advantage of the
+% DEGG method is that it is based on an established relationship between the
+% DEGG signal and significant glottal events ; extreme smoothing blurs this
+% relationship.
+% In a nutshell : a smoothing step of 1 is adequate for high-quality signals
+% (which already appear visually as very smooth), a smoothing step of 2 or 3
+% increases correct peak detection in relatively noisy signals. Fudging-up of
+% opening peaks was only observed with a smoothing step of 6 or more. 
 %  Method: Method chosen to handle double closing peaks in F0 calculation:
 %                 if <method == 0>: selecting highest of the peaks
 %                 if <method == 1>: selecting first peak
@@ -82,7 +107,7 @@
 %  Alexis Michaud <alexis.michaud@cnrs.fr> <michaud.cnrs@gmail.com>
 %                  CNRS (Centre National de la Recherche Scientifique, France)
 
-function [ results_matrix, dSIG, SdSIG ] = peakdet ( SIG, FS, F0, Method )
+function [ results_matrix, dSIG, SdSIG ] = peakdet ( SIG, FS, F0, smoothingstep, Method )
 
 % Setting the resampling coefficient. The electroglottographic signal is
 %  resampled (reinterpolated) at the closing and opening peaks for accurate
@@ -97,7 +122,7 @@ resampC = 100;
 %  and Doval B., 2004, "On the use of the derivative of electroglottographic
 %  signals for characterization of non-pathological voice phonation", Journal
 %  of the Acoustical Society of America, 115(3), pp. 1321-1332.
-propthresh = 0.5;
+propthresh = 0.1;
 
 % Choice of method chosen to handle double closing peaks in Fo calculation
 method = Method;
@@ -124,34 +149,6 @@ maxF = F0;
 %    the figure which amplitude threshold is to be chosen for all the peaks to
 %    be detected, and set the amplitude threshold accordingly ; this option is
 %    offered by the program when the user is asked to confirm the results.
-
-% Choosing the smoothing step. Smoothing the DEGG signal turned out to be useful
-% in the many cases where there is one single opening peak but its amplitude is
-% very small and it tends to be drowned in noise. A smoothing step of 1 means
-% smoothing 1 point to the left and right, i.e. each point in <SMOO_dSIG> is the
-% average of 3 points in <dSIG> ; 2 means averaging over (2x2+1) = 5 points.
-% As the programme computes the open quotient results by four methods two of
-% which operate on the unsmoothed signal, it is avisable to choose a smoothing
-% step (of 1) even if the user believes that this smoothing is unnecessary :
-% this assumption can be verified by comparing the results with and without
-% smoothing, which will show a complete fit if the original signal has very
-% little background noise.
-% Concerning the choice of a smoothing step for noisy signals : a step up to 5
-% can be chosen ; visual comparison of the DEGG signals before and after
-% smoothing is recommended to verify that this smoothing does not make
-% neighbouring peaks coalesce. It must be remembered that in some cases the DEGG
-% method simply does not apply, and (arguably) should not be forcibly applied:
-% if taken to its limits, smoothing artificially creates a neat hump for opening
-% and one for closing, but these humps fudge up the issue, as they do not
-% correspond to any precise physiological reality anymore : the advantage of the
-% DEGG method is that it is based on an established relationship between the
-% DEGG signal and significant glottal events ; extreme smoothing blurs this
-% relationship.
-% In a nutshell : a smoothing step of 1 is adequate for high-quality signals
-% (which already appear visually as very smooth), a smoothing step of 2 or 3
-% increases correct peak detection in relatively noisy signals. Fudging-up of
-% opening peaks was only observed with a smoothing step of 6 or more. 
-smoothingstep = 3;
 
 % assigning default values to <COEF> vector, used in FO: sampling frequency of
 % the electroglottographic recording;
