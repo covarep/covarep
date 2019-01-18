@@ -26,21 +26,31 @@ toggle = COEF(3);
 % where the signal crosses the threshold.
 % The threshold is chosen on the basis of: the highest negative peak (highest opening peak), 
 % i.e. the minimum of vector. Its sign is opposite.
-% In the original programme, the value is simply set at: 
 % thresh = - min(dSIG);
 % A coefficient may be added, increasing the threshold by a certain coefficient to
 % limit problems with "false peaks". Here, the threshold is not increased: 
 % double peaks are spotted and treated later on.
+% But conversely, if there are very small closing peaks, then this threshold may not be proper. 
 if toggle == 1
+	disp('Setting threshold for detection of closing peaks based on highest opening peak.')
     thresh =  - min(dSIG);
     % extra condition: it may happen (e.g. speaker F2 of the Naxi corpus) that
     % opening peaks are actually as high as closing peaks; in such cases,
     % setting the threshold at - min(dSIG) results in lack of detection of
-    % numerous closing peaks. Solution: if the threshold is higher than
-    % one-third of the highest closing peak, the threshold is calculated again:
-    % placed at one-third of the highest closing peak.
-    if thresh > (max(dSIG) / 4)
-        thresh = max(dSIG) / 4;
+    % numerous closing peaks. Solution: if the threshold is higher than a certain proportion 
+	% of the highest closing peak, the threshold is calculated again.
+    % This proportion was placed at one-third, then (realizing it was not enough) at one-fourth, 
+    % and (in 2019) at one-ninth, then one-tenth, one-eleventh and one-twelfth. 
+	
+	% % For debugging:
+	% disp('threshold: minimum of signal:')
+	% disp(num2str(thresh))
+	% disp('maximum positive peak:')
+	% disp(num2str(max(dSIG)))
+	% disp('divided by 5: ')
+	% disp(num2str(max(dSIG) / 12))
+    if thresh > (max(dSIG) / 12)
+        thresh = max(dSIG) / 12;
     end
 else
 % if the method is manual choice: retrieving user choice for amplitude threshold 

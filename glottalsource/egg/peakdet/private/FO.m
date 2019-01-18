@@ -1,4 +1,4 @@
-function [Fo,Oq,Oqval,DEOPA,goodperiods,OqS,OqvalS,DEOPAS,goodperiodsS,simppeak,SIG,dSIG,SdSIG] = ...
+function [Fo,Oq,Oqval,DEOPA,goodperiods,OqS,OqvalS,DEOPAS,goodperiodsS,simppeak,dSIG,SdSIG] = ...
     FO(COEF,method,propthresh,resampC,maxF,SIG,FS)
 
 % FO: detection of Fundamental frequency and Open quotient on the basis of the
@@ -55,11 +55,10 @@ for w = 1 : length(SIG) - 1
 end
 
 %%%% smoothing the derivative of the signal
-% retrieving the smoothing step specified by the user
-C_SMOO = COEF(2);
-% smoothing
 if C_SMOO > 0
+    disp('Smoothing signal...')
     SdSIG = smoo(dSIG,C_SMOO);
+    disp('Smoothed.')
 else
     SdSIG = dSIG;
 end

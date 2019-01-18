@@ -1,4 +1,4 @@
-% Voice activity detecion.
+% Voice activity detection.
 %
 % Description
 %  This is the voice activity detection (VAD) algorithm which is described
