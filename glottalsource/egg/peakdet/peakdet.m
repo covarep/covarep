@@ -2,7 +2,7 @@
 %  item of normal speech: typically, one syllable or a portion of a syllable.
 %
 % Description
-%  This function was devised for SPOKEN materials, not for SUNG materials:
+%  This function was devised for *spoken* materials, as opposed to *sung* materials:
 %  it was found that Nathalie Henrich's <decom.m> MatLab function, devised for
 %  the singing voice, did not yield results for speech data
 %  (specifically: Vietnamese syllables with strong glottalization) because
@@ -68,10 +68,10 @@
 %              - F0 : 3rd column
 %              - DECPA, Derivative-Electroglottographic Closure Peak Amplitude:
 %                       4th column (on DECPA and DEOPA: see [3])
-%              - Oq determined from raw maximum, and DEOPA : 5-6th col [1,2]
-%              - Oq determined from maximum after smoothing : 7th col [1,2]
+%              - Oq determined from raw maximum, and DEOPA : 5-6th col [1, 2]
+%              - Oq determined from maximum after smoothing : 7th col [1, 2]
 %              - Oq determined from peak detection : 8-9th col without
-%                smoothing and with smoothing, respectively [1,2].
+%                smoothing and with smoothing, respectively [1, 2].
 %  dSIG : derivative of EGG signal
 %  SdSIG : smoothed derivative of EGG signal
 %
@@ -79,13 +79,13 @@
 %  See the HOWTO_egg.m example file.
 %
 % References
-% [1] Martine Mazaudon and Alexis Michaud, "Tonal Contrasts and Initial
-%     Consonants: A Case Study of Tamang, a 'missing Link' in Tonogenesis",
+% [1] Martine Mazaudon and Alexis Michaud, "Tonal contrasts and initial
+%     consonants: a case study of Tamang, a 'missing link' in tonogenesis",
 %     Phonetica 65 (4): 231-56, 2008.
-% [2] Alexis Michaud "Final Consonants and Glottalization: New Perspectives from
+% [2] Alexis Michaud "Final consonants and glottalization: new perspectives from
 %     Hanoi Vietnamese", Phonetica 61 (2-3): 119-46, 2004.
-% [3] Michaud, Alexis. "A Measurement from Electroglottography: DECPA, and its
-%     Application in Prosody". In Bernard Bel & Isabelle Marlien (eds.), Proc.
+% [3] Michaud, Alexis. "A measurement from electroglottography: DECPA, and its
+%     application in prosody". In Bernard Bel & Isabelle Marlien (eds.), Proc.
 %     Speech Prosody 2004, 633-636. Nara, Japan.
 % [4] Guide available online at:
 %      http://voiceresearch.free.fr/egg/softwares.htm#peakdet
@@ -107,7 +107,7 @@
 %  Alexis Michaud <alexis.michaud@cnrs.fr> <michaud.cnrs@gmail.com>
 %                  CNRS (Centre National de la Recherche Scientifique, France)
 
-function [ results_matrix, dSIG, SdSIG ] = peakdet ( SIG, FS, F0, smoothingstep, Method )
+function [ results_matrix, SdSIG, SIG, dSIG ] = peakdet ( SIG, FS, F0, smoothingstep, Method )
 
 % Setting the resampling coefficient. The electroglottographic signal is
 %  resampled (reinterpolated) at the closing and opening peaks for accurate

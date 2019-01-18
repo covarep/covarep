@@ -40,7 +40,7 @@ if toggle == 1
     % numerous closing peaks. Solution: if the threshold is higher than a certain proportion 
 	% of the highest closing peak, the threshold is calculated again.
     % This proportion was placed at one-third, then (realizing it was not enough) at one-fourth, 
-    % and (in 2019) at one-eleventh. 
+    % and (in 2019) at one-ninth, then one-tenth, one-eleventh and one-twelfth. 
 	
 	% % For debugging:
 	% disp('threshold: minimum of signal:')
@@ -48,9 +48,9 @@ if toggle == 1
 	% disp('maximum positive peak:')
 	% disp(num2str(max(dSIG)))
 	% disp('divided by 5: ')
-	% disp(num2str(max(dSIG) / 11))
-    if thresh > (max(dSIG) / 11)
-        thresh = max(dSIG) / 11
+	% disp(num2str(max(dSIG) / 12))
+    if thresh > (max(dSIG) / 12)
+        thresh = max(dSIG) / 12;
     end
 else
 % if the method is manual choice: retrieving user choice for amplitude threshold 
