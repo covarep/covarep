@@ -9,9 +9,9 @@ Contributors
     Nathalie Henrich 6,7
     Alexis Michaud 8,9
     Yannis Stylianou 1,10,11
-    Yingxue Wang 12
-    Sean Robertson 12
-    Gerald Penn 12
+    Yingxue Wang 12,13
+    Sean Robertson 12,13
+    Gerald Penn 12,13
     
 
 Institutions
@@ -49,4 +49,6 @@ Institutions
    Speech Technology Group (STG)
 
 12. University of Toronto, Canada
-    Department of Computer Science - Vector Institute
+    Department of Computer Science
+
+13. Vector Institute, Toronto, Canada
