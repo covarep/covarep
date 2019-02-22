@@ -117,7 +117,7 @@ if strcmp( normOpt, 'line' )
       CepsNorm(n) = polyval( p, quefSeq( maxIdx(n) ) );
    end
 elseif strcmp( normOpt, 'nonorm' )==0
-   CepsMean = mean( CepsLim, 1 );
+   CepsNorm = mean( CepsLim, 1 );
 end
  
 CPP = CepsMax - CepsNorm;
