@@ -94,7 +94,7 @@ SpecMat = abs( fft( frameMat ) );
 SpecdB = 10 * log10( SpecMat.^2 );
 
 %% Compute log Cepstrum
-Ceps = log( abs( fft( SpecdB ) ).^2 );
+Ceps = 10 * log10( abs( fft( SpecdB ) ).^2 );
 
 %% If selected smooth across time and quefrency
 if smoothOpt
