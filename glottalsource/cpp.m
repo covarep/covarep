@@ -15,6 +15,7 @@
 %  smoothOpt  : [binary]     [1x1] flag for using smoothing
 %  normOpt    : [string]     [1x1] 'line', 'mean' or 'nonorm'
 %                                  for selecting normalisation type
+%  dBScaleOpt : [binary]     [1x1] flag for using a dB CPP scale
 % Outputs
 %  CPP        : [s,samples] [Mx2] CPP with time values
 %
@@ -42,6 +43,9 @@ if nargin < 3
 end
 if nargin < 4
     normOpt = 'mean';
+end
+if nargin < 5
+    dBScaleOpt = 0;
 end
 
 %% Settings
@@ -94,7 +98,11 @@ SpecMat = abs( fft( frameMat ) );
 SpecdB = 10 * log10( SpecMat.^2 );
 
 %% Compute log Cepstrum
-Ceps = log( abs( fft( SpecdB ) ).^2 );
+if dBScaleOpt
+    Ceps = 10 * log10( abs( fft( SpecdB ) ).^2 );
+else
+    Ceps = log( abs( fft( SpecdB ) ).^2 );
+end
 
 %% If selected smooth across time and quefrency
 if smoothOpt
@@ -117,7 +125,7 @@ if strcmp( normOpt, 'line' )
       CepsNorm(n) = polyval( p, quefSeq( maxIdx(n) ) );
    end
 elseif strcmp( normOpt, 'nonorm' )==0
-   CepsMean = mean( CepsLim, 1 );
+   CepsNorm = mean( CepsLim, 1 );
 end
  
 CPP = CepsMax - CepsNorm;
