@@ -36,7 +36,7 @@
 % TODO: Use vectorised regression line fitting 
 %       Add band-pass filtering variant
 
-function CPP = cpp( x, fs, smoothOpt, normOpt )
+function CPP = cpp( x, fs, smoothOpt, normOpt, dBScaleOpt )
 
 if nargin < 3
     smoothOpt = 0;
