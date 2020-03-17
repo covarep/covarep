@@ -65,7 +65,6 @@ halfLen = round( frameLength / 2 );
 xLen = length( x );
 frameLen = halfLen * 2 + 1;
 NFFT = 2 ^ ( ceil ( log (frameLen) / log(2) ) );
-quef = linspace( 0, frameLen / 1000, NFFT );
 F0lim = [ 500, 50 ]; % Note that this differs from Hillenbrands
                      % settings of 60-300 Hz, to allow for a
                      % fuller range of potential F0 values
@@ -131,5 +130,4 @@ end
 CPP = CepsMax - CepsNorm;
 CPP = [CPP(:) time_samples(:)];
 
-
-
+end
