@@ -50,7 +50,7 @@ end
 
 %% Settings
 filterType = 'highpass';
-HPfilt_b = [1 - 0.97];
+HPfilt_b = [1, -0.97];
 frameLength = round( 0.04 * fs );
 
 if smoothOpt
