@@ -90,7 +90,7 @@ end
 %% Apply Hann window function
 win = hanning( frameLen);
 winMat = repmat( win,1,N );
-frameMat = frameMat(1:frameLen,:) .* winMat;
+frameMat(1:frameLen,:) = frameMat(1:frameLen,:) .* winMat;
 
 %% Compute magnitude spectrum
 SpecMat = abs( fft( frameMat ) );
