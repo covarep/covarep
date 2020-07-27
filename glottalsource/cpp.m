@@ -36,7 +36,7 @@
 % TODO: Use vectorised regression line fitting 
 %       Add band-pass filtering variant
 
-function CPP = cpp( x, fs, smoothOpt, normOpt )
+function CPP = cpp( x, fs, smoothOpt, normOpt, dBScaleOpt )
 
 if nargin < 3
     smoothOpt = 0;
@@ -50,7 +50,7 @@ end
 
 %% Settings
 filterType = 'highpass';
-HPfilt_b = [1 - 0.97];
+HPfilt_b = [1, -0.97];
 frameLength = round( 0.04 * fs );
 
 if smoothOpt
@@ -65,7 +65,6 @@ halfLen = round( frameLength / 2 );
 xLen = length( x );
 frameLen = halfLen * 2 + 1;
 NFFT = 2 ^ ( ceil ( log (frameLen) / log(2) ) );
-quef = linspace( 0, frameLen / 1000, NFFT );
 F0lim = [ 500, 50 ]; % Note that this differs from Hillenbrands
                      % settings of 60-300 Hz, to allow for a
                      % fuller range of potential F0 values
@@ -89,9 +88,9 @@ for n=1:N
 end
 
 %% Apply Hann window function
-win = hanning( frameLen);
+win = hanning( frameLen );
 winMat = repmat( win,1,N );
-frameMat = frameMat(1:frameLen,:) .* winMat;
+frameMat(1:frameLen,:) = frameMat(1:frameLen,:) .* winMat;
 
 %% Compute magnitude spectrum
 SpecMat = abs( fft( frameMat ) );
@@ -131,5 +130,4 @@ end
 CPP = CepsMax - CepsNorm;
 CPP = [CPP(:) time_samples(:)];
 
-
-
+end

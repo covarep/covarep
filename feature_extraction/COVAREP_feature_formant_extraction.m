@@ -62,7 +62,7 @@ if(hasParallelComputing)
         basename=char(basename(1));
         disp(['Analysing file: ' basename])
         try
-            COVAREP_feature_formant_extraction_perfile([in_dir filesep basename '.wav'], options)
+            COVAREP_feature_formant_extraction_perfile([in_dir filesep basename '.wav'], options);
             disp([basename ' successfully analysed'])
         catch err
             warning(['An error occurred while analysing ' basename ': ' getReport(err)])
@@ -74,7 +74,7 @@ else
         basename=char(basename(1));
         disp(['Analysing file: ' basename])
         try
-            COVAREP_feature_formant_extraction_perfile([in_dir filesep basename '.wav'], options)
+            COVAREP_feature_formant_extraction_perfile([in_dir filesep basename '.wav'], options);
             disp([basename ' successfully analysed'])
         catch err
             warning(['An error occurred while analysing ' basename ': ' getReport(err)])
