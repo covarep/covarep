@@ -87,8 +87,8 @@ for n=1:N
    frameMat(1:frameLen,n) = x( frameStart(n):frameStop(n) );
 end
 
-%% Apply Hamming window function
-win = hamming( frameLen );
+%% Apply Hann window function
+win = hanning( frameLen );
 winMat = repmat( win,1,N );
 frameMat(1:frameLen,:) = frameMat(1:frameLen,:) .* winMat;
 
